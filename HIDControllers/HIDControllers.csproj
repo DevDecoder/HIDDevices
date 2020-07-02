@@ -3,14 +3,14 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <Nullable>enable</Nullable>
     <PackageId>HIDControllers</PackageId>
-    <Version>1.0.0-preview</Version>
     <Authors>Craig Dean</Authors>
     <Company>DevDecoder</Company>
     <PackageDescription>Cross-platform .NET Standard library for asynchronous controller input reading (e.g. gamepads, joysticks, etc.)</PackageDescription>
     <RepositoryUrl>https://github.com/DevDecoder/HIDControllers</RepositoryUrl>
     <Description>Cross-platform .NET Standard library for asynchronous controller input reading (e.g. gamepads, joysticks, etc.)</Description>
     <Copyright>2020 Craig Dean</Copyright>
-    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageLicenseFile></PackageLicenseFile>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/DevDecoder/HIDControllers</PackageProjectUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -18,13 +18,22 @@
     <PackageTags>Gamepad, Joystick, HID, HIDSharp, .NET, Cross-platform</PackageTags>
     <PackageIcon>DevDecoder Icon.png</PackageIcon>
     <PackageReleaseNotes>Initial working release.</PackageReleaseNotes>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <SignAssembly>false</SignAssembly>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="DynamicData" Version="6.15.4" />
     <PackageReference Include="HidSharp" Version="2.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0-preview.6.20305.6" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.5" />
     <PackageReference Include="Microsoft.VisualStudio.Threading" Version="16.6.13" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.0-beta-20204-02" PrivateAssets="All" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.2.7-beta">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Resources.Designer.cs">
@@ -41,10 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\DevDecoder Icon.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-    <None Include="..\LICENSE.txt">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
