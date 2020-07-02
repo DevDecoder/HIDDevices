@@ -2,6 +2,23 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Nullable>enable</Nullable>
+    <PackageId>HIDControllers</PackageId>
+    <Version>1.0.0-preview</Version>
+    <Authors>Craig Dean</Authors>
+    <Company>DevDecoder</Company>
+    <PackageDescription>Cross-platform .NET Standard library for asynchronous controller input reading (e.g. gamepads, joysticks, etc.)</PackageDescription>
+    <RepositoryUrl>https://github.com/DevDecoder/HIDControllers</RepositoryUrl>
+    <Description>Cross-platform .NET Standard library for asynchronous controller input reading (e.g. gamepads, joysticks, etc.)</Description>
+    <Copyright>2020 Craig Dean</Copyright>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/DevDecoder/HIDControllers</PackageProjectUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Gamepad, Joystick, HID, HIDSharp, .NET, Cross-platform</PackageTags>
+    <PackageIcon>DevDecoder Icon.png</PackageIcon>
+    <PackageReleaseNotes>Initial working release.</PackageReleaseNotes>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="DynamicData" Version="6.15.4" />
@@ -21,5 +38,15 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\DevDecoder Icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 </Project>

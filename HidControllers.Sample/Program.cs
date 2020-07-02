@@ -28,13 +28,6 @@ namespace HidControllers.Sample
             // Get a logger
             var logger = serviceProvider.GetService<ILogger<Program>>();
 
-            // The library provides fully described Event IDs, with localisable resources, for easy filtering of logs.
-            // The full list of events can be found in the Event.All collection.
-            foreach (var @event in Event.All)
-            {
-                logger.LogInformation(@event, @event.Description);
-            }
-
             // Grab the controllers service
             var controllers = serviceProvider.GetService<Controllers>();
 
