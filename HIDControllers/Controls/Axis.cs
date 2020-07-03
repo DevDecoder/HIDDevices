@@ -22,7 +22,7 @@ namespace HIDControllers.Controls
         {
             Type = type;
             DataItem = dataItem;
-            Value = _lastReportedValue = double.NaN;
+            Value = _lastReportedValue = type.InitialValue;
 
             // WORKAROUND - Some devices don't report their min/max, so we create based on bit-depth
             _minimum = dataItem.LogicalMinimum;
@@ -33,7 +33,8 @@ namespace HIDControllers.Controls
                 _maximum = (1 << dataItem.TotalBits) - 1;
             }
 
-            Sensitivity = 0.01D; // TODO
+            _sensitivity = type.Sensitivity;
+            _deadZone = type.DeadZone;
         }
 
         /// <inheritdoc />
@@ -43,7 +44,32 @@ namespace HIDControllers.Controls
         public AxisType Type { get; }
         public DataItem DataItem { get; }
         public override string Name => Type.Name;
-        public double Sensitivity { get; set; }
+        private int _sensitivity;
+
+        public int Sensitivity
+        {
+            get => _sensitivity;
+            set
+            {
+                if (value < 0 || value > 15)
+                    throw new ArgumentOutOfRangeException(nameof(value), value, Resources.InvalidSensitivity);
+                _sensitivity = value;
+            }
+        }
+
+        private double _deadZone;
+
+        public double DeadZone
+        {
+            get => _deadZone;
+            set
+            {
+                if (value < 0D || value > 1D)
+                    throw new ArgumentOutOfRangeException(nameof(value), value, Resources.InvalidDeadZone);
+                _deadZone = value;
+            }
+        }
+
         public double Value { get; private set; }
         public bool IsBoolean => DataItem.IsBoolean;
 
@@ -59,6 +85,12 @@ namespace HIDControllers.Controls
             var f = v < _minimum || v > _maximum
                 ? double.NaN
                 : (v - _minimum) / (double)(_maximum - _minimum);
+
+            // Adjust value based on dead zone or sensitivity.
+            var dz = _deadZone;
+            if (dz > 0 && Math.Abs(f - 0.5D) < dz) f = 0.5D;
+            else f = Math.Round(f, Sensitivity);
+
             Value = f;
             var o = _lastReportedValue;
             if (double.IsNaN(o))
@@ -68,7 +100,7 @@ namespace HIDControllers.Controls
                     return null;
                 }
             }
-            else if (Math.Abs(f - _lastReportedValue) < Sensitivity)
+            else if (Math.Abs(f - o) < double.Epsilon)
             {
                 return null;
             }

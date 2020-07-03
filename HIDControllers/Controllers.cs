@@ -43,10 +43,17 @@ namespace HIDControllers
             Refresh();
         }
 
-        public IObservable<IList<ControlChange>> Changes => Connect()
-            .SelectMany(cs => cs)
-            .Select(c => c.Current)
-            .SelectMany(c => c.Changes);
+        public IObservable<IList<ControlChange>> Changes
+            => _controllers?
+                   .Connect()
+                   .SelectMany(cs => cs)
+                   .Where(c => c.Reason != ChangeReason.Remove)
+                   .Select(c => c.Current)
+                   .SelectMany(c => c.Changes)
+               ?? throw new ObjectDisposedException(nameof(Controllers));
+
+        public IObservable<IChangeSet<Controller, string>> Updates =>
+            _controllers?.Connect() ?? throw new ObjectDisposedException(nameof(Controllers));
 
         public ValueTask DisposeAsync()
         {
@@ -88,11 +95,6 @@ namespace HIDControllers
 
         /// <inheritdoc />
         public int Count => _controllers?.Count ?? throw new ObjectDisposedException(nameof(Controllers));
-
-        public IObservable<IChangeSet<Controller, string>> Connect() =>
-            _controllers is null
-                ? throw new ObjectDisposedException(nameof(Controllers))
-                : _controllers.Connect();
 
         public void Refresh() => _triggerRefresh.Set();
 
@@ -136,12 +138,15 @@ namespace HIDControllers
                         try
                         {
                             var rawReportDescriptor = device.GetRawReportDescriptor();
-                            Controller? existingController;
                             // Check to see if controller already exists and is unchanged.
-                            if (existing.TryGetValue(device.DevicePath, out existingController))
+#pragma warning disable IDE0007 // Use implicit type
+                            if (existing.TryGetValue(device.DevicePath, out Controller? existingController))
+#pragma warning restore IDE0007 // Use implicit type
                             {
                                 if (rawReportDescriptor.SequenceEqual(existingController.RawReportDescriptor))
                                 {
+                                    // We found this controller, so remove from the existing list.
+                                    existing.Remove(existingController.DevicePath);
                                     continue;
                                 }
                             }
@@ -161,7 +166,8 @@ namespace HIDControllers
                                     usages: (IReadOnlyList<(Usage, DataItem)>)i.InputReports
                                         .SelectMany(r => r.DataItems
                                             .SelectMany(dataItem =>
-                                                dataItem.Usages.GetAllValues().Cast<Usage>().Where(AxisType.SupportedUsage)
+                                                dataItem.Usages.GetAllValues().Cast<Usage>()
+                                                    .Where(AxisType.SupportedUsage)
                                                     .Select(u => (u, dataItem))))
                                         .ToArray()))
                                 .Where(t => t.type != null && t.usages.Count > 0)
@@ -239,6 +245,11 @@ namespace HIDControllers
                     }
                 }
 #pragma warning disable CA1031 // Do not catch general exception types
+                catch (OperationCanceledException)
+                {
+                    // If we get a cancellation exception we must be disposing, so abort.
+                    return;
+                }
                 catch (Exception exception)
                 {
                     Logger?.Log(Event.RefreshFailure, exception);

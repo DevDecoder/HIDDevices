@@ -198,4 +198,10 @@
   <data name="ControllerInputParseFailureDescription" xml:space="preserve">
     <value>Event logged when the data sent from a Controller could not be parsed successfully.</value>
   </data>
+  <data name="InvalidSensitivity" xml:space="preserve">
+    <value>The Sensitivity must be between 0 and 15 decimal places.</value>
+  </data>
+  <data name="InvalidDeadZone" xml:space="preserve">
+    <value>The dead zone must be between 0 and 1.</value>
+  </data>
 </root>

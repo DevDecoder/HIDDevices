@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DynamicData;
 using HIDControllers;
 using HIDControllers.Controls;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,13 +39,43 @@ namespace HidControllers.Sample
             var button1PressedTcs = new TaskCompletionSource<bool>();
             var batch = 0;
 
-            // Subscribe to all control changes
-            controllers.Changes.Subscribe(l =>
+            controllers.Updates.Subscribe(changeSet =>
             {
+                var logBuilder = new StringBuilder();
+                logBuilder.AppendLine("Controllers updated:");
+                foreach (var change in changeSet)
+                {
+                    logBuilder.Append("  The ")
+                        .Append(change.Current)
+                        .Append(" Controller was ");
+                    switch (change.Reason)
+                    {
+                        case ChangeReason.Add:
+                            logBuilder.AppendLine("added.");
+                            break;
+                        case ChangeReason.Update:
+                            logBuilder.AppendLine("updated.");
+                            break;
+                        case ChangeReason.Remove:
+                            // Warning, the controller will be in the process of being disposed, so you should not access it's methods
+                            // (ToString() is safe though, and is all that is being accessed above).
+                            logBuilder.AppendLine("removed.");
+                            break;
+                    }
+                }
+
+                logger.LogInformation(logBuilder.ToString());
+            });
+
+            // Subscribe to all control changes
+            controllers.Changes
+                .Subscribe(changes =>
+            {
+                // Log the changes and look for a press of Button 1 on any controller.
                 var pressed = false;
                 var logBuilder = new StringBuilder();
                 logBuilder.Append("Batch ").Append(++batch).AppendLine(":");
-                foreach (var group in l.GroupBy(c => c.Control.Controller))
+                foreach (var group in changes.GroupBy(c => c.Control.Controller))
                 {
                     logBuilder.Append("  ").Append(group.Key).AppendLine(":");
                     foreach (var change in group)
@@ -58,18 +89,17 @@ namespace HidControllers.Sample
 
                         // Look for Button 1 being pressed
                         var b = change.Control as Button;
-                        if (b?.Number == 1 && b.IsPressed)
+                        if (b?.Number == 1 && change.NewValue > 0.5D)
                         {
                             pressed = true;
                         }
                     }
                 }
-
-                // Log the changes
                 logger.LogInformation(logBuilder.ToString());
 
                 if (pressed)
                 {
+                    // Setting the task completion source will cause the below await to complete.
                     button1PressedTcs.TrySetResult(true);
                 }
             });

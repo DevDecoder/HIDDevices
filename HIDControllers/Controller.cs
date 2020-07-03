@@ -32,9 +32,18 @@ namespace HIDControllers
             IReadOnlyList<(DeviceItem item, DeviceType type, IReadOnlyList<(Usage usage, DataItem dataItem)> usages)>
                 items)
         {
+            // Try to open HID Stream before doing any work, so that we can fail early if access is denied.
+            _device = device;
+            if (!_device.TryOpen(out var stream))
+            {
+                throw new InvalidOperationException(string.Format(Resources.HidStreamOpenFailure, Name));
+            }
+
+            stream.ReadTimeout = Timeout.Infinite;
+            _hidStream = stream;
+
             Controllers = controllers;
             RawReportDescriptor = rawReportDescriptor;
-            _device = device;
             _items = items.ToDictionary(i => i.item, _ => (DeviceItemInputParser?)null);
             Name = GetName(device);
             _axes = items
@@ -58,6 +67,10 @@ namespace HIDControllers
                 {
                     axes.Add(axis);
                 }
+
+                // Add initial values - note that the initial value may be double.NaN, which would mean this hasn't 'changed'
+                // however we still include in the changes to ensure the axis is included in the first change batch.
+                _changes.AddOrUpdate(new ControlChange(axis, double.NaN, axis.Value));
             }
 
             // Create grouping Control for groups
@@ -77,14 +90,6 @@ namespace HIDControllers
             }
 
             Controls = axes.ToArray();
-
-            // Open HID Stream
-            if (!_device.TryOpen(out var stream))
-            {
-                throw new InvalidOperationException(string.Format(Resources.HidStreamOpenFailure, Name));
-            }
-
-            _hidStream = stream;
 
             // Create buffer
             _inputReportBuffer = new byte[_device.GetMaxInputReportLength()];

@@ -286,6 +286,24 @@ namespace HIDControllers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The dead zone must be between 0 and 1..
+        /// </summary>
+        internal static string InvalidDeadZone {
+            get {
+                return ResourceManager.GetString("InvalidDeadZone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Sensitivity must be between 0 and 15 decimal places..
+        /// </summary>
+        internal static string InvalidSensitivity {
+            get {
+                return ResourceManager.GetString("InvalidSensitivity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The HID controllers failed to update!.
         /// </summary>
         internal static string RefreshFailure {
