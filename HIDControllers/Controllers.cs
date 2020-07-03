@@ -30,6 +30,10 @@ namespace HIDControllers
         private SourceCache<Controller, string>? _controllers;
         private CancellationTokenSource? _refreshCancellationTokenSource;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Controllers"/> class.
+        /// </summary>
+        /// <param name="logger">The logger (optional).</param>
         public Controllers(ILogger<Controllers>? logger = null)
         {
             Logger = logger;
@@ -43,6 +47,11 @@ namespace HIDControllers
             Refresh();
         }
 
+        /// <summary>
+        /// Gets an observable to monitor changes to controls across all controllers.
+        /// </summary>
+        /// <value>The changes.</value>
+        /// <exception cref="ObjectDisposedException">Controllers</exception>
         public IObservable<IList<ControlChange>> Changes
             => _controllers?
                    .Connect()
@@ -52,9 +61,15 @@ namespace HIDControllers
                    .SelectMany(c => c.Changes)
                ?? throw new ObjectDisposedException(nameof(Controllers));
 
+        /// <summary>
+        /// Gets an observable to monitor changes to the collection of controllers.
+        /// </summary>
+        /// <value>The updates.</value>
+        /// <exception cref="ObjectDisposedException">Controllers</exception>
         public IObservable<IChangeSet<Controller, string>> Updates =>
             _controllers?.Connect() ?? throw new ObjectDisposedException(nameof(Controllers));
 
+        /// <inheritdoc />
         public ValueTask DisposeAsync()
         {
             // Cancel any refresh.
@@ -96,8 +111,17 @@ namespace HIDControllers
         /// <inheritdoc />
         public int Count => _controllers?.Count ?? throw new ObjectDisposedException(nameof(Controllers));
 
+        /// <summary>
+        /// Force a refresh of controllers.  The refresh will occur asynchronously.
+        /// </summary>
+        /// TODO Consider making this async and awaiting next refresh completion.
         public void Refresh() => _triggerRefresh.Set();
 
+        /// <summary>
+        /// Wait for the initial load of controllers.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>An awaitable task that completes on initial load of controllers.</returns>
         public Task LoadAsync(CancellationToken cancellationToken = default) =>
             _loadedCompletionSource?.Task.WithCancellation(cancellationToken) ??
             Task.FromException(new ObjectDisposedException(nameof(Controllers)));

@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace HIDControllers
 {
-    public static class LoggingExtensions
+    internal static class LoggingExtensions
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Log(this ILogger logger, Event @event, params object[] args) => @event.Log(logger, args);

@@ -1,10 +1,9 @@
 ﻿// Licensed under the Apache License, Version 2.0 (the "License").
 // See the LICENSE file in the project root for more information.
 
-using HIDControllers.Controls;
 using HidSharp.Reports;
 
-namespace HIDControllers
+namespace HIDControllers.Controls
 {
     public sealed class Slider : Axis
     {

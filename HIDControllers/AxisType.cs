@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using HIDControllers.Controls;
 using HidSharp.Reports;
@@ -113,14 +114,52 @@ namespace HIDControllers
             Group = group;
         }
 
-        public Usage Usage { get; }
-        public string Name { get; }
-        public Type Type { get; }
-        public double InitialValue { get; }
-        public int Sensitivity { get; }
-        public double DeadZone { get; }
-        public IReadOnlyList<Usage> Group { get; }
+        /// <summary>
+        /// Gets the usage.
+        /// </summary>
+        /// <value>The usage.</value>
+        internal Usage Usage { get; }
 
+        /// <summary>
+        /// Gets the name.
+        /// </summary>
+        /// <value>The name.</value>
+        public string Name { get; }
+
+        /// <summary>
+        /// Gets the concrete type.
+        /// </summary>
+        /// <value>The type.</value>
+        public Type Type { get; }
+
+        /// <summary>
+        /// Gets the default initial value.
+        /// </summary>
+        /// <value>The default initial value.</value>
+        public double InitialValue { get; }
+
+        /// <summary>
+        /// Gets the default sensitivity.
+        /// </summary>
+        /// <value>The default sensitivity.</value>
+        public int Sensitivity { get; }
+
+        /// <summary>
+        /// Gets the default dead zone.
+        /// </summary>
+        /// <value>The default dead zone.</value>
+        public double DeadZone { get; }
+
+        /// <summary>
+        /// Gets the group usages.
+        /// </summary>
+        /// <value>The group.</value>
+        internal IReadOnlyList<Usage> Group { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is part of a group of axes.
+        /// </summary>
+        /// <value><see langword="true" /> if this instance is part of a group of axes.; otherwise, <see langword="false" />.</value>
         public bool IsGrouped => Group.Count > 0;
 
         internal Axis Create(Controller controller, DataItem dataItem)
@@ -151,10 +190,19 @@ namespace HIDControllers
                 new object[] { group }, null);
         }
 
-        public static AxisType? Get(Usage du) => s_usages.TryGetValue(du, out var t) ? t : null;
+        /// <summary>
+        /// Tries to get the AxisType associated with the specified Usage.
+        /// </summary>
+        /// <param name="usage">The usage.</param>
+        /// <param name="type">The type, if any.</param>
+        /// <returns><see langword="true" /> if the specified usage is associated with an AxisType, <see langword="false" /> otherwise.</returns>
+        internal static bool TryGet(Usage usage, [MaybeNullWhen(false)] out AxisType type) => s_usages.TryGetValue(usage, out type);
 
-        public static bool TryGet(Usage du, out AxisType type) => s_usages.TryGetValue(du, out type);
-
-        public static bool SupportedUsage(Usage du) => s_usages.ContainsKey(du);
+        /// <summary>
+        /// Checks whether the specified usage is supported.
+        /// </summary>
+        /// <param name="usage">The usage.</param>
+        /// <returns><see langword="true" /> if the specified usage is supported, <see langword="false" /> otherwise.</returns>
+        internal static bool SupportedUsage(Usage usage) => s_usages.ContainsKey(usage);
     }
 }

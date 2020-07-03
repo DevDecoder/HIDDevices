@@ -27,7 +27,7 @@ namespace HIDControllers
         private HidDeviceInputReceiver? _inputReceiver;
         private byte[]? _inputReportBuffer;
 
-        public Controller(Controllers controllers, HidDevice device, byte[] rawReportDescriptor,
+        internal Controller(Controllers controllers, HidDevice device, byte[] rawReportDescriptor,
             ReportDescriptor reportDescriptor,
             IReadOnlyList<(DeviceItem item, DeviceType type, IReadOnlyList<(Usage usage, DataItem dataItem)> usages)>
                 items)
@@ -107,12 +107,21 @@ namespace HIDControllers
             _inputReceiver.Start(stream);
         }
 
+        /// <summary>
+        /// Gets the changes.
+        /// </summary>
+        /// <value>The changes.</value>
+        /// <exception cref="ObjectDisposedException">Controller</exception>
         public IObservable<IList<ControlChange>> Changes
             => _changes?
                    .Connect()
                    .Select(cs => cs.Select(c => c.Current).Where(cc => cc != null).ToList())
                ?? throw new ObjectDisposedException(nameof(Controller));
 
+        /// <summary>
+        /// Gets the associated controllers collection.
+        /// </summary>
+        /// <value>The controllers.</value>
         public Controllers Controllers { get; }
 
         public IReadOnlyCollection<Control> Controls { get; }
@@ -122,7 +131,16 @@ namespace HIDControllers
         public IEnumerable<Hat> Hats => Controls.OfType<Hat>();
         public IEnumerable<Joystick> Joysticks => Controls.OfType<Joystick>();
 
+        /// <summary>
+        /// Gets the name.
+        /// </summary>
+        /// <value>The name.</value>
         public string Name { get; }
+
+        /// <summary>
+        /// Gets the underlying device path.
+        /// </summary>
+        /// <value>The device path.</value>
         public string DevicePath => _device.DevicePath;
 
         /// <inheritdoc />

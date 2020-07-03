@@ -21,7 +21,7 @@ namespace HIDControllers.Controls
             : base(controller)
         {
             Type = type;
-            DataItem = dataItem;
+            _dataItem = dataItem;
             Value = _lastReportedValue = type.InitialValue;
 
             // WORKAROUND - Some devices don't report their min/max, so we create based on bit-depth
@@ -42,7 +42,7 @@ namespace HIDControllers.Controls
             .Select(l => l.Where(c => c.Control == this).ToList());
 
         public AxisType Type { get; }
-        public DataItem DataItem { get; }
+        private readonly DataItem _dataItem;
         public override string Name => Type.Name;
         private int _sensitivity;
 
@@ -71,7 +71,7 @@ namespace HIDControllers.Controls
         }
 
         public double Value { get; private set; }
-        public bool IsBoolean => DataItem.IsBoolean;
+        public bool IsBoolean => _dataItem.IsBoolean;
 
         /// <inheritdoc />
         public override int Count => 1;

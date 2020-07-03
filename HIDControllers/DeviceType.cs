@@ -47,13 +47,19 @@ namespace HIDControllers
             Name = name;
         }
 
-        public Usage Usage { get; }
+        internal Usage Usage { get; }
+
+        /// <summary>
+        /// Gets the name.
+        /// </summary>
+        /// <value>The name.</value>
         public string Name { get; }
 
-        public static DeviceType? Get(Usage du) => s_usages.TryGetValue(du, out var t) ? t : null;
-
-        public static bool TryGet(Usage du, out DeviceType type) => s_usages.TryGetValue(du, out type);
-
-        public static bool SupportedUsage(Usage du) => s_usages.ContainsKey(du);
+        /// <summary>
+        /// Gets the DeviceType for the specified usage, if any.
+        /// </summary>
+        /// <param name="usage">The usage.</param>
+        /// <returns>The DeviceType for the specified usage, if any; otherwise <see langword="null"/>.</returns>
+        internal static DeviceType? Get(Usage usage) => s_usages.TryGetValue(usage, out var t) ? t : null;
     }
 }

@@ -16,6 +16,10 @@ namespace HIDControllers.Controls
 
         public Controller Controller { get; }
 
+        /// <summary>
+        /// Gets the name.
+        /// </summary>
+        /// <value>The name.</value>
         public abstract string Name { get; }
 
         /// <inheritdoc />
