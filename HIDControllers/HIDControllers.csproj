@@ -45,14 +45,14 @@
   <ItemGroup>
     <None Update="Pages\GenerateUsagePages.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>GenerateUsagePages.cs</LastGenOutput>
+      <LastGenOutput>GenerateUsagePages.generated.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Pages\GenerateUsagePages.cs">
+    <Compile Update="Pages\GenerateUsagePages.generated.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>GenerateUsagePages.tt</DependentUpon>

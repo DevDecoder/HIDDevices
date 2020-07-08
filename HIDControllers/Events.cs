@@ -69,7 +69,9 @@ namespace HIDControllers
 
         public static IReadOnlyCollection<Event> All => s_all.Values;
 
-        public static bool TryGet(int id, [MaybeNullWhen(false)] out Event? @event) => s_all.TryGetValue(id, out @event);
+        public static bool TryGet(int id, [MaybeNullWhen(false)] out Event? @event) =>
+            s_all.TryGetValue(id, out @event);
+
         public static Event? Get(int id) => s_all.TryGetValue(id, out var @event) ? @event : null;
 
         internal static string GetString(string resourceName, CultureInfo? cultureInfo = null) =>

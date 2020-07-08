@@ -4,31 +4,25 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading;
-using System.Threading.Tasks;
-using DynamicData;
 using HIDControllers.OLD;
 using HidSharp;
 using HidSharp.Reports;
-using HidSharp.Reports.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.Threading;
-using Nito.AsyncEx.Interop;
 
 namespace HIDControllers
 {
-    public sealed class Controller : IObservable<IList<ControlChange>>, IReadOnlyDictionary<Control, ControlChange>, IDisposable
+    public sealed class Controller : IObservable<IList<ControlChange>>, IReadOnlyDictionary<Control, ControlChange>,
+        IDisposable
     {
+        private readonly Dictionary<Control, ControlChange> _cache;
+        private readonly IObservable<IList<ControlChange>> _changes;
         private readonly IReadOnlyDictionary<(DataItem dataItem, int index), Control> _controls;
         private readonly HidDevice _device;
-        private readonly IObservable<IList<ControlChange>> _changes;
-        private readonly Dictionary<Control, ControlChange> _cache;
         private CancellationTokenSource? _cancellationTokenSource;
-
-        public IReadOnlyCollection<Usage> Usages { get; }
 
         public Controller(Controllers controllers, HidDevice device, byte[] rawReportDescriptor)
         {
@@ -107,14 +101,19 @@ namespace HIDControllers
                             {
                                 await inputReceiver.WaitHandle;
 
-                                if (!inputReceiver.IsRunning) break;
+                                if (!inputReceiver.IsRunning)
+                                {
+                                    break;
+                                }
 
                                 while (inputReceiver.TryRead(buffer, 0, out var report))
                                 {
                                     foreach (var parser in inputParsers.Values)
                                     {
                                         if (!parser.TryParseReport(buffer, 0, report))
+                                        {
                                             continue;
+                                        }
 
                                         while (parser.HasChanged)
                                         {
@@ -130,7 +129,10 @@ namespace HIDControllers
                                 }
 
                                 // Check for changes
-                                if (batch.Count < 1) continue;
+                                if (batch.Count < 1)
+                                {
+                                    continue;
+                                }
 
                                 // Update cache with batch of changes.
                                 var batchList = new List<ControlChange>(batch.Count);
@@ -146,7 +148,10 @@ namespace HIDControllers
                                         var controlChange = _cache[control].Update(tuple.value);
 
                                         // Check for actual change in value
-                                        if (controlChange is null) continue;
+                                        if (controlChange is null)
+                                        {
+                                            continue;
+                                        }
 
                                         _cache[control] = controlChange.Value;
                                         batchList.Add(controlChange.Value);
@@ -155,7 +160,9 @@ namespace HIDControllers
 
                                 // Notify observers
                                 if (batchList.Count > 0)
+                                {
                                     observer.OnNext(batchList);
+                                }
 
                                 // We've done with this batch now
                                 batch.Clear();
@@ -173,7 +180,9 @@ namespace HIDControllers
                         finally
                         {
                             if (stream != null)
+                            {
                                 await stream.DisposeAsync().ConfigureAwait(false);
+                            }
                         }
 
                         Controllers.Logger.LogInformation($"Stopped listening to {Name} Controller.");
@@ -188,6 +197,85 @@ namespace HIDControllers
                         // Simulate a change from double.NaN
                         .Select(c => c.PreviousValue.Equals(double.NaN) ? c : c.Reset())
                         .ToList()));
+        }
+
+        public IReadOnlyCollection<Usage> Usages { get; }
+
+        public Controllers Controllers { get; }
+
+        public string DevicePath => _device.DevicePath;
+
+        public string Name { get; }
+
+        internal byte[] RawReportDescriptor { get; }
+
+        /// <inheritdoc />
+        public void Dispose() => Interlocked.Exchange(ref _cancellationTokenSource, null)?.Dispose();
+
+        /// <inheritdoc />
+        public IDisposable Subscribe(IObserver<IList<ControlChange>> observer) => _changes.Subscribe(observer);
+
+        /// <inheritdoc />
+        public IEnumerator<KeyValuePair<Control, ControlChange>> GetEnumerator()
+        {
+            KeyValuePair<Control, ControlChange>[] snapshot;
+            lock (_cache)
+            {
+                snapshot = _cache.ToArray();
+            }
+
+            return ((IEnumerable<KeyValuePair<Control, ControlChange>>)snapshot).GetEnumerator();
+        }
+
+        /// <inheritdoc />
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        /// <inheritdoc />
+        public int Count => _controls.Count;
+
+        /// <inheritdoc />
+        public bool ContainsKey(Control key)
+        {
+            lock (_cache)
+            {
+                return _cache.ContainsKey(key);
+            }
+        }
+
+        /// <inheritdoc />
+        public bool TryGetValue(Control key, out ControlChange value)
+        {
+            lock (_cache)
+            {
+                return _cache.TryGetValue(key, out value);
+            }
+        }
+
+        /// <inheritdoc />
+        public ControlChange this[Control key]
+        {
+            get
+            {
+                lock (_cache)
+                {
+                    return _cache[key];
+                }
+            }
+        }
+
+        /// <inheritdoc />
+        public IEnumerable<Control> Keys => _controls.Values;
+
+        /// <inheritdoc />
+        public IEnumerable<ControlChange> Values
+        {
+            get
+            {
+                lock (_cache)
+                {
+                    return _cache.Values;
+                }
+            }
         }
 
         /// <summary>
@@ -232,84 +320,20 @@ namespace HIDControllers
                 device.ReleaseNumber);
         }
 
-        public Controllers Controllers { get; }
-
-        public string DevicePath => _device.DevicePath;
-
-        public string Name { get; }
-
-        /// <inheritdoc />
-        public IEnumerator<KeyValuePair<Control, ControlChange>> GetEnumerator()
-        {
-            KeyValuePair<Control, ControlChange>[] snapshot;
-            lock (_cache)
-                snapshot = _cache.ToArray();
-
-            return ((IEnumerable<KeyValuePair<Control, ControlChange>>)snapshot).GetEnumerator();
-        }
-
-        /// <inheritdoc />
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-        /// <inheritdoc />
-        public int Count => _controls.Count;
-
-        /// <inheritdoc />
-        public bool ContainsKey(Control key)
-        {
-            lock (_cache)
-                return _cache.ContainsKey(key);
-        }
-
-        /// <inheritdoc />
-        public bool TryGetValue(Control key, out ControlChange value)
-        {
-            lock (_cache)
-                return _cache.TryGetValue(key, out value);
-        }
-
-        /// <inheritdoc />
-        public ControlChange this[Control key]
-        {
-            get
-            {
-                lock (_cache)
-                    return _cache[key];
-            }
-        }
-
-        /// <inheritdoc />
-        public IEnumerable<Control> Keys => _controls.Values;
-
-        /// <inheritdoc />
-        public IEnumerable<ControlChange> Values
-        {
-            get
-            {
-                lock (_cache)
-                    return _cache.Values;
-            }
-        }
-
-        internal byte[] RawReportDescriptor { get; }
-
-        /// <inheritdoc />
-        public IDisposable Subscribe(IObserver<IList<ControlChange>> observer) => _changes.Subscribe(observer);
-
         /// <inheritdoc />
         public override string ToString() => Name;
 
         /// <summary>
-        /// Gets a filtered observable of control changes.
+        ///     Gets a filtered observable of control changes.
         /// </summary>
-        /// <param name="predicate">A function that returns <see langword="true"/> if the control should be monitored for changes; otherwise <see langword="false"/>.</param>
+        /// <param name="predicate">
+        ///     A function that returns <see langword="true" /> if the control should be monitored for changes;
+        ///     otherwise <see langword="false" />.
+        /// </param>
         /// <returns>A filtered observable of control changes.</returns>
         public IObservable<IList<ControlChange>> Watch(Func<Control, bool>? predicate = null)
             => predicate is null
                 ? (IObservable<IList<ControlChange>>)this
                 : this.Select(l => l.Where(change => predicate(change.Control)).ToList());
-
-        /// <inheritdoc />
-        public void Dispose() => Interlocked.Exchange(ref _cancellationTokenSource, null)?.Dispose();
     }
 }

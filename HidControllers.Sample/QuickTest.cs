@@ -30,7 +30,6 @@ namespace HidControllers.Sample
             {
                 var read = await stream.ReadAsync(buffer, token).ConfigureAwait(false);
                 Console.WriteLine($"Received {read} bytes: {string.Join(" ", buffer.Select(b => b.ToString("X2")))}");
-
             }
         }
     }

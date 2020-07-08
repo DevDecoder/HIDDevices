@@ -20,6 +20,11 @@ namespace HIDControllers
         public string Name { get; }
         public string FullName => $"{Page.Name}: {Name}";
 
+        /// <inheritdoc />
+        public bool Equals(Usage? other) =>
+            !(other is null) &&
+            (ReferenceEquals(this, other) || (Page.Equals(other.Page) && Id == other.Id));
+
         public static Usage Get(uint id) => UsagePage.Get(id).GetUsage((ushort)(id & 0xFFFF));
 
 
@@ -29,11 +34,6 @@ namespace HIDControllers
 
         public static implicit operator uint(Usage usage) => usage.FullId;
         public static implicit operator Usage(uint usage) => Get(usage);
-
-        /// <inheritdoc />
-        public bool Equals(Usage? other) =>
-            !(other is null) &&
-            (ReferenceEquals(this, other) || (Page.Equals(other.Page) && Id == other.Id));
 
         /// <inheritdoc />
         public override bool Equals(object? obj) => ReferenceEquals(this, obj) || (obj is Usage other && Equals(other));

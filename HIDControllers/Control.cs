@@ -1,30 +1,20 @@
-﻿using System;
+﻿// Licensed under the Apache License, Version 2.0 (the "License").
+// See the LICENSE file in the project root for more information.
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using HIDControllers.Pages;
 using HidSharp.Reports;
 
 namespace HIDControllers
 {
     public class Control : IReadOnlyCollection<Usage>
     {
-        public Controller Controller { get; }
-        public int Index { get; }
-        internal DataItem DataItem { get; }
-        public string Name { get; }
-        public string FullName { get; }
-        public double InitialValue { get; }
-        private readonly HashSet<Usage> _usages;
-
-        private readonly int _minimumValue;
         private readonly int _maximumValue;
 
-        /// <summary>
-        /// Gets the button number, if a button; otherwise 0.
-        /// </summary>
-        public ushort ButtonNumber { get; }
+        private readonly int _minimumValue;
+        private readonly HashSet<Usage> _usages;
 
         internal Control(Controller controller, DataValue value, int index)
         {
@@ -59,24 +49,34 @@ namespace HIDControllers
             ButtonNumber = _usages.FirstOrDefault(u => u.Page == UsagePage.Button)?.Id ?? 0;
         }
 
-        internal double Normalise(int value)
-        {
-            return value < _minimumValue || value > _maximumValue
-                ? DataItem.HasNullState ? double.NaN : 0D
-                : (value - _minimumValue) / (double)(_maximumValue - _minimumValue);
-        }
+        public Controller Controller { get; }
+        public int Index { get; }
+        internal DataItem DataItem { get; }
+        public string Name { get; }
+        public string FullName { get; }
+        public double InitialValue { get; }
+
+        /// <summary>
+        ///     Gets the button number, if a button; otherwise 0.
+        /// </summary>
+        public ushort ButtonNumber { get; }
 
         /// <inheritdoc />
         public IEnumerator<Usage> GetEnumerator() => _usages.GetEnumerator();
-
-        /// <inheritdoc />
-        public override string ToString() => FullName;
 
         /// <inheritdoc />
         IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)_usages).GetEnumerator();
 
         /// <inheritdoc />
         public int Count => _usages.Count;
+
+        internal double Normalise(int value) =>
+            value < _minimumValue || value > _maximumValue
+                ? DataItem.HasNullState ? double.NaN : 0D
+                : (value - _minimumValue) / (double)(_maximumValue - _minimumValue);
+
+        /// <inheritdoc />
+        public override string ToString() => FullName;
 
         public bool Contains(Usage usage) => _usages.Contains(usage);
     }

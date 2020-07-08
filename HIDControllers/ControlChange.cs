@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Licensed under the Apache License, Version 2.0 (the "License").
+// See the LICENSE file in the project root for more information.
+
+using System;
 using HidSharp.Reports;
 
 namespace HIDControllers
@@ -48,7 +51,7 @@ namespace HIDControllers
         public static bool operator !=(ControlChange left, ControlChange right) => !left.Equals(right);
 
         /// <summary>
-        /// Creates a change that simulates the current value having changed from <seealso cref="double.NaN"/>.
+        ///     Creates a change that simulates the current value having changed from <seealso cref="double.NaN" />.
         /// </summary>
         /// <returns></returns>
         internal ControlChange Reset() => new ControlChange(Control, double.NaN, Value);

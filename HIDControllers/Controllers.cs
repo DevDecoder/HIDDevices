@@ -1,17 +1,15 @@
-﻿using System;
+﻿// Licensed under the Apache License, Version 2.0 (the "License").
+// See the LICENSE file in the project root for more information.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Reactive.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using DynamicData;
 using DynamicData.Kernel;
-using HIDControllers.OLD;
 using HidSharp;
-using HidSharp.Reports;
-using HidSharp.Utility;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.Threading;
 
@@ -19,10 +17,10 @@ namespace HIDControllers
 {
     public sealed class Controllers : IObservableCache<Controller, string>
     {
-        private SourceCache<Controller, string>? _controllers;
         private readonly AsyncAutoResetEvent _triggerRefresh = new AsyncAutoResetEvent(true);
 
         internal readonly ILogger<Controllers>? Logger;
+        private SourceCache<Controller, string>? _controllers;
         private CancellationTokenSource? _refreshCancellationTokenSource;
 
         /// <summary>
@@ -41,6 +39,60 @@ namespace HIDControllers
                 .ConfigureAwait(false); // Launch in background thread
             Refresh();
         }
+
+        /// <inheritdoc />
+        public IObservable<Change<Controller, string>> Watch(string key) =>
+            _controllers?.Watch(key) ?? throw new ObjectDisposedException(nameof(Controllers));
+
+        /// <inheritdoc />
+        public IObservable<IChangeSet<Controller, string>> Connect(Func<Controller, bool>? predicate = null)
+            => _controllers?.Connect(predicate) ?? throw new ObjectDisposedException(nameof(Controllers));
+
+        /// <inheritdoc />
+        public IObservable<IChangeSet<Controller, string>> Preview(Func<Controller, bool>? predicate = null)
+            => _controllers?.Preview(predicate) ?? throw new ObjectDisposedException(nameof(Controllers));
+
+        /// <inheritdoc />
+        public IObservable<int> CountChanged
+            => _controllers?.CountChanged ?? throw new ObjectDisposedException(nameof(Controllers));
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            Interlocked.Exchange(ref _refreshCancellationTokenSource, null)?.Dispose();
+            var controllers = Interlocked.Exchange(ref _controllers, null);
+            if (controllers is null)
+            {
+                return;
+            }
+
+            var toDispose = controllers.Items.ToArray();
+            controllers.Clear();
+            controllers?.Dispose();
+            foreach (var controller in toDispose)
+            {
+                controller.Dispose();
+            }
+        }
+
+        /// <inheritdoc />
+        public Optional<Controller> Lookup(string key)
+            => _controllers?.Lookup(key) ?? throw new ObjectDisposedException(nameof(Controllers));
+
+        /// <inheritdoc />
+        public IEnumerable<string> Keys
+            => _controllers?.Keys ?? throw new ObjectDisposedException(nameof(Controllers));
+
+        /// <inheritdoc />
+        public IEnumerable<Controller> Items
+            => _controllers?.Items ?? throw new ObjectDisposedException(nameof(Controllers));
+
+        /// <inheritdoc />
+        public IEnumerable<KeyValuePair<string, Controller>> KeyValues
+            => _controllers?.KeyValues ?? throw new ObjectDisposedException(nameof(Controllers));
+
+        /// <inheritdoc />
+        public int Count => _controllers?.Count ?? throw new ObjectDisposedException(nameof(Controllers));
 
         /// <summary>
         ///     Force a refresh of controllers.  The refresh will occur asynchronously.
@@ -166,57 +218,13 @@ namespace HIDControllers
             } while (!cancellationToken.IsCancellationRequested);
         }
 
-        /// <inheritdoc />
-        public IObservable<Change<Controller, string>> Watch(string key) =>
-            _controllers?.Watch(key) ?? throw new ObjectDisposedException(nameof(Controllers));
-
-        /// <inheritdoc />
-        public IObservable<IChangeSet<Controller, string>> Connect(Func<Controller, bool>? predicate = null)
-            => _controllers?.Connect(predicate) ?? throw new ObjectDisposedException(nameof(Controllers));
-
-        /// <inheritdoc />
-        public IObservable<IChangeSet<Controller, string>> Preview(Func<Controller, bool>? predicate = null)
-            => _controllers?.Preview(predicate) ?? throw new ObjectDisposedException(nameof(Controllers));
-
-        /// <inheritdoc />
-        public IObservable<int> CountChanged
-            => _controllers?.CountChanged ?? throw new ObjectDisposedException(nameof(Controllers));
-
-        /// <inheritdoc />
-        public void Dispose()
-        {
-            Interlocked.Exchange(ref _refreshCancellationTokenSource, null)?.Dispose();
-            var controllers = Interlocked.Exchange(ref _controllers, null);
-            if (controllers is null) return;
-            var toDispose = controllers.Items.ToArray();
-            controllers.Clear();
-            controllers?.Dispose();
-            foreach (var controller in toDispose) controller.Dispose();
-        }
-
-        /// <inheritdoc />
-        public Optional<Controller> Lookup(string key)
-            => _controllers?.Lookup(key) ?? throw new ObjectDisposedException(nameof(Controllers));
-
-        /// <inheritdoc />
-        public IEnumerable<string> Keys
-            => _controllers?.Keys ?? throw new ObjectDisposedException(nameof(Controllers));
-
-        /// <inheritdoc />
-        public IEnumerable<Controller> Items
-            => _controllers?.Items ?? throw new ObjectDisposedException(nameof(Controllers));
-
-        /// <inheritdoc />
-        public IEnumerable<KeyValuePair<string, Controller>> KeyValues
-            => _controllers?.KeyValues ?? throw new ObjectDisposedException(nameof(Controllers));
-
-        /// <inheritdoc />
-        public int Count => _controllers?.Count ?? throw new ObjectDisposedException(nameof(Controllers));
-
         /// <summary>
-        /// Gets a filtered observable of control changes.
+        ///     Gets a filtered observable of control changes.
         /// </summary>
-        /// <param name="predicate">A function that returns <see langword="true"/> if the control should be monitored for changes; otherwise <see langword="false"/>.</param>
+        /// <param name="predicate">
+        ///     A function that returns <see langword="true" /> if the control should be monitored for changes;
+        ///     otherwise <see langword="false" />.
+        /// </param>
         /// <returns>A filtered observable of control changes.</returns>
         public IObservable<IList<ControlChange>> Watch(Func<Control, bool>? predicate = null)
             => Connect()

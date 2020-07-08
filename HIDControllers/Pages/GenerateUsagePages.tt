@@ -7,7 +7,7 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Text.RegularExpressions" #>
 <#@ import namespace="System.Collections.Generic" #>
-<#@ output extension=".cs" #>
+<#@ output extension=".generated.cs" #>
 <#
 var output = new StringBuilder();
 try
@@ -125,7 +125,7 @@ try
 		}
 		properties.Add(pName);
 		output.AppendLine($@"        /// <summary>
-        /// {pageName}: {d} Usage.
+        ///     {pageName}: {d} Usage.
         /// </summary>
         public static readonly Usage {pName} = Instance.Create(0x{i:x4}, ""{(d.Replace("\\", "\\\\"))}"");");
 	}
@@ -183,12 +183,12 @@ namespace HIDControllers.Pages
 			 * Generate start of class
 			 */
 			output.AppendLine($@"    /// <summary>
-    /// Class defining the {description} usage page.
+    ///     Class defining the {description} usage page.
     /// </summary>
     public sealed partial class {className} : UsagePage
     {{
         /// <summary>
-        /// The singleton instance of {className}.
+        ///     The singleton instance of {className}.
         /// </summary>
         public static readonly {className} Instance = new {className}(0x{id:x4}, ""{description}"");");
 			var zeroDefined = false;
@@ -380,14 +380,14 @@ namespace HIDControllers
     using HIDControllers.Pages;
 
 	/// <summary>
-	/// Base class for all usage pages.
+	///     Base class for all usage pages.
 	/// </summary>
 	public partial class UsagePage : IEquatable<UsagePage>
 	{");
 	foreach (var page in pages)
 	{
 		output.AppendLine($@"        /// <summary>
-        /// {page.description} Page
+        ///     {page.description} Page
         /// </summary>
         public static readonly {page.className} {page.name} = {page.className}.Instance;");
 	}

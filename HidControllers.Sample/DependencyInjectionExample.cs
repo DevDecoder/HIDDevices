@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Licensed under the Apache License, Version 2.0 (the "License").
+// See the LICENSE file in the project root for more information.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +9,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using DynamicData;
 using HIDControllers;
-using HIDControllers.Pages;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -19,7 +21,7 @@ namespace HidControllers.Sample
 
         /// <inheritdoc />
         public IReadOnlyCollection<string> ShortNames { get; }
-            = new[] { "D", "DI", "DependencyInjection" };
+            = new[] {"D", "DI", "DependencyInjection"};
 
         /// <inheritdoc />
         public async Task ExecuteAsync(CancellationToken token = default)
@@ -48,8 +50,14 @@ namespace HidControllers.Sample
                     var first = true;
                     foreach (var change in changeSet)
                     {
-                        if (first) first = false;
-                        else logBuilder.AppendLine(null);
+                        if (first)
+                        {
+                            first = false;
+                        }
+                        else
+                        {
+                            logBuilder.AppendLine(null);
+                        }
 
                         var controller = change.Current;
                         logBuilder.Append("  The ")
@@ -118,10 +126,11 @@ namespace HidControllers.Sample
                     .Subscribe(changes =>
                     {
                         if (changes.Any(c => c.Value > 0.5))
+                        {
                             button1PressedTcs.TrySetResult(true);
+                        }
                     }))
                 {
-
                     // Wait on signal that Button 1 has been pressed
                     await button1PressedTcs.Task.ConfigureAwait(false);
                 }
