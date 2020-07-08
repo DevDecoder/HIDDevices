@@ -2,163 +2,192 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DynamicData;
-using HIDControllers.Controls;
+using HIDControllers.OLD;
 using HidSharp;
 using HidSharp.Reports;
 using HidSharp.Reports.Input;
+using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.Threading;
+using Nito.AsyncEx.Interop;
 
 namespace HIDControllers
 {
-    public class Controller : IAsyncDisposable
+    public sealed class Controller : IObservable<IList<ControlChange>>, IReadOnlyDictionary<Control, ControlChange>, IDisposable
     {
-        private readonly Dictionary<(Usage, DataItem), Axis> _axes;
+        private readonly IReadOnlyDictionary<(DataItem dataItem, uint usage), Control> _controls;
         private readonly HidDevice _device;
-        private readonly Dictionary<DeviceItem, DeviceItemInputParser?> _items;
+        private readonly IObservable<IList<ControlChange>> _changes;
+        private readonly Dictionary<Control, ControlChange> _cache;
+        private CancellationTokenSource? _cancellationTokenSource;
 
-        internal readonly byte[] RawReportDescriptor;
-        private SourceCache<ControlChange, Control>? _changes = new SourceCache<ControlChange, Control>(c => c.Control);
-        private HidStream? _hidStream;
-        private HidDeviceInputReceiver? _inputReceiver;
-        private byte[]? _inputReportBuffer;
+        public IReadOnlyCollection<uint> Usages { get; }
 
-        internal Controller(Controllers controllers, HidDevice device, byte[] rawReportDescriptor,
-            ReportDescriptor reportDescriptor,
-            IReadOnlyList<(DeviceItem item, DeviceType type, IReadOnlyList<(Usage usage, DataItem dataItem)> usages)>
-                items)
+        public Controller(Controllers controllers, HidDevice device, byte[] rawReportDescriptor)
         {
-            // Try to open HID Stream before doing any work, so that we can fail early if access is denied.
-            _device = device;
-            if (!_device.TryOpen(out var stream))
-            {
-                throw new InvalidOperationException(string.Format(Resources.HidStreamOpenFailure, Name));
-            }
-
-            stream.ReadTimeout = Timeout.Infinite;
-            _hidStream = stream;
-
             Controllers = controllers;
-            RawReportDescriptor = rawReportDescriptor;
-            _items = items.ToDictionary(i => i.item, _ => (DeviceItemInputParser?)null);
+
+            // Calculate a friendly name
             Name = GetName(device);
-            _axes = items
-                .SelectMany(i => i.usages)
-                .ToDictionary(t => t, t => Control.Create(this, t.usage, t.dataItem));
 
-            /*
-             * Group Axis into Control
-             */
-            var axes = new List<Control>();
-            var toGroup = new Dictionary<Usage, Axis>();
+            _device = device;
+            var cancellationTokenSource = new CancellationTokenSource();
+            _cancellationTokenSource = cancellationTokenSource;
 
-            // Find single dimension axes and just add them, whilst placing multi-dimensional axes into toGroup collection
-            foreach (var axis in _axes.Values)
-            {
-                if (axis.Type.IsGrouped)
-                {
-                    toGroup[axis.Type.Usage] = axis;
-                }
-                else
-                {
-                    axes.Add(axis);
-                }
+            RawReportDescriptor = rawReportDescriptor;
+            var reportDescriptor = new ReportDescriptor(RawReportDescriptor);
+            var deviceItems = reportDescriptor.DeviceItems;
 
-                // Add initial values - note that the initial value may be double.NaN, which would mean this hasn't 'changed'
-                // however we still include in the changes to ensure the axis is included in the first change batch.
-                _changes.AddOrUpdate(new ControlChange(axis, double.NaN, axis.Value));
-            }
+            Usages = deviceItems.SelectMany(deviceItem => deviceItem.Usages.GetAllValues()).ToArray();
 
-            // Create grouping Control for groups
-            while (toGroup.Count > 0)
-            {
-                var axisType = toGroup.Values.First().Type;
-                var usages = axisType.Group;
-                var group = new Axis[usages.Count];
-                for (var i = 0; i < usages.Count; i++)
-                {
-                    var usage = usages[i];
-                    group[i] = toGroup[usage];
-                    toGroup.Remove(usage);
-                }
+            // Find controls.
+            _controls = deviceItems
+                .SelectMany(deviceItem => deviceItem.InputReports
+                    .SelectMany(report => report.DataItems)
+                    .SelectMany(dataItem => dataItem.Usages.GetAllValues().Select(usage => (dataItem, usage))))
+                .Select(t => (key: t, control: new Control(this, t.dataItem, t.usage)))
+                .ToDictionary(t => t.key, t => t.control);
 
-                axes.Add(axisType.Create(group));
-            }
+            // Create cache of last values.
+            _cache = _controls.Values.ToDictionary(c => c, c => new ControlChange(c));
 
-            Controls = axes.ToArray();
+            var listener = Observable.Create<IList<ControlChange>>(
+                    async (observer, token) =>
+                    {
+                        // The observable token is only cancelled when all subscribers stop listening, and only
+                        // 'best-efforts' are used.  We supplement with explicit disposal, which is triggered when
+                        // a disconnect is detected.
+                        using var cancellationToken = token.CombineWith(cancellationTokenSource.Token);
 
-            // Create buffer
-            _inputReportBuffer = new byte[_device.GetMaxInputReportLength()];
+                        // Try to open the stream
+                        HidStream stream;
+                        try
+                        {
+                            var options = new OpenConfiguration();
+                            options.SetOption(OpenOption.Interruptible, true);
+                            stream = device.Open();
+                            stream.ReadTimeout = Timeout.Infinite;
+                        }
+                        catch (OperationCanceledException)
+                        {
+                            // Ignore, just complete
+                            return;
+                        }
+                        catch (Exception ex)
+                        {
+                            // Log error
+                            Controllers.Logger.LogError(ex, $"Failed to open a connection to the {Name} Controller.");
+                            observer.OnError(ex);
+                            return;
+                        }
 
-            // Create parsers
-            foreach (var item in _items.Keys.ToArray())
-            {
-                _items[item] = item.CreateDeviceItemInputParser();
-            }
+                        try
+                        {
+                            // Create buffer
+                            var buffer = new byte[_device.GetMaxInputReportLength()];
 
-            _inputReceiver = reportDescriptor.CreateHidDeviceInputReceiver();
-            _inputReceiver.Received += InputReceived;
-            _inputReceiver.Stopped += InputStopped;
+                            // Create parsers
+                            var inputParsers = deviceItems
+                                .ToDictionary(i => i, i => i.CreateDeviceItemInputParser());
+                            var inputReceiver = reportDescriptor.CreateHidDeviceInputReceiver();
 
-            _inputReceiver.Start(stream);
-        }
+                            inputReceiver.Start(stream);
 
-        /// <summary>
-        /// Gets the changes.
-        /// </summary>
-        /// <value>The changes.</value>
-        /// <exception cref="ObjectDisposedException">Controller</exception>
-        public IObservable<IList<ControlChange>> Changes
-            => _changes?
-                   .Connect()
-                   .Select(cs => cs.Select(c => c.Current).Where(cc => cc != null).ToList())
-               ?? throw new ObjectDisposedException(nameof(Controller));
+                            Controllers.Logger.LogInformation($"Began listening to {Name} Controller.");
 
-        /// <summary>
-        /// Gets the associated controllers collection.
-        /// </summary>
-        /// <value>The controllers.</value>
-        public Controllers Controllers { get; }
+                            // Some devices spam changes, so we collect only the last value as quickly as possible.
+                            var batch = new Dictionary<(DataItem, uint), DataValue>(_controls.Count);
+                            while (!cancellationToken.Token.IsCancellationRequested)
+                            {
+                                await inputReceiver.WaitHandle;
 
-        public IReadOnlyCollection<Control> Controls { get; }
-        public IEnumerable<Button> Buttons => Controls.OfType<Button>();
-        public IEnumerable<Slider> Sliders => Controls.OfType<Slider>();
-        public IEnumerable<DPad> DPads => Controls.OfType<DPad>();
-        public IEnumerable<Hat> Hats => Controls.OfType<Hat>();
-        public IEnumerable<Joystick> Joysticks => Controls.OfType<Joystick>();
+                                if (!inputReceiver.IsRunning) break;
 
-        /// <summary>
-        /// Gets the name.
-        /// </summary>
-        /// <value>The name.</value>
-        public string Name { get; }
+                                while (inputReceiver.TryRead(buffer, 0, out var report))
+                                {
+                                    foreach (var parser in inputParsers.Values)
+                                    {
+                                        if (!parser.TryParseReport(buffer, 0, report))
+                                            continue;
 
-        /// <summary>
-        /// Gets the underlying device path.
-        /// </summary>
-        /// <value>The device path.</value>
-        public string DevicePath => _device.DevicePath;
+                                        while (parser.HasChanged)
+                                        {
+                                            var dataValue = parser.GetValue(parser.GetNextChangedIndex());
+                                            var dataItem = dataValue.DataItem;
+                                            foreach (var usage in dataValue.Usages)
+                                            {
+                                                batch[(dataItem, usage)] = dataValue;
+                                            }
+                                        }
+                                    }
+                                }
 
-        /// <inheritdoc />
-        public ValueTask DisposeAsync()
-        {
-            var inputReceiver = Interlocked.Exchange(ref _inputReceiver, null);
-            if (inputReceiver != null)
-            {
-                inputReceiver.Received -= InputReceived;
-                inputReceiver.Stopped -= InputStopped;
-            }
+                                // Check for changes
+                                if (batch.Count < 1) continue;
 
-            _items.Clear();
+                                // Update cache with batch of changes.
+                                var batchList = new List<ControlChange>(batch.Count);
+                                lock (_cache)
+                                {
+                                    foreach (var tuple in batch
+                                        .Select(kvp => (
+                                            control: _controls.TryGetValue(kvp.Key, out var control) ? control : null,
+                                            value: kvp.Value))
+                                        .Where(t => t.control != null))
+                                    {
+                                        var control = tuple.control!;
+                                        var controlChange = _cache[control].Update(tuple.value);
 
-            Interlocked.Exchange(ref _inputReportBuffer, null);
-            Interlocked.Exchange(ref _changes, null)?.Dispose();
+                                        // Check for actual change in value
+                                        if (controlChange is null) continue;
 
-            return Interlocked.Exchange(ref _hidStream, null)?.DisposeAsync() ?? new ValueTask();
+                                        _cache[control] = controlChange.Value;
+                                        batchList.Add(controlChange.Value);
+                                    }
+                                }
+
+                                // Notify observers
+                                if (batchList.Count > 0)
+                                    observer.OnNext(batchList);
+
+                                // We've done with this batch now
+                                batch.Clear();
+                            }
+                        }
+                        catch (OperationCanceledException)
+                        {
+                            // Ignore, just complete
+                        }
+                        catch (Exception ex)
+                        {
+                            Controllers.Logger.LogError(ex, $"Failed listening to {Name} Controller.");
+                            observer.OnError(ex);
+                        }
+                        finally
+                        {
+                            if (stream != null)
+                                await stream.DisposeAsync().ConfigureAwait(false);
+                        }
+
+                        Controllers.Logger.LogInformation($"Stopped listening to {Name} Controller.");
+                        observer.OnCompleted();
+                    })
+                .Publish()
+                .RefCount();
+            _changes = Observable.Defer(()
+                => listener
+                    // Always dump current/initial values on subscription
+                    .StartWith(_cache.Values
+                        // Simulate a change from double.NaN
+                        .Select(c => c.PreviousValue.Equals(double.NaN) ? c : c.Reset())
+                        .ToList()));
         }
 
         /// <summary>
@@ -203,69 +232,84 @@ namespace HIDControllers
                 device.ReleaseNumber);
         }
 
+        public Controllers Controllers { get; }
+
+        public string DevicePath => _device.DevicePath;
+
+        public string Name { get; }
+
+        /// <inheritdoc />
+        public IEnumerator<KeyValuePair<Control, ControlChange>> GetEnumerator()
+        {
+            KeyValuePair<Control, ControlChange>[] snapshot;
+            lock (_cache)
+                snapshot = _cache.ToArray();
+
+            return ((IEnumerable<KeyValuePair<Control, ControlChange>>)snapshot).GetEnumerator();
+        }
+
+        /// <inheritdoc />
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        /// <inheritdoc />
+        public int Count => _controls.Count;
+
+        /// <inheritdoc />
+        public bool ContainsKey(Control key)
+        {
+            lock (_cache)
+                return _cache.ContainsKey(key);
+        }
+
+        /// <inheritdoc />
+        public bool TryGetValue(Control key, out ControlChange value)
+        {
+            lock (_cache)
+                return _cache.TryGetValue(key, out value);
+        }
+
+        /// <inheritdoc />
+        public ControlChange this[Control key]
+        {
+            get
+            {
+                lock (_cache)
+                    return _cache[key];
+            }
+        }
+
+        /// <inheritdoc />
+        public IEnumerable<Control> Keys => _controls.Values;
+
+        /// <inheritdoc />
+        public IEnumerable<ControlChange> Values
+        {
+            get
+            {
+                lock (_cache)
+                    return _cache.Values;
+            }
+        }
+
+        internal byte[] RawReportDescriptor { get; }
+
+        /// <inheritdoc />
+        public IDisposable Subscribe(IObserver<IList<ControlChange>> observer) => _changes.Subscribe(observer);
+
         /// <inheritdoc />
         public override string ToString() => Name;
 
-        private void InputStopped(object? sender, EventArgs e) =>
-            Controllers.Logger?.Log(Event.ControllerStreamStopped, Name);
+        /// <summary>
+        /// Gets a filtered observable of control changes.
+        /// </summary>
+        /// <param name="predicate">A function that returns <see langword="true"/> if the control should be monitored for changes; otherwise <see langword="false"/>.</param>
+        /// <returns>A filtered observable of control changes.</returns>
+        public IObservable<IList<ControlChange>> Watch(Func<Control, bool>? predicate = null)
+            => predicate is null
+                ? (IObservable<IList<ControlChange>>)this
+                : this.Select(l => l.Where(change => predicate(change.Control)).ToList());
 
-        private void InputReceived(object? sender, EventArgs e)
-        {
-            var receiver = (HidDeviceInputReceiver?)sender;
-            if (receiver is null)
-            {
-                return;
-            }
-
-            try
-            {
-                var changes = new List<ControlChange>();
-                while (receiver.TryRead(_inputReportBuffer, 0, out var report))
-                {
-                    foreach (var parser in _items.Values)
-                    {
-                        if (parser?.TryParseReport(_inputReportBuffer, 0, report) != true ||
-                            !parser.HasChanged)
-                        {
-                            continue;
-                        }
-
-                        // Find changes
-                        while (parser.HasChanged)
-                        {
-                            var changedIndex = parser.GetNextChangedIndex();
-                            var dataValue = parser.GetValue(changedIndex);
-                            var dataItem = dataValue.DataItem;
-                            var usage = (Usage)dataValue.Usages.FirstOrDefault(
-                                u => AxisType.SupportedUsage((Usage)u));
-
-                            if (!_axes.TryGetValue((usage, dataItem), out var axis))
-                            {
-                                continue;
-                            }
-
-                            var args = axis.Set(dataValue);
-                            if (args != null)
-                            {
-                                changes.Add(args);
-                            }
-                        }
-
-                        break;
-                    }
-                }
-
-                if (changes.Count > 0)
-                {
-                    _changes?.Edit(c => c.AddOrUpdate(changes));
-                }
-            }
-#pragma warning disable CA1031 // Do not catch general exception types
-            catch (Exception exception)
-            {
-                Controllers.Logger?.Log(Event.ControllerInputParseFailure, exception, Name);
-            }
-#pragma warning restore CA1031 // Do not catch general exception types
-        }
+        /// <inheritdoc />
+        public void Dispose() => Interlocked.Exchange(ref _cancellationTokenSource, null)?.Dispose();
     }
 }
