@@ -5,8 +5,6 @@
 # Description
 This library provides a cross-platform service for asynchronously receiving input from HID devices, such as Gamepads, Joysticks and Multi-axis controllers and programmable button pads.  It support Plug & Play, correctly identifying when controllers are added and removed.
 
-It makes extensive use of [HIDSharp](https://www.zer7.com/software/hidsharp) (© Copyright 2012 James F. Bellinger, licensed under Apache License 2.0) _although this may be replaced in future versions_, [Reactive Extensions](https://github.com/dotnet/reactive) and [Dynamic Data](https://github.com/reactiveui/DynamicData).
-
 # Installation
 The library is delivered via NuGet Package Manager:
 
@@ -60,9 +58,18 @@ The Controllers service exposes a `Changes` property which is an observable of b
 The following controllers have been tested:
 * Saitek X-52 Pro Flight Control System,
 * Razer Sabertooth Elite
+* Microsoft XBox One for Windows Controller (_**Note** that it appears XInput-compatible HID device driver only transmits events from the HID device whilst the current process has a focussed window, so console applications/background services don't appear to work!  This is not a bug in this library (after too many hours of investigation)._)
 
 The following OS's have been tested:
 * Windows 10 Pro 2004 (19041.330)
 * Ubuntu (limited testing so far)
 
 Please let me know if you've confirmed it as working with other devices/OS's.
+
+# Acknowledgements
+
+* https://www.usb.org/documents - All USB Specifications
+* https://github.com/IntergatedCircuits/hid-usage-tables - for easily parsed HID Usage tables.
+* It makes extensive use of [HIDSharp](https://www.zer7.com/software/hidsharp) (© Copyright 2012, James F. Bellinger, licensed under Apache License 2.0) _although this may be replaced in future versions_
+* [Reactive Extensions](https://github.com/dotnet/reactive)
+* [Dynamic Data](https://github.com/reactiveui/DynamicData).

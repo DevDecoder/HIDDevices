@@ -28,7 +28,7 @@ namespace HIDControllers
         private readonly Dictionary<Control, ControlChange> _cache;
         private CancellationTokenSource? _cancellationTokenSource;
 
-        public IReadOnlyCollection<uint> Usages { get; }
+        public IReadOnlyCollection<Usage> Usages { get; }
 
         public Controller(Controllers controllers, HidDevice device, byte[] rawReportDescriptor)
         {
@@ -45,7 +45,7 @@ namespace HIDControllers
             var reportDescriptor = new ReportDescriptor(RawReportDescriptor);
             var deviceItems = reportDescriptor.DeviceItems;
 
-            Usages = deviceItems.SelectMany(deviceItem => deviceItem.Usages.GetAllValues()).ToArray();
+            Usages = deviceItems.SelectMany(deviceItem => deviceItem.Usages.GetAllValues().Select(Usage.Get)).ToArray();
 
             // Find controls.
             _controls = deviceItems

@@ -1,0 +1,415 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Globalization" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+<#
+var output = new StringBuilder();
+try
+{
+	// Maximum number of static properties to output for a range.
+	var maxRange = 32;
+
+	// Auto-Expandable templates
+	Dictionary<string, Func<ushort, ushort, string>> expanders = new Dictionary<string, Func<ushort, ushort, string>>
+	{
+		["{n}"] = (s, i) => (i - s).ToString(),
+		["{id}"] = (_, i) => i.ToString(),
+		["{n+1}"] = (s, i) => (i - s + 1).ToString(),
+		["{id+1}"] = (_, i) => (i + 1).ToString(),
+		["{2*n+1}"] = (s, i) => ((2 * (i - s)) + 1).ToString(),
+		["{2*id+1}"] = (s, i) => ((2 * i) + 1).ToString()
+	};
+
+	/*
+	 * Local functions
+	 */
+	string ExpandTemplate(string description, (string template, string id)[] templates, ushort s, ushort i)
+	{
+		if (templates.Length < 1) return description;
+		foreach (var template in templates)
+		{
+			description = description.Replace(template.template, expanders[template.template](s, i));
+		}
+		return description;
+	}
+
+	HashSet<string> complexTemplates = new HashSet<string>();
+	bool IsComplexTemplate(string template)
+	{
+		if (expanders.ContainsKey(template)) return false;
+		complexTemplates.Add(template);
+		return true;
+	}
+
+	string MakeSafe(string description)
+	{
+		if (string.IsNullOrWhiteSpace(description)) return string.Empty;
+
+		var builder = new StringBuilder(description.Length);
+		bool afterSpace = true;
+		foreach (var ch in description)
+		{
+			switch (char.GetUnicodeCategory(ch))
+			{
+				case UnicodeCategory.UppercaseLetter:
+				case UnicodeCategory.LowercaseLetter:
+				case UnicodeCategory.TitlecaseLetter:
+				case UnicodeCategory.ModifierLetter:
+				case UnicodeCategory.OtherLetter:
+					// Always allowed in C# class names
+					break;
+
+				case UnicodeCategory.ConnectorPunctuation:
+					// Language specification allows '_' as first character.
+					if (builder.Length < 1 && ch != '_') continue;
+					break;
+
+				case UnicodeCategory.LetterNumber:
+				case UnicodeCategory.NonSpacingMark:
+				case UnicodeCategory.SpacingCombiningMark:
+				case UnicodeCategory.DecimalDigitNumber:
+				case UnicodeCategory.Format:
+					// Only valid after first character
+					if (builder.Length < 1) continue;
+					break;
+
+				case UnicodeCategory.SpaceSeparator:
+					afterSpace = true;
+					continue;
+				default:
+					// Skip characters
+					continue;
+
+			}
+
+			char c;
+			if (afterSpace)
+			{
+				afterSpace = false;
+				c = char.ToUpperInvariant(ch);
+			}
+			else c = ch;
+			builder.Append(c);
+		}
+
+		return builder.ToString();
+	}
+
+	HashSet<string> properties = new HashSet<string>();
+	string pageName;
+	void OutputProperty(ushort i, string d)
+	{
+		/*
+		 * Calculate a valid property name
+		 */
+		var pName = MakeSafe(d);
+		if (string.IsNullOrWhiteSpace(pName))
+		{
+			pName = MakeSafe($"{pageName}_{d}");
+		}
+		if (properties.Contains(pName))
+		{
+			for (int p = 2; ; p++)
+			{
+				var newp = pName + p.ToString();
+				if (properties.Contains(newp)) continue;
+				pName = newp;
+				break;
+			}
+		}
+		properties.Add(pName);
+		output.AppendLine($@"        /// <summary>
+        /// {pageName}: {d} Usage.
+        /// </summary>
+        public static readonly Usage {pName} = Instance.Create(0x{i:x4}, ""{(d.Replace("\\", "\\\\"))}"");");
+	}
+
+	/*
+	 * Initialisation
+	 */
+	var pageRegex = new Regex(@"^(?<id>[0-9a-f]{1,4})\s""(?<description>[^""]+)""", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+	var usageRegex = new Regex(@"^(?<startId>[0-9a-f*]{2,4})(:(?<endId>[0-9a-f]{2,4}))?(\s[^""]*?""(?<description>[^""]+)"")?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+	var templateRegex = new Regex("((?<template>{((?<id>id|n)|[+/\\-*0-9])*})|([^{]*))", RegexOptions.Compiled);
+	ushort id, start, end;
+	var dynamic = new List<(ushort start, ushort end, string description, (string template, string id)[] templates, ushort blockStart)>();
+	var pages = new List<(ushort id, string name, string className, string description)>();
+	var emptyLines = 1;
+	string className;
+
+	output.AppendLine(@"// Licensed under the Apache License, Version 2.0 (the ""License"").
+// See the LICENSE file in the project root for more information.
+#pragma warning disable CS0108 // Member hides inherited member; missing new keyword
+
+namespace HIDControllers.Pages
+{");
+
+	foreach (var filePath in Directory.GetFiles(@"C:\Source\HidControllers\HIDControllers\Pages\hid-usage-tables\pages"))
+	{
+		if (emptyLines < 1)
+			output.AppendLine();
+		using (var stream = File.OpenText(filePath))
+		{
+			emptyLines = 0;
+
+			var line = stream.ReadLine();
+			var match = pageRegex.Match(line);
+
+			/*
+			 * Parse Header
+			 */
+			if (!match.Success)
+			{
+				output.AppendLine($"    // *** COULD NOT MATCH HEADER *** {line}");
+				continue;
+			}
+			if (!ushort.TryParse(match.Groups["id"]?.Value, NumberStyles.HexNumber, null, out id))
+			{
+				output.AppendLine($"    // *** COULD NOT PARSE PAGE HEADER *** {line}");
+				continue;
+			}
+			string description = match.Groups["description"].Value;
+			pageName = MakeSafe(description);
+			if (pageName.EndsWith("Controls", StringComparison.InvariantCultureIgnoreCase)) pageName = pageName.Substring(0, pageName.Length - 8);
+			className = pageName + "Page";
+			pages.Add((id, pageName, className, description));
+
+			/*
+			 * Generate start of class
+			 */
+			output.AppendLine($@"    /// <summary>
+    /// Class defining the {description} usage page.
+    /// </summary>
+    public sealed partial class {className} : UsagePage
+    {{
+        /// <summary>
+        /// The singleton instance of {className}.
+        /// </summary>
+        public static readonly {className} Instance = new {className}(0x{id:x4}, ""{description}"");");
+			var zeroDefined = false;
+
+			/*
+			 * Parse Usages
+			 */
+			while ((line = stream.ReadLine()) != null)
+			{
+				if (string.IsNullOrWhiteSpace(line))
+				{
+					if (emptyLines++ < 1)
+						output.AppendLine();
+					continue;
+				}
+				emptyLines = 0;
+
+				match = usageRegex.Match(line);
+				if (!match.Success)
+				{
+					output.AppendLine($"        // *** COULD NOT MATCH USAGE *** {line}");
+					continue;
+				}
+
+				var idStr = match.Groups["startId"]?.Value;
+				var endStr = match.Groups["endId"]?.Value;
+				description = match.Groups["description"]?.Value;
+
+				var templates = templateRegex.Matches(description)
+					.Cast<Match>()
+					.Where(m => m.Groups["id"].Success)
+					.Select(m => (template: m.Groups["template"]?.Value, id: m.Groups["id"]?.Value))
+					.Where(t => !string.IsNullOrWhiteSpace(t.template) && !string.IsNullOrWhiteSpace(t.id))
+					.Distinct()
+					.ToArray();
+
+				bool complexTemplate = false;
+				if (templates.Length > 0)
+				{
+					if (templates.Select(t => t.template).Any(IsComplexTemplate))
+						complexTemplate = true;
+				}
+
+				// WildCard style range
+				if (idStr.Contains('*'))
+				{
+					if (!ushort.TryParse(idStr.Substring(0, 1), NumberStyles.HexNumber, null, out start))
+					{
+						output.AppendLine($"        // *** COULD NOT PARSE WILDCARD USAGE *** {line}");
+						continue;
+					}
+					start = (ushort)(start << 12);
+					var bstart = start;
+					end = (ushort)(start + 0xfff);
+					if (start == 0) zeroDefined = true;
+
+					if (!complexTemplate)
+					{
+						start = (ushort)(start + maxRange);
+						if (start > end) start = (ushort)(end + 1);
+						// Output start of range explicitly
+						for (var i = bstart; i < start; i++)
+						{
+							OutputProperty(i, ExpandTemplate(description, templates, bstart, i));
+						}
+					}
+					if (start <= end)
+						dynamic.Add((start, end, description, templates, bstart));
+					continue;
+				}
+
+				// Range
+				if (!string.IsNullOrWhiteSpace(endStr))
+				{
+					if (!ushort.TryParse(idStr, NumberStyles.HexNumber, null, out start))
+					{
+						output.AppendLine($"        // *** COULD NOT PARSE RANGE START *** {line}");
+						continue;
+					}
+					if (start == 0) zeroDefined = true;
+					if (!ushort.TryParse(endStr, NumberStyles.HexNumber, null, out end))
+					{
+						output.AppendLine($"        // *** COULD NOT PARSE RANGE END *** {line}");
+						continue;
+					}
+					var bstart = start;
+					if (!complexTemplate)
+					{
+						start = (ushort)(start + maxRange);
+						if (start > end) start = (ushort)(end + 1);
+						// Output start of range explicitly
+						for (var i = bstart; i < start; i++)
+						{
+							OutputProperty(i, ExpandTemplate(description, templates, bstart, i));
+						}
+					}
+					if (start <= end)
+						dynamic.Add((start, end, description, templates, bstart));
+				}
+				else
+				{
+					if (!ushort.TryParse(idStr, NumberStyles.HexNumber, null, out id))
+					{
+						output.AppendLine($"        // *** COULD NOT PARSE USAGE ID *** {line}");
+						continue;
+					}
+					if (id == 0) zeroDefined = true;
+
+					if (string.IsNullOrWhiteSpace(description)) description = "0x" + id;
+
+					OutputProperty(id, description);
+				}
+			}
+			if (!zeroDefined)
+			{
+				if (emptyLines < 1)
+					output.AppendLine();
+				else emptyLines = 0;
+				OutputProperty(0, "Undefined");
+			}
+
+			// Finished outputting properties
+			properties.Clear();
+		}
+
+		/*
+		 * Generate Constructor
+		 */
+		if (emptyLines < 1)
+			output.AppendLine();
+		else emptyLines = 0;
+
+		output.AppendLine($@"        /// <inheritdoc />
+        private {className}(ushort id, string name) : base(id, name, true)
+        {{
+        }}");
+
+		if (dynamic.Count > 0)
+		{
+
+			output.AppendLine(@"
+        /// <inheritdoc />
+        public override Usage GetUsage(ushort id) 
+        {
+            if (_usages.TryGetValue(id, out var usage)) return usage;
+
+            // Create dynamic usages on demand");
+			var nVar = false;
+			foreach (var tuple in dynamic)
+			{
+				if (tuple.templates.Length < 1)
+				{
+					output.AppendLine($"            if (id >= 0x{tuple.start:x4} || id < 0x{tuple.end:x4}) return new Usage(this, id, \"{tuple.description}\");");
+					continue;
+				}
+
+				if (tuple.templates.Any(t => t.id == "n"))
+				{
+					// Create the n variable.
+					output.Append($"            ");
+					if (!nVar)
+					{
+						output.Append("var ");
+						nVar = true;
+					}
+					output.AppendLine($"n = (ushort)(id-0x{tuple.blockStart});");
+				}
+
+				output.AppendLine($"            if (id >= 0x{tuple.start:x4} || id <= 0x{tuple.end:x4}) return new Usage(this, id, $\"{tuple.description}\");");
+			}
+			dynamic.Clear();
+			output.AppendLine(@"
+            return base.GetUsage(id);
+        }");
+		}
+
+		/*
+		 * Close class
+		 */
+		output.AppendLine("    }");
+	}
+
+	output.AppendLine(@"
+}
+
+namespace HIDControllers
+{
+    using System;
+    using HIDControllers.Pages;
+
+	/// <summary>
+	/// Base class for all usage pages.
+	/// </summary>
+	public partial class UsagePage : IEquatable<UsagePage>
+	{");
+	foreach (var page in pages)
+	{
+		output.AppendLine($@"        /// <summary>
+        /// {page.description} Page
+        /// </summary>
+        public static readonly {page.className} {page.name} = {page.className}.Instance;");
+	}
+
+	output.AppendLine(@"	}
+}
+#pragma warning restore CS0108 // Member hides inherited member; missing new keyword");
+
+	if (complexTemplates.Count > 0)
+	{
+		output.AppendLine(@"
+// The following templates could not be auto-created, consider implementing:");
+		foreach (var template in complexTemplates)
+		{
+			output.AppendLine($"//    {template}");
+		}
+	}
+}
+catch (Exception ex)
+{
+	output.AppendLine();
+	output.AppendLine(ex.Message);
+	output.AppendLine(ex.StackTrace);
+}
+#><#=output.ToString()#>

@@ -6,8 +6,9 @@ namespace HIDControllers
     public class Control
     {
         public Controller Controller { get; }
-        public uint Usage { get; }
-        public string Name { get; }
+        public Usage Usage { get; }
+        public string Name => Usage.Name;
+        public string FullName => Usage.FullName;
         public double InitialValue { get; }
 
         private readonly int _minimumValue;
@@ -23,8 +24,6 @@ namespace HIDControllers
             Controller = controller;
             Usage = usage;
 
-            // TODO
-            Name = usage.ToString("X");
             InitialValue = double.NaN;
 
             // Calculate minimum & maximum
@@ -49,6 +48,6 @@ namespace HIDControllers
             : (value - _minimumValue) / (double)(_maximumValue - _minimumValue);
 
         /// <inheritdoc />
-        public override string ToString() => Name;
+        public override string ToString() => FullName;
     }
 }

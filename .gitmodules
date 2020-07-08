@@ -1,0 +1,3 @@
+[submodule "HIDControllers/Pages/hid-usage-tables"]
+	path = HIDControllers/Pages/hid-usage-tables
+	url = https://github.com/IntergatedCircuits/hid-usage-tables
