@@ -1,15 +1,22 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using HIDControllers.Pages;
 using HidSharp.Reports;
 
 namespace HIDControllers
 {
-    public class Control
+    public class Control : IReadOnlyCollection<Usage>
     {
         public Controller Controller { get; }
-        public Usage Usage { get; }
-        public string Name => Usage.Name;
-        public string FullName => Usage.FullName;
+        public int Index { get; }
+        internal DataItem DataItem { get; }
+        public string Name { get; }
+        public string FullName { get; }
         public double InitialValue { get; }
+        private readonly HashSet<Usage> _usages;
 
         private readonly int _minimumValue;
         private readonly int _maximumValue;
@@ -19,35 +26,58 @@ namespace HIDControllers
         /// </summary>
         public ushort ButtonNumber { get; }
 
-        public Control(Controller controller, DataItem dataItem, uint usage)
+        internal Control(Controller controller, DataValue value, int index)
         {
             Controller = controller;
-            Usage = usage;
-
-            InitialValue = double.NaN;
+            DataItem = value.DataItem;
+            Index = index;
+            _usages = new HashSet<Usage>(value.Usages.Select(Usage.Get));
 
             // Calculate minimum & maximum
-            _minimumValue = dataItem.LogicalMinimum;
-            _maximumValue = dataItem.LogicalMaximum;
+            _minimumValue = DataItem.LogicalMinimum;
+            _maximumValue = DataItem.LogicalMaximum;
 
             // Some items don't report their min/max, so we create based on bit-depth
             if (_maximumValue <= _minimumValue)
             {
                 _minimumValue = 0;
-                _maximumValue = (1 << dataItem.TotalBits) - 1;
+                _maximumValue = (1 << DataItem.TotalBits) - 1;
             }
 
-            // Calculate button number (if Button)
-            var buttonNumber = (int)usage - 0x90000;
-            if (buttonNumber < 0 || buttonNumber > ushort.MaxValue) buttonNumber = 0;
-            ButtonNumber = (ushort)buttonNumber;
+            // Make best effort guess at initial value.
+            InitialValue = DataItem.HasNullState
+                ? double.NaN
+                : DataItem.IsRelative
+                    ? 0D
+                    : Normalise(_minimumValue + (int)Math.Floor((_maximumValue - _minimumValue) / 2D));
+
+            // Calculate names
+            Name = string.Join(", ", _usages.Select(u => u.Name));
+            FullName = string.Join(", ", _usages.Select(u => u.FullName));
+
+            // Calculate button number (if any)
+            ButtonNumber = _usages.FirstOrDefault(u => u.Page == UsagePage.Button)?.Id ?? 0;
         }
 
-        internal double Normalise(int value) => value < _minimumValue || value > _maximumValue
-            ? double.NaN
-            : (value - _minimumValue) / (double)(_maximumValue - _minimumValue);
+        internal double Normalise(int value)
+        {
+            return value < _minimumValue || value > _maximumValue
+                ? DataItem.HasNullState ? double.NaN : 0D
+                : (value - _minimumValue) / (double)(_maximumValue - _minimumValue);
+        }
+
+        /// <inheritdoc />
+        public IEnumerator<Usage> GetEnumerator() => _usages.GetEnumerator();
 
         /// <inheritdoc />
         public override string ToString() => FullName;
+
+        /// <inheritdoc />
+        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)_usages).GetEnumerator();
+
+        /// <inheritdoc />
+        public int Count => _usages.Count;
+
+        public bool Contains(Usage usage) => _usages.Contains(usage);
     }
 }

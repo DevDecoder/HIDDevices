@@ -22,7 +22,7 @@ namespace HIDControllers
 {
     public sealed class Controller : IObservable<IList<ControlChange>>, IReadOnlyDictionary<Control, ControlChange>, IDisposable
     {
-        private readonly IReadOnlyDictionary<(DataItem dataItem, uint usage), Control> _controls;
+        private readonly IReadOnlyDictionary<(DataItem dataItem, int index), Control> _controls;
         private readonly HidDevice _device;
         private readonly IObservable<IList<ControlChange>> _changes;
         private readonly Dictionary<Control, ControlChange> _cache;
@@ -47,13 +47,15 @@ namespace HIDControllers
 
             Usages = deviceItems.SelectMany(deviceItem => deviceItem.Usages.GetAllValues().Select(Usage.Get)).ToArray();
 
+            // Create parsers
+            var inputParsers = deviceItems
+                .ToDictionary(i => i, i => i.CreateDeviceItemInputParser());
+
             // Find controls.
-            _controls = deviceItems
-                .SelectMany(deviceItem => deviceItem.InputReports
-                    .SelectMany(report => report.DataItems)
-                    .SelectMany(dataItem => dataItem.Usages.GetAllValues().Select(usage => (dataItem, usage))))
-                .Select(t => (key: t, control: new Control(this, t.dataItem, t.usage)))
-                .ToDictionary(t => t.key, t => t.control);
+            _controls = inputParsers.Values
+                .SelectMany(inputParser => Enumerable.Range(0, inputParser.ValueCount)
+                    .Select(index => (index, dataValue: inputParser.GetValue(index))))
+                .ToDictionary(t => (t.dataValue.DataItem, t.index), t => new Control(this, t.dataValue, t.index));
 
             // Create cache of last values.
             _cache = _controls.Values.ToDictionary(c => c, c => new ControlChange(c));
@@ -93,9 +95,6 @@ namespace HIDControllers
                             // Create buffer
                             var buffer = new byte[_device.GetMaxInputReportLength()];
 
-                            // Create parsers
-                            var inputParsers = deviceItems
-                                .ToDictionary(i => i, i => i.CreateDeviceItemInputParser());
                             var inputReceiver = reportDescriptor.CreateHidDeviceInputReceiver();
 
                             inputReceiver.Start(stream);
@@ -103,7 +102,7 @@ namespace HIDControllers
                             Controllers.Logger.LogInformation($"Began listening to {Name} Controller.");
 
                             // Some devices spam changes, so we collect only the last value as quickly as possible.
-                            var batch = new Dictionary<(DataItem, uint), DataValue>(_controls.Count);
+                            var batch = new Dictionary<(DataItem, int), DataValue>(_controls.Count);
                             while (!cancellationToken.Token.IsCancellationRequested)
                             {
                                 await inputReceiver.WaitHandle;
@@ -119,11 +118,12 @@ namespace HIDControllers
 
                                         while (parser.HasChanged)
                                         {
-                                            var dataValue = parser.GetValue(parser.GetNextChangedIndex());
+                                            var index = parser.GetNextChangedIndex();
+                                            var dataValue = parser.GetValue(index);
                                             var dataItem = dataValue.DataItem;
                                             foreach (var usage in dataValue.Usages)
                                             {
-                                                batch[(dataItem, usage)] = dataValue;
+                                                batch[(dataItem, index)] = dataValue;
                                             }
                                         }
                                     }

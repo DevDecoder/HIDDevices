@@ -85,7 +85,7 @@ namespace HidControllers.Sample
             var batch = 0;
             using (controllers
                 // Watch for button changes only
-                .Watch(c => c.ButtonNumber > 0 && !c.Controller.Usages.Contains(GenericDesktopPage.Mouse))
+                .Watch()
                 .Subscribe(changes =>
                 {
                     // Log the changes and look for a press of Button 1 on any controller.
