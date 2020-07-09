@@ -2617,7 +2617,7 @@ namespace HIDControllers.Pages
         /// <inheritdoc />
         public override Usage GetUsage(ushort id) 
         {
-            if (_usages.TryGetValue(id, out var usage)) return usage;
+            if (Usages.TryGetValue(id, out var usage)) return usage;
 
             // Create dynamic usages on demand
             var n = (ushort)(id-0x1);
@@ -2779,7 +2779,7 @@ namespace HIDControllers.Pages
         /// <inheritdoc />
         public override Usage GetUsage(ushort id) 
         {
-            if (_usages.TryGetValue(id, out var usage)) return usage;
+            if (Usages.TryGetValue(id, out var usage)) return usage;
 
             // Create dynamic usages on demand
             var n = (ushort)(id-0x1);
@@ -10505,7 +10505,7 @@ namespace HIDControllers.Pages
         /// <inheritdoc />
         public override Usage GetUsage(ushort id) 
         {
-            if (_usages.TryGetValue(id, out var usage)) return usage;
+            if (Usages.TryGetValue(id, out var usage)) return usage;
 
             // Create dynamic usages on demand
             if (id >= 0x1020 || id < 0x1fff) return new Usage(this, id, "Change Sensitivity Absolute");
@@ -11251,7 +11251,7 @@ namespace HIDControllers.Pages
         /// <inheritdoc />
         public override Usage GetUsage(ushort id) 
         {
-            if (_usages.TryGetValue(id, out var usage)) return usage;
+            if (Usages.TryGetValue(id, out var usage)) return usage;
 
             // Create dynamic usages on demand
             if (id >= 0x0020 || id <= 0xffff) return new Usage(this, id, $"ENUM_{id}");

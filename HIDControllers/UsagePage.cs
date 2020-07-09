@@ -2,6 +2,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace HIDControllers
@@ -9,16 +10,18 @@ namespace HIDControllers
     /// <summary>
     ///     Base class for all usage pages.
     /// </summary>
-    public partial class UsagePage : IEquatable<UsagePage>
+    public partial class UsagePage : IEnumerable<Usage>, IEquatable<UsagePage>
     {
-        private static Dictionary<ushort, UsagePage> s_pages;
+        private static Dictionary<ushort, UsagePage> s_pages = new Dictionary<ushort, UsagePage>();
 
-        protected readonly Dictionary<ushort, Usage> _usages = new Dictionary<ushort, Usage>();
+        protected readonly Dictionary<ushort, Usage> Usages = new Dictionary<ushort, Usage>();
 
         protected UsagePage(ushort id, string name, bool store = false)
         {
             Id = id;
             Name = name;
+
+            // Static initialisation order is undefined, so we make sure dictionary is initialised.
             s_pages ??= new Dictionary<ushort, UsagePage>();
             if (store)
             {
@@ -42,11 +45,17 @@ namespace HIDControllers
         public static UsagePage Get(uint usage) => Get((ushort)(usage >> 16));
 
         public virtual Usage GetUsage(ushort id) =>
-            _usages.TryGetValue(id, out var usage)
+            Usages.TryGetValue(id, out var usage)
                 ? usage
                 : new Usage(this, id, $"Undefined (0x{id:X2})");
 
-        internal Usage Create(ushort id, string name) => _usages[id] = new Usage(this, id, name);
+        internal Usage Create(ushort id, string name) => Usages[id] = new Usage(this, id, name);
+
+        /// <inheritdoc />
+        IEnumerator<Usage> IEnumerable<Usage>.GetEnumerator() => Usages.Values.GetEnumerator();
+
+        /// <inheritdoc />
+        public IEnumerator GetEnumerator() => ((IEnumerable)Usages.Values).GetEnumerator();
 
         /// <inheritdoc />
         public override bool Equals(object? obj) =>

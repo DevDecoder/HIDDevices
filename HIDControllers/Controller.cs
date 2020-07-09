@@ -4,6 +4,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading;
@@ -15,14 +16,14 @@ using Microsoft.VisualStudio.Threading;
 
 namespace HIDControllers
 {
-    public sealed class Controller : IObservable<IList<ControlChange>>, IReadOnlyDictionary<Control, ControlChange>,
-        IDisposable
+    public sealed class Controller : IObservable<IList<ControlChange>>, IReadOnlyDictionary<Control, ControlChange>
     {
         private readonly Dictionary<Control, ControlChange> _cache;
         private readonly IObservable<IList<ControlChange>> _changes;
         private readonly IReadOnlyDictionary<(DataItem dataItem, int index), Control> _controls;
         private readonly HidDevice _device;
         private CancellationTokenSource? _cancellationTokenSource;
+        private int _openStreamCount;
 
         public Controller(Controllers controllers, HidDevice device, byte[] rawReportDescriptor)
         {
@@ -51,9 +52,10 @@ namespace HIDControllers
                     .Select(index => (index, dataValue: inputParser.GetValue(index))))
                 .ToDictionary(t => (t.dataValue.DataItem, t.index), t => new Control(this, t.dataValue, t.index));
 
-            // Create cache of last values.
-            _cache = _controls.Values.ToDictionary(c => c, c => new ControlChange(c));
+            // Create cache of last known values.
+            _cache = new Dictionary<Control, ControlChange>();
 
+#pragma warning disable CA1031 // Do not catch general exception types
             var listener = Observable.Create<IList<ControlChange>>(
                     async (observer, token) =>
                     {
@@ -84,6 +86,8 @@ namespace HIDControllers
                             return;
                         }
 
+                        Interlocked.Increment(ref _openStreamCount);
+
                         try
                         {
                             // Create buffer
@@ -96,7 +100,7 @@ namespace HIDControllers
                             Controllers.Logger.LogInformation($"Began listening to {Name} Controller.");
 
                             // Some devices spam changes, so we collect only the last value as quickly as possible.
-                            var batch = new Dictionary<(DataItem, int), DataValue>(_controls.Count);
+                            var batch = new Dictionary<(DataItem, int), (DataValue, long timestamp)>(_controls.Count);
                             while (!cancellationToken.Token.IsCancellationRequested)
                             {
                                 await inputReceiver.WaitHandle;
@@ -108,6 +112,8 @@ namespace HIDControllers
 
                                 while (inputReceiver.TryRead(buffer, 0, out var report))
                                 {
+                                    var timestamp = Stopwatch.GetTimestamp();
+
                                     foreach (var parser in inputParsers.Values)
                                     {
                                         if (!parser.TryParseReport(buffer, 0, report))
@@ -120,10 +126,7 @@ namespace HIDControllers
                                             var index = parser.GetNextChangedIndex();
                                             var dataValue = parser.GetValue(index);
                                             var dataItem = dataValue.DataItem;
-                                            foreach (var usage in dataValue.Usages)
-                                            {
-                                                batch[(dataItem, index)] = dataValue;
-                                            }
+                                            batch[(dataItem, index)] = (dataValue, timestamp);
                                         }
                                     }
                                 }
@@ -145,16 +148,20 @@ namespace HIDControllers
                                         .Where(t => t.control != null))
                                     {
                                         var control = tuple.control!;
-                                        var controlChange = _cache[control].Update(tuple.value);
-
-                                        // Check for actual change in value
-                                        if (controlChange is null)
+                                        if (_cache.TryGetValue(control, out var controlChange))
                                         {
-                                            continue;
+                                            var updatedChange = controlChange.Update(tuple.value);
+                                            if (updatedChange is null) continue;
+
+                                            controlChange = updatedChange.Value;
+                                        }
+                                        else
+                                        {
+                                            controlChange = new ControlChange(control, tuple.value);
                                         }
 
-                                        _cache[control] = controlChange.Value;
-                                        batchList.Add(controlChange.Value);
+                                        _cache[control] = controlChange;
+                                        batchList.Add(controlChange);
                                     }
                                 }
 
@@ -179,10 +186,8 @@ namespace HIDControllers
                         }
                         finally
                         {
-                            if (stream != null)
-                            {
-                                await stream.DisposeAsync().ConfigureAwait(false);
-                            }
+                            Interlocked.Decrement(ref _openStreamCount);
+                            await stream.DisposeAsync().ConfigureAwait(false);
                         }
 
                         Controllers.Logger.LogInformation($"Stopped listening to {Name} Controller.");
@@ -192,11 +197,12 @@ namespace HIDControllers
                 .RefCount();
             _changes = Observable.Defer(()
                 => listener
-                    // Always dump current/initial values on subscription
+                    // Always dump last seen values on subscription
                     .StartWith(_cache.Values
                         // Simulate a change from double.NaN
                         .Select(c => c.PreviousValue.Equals(double.NaN) ? c : c.Reset())
                         .ToList()));
+#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         public IReadOnlyCollection<Usage> Usages { get; }
@@ -207,10 +213,16 @@ namespace HIDControllers
 
         public string Name { get; }
 
+        public bool IsConnected => _openStreamCount > 0;
+
         internal byte[] RawReportDescriptor { get; }
 
-        /// <inheritdoc />
-        public void Dispose() => Interlocked.Exchange(ref _cancellationTokenSource, null)?.Dispose();
+        /// <summary>
+        /// Disposes this controller, forcing any remaining subscribers to disconnect.
+        /// We only do this when our controllers collection is disposed, otherwise we can resurrect this controller
+        /// any time it is plugged back in.  As such, this is not a public method, and we don't implement <seealso cref="IDisposable"/>.
+        /// </summary>
+        internal void Dispose() => Interlocked.Exchange(ref _cancellationTokenSource, null)?.Dispose();
 
         /// <inheritdoc />
         public IDisposable Subscribe(IObserver<IList<ControlChange>> observer) => _changes.Subscribe(observer);

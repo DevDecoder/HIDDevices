@@ -2,36 +2,43 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics;
 using HidSharp.Reports;
 
 namespace HIDControllers
 {
     public readonly struct ControlChange : IEquatable<ControlChange>
     {
-        internal ControlChange(Control control) : this()
+        internal ControlChange(Control control, (DataValue value, long timestamp) value) : this()
         {
             Control = control;
             PreviousValue = double.NaN;
-            Value = control.InitialValue;
+            Value = Control.Normalise(value.value.GetLogicalValue());
+            Timestamp = value.timestamp;
         }
 
-        private ControlChange(Control control, double previousValue, double value) : this()
+        private ControlChange(Control control, double previousValue, double value, long timestamp) : this()
         {
             Control = control;
             PreviousValue = previousValue;
             Value = value;
+            Timestamp = timestamp;
         }
 
         public Control Control { get; }
         public double PreviousValue { get; }
         public double Value { get; }
+        public long Timestamp { get; }
 
-        internal ControlChange? Update(DataValue value)
+        public TimeSpan Elapsed => TimeSpan.FromSeconds(
+            (double)(Stopwatch.GetTimestamp() - Timestamp) / Stopwatch.Frequency);
+
+        internal ControlChange? Update((DataValue value, long timestamp) value)
         {
-            var normalisedValue = Control.Normalise(value.GetLogicalValue());
+            var normalisedValue = Control.Normalise(value.value.GetLogicalValue());
             return normalisedValue.Equals(Value)
                 ? (ControlChange?)null
-                : new ControlChange(Control, Value, normalisedValue);
+                : new ControlChange(Control, Value, normalisedValue, value.timestamp);
         }
 
         /// <inheritdoc />
@@ -54,6 +61,6 @@ namespace HIDControllers
         ///     Creates a change that simulates the current value having changed from <seealso cref="double.NaN" />.
         /// </summary>
         /// <returns></returns>
-        internal ControlChange Reset() => new ControlChange(Control, double.NaN, Value);
+        internal ControlChange Reset() => new ControlChange(Control, double.NaN, Value, Timestamp);
     }
 }

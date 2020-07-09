@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using DynamicData;
 using DynamicData.Kernel;
 using HidSharp;
+using HidSharp.Utility;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.Threading;
 
@@ -71,6 +72,8 @@ namespace HIDControllers
             controllers?.Dispose();
             foreach (var controller in toDispose)
             {
+                // Note we only dispose controllers when we're disposed,
+                // otherwise we keep them so we can 'resurrect' them.
                 controller.Dispose();
             }
         }
@@ -107,6 +110,9 @@ namespace HIDControllers
 #else
             HidSharpDiagnostics.EnableTracing = false;
 #endif
+
+            // Create dictionary to hold disconnected controllers, allowing for resurrection.
+            var zombieControllers = new Dictionary<string, Controller>();
             do
             {
                 try
@@ -149,6 +155,21 @@ namespace HIDControllers
                                     continue;
                                 }
                             }
+                            else if (zombieControllers.TryGetValue(device.DevicePath, out existingController))
+                            {
+                                // Resurrect the zombie.
+                                zombieControllers.Remove(existingController.DevicePath);
+
+                                if (rawReportDescriptor.SequenceEqual(existingController.RawReportDescriptor))
+                                {
+                                    continue;
+                                }
+
+                                // The definition of the controller has changed, so we can dispose the zombie
+                                // so it can be replaced by a new controller.
+                                existingController.Dispose();
+                                existingController = null;
+                            }
                             else
                             {
                                 existingController = null;
@@ -183,8 +204,11 @@ namespace HIDControllers
                         {
                             foreach (var kvp in existing)
                             {
+                                // Move controller to zombie storage, as it's definition is
+                                // still valid, but is no longer connected, if it is reconnected
+                                // it can be safely resurrected.
                                 cache.RemoveKey(kvp.Key);
-                                kvp.Value.Dispose();
+                                zombieControllers.Add(kvp.Value.DevicePath, kvp.Value);
                                 Logger?.Log(Event.ControllerRemove, kvp.Value.Name);
                             }
 
@@ -197,6 +221,9 @@ namespace HIDControllers
                             foreach (var t in updated)
                             {
                                 cache.AddOrUpdate(t.updated);
+                                // As the device definition has fundamentally changed,
+                                // we will dispose the existing controller now, as it will not
+                                // be resurrected.
                                 t.existing.Dispose();
                                 Logger?.Log(Event.ControllerUpdate, t.updated.Name);
                             }
@@ -233,7 +260,7 @@ namespace HIDControllers
                 .Select(c => c.Current)
                 .SelectMany(c => c.Watch(predicate)
                     // Suppress errors so we don't stop listening on valid controllers - error will already have been logged.
-                    .Catch((Exception ex) => Observable.Empty<IList<ControlChange>>()))
+                    .Catch((Exception _) => Observable.Empty<IList<ControlChange>>()))
                 .Where(l => l.Count > 0);
 
         //  predicate is null ? Connect() : Connect().Select(l => l.Where(change => predicate(change.Control)).ToList());

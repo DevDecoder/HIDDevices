@@ -20,7 +20,7 @@ dotnet add package VkApi.Wrapper
 
 # Usage
 
-There is a [sample program](HidControllers.Sample) included which demonstrates using the library in a dependency injection scenario.
+There is a [sample program](HIDControllers.Sample) included which demonstrates using the library in a dependency injection scenario.
 
 ## Controllers
 

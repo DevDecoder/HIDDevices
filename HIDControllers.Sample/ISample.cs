@@ -5,11 +5,12 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HidControllers.Sample
+namespace HIdControllers.Sample
 {
-    public interface IExample
+    public interface ISample
     {
         string FullName { get; }
+        string Description { get; }
         IReadOnlyCollection<string> ShortNames { get; }
         Task ExecuteAsync(CancellationToken token = default);
     }

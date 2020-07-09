@@ -12,19 +12,16 @@ using HIDControllers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace HidControllers.Sample
+namespace HIdControllers.Sample
 {
-    public class DependencyInjectionExample : IExample
+    public class DependencyInjectionSample : Sample
     {
         /// <inheritdoc />
-        public string FullName => "Dependency Injection Example";
+        public override string Description =>
+            "Demonstrates configuration of controllers in a dependency injection scenario.";
 
         /// <inheritdoc />
-        public IReadOnlyCollection<string> ShortNames { get; }
-            = new[] {"D", "DI", "DependencyInjection"};
-
-        /// <inheritdoc />
-        public async Task ExecuteAsync(CancellationToken token = default)
+        public override async Task ExecuteAsync(CancellationToken token = default)
         {
             // Create an example service provider (this may be done by your framework code already)
             var serviceCollection = new ServiceCollection();
@@ -36,7 +33,7 @@ namespace HidControllers.Sample
             await using var serviceProvider = serviceCollection.BuildServiceProvider();
 
             // Get the logger
-            var logger = serviceProvider.GetService<ILogger<Program>>();
+            var logger = serviceProvider.GetService<ILogger<DependencyInjectionSample>>();
 
             // Grab the controllers service
             var controllers = serviceProvider.GetService<Controllers>();
@@ -110,7 +107,10 @@ namespace HidControllers.Sample
                                 .Append(": ")
                                 .Append(change.PreviousValue.ToString("0.###"))
                                 .Append(" -> ")
-                                .AppendLine(change.Value.ToString("0.###"));
+                                .Append(change.Value.ToString("0.###"))
+                                .Append(" (")
+                                .Append(change.Elapsed.TotalMilliseconds.ToString("0.000"))
+                                .AppendLine("ms)");
                         }
                     }
 

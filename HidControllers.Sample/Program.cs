@@ -3,30 +3,55 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using HIdControllers.Sample;
 
-namespace HidControllers.Sample
+namespace HIDControllers.Sample
 {
-    internal class Program
+    internal static class Program
     {
         private static async Task Main(string[] args)
         {
-            var names = new HashSet<string>(args.Where(a => !string.IsNullOrWhiteSpace(a)),
-                StringComparer.InvariantCultureIgnoreCase);
+            var assembly = Assembly.GetExecutingAssembly();
 
-            foreach (var example in typeof(Program).Assembly
+            var samples = assembly
                 .GetTypes()
-                .Where(t => t.GetInterfaces().Contains(typeof(IExample)))
+                .Where(t => !t.IsAbstract &&
+                            (t.IsValueType ||
+                             (t.GetInterfaces().Contains(typeof(ISample)) &&
+                             t.GetConstructor(Type.EmptyTypes) != null)))
                 .Select(Activator.CreateInstance)
-                .Cast<IExample>()
-                .Where(example => names.Count < 1 || example.ShortNames.Any(names.Contains)))
+                .OfType<ISample>();
+
+            ISample sample;
+            if (args.Length != 1 ||
+                (sample = samples.FirstOrDefault(s => s.ShortNames.Contains(args[0]))) is null)
             {
-                Console.Clear();
-                Console.WriteLine($"Running {example.FullName}...");
+                var assemblyName = assembly.GetName().Name;
+                var location = Path.GetFileName(assembly.Location) ?? assemblyName;
+                // We appear to have a cry for help!
+                Console.WriteLine($"{assemblyName} - Sample executor - Help");
                 Console.WriteLine();
-                await example.ExecuteAsync().ConfigureAwait(false);
+
+                // Create instances of all sample classes
+                foreach (var s in samples)
+                {
+                    Console.WriteLine($"  {location} [{string.Join('|', s.ShortNames)}]");
+                    Console.WriteLine($"    {s.FullName}");
+                    Console.WriteLine($"    {s.Description}");
+                    Console.WriteLine();
+                }
+
+                return;
             }
+
+            Console.Clear();
+            Console.WriteLine($"Running {sample.FullName}...");
+            Console.WriteLine();
+            await sample.ExecuteAsync().ConfigureAwait(false);
         }
     }
 }

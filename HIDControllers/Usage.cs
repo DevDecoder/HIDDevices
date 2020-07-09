@@ -27,7 +27,6 @@ namespace HIDControllers
 
         public static Usage Get(uint id) => UsagePage.Get(id).GetUsage((ushort)(id & 0xFFFF));
 
-
         public static bool operator ==(Usage? left, Usage? right) => Equals(left, right);
 
         public static bool operator !=(Usage? left, Usage? right) => !Equals(left, right);

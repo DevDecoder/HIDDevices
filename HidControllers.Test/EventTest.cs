@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace HidControllers.Test
+namespace HIDControllers.Test
 {
     public class EventTest
     {

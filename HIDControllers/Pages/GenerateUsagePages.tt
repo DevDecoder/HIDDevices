@@ -149,7 +149,7 @@ try
 namespace HIDControllers.Pages
 {");
 
-	foreach (var filePath in Directory.GetFiles(@"C:\Source\HidControllers\HIDControllers\Pages\hid-usage-tables\pages"))
+	foreach (var filePath in Directory.GetFiles(@"C:\Source\HIDControllers\HIDControllers\Pages\hid-usage-tables\pages"))
 	{
 		if (emptyLines < 1)
 			output.AppendLine();
@@ -333,7 +333,7 @@ namespace HIDControllers.Pages
         /// <inheritdoc />
         public override Usage GetUsage(ushort id) 
         {
-            if (_usages.TryGetValue(id, out var usage)) return usage;
+            if (Usages.TryGetValue(id, out var usage)) return usage;
 
             // Create dynamic usages on demand");
 			var nVar = false;
