@@ -22,6 +22,8 @@ namespace HIDControllers
         private readonly IObservable<IList<ControlChange>> _changes;
         private readonly IReadOnlyDictionary<(DataItem dataItem, int index), Control> _controls;
         private readonly HidDevice _device;
+
+        private readonly HashSet<Usage> _usages;
         private CancellationTokenSource? _cancellationTokenSource;
         private int _openStreamCount;
 
@@ -40,7 +42,11 @@ namespace HIDControllers
             var reportDescriptor = new ReportDescriptor(RawReportDescriptor);
             var deviceItems = reportDescriptor.DeviceItems;
 
-            Usages = deviceItems.SelectMany(deviceItem => deviceItem.Usages.GetAllValues().Select(Usage.Get)).ToArray();
+            _usages = new HashSet<Usage>(deviceItems
+                .SelectMany(deviceItem =>
+                    deviceItem.Usages
+                        .GetAllValues()
+                        .Select(Usage.Get)));
 
             // Create parsers
             var inputParsers = deviceItems
@@ -151,7 +157,10 @@ namespace HIDControllers
                                         if (_cache.TryGetValue(control, out var controlChange))
                                         {
                                             var updatedChange = controlChange.Update(tuple.value);
-                                            if (updatedChange is null) continue;
+                                            if (updatedChange is null)
+                                            {
+                                                continue;
+                                            }
 
                                             controlChange = updatedChange.Value;
                                         }
@@ -205,7 +214,7 @@ namespace HIDControllers
 #pragma warning restore CA1031 // Do not catch general exception types
         }
 
-        public IReadOnlyCollection<Usage> Usages { get; }
+        public IReadOnlyCollection<Usage> Usages => _usages;
 
         public Controllers Controllers { get; }
 
@@ -213,16 +222,19 @@ namespace HIDControllers
 
         public string Name { get; }
 
+        /// <summary>
+        ///     The USB product ID. These are listed at: http://usb-ids.gowdy.us
+        /// </summary>
+        public int ProductId => _device.ProductID;
+
+        /// <summary>The device release number.</summary>
+        public Version ReleaseNumber => _device.ReleaseNumber;
+
         public bool IsConnected => _openStreamCount > 0;
 
         internal byte[] RawReportDescriptor { get; }
 
-        /// <summary>
-        /// Disposes this controller, forcing any remaining subscribers to disconnect.
-        /// We only do this when our controllers collection is disposed, otherwise we can resurrect this controller
-        /// any time it is plugged back in.  As such, this is not a public method, and we don't implement <seealso cref="IDisposable"/>.
-        /// </summary>
-        internal void Dispose() => Interlocked.Exchange(ref _cancellationTokenSource, null)?.Dispose();
+        public IEnumerable<Control> Controls => _controls.Values;
 
         /// <inheritdoc />
         public IDisposable Subscribe(IObserver<IList<ControlChange>> observer) => _changes.Subscribe(observer);
@@ -289,6 +301,14 @@ namespace HIDControllers
                 }
             }
         }
+
+        /// <summary>
+        ///     Disposes this controller, forcing any remaining subscribers to disconnect.
+        ///     We only do this when our controllers collection is disposed, otherwise we can resurrect this controller
+        ///     any time it is plugged back in.  As such, this is not a public method, and we don't implement
+        ///     <seealso cref="IDisposable" />.
+        /// </summary>
+        internal void Dispose() => Interlocked.Exchange(ref _cancellationTokenSource, null)?.Dispose();
 
         /// <summary>
         ///     Gets the friendly name for the device.

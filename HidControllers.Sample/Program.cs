@@ -2,12 +2,10 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using HIdControllers.Sample;
 
 namespace HIDControllers.Sample
 {
@@ -22,9 +20,10 @@ namespace HIDControllers.Sample
                 .Where(t => !t.IsAbstract &&
                             (t.IsValueType ||
                              (t.GetInterfaces().Contains(typeof(ISample)) &&
-                             t.GetConstructor(Type.EmptyTypes) != null)))
+                              t.GetConstructor(Type.EmptyTypes) != null)))
                 .Select(Activator.CreateInstance)
-                .OfType<ISample>();
+                .OfType<ISample>()
+                .ToArray();
 
             ISample sample;
             if (args.Length != 1 ||
@@ -48,7 +47,6 @@ namespace HIDControllers.Sample
                 return;
             }
 
-            Console.Clear();
             Console.WriteLine($"Running {sample.FullName}...");
             Console.WriteLine();
             await sample.ExecuteAsync().ConfigureAwait(false);

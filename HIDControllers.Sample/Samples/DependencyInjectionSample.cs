@@ -2,17 +2,15 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using DynamicData;
-using HIDControllers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace HIdControllers.Sample
+namespace HIDControllers.Sample.Samples
 {
     public class DependencyInjectionSample : Sample
     {
@@ -109,7 +107,7 @@ namespace HIdControllers.Sample
                                 .Append(" -> ")
                                 .Append(change.Value.ToString("0.###"))
                                 .Append(" (")
-                                .Append(change.Elapsed.TotalMilliseconds.ToString("0.000"))
+                                .Append(change.Elapsed.TotalMilliseconds.ToString("0.###"))
                                 .AppendLine("ms)");
                         }
                     }

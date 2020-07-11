@@ -25,6 +25,11 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Usages\hid-usage-tables\**" />
+    <EmbeddedResource Remove="Usages\hid-usage-tables\**" />
+    <None Remove="Usages\hid-usage-tables\**" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="DynamicData" Version="6.16.1" />
     <PackageReference Include="HidSharp" Version="2.1.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.5" />
@@ -43,7 +48,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Update="Pages\GenerateUsagePages.tt">
+    <None Update="Usages\GenerateUsagePages.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>GenerateUsagePages.generated.cs</LastGenOutput>
     </None>
@@ -52,7 +57,7 @@
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Pages\GenerateUsagePages.generated.cs">
+    <Compile Update="Usages\GenerateUsagePages.generated.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>GenerateUsagePages.tt</DependentUpon>

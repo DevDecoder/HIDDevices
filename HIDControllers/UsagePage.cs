@@ -4,6 +4,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace HIDControllers
 {
@@ -12,25 +13,25 @@ namespace HIDControllers
     /// </summary>
     public partial class UsagePage : IEnumerable<Usage>, IEquatable<UsagePage>
     {
-        private static Dictionary<ushort, UsagePage> s_pages = new Dictionary<ushort, UsagePage>();
+        protected readonly IReadOnlyDictionary<ushort, Usage> Usages;
 
-        protected readonly Dictionary<ushort, Usage> Usages = new Dictionary<ushort, Usage>();
-
-        protected UsagePage(ushort id, string name, bool store = false)
+        protected UsagePage(ushort id, string name, params (ushort id, string name, UsageTypes types)[] usages)
         {
             Id = id;
             Name = name;
-
-            // Static initialisation order is undefined, so we make sure dictionary is initialised.
-            s_pages ??= new Dictionary<ushort, UsagePage>();
-            if (store)
-            {
-                s_pages[id] = this;
-            }
+            Usages = usages.ToDictionary(
+                tuple => tuple.id,
+                tuple => new Usage(this, tuple.id, tuple.name, tuple.types));
         }
 
         public ushort Id { get; }
         public string Name { get; }
+
+        /// <inheritdoc />
+        IEnumerator<Usage> IEnumerable<Usage>.GetEnumerator() => Usages.Values.GetEnumerator();
+
+        /// <inheritdoc />
+        public IEnumerator GetEnumerator() => ((IEnumerable)Usages.Values).GetEnumerator();
 
         /// <inheritdoc />
         public bool Equals(UsagePage? other) => !(other is null) && (ReferenceEquals(this, other) || Id == other.Id);
@@ -47,15 +48,7 @@ namespace HIDControllers
         public virtual Usage GetUsage(ushort id) =>
             Usages.TryGetValue(id, out var usage)
                 ? usage
-                : new Usage(this, id, $"Undefined (0x{id:X2})");
-
-        internal Usage Create(ushort id, string name) => Usages[id] = new Usage(this, id, name);
-
-        /// <inheritdoc />
-        IEnumerator<Usage> IEnumerable<Usage>.GetEnumerator() => Usages.Values.GetEnumerator();
-
-        /// <inheritdoc />
-        public IEnumerator GetEnumerator() => ((IEnumerable)Usages.Values).GetEnumerator();
+                : new Usage(this, id, $"Undefined (0x{id:X2})", UsageTypes.None);
 
         /// <inheritdoc />
         public override bool Equals(object? obj) =>

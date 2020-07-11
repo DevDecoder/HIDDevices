@@ -4,16 +4,16 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HIdControllers.Sample
+namespace HIDControllers.Sample
 {
     public abstract class Sample : ISample
     {
+        private readonly HashSet<string> _shortNames;
+
         protected Sample(string? fullName = null, params string[] shortNames)
         {
             FullName = fullName ?? GetFullName(GetType().Name);
@@ -23,8 +23,6 @@ namespace HIdControllers.Sample
 
         /// <inheritdoc />
         public string FullName { get; }
-
-        private readonly HashSet<string> _shortNames;
 
         /// <inheritdoc />
         public IReadOnlyCollection<string> ShortNames => _shortNames;
@@ -36,12 +34,12 @@ namespace HIdControllers.Sample
         public abstract string Description { get; }
 
         /// <summary>
-        /// Execute the example synchronously.
+        ///     Execute the example synchronously.
         /// </summary>
-        protected virtual void Execute() {}
+        protected virtual void Execute() { }
 
         /// <summary>
-        /// Gets a friendly full name
+        ///     Gets a friendly full name
         /// </summary>
         /// <param name="typeName"></param>
         /// <returns></returns>
@@ -73,7 +71,7 @@ namespace HIdControllers.Sample
         }
 
         /// <summary>
-        /// Gets some short names based on the first word and initials.
+        ///     Gets some short names based on the first word and initials.
         /// </summary>
         /// <param name="fullName">The full name of the sample.</param>
         /// <returns>An array of short names.</returns>
@@ -114,11 +112,16 @@ namespace HIdControllers.Sample
 
             shortNames.Add(initials.ToString(0, 1));
             if (initials.Length > 1)
+            {
                 shortNames.Add(initials.ToString());
+            }
+
             shortNames.Add(word.ToString());
 
             if (titleCase.Length < 10)
+            {
                 shortNames.Add(titleCase.ToString());
+            }
 
             return shortNames;
         }

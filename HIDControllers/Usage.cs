@@ -7,11 +7,12 @@ namespace HIDControllers
 {
     public sealed class Usage : IEquatable<Usage>
     {
-        internal Usage(UsagePage page, ushort id, string name)
+        internal Usage(UsagePage page, ushort id, string name, UsageTypes types)
         {
             Page = page;
             Id = id;
             Name = name;
+            Types = types;
         }
 
         public UsagePage Page { get; }
@@ -19,6 +20,7 @@ namespace HIDControllers
         public uint FullId => (uint)((Page.Id << 16) + Id);
         public string Name { get; }
         public string FullName => $"{Page.Name}: {Name}";
+        public UsageTypes Types { get; }
 
         /// <inheritdoc />
         public bool Equals(Usage? other) =>

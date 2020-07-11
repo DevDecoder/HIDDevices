@@ -2,14 +2,13 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using HidSharp.Reports;
 
 namespace HIDControllers
 {
-    public class Control : IReadOnlyCollection<Usage>
+    public class Control
     {
         private readonly int _maximumValue;
 
@@ -61,14 +60,7 @@ namespace HIDControllers
         /// </summary>
         public ushort ButtonNumber { get; }
 
-        /// <inheritdoc />
-        public IEnumerator<Usage> GetEnumerator() => _usages.GetEnumerator();
-
-        /// <inheritdoc />
-        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)_usages).GetEnumerator();
-
-        /// <inheritdoc />
-        public int Count => _usages.Count;
+        public IReadOnlyCollection<Usage> Usages => _usages;
 
         internal double Normalise(int value) =>
             value < _minimumValue || value > _maximumValue
@@ -77,7 +69,5 @@ namespace HIDControllers
 
         /// <inheritdoc />
         public override string ToString() => FullName;
-
-        public bool Contains(Usage usage) => _usages.Contains(usage);
     }
 }

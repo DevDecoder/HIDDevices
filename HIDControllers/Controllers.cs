@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using DynamicData;
 using DynamicData.Kernel;
 using HidSharp;
-using HidSharp.Utility;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.Threading;
 
@@ -18,6 +17,9 @@ namespace HIDControllers
 {
     public sealed class Controllers : IObservableCache<Controller, string>
     {
+        private readonly TaskCompletionSource<bool> _loadedTaskCompletionSource =
+            new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+
         private readonly AsyncAutoResetEvent _triggerRefresh = new AsyncAutoResetEvent(true);
 
         internal readonly ILogger<Controllers>? Logger;
@@ -40,6 +42,9 @@ namespace HIDControllers
                 .ConfigureAwait(false); // Launch in background thread
             Refresh();
         }
+
+        public IEnumerable<Controller> All =>
+            _controllers?.Items ?? throw new ObjectDisposedException(nameof(Controllers));
 
         /// <inheritdoc />
         public IObservable<Change<Controller, string>> Watch(string key) =>
@@ -83,15 +88,15 @@ namespace HIDControllers
             => _controllers?.Lookup(key) ?? throw new ObjectDisposedException(nameof(Controllers));
 
         /// <inheritdoc />
-        public IEnumerable<string> Keys
+        IEnumerable<string> IObservableCache<Controller, string>.Keys
             => _controllers?.Keys ?? throw new ObjectDisposedException(nameof(Controllers));
 
         /// <inheritdoc />
-        public IEnumerable<Controller> Items
+        IEnumerable<Controller> IObservableCache<Controller, string>.Items
             => _controllers?.Items ?? throw new ObjectDisposedException(nameof(Controllers));
 
         /// <inheritdoc />
-        public IEnumerable<KeyValuePair<string, Controller>> KeyValues
+        IEnumerable<KeyValuePair<string, Controller>> IObservableCache<Controller, string>.KeyValues
             => _controllers?.KeyValues ?? throw new ObjectDisposedException(nameof(Controllers));
 
         /// <inheritdoc />
@@ -229,6 +234,9 @@ namespace HIDControllers
                             }
                         });
                     }
+
+                    // Indicate we have loaded.
+                    _loadedTaskCompletionSource.TrySetResult(true);
                 }
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (OperationCanceledException)
@@ -244,6 +252,9 @@ namespace HIDControllers
                 //_loadedCompletionSource?.TrySetResult(true);
             } while (!cancellationToken.IsCancellationRequested);
         }
+
+        public Task LoadAsync(CancellationToken cancellationToken = default) =>
+            _loadedTaskCompletionSource.Task.WithCancellation(cancellationToken);
 
         /// <summary>
         ///     Gets a filtered observable of control changes.
@@ -262,6 +273,13 @@ namespace HIDControllers
                     // Suppress errors so we don't stop listening on valid controllers - error will already have been logged.
                     .Catch((Exception _) => Observable.Empty<IList<ControlChange>>()))
                 .Where(l => l.Count > 0);
+
+#pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
+        public void Load() => _loadedTaskCompletionSource.Task.GetAwaiter().GetResult();
+
+        public void Load(TimeSpan timeout) =>
+            _loadedTaskCompletionSource.Task.WithTimeout(timeout).GetAwaiter().GetResult();
+#pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
 
         //  predicate is null ? Connect() : Connect().Select(l => l.Where(change => predicate(change.Control)).ToList());
     }

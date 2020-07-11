@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HIdControllers.Sample
+namespace HIDControllers.Sample
 {
     public interface ISample
     {

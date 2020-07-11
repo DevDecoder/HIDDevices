@@ -2,7 +2,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Linq;
-using HIDControllers;
 using Microsoft.Extensions.Logging;
 using Xunit;
 using Xunit.Abstractions;

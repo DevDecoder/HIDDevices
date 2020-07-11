@@ -3,6 +3,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Threading;
 using HidSharp.Reports;
 
 namespace HIDControllers
@@ -30,8 +31,12 @@ namespace HIDControllers
         public double Value { get; }
         public long Timestamp { get; }
 
-        public TimeSpan Elapsed => TimeSpan.FromSeconds(
-            (double)(Stopwatch.GetTimestamp() - Timestamp) / Stopwatch.Frequency);
+        public TimeSpan Elapsed => Timestamp < 0
+            ? Timeout.InfiniteTimeSpan
+            : TimeSpan.FromSeconds(
+                (double)(Stopwatch.GetTimestamp() - Timestamp) / Stopwatch.Frequency);
+
+        public bool HasReceivedUpdate => Timestamp > long.MinValue;
 
         internal ControlChange? Update((DataValue value, long timestamp) value)
         {
@@ -56,6 +61,8 @@ namespace HIDControllers
         public static bool operator ==(ControlChange left, ControlChange right) => left.Equals(right);
 
         public static bool operator !=(ControlChange left, ControlChange right) => !left.Equals(right);
+
+        public static implicit operator double(ControlChange change) => change.Value;
 
         /// <summary>
         ///     Creates a change that simulates the current value having changed from <seealso cref="double.NaN" />.
