@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIDControllers", "HIDControllers\HIDControllers.csproj", "{5BE3CAC9-DB63-4A23-869E-9A97B8B5E6ED}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HidControllers.Test", "HidControllers.Test\HidControllers.Test.csproj", "{95729392-466B-4985-8803-96AFA24F580E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIDControllers.Test", "HIDControllers.Test\HIDControllers.Test.csproj", "{95729392-466B-4985-8803-96AFA24F580E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B4EC1C09-398A-4952-9937-2092FFAB70F2}"
 	ProjectSection(SolutionItems) = preProject
@@ -18,7 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		version.json = version.json
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIDControllers.Sample", "HidControllers.Sample\HIDControllers.Sample.csproj", "{0E520169-5E25-43C5-BFD3-53FA4D4FF190}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIDControllers.Sample", "HIDControllers.Sample\HIDControllers.Sample.csproj", "{0E520169-5E25-43C5-BFD3-53FA4D4FF190}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
