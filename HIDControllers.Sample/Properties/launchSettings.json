@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "HIDControllers.Sample": {
-      "commandName": "Project",
-      "commandLineArgs": "Games"
-    }
-  }
-}

@@ -1,0 +1,66 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>enable</Nullable>
+    <PackageId>HIDDevices</PackageId>
+    <Authors>Craig Dean</Authors>
+    <Company>DevDecoder</Company>
+    <PackageDescription>Cross-platform .NET Standard library for asynchronous access to HID Devices (e.g. gamepads, joysticks, etc.)</PackageDescription>
+    <RepositoryUrl>https://github.com/DevDecoder/HIDDevices</RepositoryUrl>
+    <Description>Cross-platform .NET Standard library for asynchronous access to HID Devices (e.g. gamepads, joysticks, etc.)</Description>
+    <Copyright>2020 Craig Dean</Copyright>
+    <PackageLicenseFile></PackageLicenseFile>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/DevDecoder/HIDDevices</PackageProjectUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Gamepad, Joystick, HID, HIDSharp, .NET, Cross-platform</PackageTags>
+    <PackageIcon>DevDecoder Icon.png</PackageIcon>
+    <PackageReleaseNotes>Initial working release.</PackageReleaseNotes>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <SignAssembly>false</SignAssembly>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Usages\hid-usage-tables\**" />
+    <EmbeddedResource Remove="Usages\hid-usage-tables\**" />
+    <None Remove="Usages\hid-usage-tables\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="DynamicData" Version="6.16.1" />
+    <PackageReference Include="HidSharp" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.5" />
+    <PackageReference Include="Microsoft.VisualStudio.Threading" Version="16.6.13" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.0-beta-20204-02" PrivateAssets="All" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.2.7-beta">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Nito.AsyncEx" Version="5.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\DevDecoder Icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Usages\GenerateUsagePages.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GenerateUsagePages.generated.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Usages\GenerateUsagePages.generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GenerateUsagePages.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "HIDDevices.Sample": {
+      "commandName": "Project",
+      "commandLineArgs": "Dependency"
+    }
+  }
+}
