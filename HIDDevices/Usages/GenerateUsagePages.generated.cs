@@ -1,7 +1,7 @@
 ﻿// Licensed under the Apache License, Version 2.0 (the "License").
 // See the LICENSE file in the project root for more information.
 //
-// Auto Generated 2543 usages in 36 pages on 13/07/2020 14:52:10.
+// Auto Generated 2581 usages in 36 pages on 13/07/2020 15:10:45.
 
 #pragma warning disable CS0108 // Member hides inherited member; missing new keyword
 
@@ -127,6 +127,18 @@ namespace HIDDevices.Usages
         /// </summary>
         [Description("Assistive Control")]
         AssistiveControl = 0x00010010,
+
+        /// <summary>
+        ///     Device Dock Usage.
+        /// </summary>
+        [Description("Device Dock")]
+        DeviceDock = 0x00010011,
+
+        /// <summary>
+        ///     Dockable Device Usage.
+        /// </summary>
+        [Description("Dockable Device")]
+        DockableDevice = 0x00010012,
 
         /// <summary>
         ///     X Usage.
@@ -459,6 +471,12 @@ namespace HIDDevices.Usages
         SystemDismissNotification = 0x0001009a,
 
         /// <summary>
+        ///     System Do Not Disturb Usage.
+        /// </summary>
+        [Description("System Do Not Disturb")]
+        SystemDoNotDisturb = 0x0001009b,
+
+        /// <summary>
         ///     System Dock Usage.
         /// </summary>
         [Description("System Dock")]
@@ -630,7 +648,49 @@ namespace HIDDevices.Usages
         ///     Control Enable Usage.
         /// </summary>
         [Description("Control Enable")]
-        ControlEnable = 0x000100cb
+        ControlEnable = 0x000100cb,
+
+        /// <summary>
+        ///     Dockable Device Unique ID Usage.
+        /// </summary>
+        [Description("Dockable Device Unique ID")]
+        DockableDeviceUniqueID = 0x000100d0,
+
+        /// <summary>
+        ///     Dockable Device Vendor ID Usage.
+        /// </summary>
+        [Description("Dockable Device Vendor ID")]
+        DockableDeviceVendorID = 0x000100d1,
+
+        /// <summary>
+        ///     Dockable Device Primary Usage Page Usage.
+        /// </summary>
+        [Description("Dockable Device Primary Usage Page")]
+        DockableDevicePrimaryUsagePage = 0x000100d2,
+
+        /// <summary>
+        ///     Dockable Device Primary Usage ID Usage.
+        /// </summary>
+        [Description("Dockable Device Primary Usage ID")]
+        DockableDevicePrimaryUsageID = 0x000100d3,
+
+        /// <summary>
+        ///     Dockable Device Docking State Usage.
+        /// </summary>
+        [Description("Dockable Device Docking State")]
+        DockableDeviceDockingState = 0x000100d4,
+
+        /// <summary>
+        ///     Dockable Device Display Occlusion Usage.
+        /// </summary>
+        [Description("Dockable Device Display Occlusion")]
+        DockableDeviceDisplayOcclusion = 0x000100d5,
+
+        /// <summary>
+        ///     Dockable Device Object Type Usage.
+        /// </summary>
+        [Description("Dockable Device Object Type")]
+        DockableDeviceObjectType = 0x000100d6
     }
 
     /// <summary>
@@ -6873,7 +6933,37 @@ namespace HIDDevices.Usages
         ///     Keyboard Input Assist Cancel Usage.
         /// </summary>
         [Description("Keyboard Input Assist Cancel")]
-        KeyboardInputAssistCancel = 0x000c02cc
+        KeyboardInputAssistCancel = 0x000c02cc,
+
+        /// <summary>
+        ///     Privacy Screen Toggle Usage.
+        /// </summary>
+        [Description("Privacy Screen Toggle")]
+        PrivacyScreenToggle = 0x000c02d0,
+
+        /// <summary>
+        ///     Privacy Screen Level Decrement Usage.
+        /// </summary>
+        [Description("Privacy Screen Level Decrement")]
+        PrivacyScreenLevelDecrement = 0x000c02d1,
+
+        /// <summary>
+        ///     Privacy Screen Level Increment Usage.
+        /// </summary>
+        [Description("Privacy Screen Level Increment")]
+        PrivacyScreenLevelIncrement = 0x000c02d2,
+
+        /// <summary>
+        ///     Privacy Screen Level Minimum Usage.
+        /// </summary>
+        [Description("Privacy Screen Level Minimum")]
+        PrivacyScreenLevelMinimum = 0x000c02d3,
+
+        /// <summary>
+        ///     Privacy Screen Level Maximum Usage.
+        /// </summary>
+        [Description("Privacy Screen Level Maximum")]
+        PrivacyScreenLevelMaximum = 0x000c02d4
     }
 
     /// <summary>
@@ -7297,28 +7387,28 @@ namespace HIDDevices.Usages
         UTF32BigEndianCharacterGestureEncoding = 0x000d0069,
 
         /// <summary>
-        ///     Gesture Character Enable Usage.
-        /// </summary>
-        [Description("Gesture Character Enable")]
-        GestureCharacterEnable = 0x000d006a,
-
-        /// <summary>
         ///     Capacitive Heat Map Protocol Vendor ID Usage.
         /// </summary>
         [Description("Capacitive Heat Map Protocol Vendor ID")]
-        CapacitiveHeatMapProtocolVendorID = 0x000d006b,
+        CapacitiveHeatMapProtocolVendorID = 0x000d006a,
 
         /// <summary>
         ///     Capacitive Heat Map Protocol Version Usage.
         /// </summary>
         [Description("Capacitive Heat Map Protocol Version")]
-        CapacitiveHeatMapProtocolVersion = 0x000d006c,
+        CapacitiveHeatMapProtocolVersion = 0x000d006b,
 
         /// <summary>
         ///     Capacitive Heat Map Frame Data Usage.
         /// </summary>
         [Description("Capacitive Heat Map Frame Data")]
-        CapacitiveHeatMapFrameData = 0x000d006d,
+        CapacitiveHeatMapFrameData = 0x000d006c,
+
+        /// <summary>
+        ///     Gesture Character Enable Usage.
+        /// </summary>
+        [Description("Gesture Character Enable")]
+        GestureCharacterEnable = 0x000d006d,
 
         /// <summary>
         ///     Transducer Software Info Usage.
@@ -9445,6 +9535,24 @@ namespace HIDDevices.Usages
         OrientationExtendedMagnetometer = 0x002000c2,
 
         /// <summary>
+        ///     Gesture Usage.
+        /// </summary>
+        [Description("Gesture")]
+        Gesture = 0x002000d0,
+
+        /// <summary>
+        ///     Gesture: Chassis Flip Gesture Usage.
+        /// </summary>
+        [Description("Gesture: Chassis Flip Gesture")]
+        GestureChassisFlipGesture = 0x002000d1,
+
+        /// <summary>
+        ///     Gesture: Hinge Fold Gesture Usage.
+        /// </summary>
+        [Description("Gesture: Hinge Fold Gesture")]
+        GestureHingeFoldGesture = 0x002000d2,
+
+        /// <summary>
         ///     Other Usage.
         /// </summary>
         [Description("Other")]
@@ -9467,6 +9575,12 @@ namespace HIDDevices.Usages
         /// </summary>
         [Description("Other: Generic Enumerator")]
         OtherGenericEnumerator = 0x002000e3,
+
+        /// <summary>
+        ///     Other: Hinge Angle Usage.
+        /// </summary>
+        [Description("Other: Hinge Angle")]
+        OtherHingeAngle = 0x002000e4,
 
         /// <summary>
         ///     Event: Sensor State Usage.
@@ -11028,6 +11142,54 @@ namespace HIDDevices.Usages
         DataFieldCustomTypeID = 0x002005b0,
 
         /// <summary>
+        ///     Data Field: Hinge Usage.
+        /// </summary>
+        [Description("Data Field: Hinge")]
+        DataFieldHinge = 0x002005e0,
+
+        /// <summary>
+        ///     Data Field: Hinge Angle Usage.
+        /// </summary>
+        [Description("Data Field: Hinge Angle")]
+        DataFieldHingeAngle = 0x002005e1,
+
+        /// <summary>
+        ///     Data Field: Gesture Sensor Usage.
+        /// </summary>
+        [Description("Data Field: Gesture Sensor")]
+        DataFieldGestureSensor = 0x002005f0,
+
+        /// <summary>
+        ///     Data Field: Gesture State Usage.
+        /// </summary>
+        [Description("Data Field: Gesture State")]
+        DataFieldGestureState = 0x002005f1,
+
+        /// <summary>
+        ///     Data Field: Hinge Fold Initial Angle Usage.
+        /// </summary>
+        [Description("Data Field: Hinge Fold Initial Angle")]
+        DataFieldHingeFoldInitialAngle = 0x002005f2,
+
+        /// <summary>
+        ///     Data Field: Hinge Fold Final Angle Usage.
+        /// </summary>
+        [Description("Data Field: Hinge Fold Final Angle")]
+        DataFieldHingeFoldFinalAngle = 0x002005f3,
+
+        /// <summary>
+        ///     Data Field: Hinge Fold Contributing Panel Usage.
+        /// </summary>
+        [Description("Data Field: Hinge Fold Contributing Panel")]
+        DataFieldHingeFoldContributingPanel = 0x002005f4,
+
+        /// <summary>
+        ///     Data Field: Hinge Fold Type Usage.
+        /// </summary>
+        [Description("Data Field: Hinge Fold Type")]
+        DataFieldHingeFoldType = 0x002005f5,
+
+        /// <summary>
         ///     Sensor State: Undefined Usage.
         /// </summary>
         [Description("Sensor State: Undefined")]
@@ -12232,6 +12394,72 @@ namespace HIDDevices.Usages
         /// </summary>
         [Description("Step Type: Walking")]
         StepTypeWalking = 0x00200992,
+
+        /// <summary>
+        ///     Gesture State: Unknown Usage.
+        /// </summary>
+        [Description("Gesture State: Unknown")]
+        GestureStateUnknown = 0x002009a0,
+
+        /// <summary>
+        ///     Gesture State: Started Usage.
+        /// </summary>
+        [Description("Gesture State: Started")]
+        GestureStateStarted = 0x002009a1,
+
+        /// <summary>
+        ///     Gesture State: Completed Usage.
+        /// </summary>
+        [Description("Gesture State: Completed")]
+        GestureStateCompleted = 0x002009a2,
+
+        /// <summary>
+        ///     Gesture State: Cancelled Usage.
+        /// </summary>
+        [Description("Gesture State: Cancelled")]
+        GestureStateCancelled = 0x002009a3,
+
+        /// <summary>
+        ///     Contributing Panel: Unknown Usage.
+        /// </summary>
+        [Description("Contributing Panel: Unknown")]
+        ContributingPanelUnknown = 0x002009b0,
+
+        /// <summary>
+        ///     Contributing Panel: Panel1 Usage.
+        /// </summary>
+        [Description("Contributing Panel: Panel1")]
+        ContributingPanelPanel1 = 0x002009b1,
+
+        /// <summary>
+        ///     Contributing Panel: Panel2 Usage.
+        /// </summary>
+        [Description("Contributing Panel: Panel2")]
+        ContributingPanelPanel2 = 0x002009b2,
+
+        /// <summary>
+        ///     Contributing Panel: Both Usage.
+        /// </summary>
+        [Description("Contributing Panel: Both")]
+        ContributingPanelBoth = 0x002009b3,
+
+        /// <summary>
+        ///     Fold Type: Unknown Usage.
+        /// </summary>
+        [Description("Fold Type: Unknown")]
+        FoldTypeUnknown = 0x002009b4,
+
+        /// <summary>
+        ///     Fold Type: Increasing Usage.
+        /// </summary>
+        [Description("Fold Type: Increasing")]
+        FoldTypeIncreasing = 0x002009b5,
+
+        /// <summary>
+        ///     Fold Type: Decreasing Usage.
+        /// </summary>
+        [Description("Fold Type: Decreasing")]
+        FoldTypeDecreasing = 0x002009b6,
 
         /*
          * Range: 0x1000 -> 0x1fff
@@ -17960,6 +18188,8 @@ namespace HIDDevices.Pages
             (0x000e, "System Multi-axis Controller", UsageTypes.CA),
             (0x000f, "Spatial Controller", UsageTypes.CA),
             (0x0010, "Assistive Control", UsageTypes.CA),
+            (0x0011, "Device Dock", UsageTypes.CA),
+            (0x0012, "Dockable Device", UsageTypes.CA),
             (0x0030, "X", UsageTypes.DV),
             (0x0031, "Y", UsageTypes.DV),
             (0x0032, "Z", UsageTypes.DV),
@@ -18015,6 +18245,7 @@ namespace HIDDevices.Pages
             (0x0098, "System Function Shift Lock", UsageTypes.OOC),
             (0x0099, "System Function Shift Lock Indicator", UsageTypes.DV),
             (0x009a, "System Dismiss Notification", UsageTypes.OSC),
+            (0x009b, "System Do Not Disturb", UsageTypes.OOC),
             (0x00a0, "System Dock", UsageTypes.OSC),
             (0x00a1, "System Undock", UsageTypes.OSC),
             (0x00a2, "System Setup", UsageTypes.OSC),
@@ -18043,7 +18274,14 @@ namespace HIDDevices.Pages
             (0x00c8, "Wireless Radio Slider Switch", UsageTypes.OOC),
             (0x00c9, "System Display Rotation Lock Button", UsageTypes.OOC),
             (0x00ca, "System Display Rotation Lock Slider Switch", UsageTypes.OOC),
-            (0x00cb, "Control Enable", UsageTypes.DF))
+            (0x00cb, "Control Enable", UsageTypes.DF),
+            (0x00d0, "Dockable Device Unique ID", UsageTypes.DV),
+            (0x00d1, "Dockable Device Vendor ID", UsageTypes.DV),
+            (0x00d2, "Dockable Device Primary Usage Page", UsageTypes.DV),
+            (0x00d3, "Dockable Device Primary Usage ID", UsageTypes.DV),
+            (0x00d4, "Dockable Device Docking State", UsageTypes.DF),
+            (0x00d5, "Dockable Device Display Occlusion", UsageTypes.CL),
+            (0x00d6, "Dockable Device Object Type", UsageTypes.DV))
         {
         }
     }
@@ -19286,7 +19524,12 @@ namespace HIDDevices.Pages
             (0x02c9, "Keyboard Input Assist Previous Group", UsageTypes.Sel),
             (0x02ca, "Keyboard Input Assist Next Group", UsageTypes.Sel),
             (0x02cb, "Keyboard Input Assist Accept", UsageTypes.Sel),
-            (0x02cc, "Keyboard Input Assist Cancel", UsageTypes.Sel))
+            (0x02cc, "Keyboard Input Assist Cancel", UsageTypes.Sel),
+            (0x02d0, "Privacy Screen Toggle", UsageTypes.OOC),
+            (0x02d1, "Privacy Screen Level Decrement", UsageTypes.RTC),
+            (0x02d2, "Privacy Screen Level Increment", UsageTypes.RTC),
+            (0x02d3, "Privacy Screen Level Minimum", UsageTypes.OSC),
+            (0x02d4, "Privacy Screen Level Maximum", UsageTypes.OSC))
         {
         }
     }
@@ -19374,10 +19617,10 @@ namespace HIDDevices.Pages
             (0x0067, "UTF16 Big Endian Character Gesture Encoding", UsageTypes.Sel),
             (0x0068, "UTF32 Little Endian Character Gesture Encoding", UsageTypes.Sel),
             (0x0069, "UTF32 Big Endian Character Gesture Encoding", UsageTypes.Sel),
-            (0x006a, "Gesture Character Enable", UsageTypes.DF),
-            (0x006b, "Capacitive Heat Map Protocol Vendor ID", UsageTypes.SV),
-            (0x006c, "Capacitive Heat Map Protocol Version", UsageTypes.SV),
-            (0x006d, "Capacitive Heat Map Frame Data", UsageTypes.DV),
+            (0x006a, "Capacitive Heat Map Protocol Vendor ID", UsageTypes.SV),
+            (0x006b, "Capacitive Heat Map Protocol Version", UsageTypes.SV),
+            (0x006c, "Capacitive Heat Map Frame Data", UsageTypes.DV),
+            (0x006d, "Gesture Character Enable", UsageTypes.DF),
             (0x0090, "Transducer Software Info", UsageTypes.CL),
             (0x0091, "Transducer Vendor ID", UsageTypes.SV),
             (0x0092, "Transducer Product ID", UsageTypes.SV),
@@ -19833,10 +20076,14 @@ namespace HIDDevices.Pages
             (0x00c0, "Orientation Extended", UsageTypes.CA|UsageTypes.CP),
             (0x00c1, "Orientation Extended: Geomagnetic Orientation", UsageTypes.CA|UsageTypes.CP),
             (0x00c2, "Orientation Extended: Magnetometer", UsageTypes.CA|UsageTypes.CP),
+            (0x00d0, "Gesture", UsageTypes.CA|UsageTypes.CP),
+            (0x00d1, "Gesture: Chassis Flip Gesture", UsageTypes.CA|UsageTypes.CP),
+            (0x00d2, "Gesture: Hinge Fold Gesture", UsageTypes.CA|UsageTypes.CP),
             (0x00e0, "Other", UsageTypes.CA|UsageTypes.CP),
             (0x00e1, "Other: Custom", UsageTypes.CA|UsageTypes.CP),
             (0x00e2, "Other: Generic", UsageTypes.CA|UsageTypes.CP),
             (0x00e3, "Other: Generic Enumerator", UsageTypes.CA|UsageTypes.CP),
+            (0x00e4, "Other: Hinge Angle", UsageTypes.CA|UsageTypes.CP),
             (0x0201, "Event: Sensor State", UsageTypes.NAry),
             (0x0202, "Event: Sensor Event", UsageTypes.NAry),
             (0x0301, "Property: Friendly Name", UsageTypes.SV),
@@ -20096,6 +20343,14 @@ namespace HIDDevices.Pages
             (0x05a4, "Property: Subscribed Step Types", UsageTypes.NAry),
             (0x05a5, "Property: Floor Height", UsageTypes.DV),
             (0x05b0, "Data Field: Custom Type ID", UsageTypes.SV),
+            (0x05e0, "Data Field: Hinge", UsageTypes.SV|UsageTypes.DV),
+            (0x05e1, "Data Field: Hinge Angle", UsageTypes.SV|UsageTypes.DV),
+            (0x05f0, "Data Field: Gesture Sensor", UsageTypes.SV),
+            (0x05f1, "Data Field: Gesture State", UsageTypes.NAry),
+            (0x05f2, "Data Field: Hinge Fold Initial Angle", UsageTypes.SV),
+            (0x05f3, "Data Field: Hinge Fold Final Angle", UsageTypes.SV),
+            (0x05f4, "Data Field: Hinge Fold Contributing Panel", UsageTypes.NAry),
+            (0x05f5, "Data Field: Hinge Fold Type", UsageTypes.NAry),
             (0x0800, "Sensor State: Undefined", UsageTypes.Sel),
             (0x0801, "Sensor State: Ready", UsageTypes.Sel),
             (0x0802, "Sensor State: Not Available", UsageTypes.Sel),
@@ -20297,6 +20552,17 @@ namespace HIDDevices.Pages
             (0x0990, "Step Type: Unknown", UsageTypes.Sel),
             (0x0991, "Step Type: Running", UsageTypes.Sel),
             (0x0992, "Step Type: Walking", UsageTypes.Sel),
+            (0x09a0, "Gesture State: Unknown", UsageTypes.Sel),
+            (0x09a1, "Gesture State: Started", UsageTypes.Sel),
+            (0x09a2, "Gesture State: Completed", UsageTypes.Sel),
+            (0x09a3, "Gesture State: Cancelled", UsageTypes.Sel),
+            (0x09b0, "Contributing Panel: Unknown", UsageTypes.Sel),
+            (0x09b1, "Contributing Panel: Panel1", UsageTypes.Sel),
+            (0x09b2, "Contributing Panel: Panel2", UsageTypes.Sel),
+            (0x09b3, "Contributing Panel: Both", UsageTypes.Sel),
+            (0x09b4, "Fold Type: Unknown", UsageTypes.Sel),
+            (0x09b5, "Fold Type: Increasing", UsageTypes.Sel),
+            (0x09b6, "Fold Type: Decreasing", UsageTypes.Sel),
             (0x1000, "Change Sensitivity Absolute", UsageTypes.US),
             (0x1001, "Change Sensitivity Absolute", UsageTypes.US),
             (0x1002, "Change Sensitivity Absolute", UsageTypes.US),
