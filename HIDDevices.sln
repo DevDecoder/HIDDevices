@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIDDevices", "HIDDevices\HIDDevices.csproj", "{5BE3CAC9-DB63-4A23-869E-9A97B8B5E6ED}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIDDevices.Test", "HIDDevices.Test\HIDDevices.Test.csproj", "{95729392-466B-4985-8803-96AFA24F580E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B4EC1C09-398A-4952-9937-2092FFAB70F2}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		DevDecoder Icon.png = DevDecoder Icon.png
+		.github\workflows\dotnet-core.yml = .github\workflows\dotnet-core.yml
+		LICENSE.txt = LICENSE.txt
+		NOTICE.txt = NOTICE.txt
+		Readme.md = Readme.md
+		version.json = version.json
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIDDevices.Sample", "HIDDevices.Sample\HIDDevices.Sample.csproj", "{0E520169-5E25-43C5-BFD3-53FA4D4FF190}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5BE3CAC9-DB63-4A23-869E-9A97B8B5E6ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BE3CAC9-DB63-4A23-869E-9A97B8B5E6ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BE3CAC9-DB63-4A23-869E-9A97B8B5E6ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BE3CAC9-DB63-4A23-869E-9A97B8B5E6ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95729392-466B-4985-8803-96AFA24F580E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95729392-466B-4985-8803-96AFA24F580E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95729392-466B-4985-8803-96AFA24F580E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95729392-466B-4985-8803-96AFA24F580E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E520169-5E25-43C5-BFD3-53FA4D4FF190}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E520169-5E25-43C5-BFD3-53FA4D4FF190}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E520169-5E25-43C5-BFD3-53FA4D4FF190}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E520169-5E25-43C5-BFD3-53FA4D4FF190}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2BAF9F91-9982-4216-A784-7E6F34DD9E9D}
+	EndGlobalSection
+EndGlobal
