@@ -90,7 +90,7 @@ namespace HIDDevices.Sample.Samples
             // Subscribe to all button control changes
             var batch = 0;
             using var subscription2 =controllers
-                // Watch for button changes only
+                // Watch for control changes only
                 .Watch()
                 .Subscribe(changes =>
                 {
@@ -121,7 +121,7 @@ namespace HIDDevices.Sample.Samples
             // Subscribe to just button 1 change events, and trigger a task completion source when any are pressed.
             var button1PressedTcs = new TaskCompletionSource<bool>();
             using var subscription3 = controllers
-                // Watch for button changes only
+                // Watch for button one changes only
                 .Watch(c => c.ButtonNumber == 1)
                 //&& !c.Device.Usages.Contains(65538u))
                 .Subscribe(changes =>
@@ -141,7 +141,6 @@ namespace HIDDevices.Sample.Samples
                     var logBuilder = new StringBuilder();
                     logBuilder.Append(gamepad.Name)
                         .AppendLine(" found!  Following controls were mapped:");
-                    //- {string.Join(", ", gamepad.Mapping.Values.Select(ci => ci.PropertyName))}");
                     foreach (var (control, infos) in gamepad.Mapping)
                     {
                         logBuilder.Append("  ")

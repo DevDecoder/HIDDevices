@@ -23,7 +23,7 @@ namespace HIDDevices.Sample.Samples
         {
             // Create a singleton instance of the controllers object, that we should dispose
             // on closing the game, here we use a using block, but can obviously call controllers.Dispose()
-            using var controllers = new Devices(CreateLogger<Devices>());
+            using var devices = new Devices(CreateLogger<Devices>());
 
             Logger.LogInformation("Press A Button to exit!");
 
@@ -32,7 +32,7 @@ namespace HIDDevices.Sample.Samples
             var batch = 0;
 
             // Controller to any gamepads as they are found
-            using var subscription = controllers.Controller<Gamepad>().Subscribe(g =>
+            using var subscription = devices.Controller<Gamepad>().Subscribe(g =>
             {
                 // If we already have a connected gamepad ignore any more.
                 if (gamepad?.IsConnected == true) return;

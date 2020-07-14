@@ -3,55 +3,85 @@
 ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/HIDDevices)
 
 # Description
-This library provides a cross-platform service for asynchronously receiving input from HID devices, such as Gamepads, Joysticks and Multi-axis controllers and programmable button pads.  It support Plug & Play, correctly identifying when controllers are added and removed.
+This library provides a cross-platform service for asynchronously accessing HID devices, such as Gamepads, Joysticks and Multi-axis controllers and programmable button pads.  It support Plug & Play, correctly identifying when controllers are added and removed, and Reactive frameworks.
+
+**NOTE**: This project is currently in a beta state, meaning it is still subject to frequent breaking changes as they API matures.  As such the documentation is not in a final form and below is just some quick notes to help you get started.
 
 # Installation
 The library is delivered via NuGet Package Manager:
 
 ```
-Install-Package VkApi.Wrapper
+Install-Package HIDDevices
 ```
 
 If you are targeting .NET Core, use the following command:
 
 ```
-dotnet add package VkApi.Wrapper
+dotnet add package 
+Install-Package HIDDevices
 ```
 
 # Usage
 
 There is a [sample program](HIDDevices.Sample) included which demonstrates using the library in a dependency injection scenario.
 
-## Controllers
+## Devices
 
 ### Initialisation
 To start monitoring controllers add the following code:
 
 ```csharp
-await using var controllers = new Controllers();
+using var devices = new Devices(CreateLogger<Devices>());
 ```
 
-**Note** this instantiates a new instance of the [Controllers](HIDDevices\Controllers.cs) class which immediately starts listening for new HID devices.  In practice you should only ever create one of these.  The [Controllers](HIDDevices\Controllers.cs) class implements `IAsyncDisposable` for asynchronous disposal, which cleans up the listeners.
+**Note** this instantiates a new instance of the [Devices](HIDDevices/Devices.cs) class which immediately starts listening for new HID devices.  In practice you should only ever create one of these.  The [Devices](HIDDevices/Devices.cs) class implements `IDisposable` for asynchronous disposal, which cleans up all listeners.
 
 Alternatively, the library is fully compatible with Dependency injection frameworks.  Register the service as a Singleton (so only one instance is created) using code similar to:
 ```csharp
-services.AddSingleton<Controllers>();
+services.AddSingleton<Devices>();
 ...
-var controllers = serviceProvider.GetService<Controllers>();
+var controllers = serviceProvider.GetService<Devices>();
 ```
 
 Modern DI frameworks should correctly handle instantiation and disposal automatically.
 
-### Detecting Changes
-The Controllers service exposes a `Changes` property which is an observable of batches of changes `IObservable<IList<ControlChange>>`
+### Logging
+The `Devices` constructor accepts an `ILogger<Devices` for logging, this is normally injected via dependency injection, but an example of a simple logger can be found in the [samples](HIDDevices.Sample) - [SimpleConsoleLogger](HIDDevices.Sample/SimpleConsoleLogger.cs).
+
+
+### Detecting changes in devices
+The Devices service implements a `IObservableCache<Device, string>` property which can be subscribed to detect add/update/remove events for devices.  For more information on `IObservableCache<,>`, and how to consume them, see [DynamicData](https://github.com/reactiveui/DynamicData). e.g.
+
+```csharp
+using var subscription = controllers.Connect().Subscribe(changeSet => { ... });
+```
+
+### Detecting changes in controls
+Each `Device` classs implements  `IObservable<IList<ControlChange>>` which can be used to obserbe changes in control values.  They also implement `IReadOnlyDictionary<Control, ControlChange>`, which can be used to find the last observed state of the Device's controls.  For convenience you can look for control changes across all devices using the `Watch` method.  e.g.
+
+```csharp
+using var subscription2 =controllers
+    // Watch for control changes only
+    .Watch()
+    .Subscribe(changes =>
+    {
+        ...
+    });
+```
+
+## Controllers
+The library contains a `Controller` concept which is effectively a device definition.  These are easy to define using attributes (see [Gamepad](HIDDevices/Controllers/Gamepad.cs) for a complete example).  Once matched they expose the latest values of the controller via easily accessed properties.  They can also be observed.  To listen for specific controllers from `Devices` use the `Controllers<TController>` extension method, e.g.
+
+```csharp
+using var subscription = devices.Controller<Gamepad>().Subscribe(gamepd => {...});            {
+```
 
 # TODO
 
 * More documentation, examples
-* Expose observable for controller changes.
+* Support Output to devices
 * More Tests!
 * Improved Documentation on public properties.
-* Revise public API to remove any HIDSharp dependencies, to allow separation in future versions.
 
 ### Testing status
 
