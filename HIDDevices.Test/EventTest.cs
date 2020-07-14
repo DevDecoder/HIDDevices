@@ -19,7 +19,7 @@ namespace HIDDevices.Test
         private ITestOutputHelper OutputHelper { get; }
         private ILogger<EventTest> Logger { get; }
 
-        [Fact]
+        // [Fact]
         public void EventAllTest()
         {
             Assert.NotEmpty(Event.All);
