@@ -3,6 +3,7 @@
 
 using System;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -131,38 +132,55 @@ namespace HIDDevices.Sample.Samples
                     }
                 });
 
-            /* TODO
-            var gamepad = controllers.Connect<Gamepad>().FirstOrDefault();
-
-            if (gamepad != null)
-            {
-                var builder = new StringBuilder();
-                builder.AppendLine(
-                    $"{gamepad.Name} found!  Following controls were mapped:");
-                //- {string.Join(", ", gamepad.Mapping.Values.Select(ci => ci.PropertyName))}");
-                foreach (var (control, infos) in gamepad.Mapping)
+            // Subscribe to a specific controller type
+            var gamepadBatch = 0;
+            using var gamepadSubscription = controllers
+                .Controller<Gamepad>()
+                .Do(gamepad =>
                 {
-                    builder.AppendLine(
-                        $"  {control.Name} => {string.Join(", ", infos.Select(info => info.PropertyName))}");
-                }
-
-                logger.LogInformation(builder.ToString());
-
-                gamepad.Subscribe(change =>
-                {
-                    var valueStr = change.Value switch
+                    var logBuilder = new StringBuilder();
+                    logBuilder.Append(gamepad.Name)
+                        .AppendLine(" found!  Following controls were mapped:");
+                    //- {string.Join(", ", gamepad.Mapping.Values.Select(ci => ci.PropertyName))}");
+                    foreach (var (control, infos) in gamepad.Mapping)
                     {
-                        bool b => b ? "Pressed" : "Not Pressed",
-                        double d => d.ToString("F3"),
-                        null => "<null>",
-                        _ => change.Value.ToString()
-                    };
-                    logger.LogInformation(
-                        $"  {change.PropertyName}: {valueStr} ({change.Elapsed.TotalMilliseconds:F3}ms)");
+                        logBuilder.Append("  ")
+                            .Append(control.Name)
+                            .Append(" => ")
+                            .AppendLine(string.Join(", ", infos.Select(info => info.PropertyName)));
+                    }
+
+                    logger.LogInformation(logBuilder.ToString());
+
+                    // Connect the gamepad, so we can start listening for changes.
+                    gamepad.Connect();
+                })
+                .SelectMany(gamepad => gamepad.Changes)
+                .Subscribe(changes =>
+                {
+                    var logBuilder = new StringBuilder();
+                    logBuilder.Append("Gamepad Batch ").Append(++gamepadBatch).AppendLine(":");
+                    foreach (var change in changes)
+                    {
+                        var valueStr = change.Value switch
+                        {
+                            bool b => b ? "Pressed" : "Not Pressed",
+                            double d => d.ToString("F3"),
+                            null => "<null>",
+                            _ => change.Value.ToString()
+                        };
+
+                        logBuilder.Append("  ")
+                            .Append(change.PropertyName)
+                            .Append(": ")
+                            .Append(valueStr)
+                            .Append(" (")
+                            .AppendFormat("{0:F3}", change.Elapsed.TotalMilliseconds)
+                            .AppendLine("ms)");
+                    }
+
+                    logger.LogInformation(logBuilder.ToString());
                 });
-            }
-            gamepad?.Dispose();
-            */
 
             Console.WriteLine("Press Button 1 on any device to exit!");
 

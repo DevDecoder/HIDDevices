@@ -25,26 +25,34 @@ namespace HIDDevices.Sample
                 .OfType<ISample>()
                 .ToArray();
 
-            ISample? sample;
+            ISample? sample = null;
             if (args.Length != 1 ||
                 (sample = Array.Find(samples, s => s.ShortNames.Contains(args[0]))) is null)
             {
                 var assemblyName = assembly.GetName().Name;
                 var location = Path.GetFileName(assembly.Location) ?? assemblyName;
                 // We appear to have a cry for help!
-                Console.WriteLine($"{assemblyName} - Sample executor - Help");
+                Console.WriteLine($"{assemblyName} - Sample executor");
                 Console.WriteLine();
 
-                // Create instances of all sample classes
-                foreach (var s in samples)
+                do
                 {
-                    Console.WriteLine($"  {location} [{string.Join('|', s.ShortNames)}]");
-                    Console.WriteLine($"    {s.FullName}");
-                    Console.WriteLine($"    {s.Description}");
-                    Console.WriteLine();
-                }
+                    Console.WriteLine("Please select one of the following samples to run.");
 
-                return;
+                    // Create instances of all sample classes
+                    foreach (var s in samples)
+                    {
+                        Console.WriteLine($"  [{string.Join('|', s.ShortNames)}]");
+                        Console.WriteLine($"    {s.FullName}");
+                        Console.WriteLine($"    {s.Description}");
+                        Console.WriteLine();
+                    }
+
+                    if (!Environment.UserInteractive) return;
+
+                    var option = Console.ReadLine();
+                    sample = Array.Find(samples, s => s.ShortNames.Contains(option));
+                } while (sample is null);
             }
 
             Console.WriteLine($"Running {sample.FullName}...");

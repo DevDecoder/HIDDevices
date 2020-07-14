@@ -17,42 +17,31 @@ namespace HIDDevices.Controllers
             private static readonly ConcurrentDictionary<Type, ControllerInfo> s_infos =
                 new ConcurrentDictionary<Type, ControllerInfo>();
 
-            private static readonly Type[] s_constructorTypes = {typeof(Device), typeof(ControlInfo[])};
+            private static readonly Type[] s_constructorTypes = { typeof(Device), typeof(ControlInfo[]) };
 
             public readonly CreateControllerDelegate<Controller?> CreateController;
-            public readonly SupportsControllerDelegate SupportsController;
 
             private ControllerInfo(
-                CreateControllerDelegate<Controller?> createControllerDelegate,
-                SupportsControllerDelegate? supportsControllerDelegate = null)
-            {
-                CreateController = createControllerDelegate;
-                SupportsController = supportsControllerDelegate ??
-                                     (controller => createControllerDelegate(controller) != null);
-            }
+                CreateControllerDelegate<Controller?> createControllerDelegate)
+                => CreateController = createControllerDelegate;
 
             private ControllerInfo(
                 ConstructorInfo constructor,
                 IReadOnlyList<DeviceAttribute> deviceAttributes,
                 IReadOnlyDictionary<string, PropertyData> propertyData)
-            {
-                CreateController = device =>
+                => CreateController = device =>
                 {
                     var mapping = GetMapping(device, deviceAttributes, propertyData);
                     return mapping is null ||
-                           !(constructor.Invoke(new object[] {device, mapping}) is Controller controller)
+                           !(constructor.Invoke(new object[] { device, mapping }) is Controller controller)
                         ? null
                         : controller;
                 };
 
-                SupportsController = device => GetMapping(device, deviceAttributes, propertyData) != null;
-            }
-
             public static void Register(
                 Type type,
-                CreateControllerDelegate<Controller?> createControllerDelegate,
-                SupportsControllerDelegate? supportsDeviceDelegate = null)
-                => s_infos[type] = new ControllerInfo(createControllerDelegate, supportsDeviceDelegate);
+                CreateControllerDelegate<Controller?> createControllerDelegate)
+                => s_infos[type] = new ControllerInfo(createControllerDelegate);
 
             public static ControllerInfo? Get<T>() where T : Controller => Get(typeof(T));
 

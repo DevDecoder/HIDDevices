@@ -1,8 +1,7 @@
 {
   "profiles": {
     "HIDDevices.Sample": {
-      "commandName": "Project",
-      "commandLineArgs": "Di"
+      "commandName": "Project"
     }
   }
 }

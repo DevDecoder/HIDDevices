@@ -7,13 +7,14 @@ using Microsoft.Extensions.Logging;
 
 namespace HIDDevices.Sample
 {
-    public class SimpleConsoleLogger : ILogger
+    public class SimpleConsoleLogger<T> : ILogger<T>
     {
         public readonly string Name;
 
-        public SimpleConsoleLogger(string name)
+        public SimpleConsoleLogger(LogLevel logLevel, string? name = null)
         {
-            Name = name;
+            Name = name ?? typeof(T).Name;
+            LogLevel = logLevel;
         }
 
         /// <inheritdoc />
@@ -35,7 +36,7 @@ namespace HIDDevices.Sample
         /// <inheritdoc />
         public bool IsEnabled(LogLevel logLevel) => LogLevel <= logLevel;
 
-        public LogLevel LogLevel { get; set; } = LogLevel.Information;
+        public LogLevel LogLevel { get; set; }
 
         /// <inheritdoc />
         public IDisposable BeginScope<TState>(TState state) => Disposable.Empty;

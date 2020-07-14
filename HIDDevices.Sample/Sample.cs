@@ -8,12 +8,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
 
 namespace HIDDevices.Sample
 {
     public abstract class Sample : ISample
     {
+        private readonly SimpleConsoleLogger<Sample> _logger;
         private readonly HashSet<string> _shortNames;
 
         protected Sample(string? fullName = null, params string[] shortNames)
@@ -21,8 +21,12 @@ namespace HIDDevices.Sample
             FullName = fullName ?? GetFullName(GetType().Name);
 
             _shortNames = shortNames.Length > 0 ? new HashSet<string>(shortNames) : GetShortNames(FullName);
-            _logger = new SimpleConsoleLogger(FullName);
+            _logger = new SimpleConsoleLogger<Sample>(LogLevel.Information, GetType().Name);
         }
+
+        protected ILogger Logger => _logger;
+
+        public LogLevel LogLevel { get => _logger.LogLevel; set => _logger.LogLevel = value; }
 
         /// <inheritdoc />
         public string FullName { get; }
@@ -41,10 +45,8 @@ namespace HIDDevices.Sample
         /// </summary>
         protected virtual void Execute() { }
 
-        private readonly SimpleConsoleLogger _logger;
-
-        public LogLevel LogLevel { get => _logger.LogLevel; set => _logger.LogLevel = value; }
-        public ILogger Logger => _logger;
+        public static ILogger<T> CreateLogger<T>(LogLevel logLevel = LogLevel.Information) =>
+            new SimpleConsoleLogger<T>(logLevel);
 
         /// <summary>
         ///     Gets a friendly full name

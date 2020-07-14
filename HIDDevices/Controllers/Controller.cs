@@ -14,7 +14,7 @@ using HIDDevices.Converters;
 
 namespace HIDDevices.Controllers
 {
-    public partial class Controller : IReadOnlyCollection<ControlValue>, IObservable<ControlValue>, IDisposable
+    public partial class Controller : IReadOnlyCollection<ControlValue>, IDisposable
     {
         private static readonly ConcurrentDictionary<Type, IControlConverter> s_defaultConverters =
             new ConcurrentDictionary<Type, IControlConverter>();
@@ -24,7 +24,7 @@ namespace HIDDevices.Controllers
 
         public readonly IReadOnlyDictionary<Control, IReadOnlyList<ControlInfo>> Mapping;
         private IDisposable? _subscription;
-        private Subject<ControlValue>? _valuesSubject;
+        private Subject<IList<ControlValue>>? _valuesSubject;
 
         static Controller() =>
             // Register a default converter to boolean.
@@ -35,8 +35,13 @@ namespace HIDDevices.Controllers
             Device = device;
             Mapping = controls.GroupBy(c => c.Control)
                 .ToDictionary(g => g.Key, g => (IReadOnlyList<ControlInfo>)g.ToArray());
-            _subscription = device.Subscribe(OnControlChange, OnError, OnDisconnect);
-            _valuesSubject = new Subject<ControlValue>();
+            _valuesSubject = new Subject<IList<ControlValue>>();
+        }
+
+        public void Connect()
+        {
+            // Create a new subscription, disposing any existing one.
+            Interlocked.Exchange(ref _subscription,  Device.Subscribe(OnControlChange, OnError, OnDisconnect))?.Dispose();
         }
 
         public IEnumerable Controls => Mapping.Values;
@@ -56,9 +61,7 @@ namespace HIDDevices.Controllers
             GC.SuppressFinalize(this);
         }
 
-        /// <inheritdoc />
-        public IDisposable Subscribe(IObserver<ControlValue> observer)
-            => _valuesSubject?.Subscribe(observer) ?? throw new ObjectDisposedException(Name);
+        public IObservable<IList<ControlValue>> Changes => _valuesSubject ?? throw new ObjectDisposedException(Name);
 
         /// <inheritdoc />
         public IEnumerator<ControlValue> GetEnumerator() => _values.Values.GetEnumerator();
@@ -93,18 +96,17 @@ namespace HIDDevices.Controllers
 
         protected virtual void OnDisconnect()
         {
-            _valuesSubject?.OnCompleted();
-            Dispose();
+            Interlocked.Exchange(ref _subscription, null)?.Dispose();
         }
 
         protected virtual void OnError(Exception exception)
         {
-            _valuesSubject?.OnError(exception);
-            Dispose();
+            Interlocked.Exchange(ref _subscription, null)?.Dispose();
         }
 
         protected virtual void OnControlChange(IList<ControlChange> changes)
         {
+            var valueChanges = new List<ControlValue>(changes.Count);
             foreach (var change in changes)
             {
                 if (!Mapping.TryGetValue(change.Control, out var list))
@@ -141,9 +143,12 @@ namespace HIDDevices.Controllers
                         Timestamp = change.Timestamp;
                     }
 
-                    _valuesSubject?.OnNext(controlValue);
+                    valueChanges.Add(controlValue);
                 }
             }
+
+            if (valueChanges.Count > 0)
+                _valuesSubject?.OnNext(valueChanges.ToArray());
         }
 
         protected virtual void Dispose(bool disposing)
@@ -160,12 +165,6 @@ namespace HIDDevices.Controllers
                 ? _values.Values.Where(c => c.Timestamp > timestamp).ToArray()
                 : Array.Empty<ControlValue>();
 
-        public static bool Supports<T>(Device device) where T : Controller
-            => ControllerInfo.Get<T>()?.SupportsController(device) == true;
-
-        public static bool Supports(Device device, Type deviceType)
-            => ControllerInfo.Get(deviceType)?.SupportsController(device) == true;
-
         [return: MaybeNull]
         public static T Create<T>(Device device) where T : Controller =>
             ControllerInfo.Get<T>()?.CreateController(device) as T;
@@ -173,16 +172,13 @@ namespace HIDDevices.Controllers
         public static Controller? Create(Device device, Type deviceType) =>
             ControllerInfo.Get(deviceType)?.CreateController(device);
 
-        public static void Register<T>(
-            CreateControllerDelegate<T> createControllerDelegate,
-            SupportsControllerDelegate? supportsControllerDelegate = null) where T : Controller?
-            => Register(typeof(T), createControllerDelegate, supportsControllerDelegate);
+        public static void Register<T>(CreateControllerDelegate<T> createControllerDelegate) where T : Controller?
+            => Register(typeof(T), createControllerDelegate);
 
         public static void Register(
             Type type,
-            CreateControllerDelegate<Controller?> createControllerDelegate,
-            SupportsControllerDelegate? supportsControllerDelegate = null)
-            => ControllerInfo.Register(type, createControllerDelegate, supportsControllerDelegate);
+            CreateControllerDelegate<Controller?> createControllerDelegate)
+            => ControllerInfo.Register(type, createControllerDelegate);
 
         public static void RegisterDefaultTypeConverter(IControlConverter converter)
         {
@@ -200,9 +196,4 @@ namespace HIDDevices.Controllers
             s_defaultConverters[type] = converter;
         }
     }
-
-    [return: MaybeNull]
-    public delegate T CreateControllerDelegate<out T>(Device device) where T : Controller?;
-
-    public delegate bool SupportsControllerDelegate(Device device);
 }

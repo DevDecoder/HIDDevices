@@ -273,14 +273,5 @@ namespace HIDDevices
                     // Suppress errors so we don't stop listening on valid controllers - error will already have been logged.
                     .Catch((Exception _) => Observable.Empty<IList<ControlChange>>()))
                 .Where(l => l.Count > 0);
-
-#pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
-        public void Load() => _loadedTaskCompletionSource.Task.GetAwaiter().GetResult();
-
-        public void Load(TimeSpan timeout) =>
-            _loadedTaskCompletionSource.Task.WithTimeout(timeout).GetAwaiter().GetResult();
-#pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
-
-        //  predicate is null ? Connect() : Connect().Select(l => l.Where(change => predicate(change.Control)).ToList());
     }
 }
