@@ -1,72 +1,74 @@
 ﻿// Licensed under the Apache License, Version 2.0 (the "License").
 // See the LICENSE file in the project root for more information.
 
-using System.Collections.Generic;
+using HIDDevices.Converters;
 using HIDDevices.Usages;
 
-namespace HIDDevices
+namespace HIDDevices.Controllers
 {
-    [Device((uint)GenericDesktopPage.GamePad, Required = true)]
+    [Device((uint)GenericDesktopPage.GamePad)]
+    [Required]
     public class Gamepad : Controller
     {
         /// <inheritdoc />
-        protected Gamepad(Device device, IReadOnlyDictionary<Control, string> mapping)
-            : base(device, mapping)
+        protected Gamepad(Device device, params ControlInfo[] controls)
+            : base(device, controls)
         {
         }
 
-        [ControlProperty((uint)GenericDesktopPage.X, Required = true)]
-        public ControlChange X => GetChange();
+        [Control((uint)GenericDesktopPage.X)]
+        [Required]
+        [Converter(typeof(SignedConverter))]
+        public double X => GetValue<double>();
 
-        [ControlProperty((uint)GenericDesktopPage.Y, Required = true)]
-        public ControlChange Y => GetChange();
+        [Control((uint)GenericDesktopPage.Y)]
+        [Required]
+        [Converter(typeof(SignedConverter))]
+        public double Y => GetValue<double>();
 
-        [ControlProperty((uint)GenericDesktopPage.Rx)]
-        public ControlChange Rx => GetChange();
+        [Control((uint)GenericDesktopPage.Rx)]
+        [Converter(typeof(SignedConverter))]
+        public double Rx => GetValue<double>();
 
-        [ControlProperty((uint)GenericDesktopPage.Ry)]
-        public ControlChange Ry => GetChange();
+        [Control((uint)GenericDesktopPage.Ry)]
+        [Converter(typeof(SignedConverter))]
+        public double Ry => GetValue<double>();
 
-        [ControlProperty((uint)GenericDesktopPage.Rz)]
-        public ControlChange Rz => GetChange();
+        [Control((uint)GenericDesktopPage.Start, Weight = 2)]
+        [Control((uint)ButtonPage.Button8)]
+        public bool Start => GetValue<bool>();
 
-        [ControlProperty((uint)GenericDesktopPage.Start, (uint)ButtonPage.Button8)]
-        public ControlChange Start => GetChange();
+        [Control((uint)GenericDesktopPage.Select, Weight = 2)]
+        [Control((uint)ButtonPage.Button7)]
+        public bool Select => GetValue<bool>();
 
-        [ControlProperty((uint)GenericDesktopPage.Select)]
-        public ControlChange Select => GetChange();
+        [Control((uint)GenericDesktopPage.Z)]
+        [Converter(typeof(LeftTriggerConverter))]
+        public double LeftTrigger => GetValue<double>();
 
-        [ControlProperty((uint)ButtonPage.Button1, Required = true)]
-        public ControlChange Button1 => GetChange();
+        [Control((uint)GenericDesktopPage.Z)]
+        [Converter(typeof(RightTriggerConverter))]
+        public double RightTrigger => GetValue<double>();
 
-        [ControlProperty((uint)ButtonPage.Button2)]
-        public ControlChange Button2 => GetChange();
+        [Control((uint)ButtonPage.Button1)]
+        [Required]
+        public bool AButton => GetValue<bool>();
 
-        [ControlProperty((uint)ButtonPage.Button3)]
-        public ControlChange Button3 => GetChange();
+        [Control((uint)ButtonPage.Button2)] public bool BButton => GetValue<bool>();
 
-        [ControlProperty((uint)ButtonPage.Button4)]
-        public ControlChange Button4 => GetChange();
+        [Control((uint)ButtonPage.Button3)] public bool XButton => GetValue<bool>();
 
-        [ControlProperty((uint)ButtonPage.Button5)]
-        public ControlChange Button5 => GetChange();
+        [Control((uint)ButtonPage.Button4)] public bool YButton => GetValue<bool>();
 
-        [ControlProperty((uint)ButtonPage.Button6)]
-        public ControlChange Button6 => GetChange();
+        [Control((uint)ButtonPage.Button5)] public bool LeftButton => GetValue<bool>();
 
-        [ControlProperty((uint)ButtonPage.Button7)]
-        public ControlChange Button7 => GetChange();
+        [Control((uint)ButtonPage.Button6)] public bool RightButton => GetValue<bool>();
 
-        [ControlProperty((uint)ButtonPage.Button8)]
-        public ControlChange Button8 => GetChange();
+        [Control((uint)ButtonPage.Button9)] public bool LeftStick => GetValue<bool>();
+        [Control((uint)ButtonPage.Button10)] public bool RightStick => GetValue<bool>();
 
-        [ControlProperty((uint)ButtonPage.Button9)]
-        public ControlChange Button9 => GetChange();
-
-        [ControlProperty((uint)ButtonPage.Button10)]
-        public ControlChange Button10 => GetChange();
-
-        [ControlProperty((uint)GenericDesktopPage.HatSwitch)]
-        public ControlChange Hat => GetChange();
+        [Control((uint)GenericDesktopPage.HatSwitch)]
+        [Converter(typeof(DirectionConverter))]
+        public Direction Hat => GetValue<Direction>();
     }
 }

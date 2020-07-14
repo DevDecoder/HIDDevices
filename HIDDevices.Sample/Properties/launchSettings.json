@@ -2,7 +2,7 @@
   "profiles": {
     "HIDDevices.Sample": {
       "commandName": "Project",
-      "commandLineArgs": "Dependency"
+      "commandLineArgs": "Di"
     }
   }
 }

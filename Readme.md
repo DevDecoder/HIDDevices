@@ -1,6 +1,6 @@
-![.NET Core](https://github.com/DevDecoder/HIDControllers/workflows/.NET%20Core/badge.svg)
-![Nuget](https://img.shields.io/nuget/v/HIDControllers)
-![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/HIDControllers)
+![.NET Core](https://github.com/DevDecoder/HIDDevices/workflows/.NET%20Core/badge.svg)
+![Nuget](https://img.shields.io/nuget/v/HIDDevices)
+![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/HIDDevices)
 
 # Description
 This library provides a cross-platform service for asynchronously receiving input from HID devices, such as Gamepads, Joysticks and Multi-axis controllers and programmable button pads.  It support Plug & Play, correctly identifying when controllers are added and removed.
@@ -20,7 +20,7 @@ dotnet add package VkApi.Wrapper
 
 # Usage
 
-There is a [sample program](HIDControllers.Sample) included which demonstrates using the library in a dependency injection scenario.
+There is a [sample program](HIDDevices.Sample) included which demonstrates using the library in a dependency injection scenario.
 
 ## Controllers
 
@@ -31,7 +31,7 @@ To start monitoring controllers add the following code:
 await using var controllers = new Controllers();
 ```
 
-**Note** this instantiates a new instance of the [Controllers](HIDControllers\Controllers.cs) class which immediately starts listening for new HID devices.  In practice you should only ever create one of these.  The [Controllers](HIDControllers\Controllers.cs) class implements `IAsyncDisposable` for asynchronous disposal, which cleans up the listeners.
+**Note** this instantiates a new instance of the [Controllers](HIDDevices\Controllers.cs) class which immediately starts listening for new HID devices.  In practice you should only ever create one of these.  The [Controllers](HIDDevices\Controllers.cs) class implements `IAsyncDisposable` for asynchronous disposal, which cleans up the listeners.
 
 Alternatively, the library is fully compatible with Dependency injection frameworks.  Register the service as a Singleton (so only one instance is created) using code similar to:
 ```csharp

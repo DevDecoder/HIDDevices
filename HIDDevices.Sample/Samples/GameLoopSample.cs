@@ -5,6 +5,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using HIDDevices.Controllers;
 
 namespace HIDDevices.Sample.Samples
 {
@@ -26,50 +27,75 @@ namespace HIDDevices.Sample.Samples
             // this (and it's more useful LoadAsync() counterpart) are here for convenience.
             controllers.Load(TimeSpan.FromSeconds(1));
 
+            Console.WriteLine("Press A Button to exit!");
+
             // Holds a connection to the current gamepad, we could get it now, but we'll do it in the inner loop
             // so that it can work dynamically.
             Gamepad? gamepad = null;
-            var timestamp = Stopwatch.GetTimestamp();
+            var timestamp = 0L;
+            var batch = 0;
             try
             {
                 // Our 'game loop'
                 while (true)
                 {
-                    // Sleep to simulate a game loop (we'll output values once 1 second, obviously a real game loop,
-                    // would cycle approximately every 16ms (for 60fps).
-                    Thread.Sleep(1000);
+                    // Sleep to simulate a game loop.
+                    Thread.Sleep(15);
 
                     // If we haven't got a gamepad, or the current one has been disconnected, let's look for a new one
                     if (gamepad?.IsConnected != true)
                     {
                         if (gamepad != null)
                         {
-                            Console.WriteLine($"{gamepad.Device.Name} disconnected!");
+                            Console.WriteLine($"{gamepad.Name} disconnected!");
                         }
 
                         // Find a controller that satisfies the requirements of being a gamepad, and connect to it.
                         gamepad = controllers.Connect<Gamepad>().FirstOrDefault();
-
-                        if (gamepad?.IsConnected != true)
+                        if (gamepad is null)
                         {
-                            // Still not got any connection, although this may be due to the controller still opening the connection
-                            // it should be available by the next iteration.
                             Console.WriteLine("Please plug in a gamepad!");
                             continue;
                         }
 
-                        Console.WriteLine($"{gamepad.Device.Name} connected!  Following controls were mapped - {string.Join(", ", gamepad.Mapping.Values)}");
-                    }
-
-                    // We can get all the changes since the last time we checked.
-                    foreach (var change in gamepad.ChangesSince(timestamp))
-                    {
                         Console.WriteLine(
-                            $"  {change.Control.Name}: {change.PreviousValue:0.###} -> {change.Value:0.###} ({change.Elapsed.TotalMilliseconds:0.###}ms)");
+                            $"{gamepad.Name} found!  Following controls were mapped:");
+                        foreach (var (control, infos) in gamepad.Mapping)
+                        {
+                            Console.WriteLine($"  {control.Name} => {string.Join(", ", infos.Select(info => info.PropertyName))}");
+                        }
+
+                        batch = 0;
                     }
 
-                    // Update our timestamp
-                    timestamp = Stopwatch.GetTimestamp();
+                    // Look for any changes
+                    var changes = gamepad.ChangesSince(timestamp);
+                    if (changes.Count > 0)
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine($"Batch {++batch}");
+                        foreach (var value in changes)
+                        {
+                            // We should update our timestamp to the last change we see.
+                            if (timestamp < value.Timestamp) timestamp = value.Timestamp;
+                            var valueStr = value.Value switch
+                            {
+                                bool b => b ? "Pressed" : "Not Pressed",
+                                double d => d.ToString("F3"),
+                                null => "<null>",
+                                _ => value.Value.ToString()
+                            };
+                            Console.WriteLine(
+                                $"  {value.PropertyName}: {valueStr} ({value.Elapsed.TotalMilliseconds:F3}ms)");
+                        }
+                    }
+
+                    // Or directly access controls
+                    if (gamepad.AButton)
+                    {
+                        Console.WriteLine("A Button pressed, finishing.");
+                        return;
+                    }
                 }
             }
             finally

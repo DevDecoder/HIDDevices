@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using DynamicData;
+using HIDDevices.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -37,7 +38,7 @@ namespace HIDDevices.Sample.Samples
             var controllers = serviceProvider.GetService<Devices>();
 
             // Subscribe to changes in controllers
-            using var controllerSubscription = controllers.Connect()
+            using var subscription1 = controllers.Connect()
                 .Subscribe(changeSet =>
                 {
                     var logBuilder = new StringBuilder();
@@ -62,6 +63,7 @@ namespace HIDDevices.Sample.Samples
                         {
                             case ChangeReason.Add:
                                 logBuilder.AppendLine("added.");
+
                                 break;
                             case ChangeReason.Update:
                                 logBuilder.AppendLine("updated.");
@@ -86,7 +88,7 @@ namespace HIDDevices.Sample.Samples
 
             // Subscribe to all button control changes
             var batch = 0;
-            using (controllers
+            using var subscription2 =controllers
                 // Watch for button changes only
                 .Watch()
                 .Subscribe(changes =>
@@ -96,16 +98,16 @@ namespace HIDDevices.Sample.Samples
                     logBuilder.Append("Batch ").Append(++batch).AppendLine(":");
                     foreach (var group in changes.GroupBy(c => c.Control.Device))
                     {
-                        logBuilder.Append("  ").Append(group.Key).AppendLine(":");
-                        foreach (var change in group)
+                        logBuilder.Append("  ").Append(@group.Key).AppendLine(":");
+                        foreach (var change in @group)
                         {
                             logBuilder
                                 .Append("    ")
                                 .Append(change.Control.Name)
                                 .Append(": ")
-                                .Append(change.PreviousValue.ToString("0.###"))
+                                .Append(change.PreviousValue.ToString("F3"))
                                 .Append(" -> ")
-                                .Append(change.Value.ToString("0.###"))
+                                .Append(change.Value.ToString("F3"))
                                 .Append(" (")
                                 .Append(change.Elapsed.TotalMilliseconds.ToString("0.###"))
                                 .AppendLine("ms)");
@@ -113,26 +115,59 @@ namespace HIDDevices.Sample.Samples
                     }
 
                     logger.LogInformation(logBuilder.ToString());
-                }))
-            {
-                // Subscribe to just button 1 change events, and trigger a task completion source when any are pressed.
-                var button1PressedTcs = new TaskCompletionSource<bool>();
-                using (controllers
-                    // Watch for button changes only
-                    .Watch(c => c.ButtonNumber == 1)
-                    //&& !c.Device.Usages.Contains(65538u))
-                    .Subscribe(changes =>
-                    {
-                        if (changes.Any(c => c.Value > 0.5))
-                        {
-                            button1PressedTcs.TrySetResult(true);
-                        }
-                    }))
+                });
+
+            // Subscribe to just button 1 change events, and trigger a task completion source when any are pressed.
+            var button1PressedTcs = new TaskCompletionSource<bool>();
+            using var subscription3 = controllers
+                // Watch for button changes only
+                .Watch(c => c.ButtonNumber == 1)
+                //&& !c.Device.Usages.Contains(65538u))
+                .Subscribe(changes =>
                 {
-                    // Wait on signal that Button 1 has been pressed
-                    await button1PressedTcs.Task.ConfigureAwait(false);
+                    if (changes.Any(c => c.Value > 0.5))
+                    {
+                        button1PressedTcs.TrySetResult(true);
+                    }
+                });
+
+            /* TODO
+            var gamepad = controllers.Connect<Gamepad>().FirstOrDefault();
+
+            if (gamepad != null)
+            {
+                var builder = new StringBuilder();
+                builder.AppendLine(
+                    $"{gamepad.Name} found!  Following controls were mapped:");
+                //- {string.Join(", ", gamepad.Mapping.Values.Select(ci => ci.PropertyName))}");
+                foreach (var (control, infos) in gamepad.Mapping)
+                {
+                    builder.AppendLine(
+                        $"  {control.Name} => {string.Join(", ", infos.Select(info => info.PropertyName))}");
                 }
+
+                logger.LogInformation(builder.ToString());
+
+                gamepad.Subscribe(change =>
+                {
+                    var valueStr = change.Value switch
+                    {
+                        bool b => b ? "Pressed" : "Not Pressed",
+                        double d => d.ToString("F3"),
+                        null => "<null>",
+                        _ => change.Value.ToString()
+                    };
+                    logger.LogInformation(
+                        $"  {change.PropertyName}: {valueStr} ({change.Elapsed.TotalMilliseconds:F3}ms)");
+                });
             }
+            gamepad?.Dispose();
+            */
+
+            Console.WriteLine("Press Button 1 on any device to exit!");
+
+            // Wait on signal that Button 1 has been pressed
+            await button1PressedTcs.Task.ConfigureAwait(false);
 
             logger.LogInformation("Finished");
         }

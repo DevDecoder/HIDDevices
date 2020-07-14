@@ -86,8 +86,8 @@ namespace HIDDevices
                         }
                         catch (Exception ex)
                         {
-                            // Log error
-                            Devices.Logger.LogError(ex, $"Failed to open a connection to the {Name} Device.");
+                            // Log error TODO Event
+                            Devices.Logger?.LogError(ex, $"Failed to open a connection to the {Name} Device.");
                             observer.OnError(ex);
                             return;
                         }
@@ -103,7 +103,8 @@ namespace HIDDevices
 
                             inputReceiver.Start(stream);
 
-                            Devices.Logger.LogInformation($"Began listening to {Name} Device.");
+                            // TODO Event
+                            Devices.Logger?.LogInformation($"Began listening to {Name} Device.");
 
                             // Some devices spam changes, so we collect only the last value as quickly as possible.
                             var batch = new Dictionary<(DataItem, int), (DataValue, long timestamp)>(_controls.Count);
@@ -190,7 +191,8 @@ namespace HIDDevices
                         }
                         catch (Exception ex)
                         {
-                            Devices.Logger.LogError(ex, $"Failed listening to {Name} Device.");
+                            // TODO Event
+                            Devices.Logger?.LogError(ex, $"Failed listening to {Name} Device.");
                             observer.OnError(ex);
                         }
                         finally
@@ -199,7 +201,8 @@ namespace HIDDevices
                             await stream.DisposeAsync().ConfigureAwait(false);
                         }
 
-                        Devices.Logger.LogInformation($"Stopped listening to {Name} Device.");
+                        // TODO Event
+                        Devices.Logger?.LogInformation($"Stopped listening to {Name} Device.");
                         observer.OnCompleted();
                     })
                 .Publish()

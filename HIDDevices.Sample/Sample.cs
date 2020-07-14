@@ -7,6 +7,8 @@ using System.Globalization;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 
 namespace HIDDevices.Sample
 {
@@ -19,6 +21,7 @@ namespace HIDDevices.Sample
             FullName = fullName ?? GetFullName(GetType().Name);
 
             _shortNames = shortNames.Length > 0 ? new HashSet<string>(shortNames) : GetShortNames(FullName);
+            _logger = new SimpleConsoleLogger(FullName);
         }
 
         /// <inheritdoc />
@@ -37,6 +40,11 @@ namespace HIDDevices.Sample
         ///     Execute the example synchronously.
         /// </summary>
         protected virtual void Execute() { }
+
+        private readonly SimpleConsoleLogger _logger;
+
+        public LogLevel LogLevel { get => _logger.LogLevel; set => _logger.LogLevel = value; }
+        public ILogger Logger => _logger;
 
         /// <summary>
         ///     Gets a friendly full name

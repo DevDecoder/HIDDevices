@@ -25,9 +25,9 @@ namespace HIDDevices.Sample
                 .OfType<ISample>()
                 .ToArray();
 
-            ISample sample;
+            ISample? sample;
             if (args.Length != 1 ||
-                (sample = samples.FirstOrDefault(s => s.ShortNames.Contains(args[0]))) is null)
+                (sample = Array.Find(samples, s => s.ShortNames.Contains(args[0]))) is null)
             {
                 var assemblyName = assembly.GetName().Name;
                 var location = Path.GetFileName(assembly.Location) ?? assemblyName;
