@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using DynamicData;
 using DynamicData.Kernel;
 using HidSharp;
+using HidSharp.Utility;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.Threading;
 
@@ -110,12 +111,6 @@ namespace HIDDevices
 
         private async Task RefreshAsync(CancellationToken cancellationToken)
         {
-#if DEBUG
-            //HidSharpDiagnostics.EnableTracing = true;
-#else
-            HidSharpDiagnostics.EnableTracing = false;
-#endif
-
             // Create dictionary to hold disconnected controllers, allowing for resurrection.
             var zombieControllers = new Dictionary<string, Device>();
             do
