@@ -32,7 +32,7 @@ namespace HIDDevices.Sample.Samples
             var batch = 0;
 
             // Controller to any gamepads as they are found
-            using var subscription = devices.Controller<Gamepad>().Subscribe(g =>
+            using var subscription = devices.Controllers<Gamepad>().Subscribe(g =>
             {
                 // If we already have a connected gamepad ignore any more.
                 if (gamepad?.IsConnected == true) return;

@@ -27,6 +27,7 @@ namespace HIDDevices
             !(other is null) &&
             (ReferenceEquals(this, other) || (Page.Equals(other.Page) && Id == other.Id));
 
+        public static Usage Get(Enum id) => Get(Convert.ToUInt32(id));
         public static Usage Get(uint id) => UsagePage.Get(id).GetUsage((ushort)(id & 0xFFFF));
 
         public static bool operator ==(Usage? left, Usage? right) => Equals(left, right);
@@ -35,6 +36,7 @@ namespace HIDDevices
 
         public static implicit operator uint(Usage usage) => usage.FullId;
         public static implicit operator Usage(uint usage) => Get(usage);
+        public static implicit operator Usage(Enum usage) => Get(usage);
 
         /// <inheritdoc />
         public override bool Equals(object? obj) => ReferenceEquals(this, obj) || (obj is Usage other && Equals(other));

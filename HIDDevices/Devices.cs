@@ -250,23 +250,5 @@ namespace HIDDevices
 
         public Task LoadAsync(CancellationToken cancellationToken = default) =>
             _loadedTaskCompletionSource.Task.WithCancellation(cancellationToken);
-
-        /// <summary>
-        ///     Gets a filtered observable of control changes.
-        /// </summary>
-        /// <param name="predicate">
-        ///     A function that returns <see langword="true" /> if the control should be monitored for changes;
-        ///     otherwise <see langword="false" />.
-        /// </param>
-        /// <returns>A filtered observable of control changes.</returns>
-        public IObservable<IList<ControlChange>> Watch(Func<Control, bool>? predicate = null)
-            => Connect()
-                .SelectMany(cs => cs)
-                .Where(c => c.Reason != ChangeReason.Remove && (predicate is null || c.Current.Keys.Any(predicate)))
-                .Select(c => c.Current)
-                .SelectMany(c => c.Watch(predicate)
-                    // Suppress errors so we don't stop listening on valid controllers - error will already have been logged.
-                    .Catch((Exception _) => Observable.Empty<IList<ControlChange>>()))
-                .Where(l => l.Count > 0);
     }
 }

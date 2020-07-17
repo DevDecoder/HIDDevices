@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using DynamicData;
 using HIDDevices.Controllers;
+using HIDDevices.Usages;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -39,7 +40,9 @@ namespace HIDDevices.Sample.Samples
             var controllers = serviceProvider.GetService<Devices>();
 
             // Subscribe to changes in controllers
-            using var subscription1 = controllers.Connect()
+            using var subscription1 = controllers
+                .ControlUsagesAll(GenericDesktopPage.X, ButtonPage.Button10)
+                //.Connect()
                 .Subscribe(changeSet =>
                 {
                     var logBuilder = new StringBuilder();
@@ -56,9 +59,9 @@ namespace HIDDevices.Sample.Samples
                             logBuilder.AppendLine(null);
                         }
 
-                        var controller = change.Current;
+                        var device = change.Current;
                         logBuilder.Append("  The ")
-                            .Append(controller)
+                            .Append(device)
                             .Append(" Device  was ");
                         switch (change.Reason)
                         {
@@ -77,11 +80,11 @@ namespace HIDDevices.Sample.Samples
                         }
 
                         logBuilder.Append("    DevicePath: ")
-                            .AppendLine(controller.DevicePath)
+                            .AppendLine(device.DevicePath)
                             .Append("    Usages: ")
-                            .AppendLine(string.Join(", ", controller.Usages))
+                            .AppendLine(string.Join(", ", device.Usages))
                             .Append("    Controls: ")
-                            .AppendLine(string.Join(", ", controller.Keys));
+                            .AppendLine(string.Join(", ", device.Keys));
                     }
 
                     logger.LogInformation(logBuilder.ToString());
@@ -91,7 +94,7 @@ namespace HIDDevices.Sample.Samples
             var batch = 0;
             using var subscription2 =controllers
                 // Watch for control changes only
-                .Watch()
+                .Controls()
                 .Subscribe(changes =>
                 {
                     // Log the changes and look for a press of Button 1 on any controller.
@@ -122,7 +125,7 @@ namespace HIDDevices.Sample.Samples
             var button1PressedTcs = new TaskCompletionSource<bool>();
             using var subscription3 = controllers
                 // Watch for button one changes only
-                .Watch(c => c.ButtonNumber == 1)
+                .Controls(c => c.ButtonNumber == 1)
                 //&& !c.Device.Usages.Contains(65538u))
                 .Subscribe(changes =>
                 {
@@ -135,7 +138,7 @@ namespace HIDDevices.Sample.Samples
             // Subscribe to a specific controller type
             var gamepadBatch = 0;
             using var gamepadSubscription = controllers
-                .Controller<Gamepad>()
+                .Controllers<Gamepad>()
                 .Do(gamepad =>
                 {
                     var logBuilder = new StringBuilder();

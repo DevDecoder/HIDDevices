@@ -43,6 +43,7 @@ namespace HIDDevices
                     ? new UsagePage(id, $"Reserved (0x{id:X2})")
                     : new UsagePage(id, $"Vendor-defined (0x{id:X2})");
 
+        public static UsagePage Get(Enum usage) => Get((ushort)(Convert.ToUInt32(usage) >> 16));
         public static UsagePage Get(uint usage) => Get((ushort)(usage >> 16));
 
         public virtual Usage GetUsage(ushort id) =>
@@ -63,6 +64,7 @@ namespace HIDDevices
 
         public static implicit operator ushort(UsagePage page) => page.Id;
         public static implicit operator UsagePage(ushort page) => Get(page);
+        public static implicit operator UsagePage(Enum page) => Get(page);
 
         /// <inheritdoc />
         public override string ToString() => Name;
