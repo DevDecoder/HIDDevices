@@ -3,10 +3,24 @@
 
 namespace HIDDevices
 {
+    /// <summary>
+    ///     Enum UsageTypeGroup groups <seealso cref="UsageTypes" />.
+    /// </summary>
     public enum UsageTypeGroup : byte
     {
+        /// <summary>
+        ///     The controls group.
+        /// </summary>
         Controls,
+
+        /// <summary>
+        ///     The data group.
+        /// </summary>
         Data,
-        Collection
+
+        /// <summary>
+        ///     The collections group.
+        /// </summary>
+        Collections
     }
 }

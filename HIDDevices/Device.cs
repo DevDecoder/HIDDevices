@@ -8,14 +8,19 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading;
-using HIDDevices.OLD;
 using HidSharp;
 using HidSharp.Reports;
-using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.Threading;
 
 namespace HIDDevices
 {
+    /// <summary>
+    ///     Class Device.
+    ///     Implements the <see cref="IObservable{T}" /> interface
+    ///     Implements the <see cref="IReadOnlyDictionary{TKey,TValue}" />
+    /// </summary>
+    /// <seealso cref="IObservable{T}" />
+    /// <seealso cref="IReadOnlyDictionary{TKey, TValue}" />
     public sealed class Device : IObservable<IList<ControlChange>>, IReadOnlyDictionary<Control, ControlChange>
     {
         private readonly Dictionary<Control, ControlChange> _cache;
@@ -27,7 +32,7 @@ namespace HIDDevices
         private CancellationTokenSource? _cancellationTokenSource;
         private int _openStreamCount;
 
-        public Device(Devices devices, HidDevice device, byte[] rawReportDescriptor)
+        internal Device(Devices devices, HidDevice device, byte[] rawReportDescriptor)
         {
             Devices = devices;
 
@@ -87,7 +92,7 @@ namespace HIDDevices
                         catch (Exception ex)
                         {
                             // Log error TODO Event
-                            Devices.Logger?.LogError(ex, $"Failed to open a connection to the {Name} Device.");
+                            Devices.Logger?.Log(Event.DeviceConnectionFailed, ex, Name);
                             observer.OnError(ex);
                             return;
                         }
@@ -102,9 +107,7 @@ namespace HIDDevices
                             var inputReceiver = reportDescriptor.CreateHidDeviceInputReceiver();
 
                             inputReceiver.Start(stream);
-
-                            // TODO Event
-                            Devices.Logger?.LogInformation($"Began listening to {Name} Device.");
+                            Devices.Logger?.Log(Event.DeviceConnected, Name);
 
                             // Some devices spam changes, so we collect only the last value as quickly as possible.
                             var batch = new Dictionary<(DataItem, int), (DataValue, long timestamp)>(_controls.Count);
@@ -191,8 +194,7 @@ namespace HIDDevices
                         }
                         catch (Exception ex)
                         {
-                            // TODO Event
-                            Devices.Logger?.LogError(ex, $"Failed listening to {Name} Device.");
+                            Devices.Logger?.Log(Event.DeviceError, ex, Name);
                             observer.OnError(ex);
                         }
                         finally
@@ -201,8 +203,7 @@ namespace HIDDevices
                             await stream.DisposeAsync().ConfigureAwait(false);
                         }
 
-                        // TODO Event
-                        Devices.Logger?.LogInformation($"Stopped listening to {Name} Device.");
+                        Devices.Logger?.Log(Event.DeviceConnectionClosed, Name);
                         observer.OnCompleted();
                     })
                 .Publish()
@@ -217,26 +218,54 @@ namespace HIDDevices
 #pragma warning restore CA1031 // Do not catch general exception types
         }
 
+        /// <summary>
+        ///     Gets the usages.
+        /// </summary>
+        /// <value>The usages.</value>
         public IReadOnlyCollection<Usage> Usages => _usages;
 
+        /// <summary>
+        ///     Gets the devices.
+        /// </summary>
+        /// <value>The devices.</value>
         public Devices Devices { get; }
 
+        /// <summary>
+        ///     Gets the device path.
+        /// </summary>
+        /// <value>The device path.</value>
         public string DevicePath => _device.DevicePath;
 
+        /// <summary>
+        ///     Gets the name.
+        /// </summary>
+        /// <value>The name.</value>
         public string Name { get; }
 
         /// <summary>
         ///     The USB product ID. These are listed at: http://usb-ids.gowdy.us
         /// </summary>
+        /// <value>The product identifier.</value>
         public int ProductId => _device.ProductID;
 
-        /// <summary>The device release number.</summary>
+        /// <summary>
+        ///     The device release number.
+        /// </summary>
+        /// <value>The release number.</value>
         public Version ReleaseNumber => _device.ReleaseNumber;
 
+        /// <summary>
+        ///     Gets a value indicating whether the device is connected.
+        /// </summary>
+        /// <value>Whether the device is connected.</value>
         public bool IsConnected => _openStreamCount > 0;
 
         internal byte[] RawReportDescriptor { get; }
 
+        /// <summary>
+        ///     Gets an enumeration of controls.
+        /// </summary>
+        /// <value>The controls.</value>
         public IEnumerable<Control> Controls => _controls.Values;
 
         /// <inheritdoc />

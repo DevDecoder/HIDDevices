@@ -1,0 +1,37 @@
+name: Build and Publish
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  publish:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0 # Avoid shallow clone so NBGV can do its work.
+      # Use Nerdbank.GitVersioning to set version variables: https://github.com/AArnott/nbgv
+    - name: Set version
+      uses: aarnott/nbgv@v0.3
+      with:
+        setAllVars: true
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.101
+    - name: Install dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal
+    - name: Publish  
+      uses: brandedoutcast/publish-nuget@v2.5.2  
+      with:   
+        PROJECT_FILE_PATH: HIDDevices/HIDDevices.csproj  
+        NUGET_KEY: ${{secrets.NUGET_API_KEY}} 
+        INCLUDE_SYMBOLS: true
+        VERSION_STATIC: ${{env.NBGV_Version}}

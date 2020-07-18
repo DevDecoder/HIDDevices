@@ -3,11 +3,21 @@
 
 namespace HIDDevices.Converters
 {
-    public class RightTriggerConverter : TriggerConverter
+    /// <summary>
+    ///     Class RightTriggerConverter converts control values for trigger properties. This class cannot be inherited.
+    ///     Implements the <see cref="IControlConverter{T}" /> interface.
+    /// </summary>
+    /// <seealso cref="IControlConverter{T}" />
+    /// .
+    /// <seealso cref="RangeConverter" />
+    public class RightTriggerConverter : RangeConverter
     {
+        /// <summary>
+        ///     The singleton instance of the converter.
+        /// </summary>
         public static readonly RightTriggerConverter Instance = new RightTriggerConverter();
 
-        public RightTriggerConverter() : base(false)
+        public RightTriggerConverter() : base(0D, 1D, 0.5D, 0D)
         {
         }
     }

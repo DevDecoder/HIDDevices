@@ -2,10 +2,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Diagnostics;
 using System.Linq;
-using System.Reactive.Linq;
-using System.Runtime.InteropServices.ComTypes;
+using System.Text;
 using System.Threading;
 using HIDDevices.Controllers;
 using Microsoft.Extensions.Logging;
@@ -35,7 +33,11 @@ namespace HIDDevices.Sample.Samples
             using var subscription = devices.Controllers<Gamepad>().Subscribe(g =>
             {
                 // If we already have a connected gamepad ignore any more.
-                if (gamepad?.IsConnected == true) return;
+                // ReSharper disable once AccessToDisposedClosure
+                if (gamepad?.IsConnected == true)
+                {
+                    return;
+                }
 
                 // Assign this gamepad and connect to it.
                 gamepad = g;
@@ -66,12 +68,17 @@ namespace HIDDevices.Sample.Samples
                     var changes = currentGamepad.ChangesSince(timestamp);
                     if (changes.Count > 0)
                     {
-                        Console.WriteLine("");
-                        Console.WriteLine($"Batch {++batch}");
+                        var logBuilder = new StringBuilder();
+
+                        logBuilder.Append("Batch ").Append(++batch).AppendLine();
                         foreach (var value in changes)
                         {
                             // We should update our timestamp to the last change we see.
-                            if (timestamp < value.Timestamp) timestamp = value.Timestamp;
+                            if (timestamp < value.Timestamp)
+                            {
+                                timestamp = value.Timestamp;
+                            }
+
                             var valueStr = value.Value switch
                             {
                                 bool b => b ? "Pressed" : "Not Pressed",
@@ -79,15 +86,21 @@ namespace HIDDevices.Sample.Samples
                                 null => "<null>",
                                 _ => value.Value.ToString()
                             };
-                            Console.WriteLine(
-                                $"  {value.PropertyName}: {valueStr} ({value.Elapsed.TotalMilliseconds:F3}ms)");
+                            logBuilder.Append("  ")
+                                .Append(value.PropertyName)
+                                .Append(": ")
+                                .Append(valueStr)
+                                .Append(" (")
+                                .AppendFormat("{0:F3}", value.Elapsed.TotalMilliseconds).AppendLine("ms)");
                         }
+
+                        Logger.LogInformation(logBuilder.ToString());
                     }
 
                     // Or directly access controls
                     if (currentGamepad.AButton)
                     {
-                        Console.WriteLine("A Button pressed, finishing.");
+                        Logger.LogInformation("A Button pressed, finishing.");
                         return;
                     }
                 }
@@ -98,7 +111,7 @@ namespace HIDDevices.Sample.Samples
                 if (gamepad != null)
                 {
                     gamepad.Dispose();
-                    Console.WriteLine($"{gamepad.Device.Name} disconnected!");
+                    Logger.LogInformation($"{gamepad.Device.Name} disconnected!");
                 }
             }
         }

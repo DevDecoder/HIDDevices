@@ -117,79 +117,76 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DeviceAdd" xml:space="preserve">
-    <value>The {0} device was found.</value>
-  </data>
-  <data name="DeviceRemove" xml:space="preserve">
-    <value>The {0} device was removed.</value>
-  </data>
-  <data name="DeviceStreamStopped" xml:space="preserve">
-    <value>The {0} device's HIDStream stopped unexpectedly!</value>
-  </data>
-  <data name="DeviceUpdate" xml:space="preserve">
-    <value>The {0} device was updated.</value>
-  </data>
-  <data name="ControllerInputParseFailure" xml:space="preserve">
-    <value>The {0} device's input could not be parsed!</value>
-  </data>
-  <data name="DeviceCreationFailure" xml:space="preserve">
-    <value>Could not create the {0} device!</value>
-  </data>
-  <data name="RefreshFailure" xml:space="preserve">
-    <value>The HID devices failed to update!</value>
-  </data>
-  <data name="HatNotNullable" xml:space="preserve">
-    <value>The {0} HAT device does not have a nullable value so is unsupported!</value>
-  </data>
   <data name="DefaultControllerName" xml:space="preserve">
     <value>Vendor: {0}; Product ID: {1}; Release: {2}</value>
   </data>
-  <data name="HidStreamOpenFailure" xml:space="preserve">
-    <value>Could not open the HIDStream for the {0} Device.</value>
-  </data>
-  <data name="DeviceTypeJoystick" xml:space="preserve">
-    <value>Joystick</value>
-  </data>
-  <data name="DeviceTypeGamepad" xml:space="preserve">
-    <value>Gamepad</value>
-  </data>
-  <data name="DeviceTypeMultiAxisController" xml:space="preserve">
-    <value>Multi-axis Device</value>
-  </data>
-  <data name="DeviceTypeConsumerController" xml:space="preserve">
-    <value>Consumer Device</value>
-  </data>
-  <data name="DeviceTypeKeypad" xml:space="preserve">
-    <value>Keypad</value>
-  </data>
-  <data name="DeviceTypeProgrammableButtons" xml:space="preserve">
-    <value>Programmable Buttons</value>
-  </data>
-  <data name="RefreshFailureDescription" xml:space="preserve">
-    <value>Event logged when an exception is thrown whilst trying to load the Devices collection on a change being detected to the list of HID Devices.</value>
-  </data>
-  <data name="DeviceCreationFailureDescription" xml:space="preserve">
-    <value>Event logged when an exception is thrown whilst trying to create a Device class, usually this is an access violation.</value>
+  <data name="DeviceAdd" xml:space="preserve">
+    <value>The {0} device was found.</value>
   </data>
   <data name="DeviceAddDescription" xml:space="preserve">
     <value>Event logged when a new Device is found and successfully added.</value>
   </data>
+  <data name="DeviceConnected" xml:space="preserve">
+    <value>Connected to {0} Device.</value>
+  </data>
+  <data name="DeviceConnectedDescription" xml:space="preserve">
+    <value>Event logged when a connection is established with a device.</value>
+  </data>
+  <data name="DeviceConnectionClosed" xml:space="preserve">
+    <value>The connection to the {0} was closed.</value>
+  </data>
+  <data name="DeviceConnectionClosedDescription" xml:space="preserve">
+    <value>Event logged when a connection is closed to a device.</value>
+  </data>
+  <data name="DeviceConnectionFailed" xml:space="preserve">
+    <value>Failed to open a connection to the {0} Device.</value>
+  </data>
+  <data name="DeviceConnectionFailedDescription" xml:space="preserve">
+    <value>Event logged when an attempt to open a connection to a Device fails.</value>
+  </data>
+  <data name="DeviceCreationFailure" xml:space="preserve">
+    <value>Could not create the {0} device!</value>
+  </data>
+  <data name="DeviceCreationFailureDescription" xml:space="preserve">
+    <value>Event logged when an exception is thrown whilst trying to create a Device class, usually this is an access violation.</value>
+  </data>
+  <data name="DeviceError" xml:space="preserve">
+    <value>An error occurred whilst listening to the {0} device.</value>
+  </data>
+  <data name="DeviceErrorDescription" xml:space="preserve">
+    <value>Event logged when an error occurs whilst listening to a device.</value>
+  </data>
+  <data name="DeviceRemove" xml:space="preserve">
+    <value>The {0} device was removed.</value>
+  </data>
   <data name="DeviceRemoveDescription" xml:space="preserve">
     <value>Event logged when a Device is unplugged.</value>
+  </data>
+  <data name="DeviceUpdate" xml:space="preserve">
+    <value>The {0} device was updated.</value>
   </data>
   <data name="DeviceUpdateDescription" xml:space="preserve">
     <value>Event logged when a Device's definition is changed.</value>
   </data>
-  <data name="DeviceStreamStoppedDescription" xml:space="preserve">
-    <value>Event logged when a Device's HIDStream stops unexpectedly.</value>
+  <data name="RefreshFailure" xml:space="preserve">
+    <value>The HID devices failed to update!</value>
   </data>
-  <data name="ControllerInputParseFailureDescription" xml:space="preserve">
-    <value>Event logged when the data sent from a Device could not be parsed successfully.</value>
+  <data name="RefreshFailureDescription" xml:space="preserve">
+    <value>Event logged when an exception is thrown whilst trying to load the Devices collection on a change being detected to the list of HID Devices.</value>
   </data>
-  <data name="InvalidSensitivity" xml:space="preserve">
-    <value>The Sensitivity must be between 0 and 15 decimal places.</value>
+  <data name="ControllerInvalidPropertyType" xml:space="preserve">
+    <value>The {0} is expecting a value of type '{1}' but has a value of type '{2}'.</value>
   </data>
-  <data name="InvalidDeadZone" xml:space="preserve">
-    <value>The dead zone must be between 0 and 1.</value>
+  <data name="ControllerMissingConverter" xml:space="preserve">
+    <value>The {0} is expecting a value of type '{1}' but there is no default converter registered for that type, nor explicit converter supplied.</value>
+  </data>
+  <data name="ControllerInvalidConverter" xml:space="preserve">
+    <value>The supplied converter must implement IControlConverter&lt;&gt;</value>
+  </data>
+  <data name="ControllerInvalidType" xml:space="preserve">
+    <value>The '{0}' device type must be assignable to the '{1}' type.</value>
+  </data>
+  <data name="ControllerInvalidConstructor" xml:space="preserve">
+    <value>The '{0}' type does not contain a constructor with the correct parameter types.</value>
   </data>
 </root>

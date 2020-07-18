@@ -1,8 +1,6 @@
-name: .NET Core
+name: Validate Pull Request
 
 on:
-  push:
-    branches: [ master ]
   pull_request:
     branches: [ master ]
 
@@ -30,10 +28,3 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --no-restore --verbosity normal
-    - name: Publish  
-      uses: brandedoutcast/publish-nuget@v2.5.2  
-      with:   
-        PROJECT_FILE_PATH: HIDDevices/HIDDevices.csproj  
-        NUGET_KEY: ${{secrets.NUGET_API_KEY}} 
-        INCLUDE_SYMBOLS: true
-        VERSION_STATIC: ${{env.NBGV_Version}}

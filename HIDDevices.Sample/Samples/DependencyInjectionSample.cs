@@ -92,9 +92,9 @@ namespace HIDDevices.Sample.Samples
 
             // Subscribe to all button control changes
             var batch = 0;
-            using var subscription2 =controllers
+            using var subscription2 = controllers
                 // Watch for control changes only
-                .Controls()
+                .ControlChanges()
                 .Subscribe(changes =>
                 {
                     // Log the changes and look for a press of Button 1 on any controller.
@@ -102,8 +102,8 @@ namespace HIDDevices.Sample.Samples
                     logBuilder.Append("Batch ").Append(++batch).AppendLine(":");
                     foreach (var group in changes.GroupBy(c => c.Control.Device))
                     {
-                        logBuilder.Append("  ").Append(@group.Key).AppendLine(":");
-                        foreach (var change in @group)
+                        logBuilder.Append("  ").Append(group.Key).AppendLine(":");
+                        foreach (var change in group)
                         {
                             logBuilder
                                 .Append("    ")
@@ -125,7 +125,7 @@ namespace HIDDevices.Sample.Samples
             var button1PressedTcs = new TaskCompletionSource<bool>();
             using var subscription3 = controllers
                 // Watch for button one changes only
-                .Controls(c => c.ButtonNumber == 1)
+                .ControlChanges(c => c.ButtonNumber == 1)
                 //&& !c.Device.Usages.Contains(65538u))
                 .Subscribe(changes =>
                 {
@@ -184,7 +184,7 @@ namespace HIDDevices.Sample.Samples
                     logger.LogInformation(logBuilder.ToString());
                 });
 
-            Console.WriteLine("Press Button 1 on any device to exit!");
+            logger.LogInformation("Press Button 1 on any device to exit!");
 
             // Wait on signal that Button 1 has been pressed
             await button1PressedTcs.Task.ConfigureAwait(false);

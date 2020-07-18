@@ -3,8 +3,17 @@
 
 namespace HIDDevices.Converters
 {
+    /// <summary>
+    ///     Class BooleanConverter converts control values to a boolean. This class cannot be inherited.
+    ///     Implements the <see cref="IControlConverter{T}" /> interface.
+    /// </summary>
+    /// <seealso cref="IControlConverter{T}" />
+    /// .
     public sealed class BooleanConverter : IControlConverter<bool>
     {
+        /// <summary>
+        ///     The singleton instance of the converter.
+        /// </summary>
         public static readonly BooleanConverter Instance = new BooleanConverter();
 
         private BooleanConverter()
@@ -12,6 +21,6 @@ namespace HIDDevices.Converters
         }
 
         /// <inheritdoc />
-        public bool ConvertTo(double value) => !double.IsNaN(value) && value > 0.5D;
+        public bool Convert(double value) => !double.IsNaN(value) && value > 0.5D;
     }
 }

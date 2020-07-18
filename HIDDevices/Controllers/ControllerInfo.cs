@@ -17,7 +17,7 @@ namespace HIDDevices.Controllers
             private static readonly ConcurrentDictionary<Type, ControllerInfo> s_infos =
                 new ConcurrentDictionary<Type, ControllerInfo>();
 
-            private static readonly Type[] s_constructorTypes = { typeof(Device), typeof(ControlInfo[]) };
+            private static readonly Type[] s_constructorTypes = {typeof(Device), typeof(ControlInfo[])};
 
             public readonly CreateControllerDelegate<Controller?> CreateController;
 
@@ -33,11 +33,12 @@ namespace HIDDevices.Controllers
                 {
                     var mapping = GetMapping(device, deviceAttributes, propertyData);
                     return mapping is null ||
-                           !(constructor.Invoke(new object[] { device, mapping }) is Controller controller)
+                           !(constructor.Invoke(new object[] {device, mapping}) is Controller controller)
                         ? null
                         : controller;
                 };
 
+            // ReSharper disable once MemberHidesStaticFromOuterClass
             public static void Register(
                 Type type,
                 CreateControllerDelegate<Controller?> createControllerDelegate)
@@ -55,7 +56,7 @@ namespace HIDDevices.Controllers
                 if (!typeof(Controller).IsAssignableFrom(type))
                 {
                     throw new ArgumentOutOfRangeException(nameof(type),
-                        $"The '{type.Name}' device type must be assignable to the '{nameof(Controller)}' type.");
+                        string.Format(Resources.ControllerInvalidType, type.Name, nameof(Controller)));
                 }
 
                 // Check for a valid constructor on the type
@@ -68,7 +69,7 @@ namespace HIDDevices.Controllers
                 if (constructor is null)
                 {
                     throw new ArgumentOutOfRangeException(nameof(type),
-                        $"The '{type}' type does not contain a constructor with the correct parameter types.");
+                        string.Format(Resources.ControllerInvalidConstructor, type));
                 }
 
                 var deviceAttributes = (IReadOnlyList<DeviceAttribute>)(

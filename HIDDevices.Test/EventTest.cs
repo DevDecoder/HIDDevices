@@ -24,7 +24,7 @@ namespace HIDDevices.Test
         {
             Assert.NotEmpty(Event.All);
             Assert.Equal(Event.All.Count, Event.All.Select(e => e.Id).Distinct().Count());
-            Assert.DoesNotContain(Event.All, e => string.IsNullOrWhiteSpace(e.Message));
+            Assert.DoesNotContain(Event.All, e => string.IsNullOrWhiteSpace(e.Format));
             Assert.DoesNotContain(Event.All, e => string.IsNullOrWhiteSpace(e.Description));
 
             // The library provides fully described Event IDs, with localisable resources, for easy filtering of logs.

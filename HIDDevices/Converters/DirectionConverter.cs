@@ -5,8 +5,18 @@ using System;
 
 namespace HIDDevices.Converters
 {
+    /// <summary>
+    ///     Class DirectionConverter converts control values to a <see cref="Direction" />. This class cannot be inherited.
+    ///     Implements the <see cref="IControlConverter{T}" /> interface.
+    /// </summary>
+    /// <seealso cref="IControlConverter{T}" />
+    /// .
+    /// <seealso cref="Direction" />
     public sealed class DirectionConverter : IControlConverter<Direction>
     {
+        /// <summary>
+        ///     The singleton instance of the converter.
+        /// </summary>
         public static readonly DirectionConverter Instance = new DirectionConverter();
 
         private DirectionConverter()
@@ -14,7 +24,7 @@ namespace HIDDevices.Converters
         }
 
         /// <inheritdoc />
-        public Direction ConvertTo(double value) => double.IsNaN(value)
+        public Direction Convert(double value) => double.IsNaN(value)
             ? Direction.NotPressed
             : (Direction)Math.Clamp((int)Math.Round(value * 7.0), 0, 7);
     }

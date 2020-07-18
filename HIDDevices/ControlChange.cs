@@ -8,6 +8,13 @@ using HidSharp.Reports;
 
 namespace HIDDevices
 {
+    /// <summary>
+    ///     Struct ControlChange
+    ///     Implements the <see cref="IEquatable{T}" /> interface.
+    ///     Used to record a change in a <see cref="Control">Control's</see> value.
+    /// </summary>
+    /// <seealso cref="Control" />
+    /// <seealso cref="IEquatable{T}" />
     public readonly struct ControlChange : IEquatable<ControlChange>
     {
         internal ControlChange(Control control, (DataValue value, long timestamp) value) : this()
@@ -26,17 +33,38 @@ namespace HIDDevices
             Timestamp = timestamp;
         }
 
+        /// <summary>
+        ///     Gets the control.
+        /// </summary>
+        /// <value>The control.</value>
         public Control Control { get; }
+
+        /// <summary>
+        ///     Gets the previous value.
+        /// </summary>
+        /// <value>The previous value.</value>
         public double PreviousValue { get; }
+
+        /// <summary>
+        ///     Gets the value.
+        /// </summary>
+        /// <value>The value.</value>
         public double Value { get; }
+
+        /// <summary>
+        ///     Gets the timestamp.
+        /// </summary>
+        /// <value>The timestamp.</value>
         public long Timestamp { get; }
 
+        /// <summary>
+        ///     Gets the elapsed time since the change occurred.
+        /// </summary>
+        /// <value>The elapsed time.</value>
         public TimeSpan Elapsed => Timestamp < 0
             ? Timeout.InfiniteTimeSpan
             : TimeSpan.FromSeconds(
                 (double)(Stopwatch.GetTimestamp() - Timestamp) / Stopwatch.Frequency);
-
-        public bool HasReceivedUpdate => Timestamp > long.MinValue;
 
         internal ControlChange? Update((DataValue value, long timestamp) value)
         {
@@ -58,10 +86,27 @@ namespace HIDDevices
         /// <inheritdoc />
         public override int GetHashCode() => HashCode.Combine(Control, PreviousValue, Value);
 
+        /// <summary>
+        ///     Implements the == operator.
+        /// </summary>
+        /// <param name="left">The left.</param>
+        /// <param name="right">The right.</param>
+        /// <returns>The result of the operator.</returns>
         public static bool operator ==(ControlChange left, ControlChange right) => left.Equals(right);
 
+        /// <summary>
+        ///     Implements the != operator.
+        /// </summary>
+        /// <param name="left">The left.</param>
+        /// <param name="right">The right.</param>
+        /// <returns>The result of the operator.</returns>
         public static bool operator !=(ControlChange left, ControlChange right) => !left.Equals(right);
 
+        /// <summary>
+        ///     Performs an implicit conversion from <see cref="ControlChange" /> to <see cref="System.Double" />.
+        /// </summary>
+        /// <param name="change">The change.</param>
+        /// <returns>The result of the conversion.</returns>
         public static implicit operator double(ControlChange change) => change.Value;
 
         /// <summary>

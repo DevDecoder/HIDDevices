@@ -5,13 +5,28 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using HIDDevices.Controllers;
 
 namespace HIDDevices
 {
+    /// <summary>
+    ///     Class DeviceAttribute. This class cannot be inherited.
+    ///     Attribute that can optionally be added to a <seealso cref="Controller" /> descendent to limit the
+    ///     <seealso cref="Device">Devices</seealso>
+    ///     that can be matched by the controller.
+    /// </summary>
+    /// <seealso cref="Controller" />
+    /// <seealso cref="Device" />
+    /// <seealso cref="Attribute" />
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public sealed class DeviceAttribute : Attribute
     {
         private Regex? _releaseNumberRegex;
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="DeviceAttribute" /> class.
+        /// </summary>
+        /// <param name="usages">The usages, all of which must match.</param>
         public DeviceAttribute(params uint[] usages) => Usages = usages;
 
         /// <summary>

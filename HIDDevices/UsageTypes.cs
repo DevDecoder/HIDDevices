@@ -6,57 +6,97 @@ using System.ComponentModel;
 
 namespace HIDDevices
 {
+    /// <summary>
+    ///     Enum UsageTypes defines usage types.
+    /// </summary>
+    /// <seealso href="https://www.usb.org/document-library/hid-usage-tables-112" />
     [Flags]
     public enum UsageTypes : ushort
     {
+        /// <summary>
+        ///     Indicates no usage types specified.
+        /// </summary>
         None = 0,
 
-        [UsageType(UsageTypeGroup.Controls)] [Description("Linear Control")]
-        LC,
+        /// <summary>
+        ///     The Linear Control usage type.
+        /// </summary>
+        [Description("Linear Control")] LC,
 
-        [UsageType(UsageTypeGroup.Controls)] [Description("On/Off Control")]
-        OOC,
+        /// <summary>
+        ///     The On/Off Control usage type.
+        /// </summary>
+        [Description("On/Off Control")] OOC,
 
-        [UsageType(UsageTypeGroup.Controls)] [Description("Momentary Control")]
-        MC,
+        /// <summary>
+        ///     The Momentary Control usage type.
+        /// </summary>
+        [Description("Momentary Control")] MC,
 
-        [UsageType(UsageTypeGroup.Controls)] [Description("One Shot Control")]
-        OSC,
+        /// <summary>
+        ///     The One Shot Control usage type.
+        /// </summary>
+        [Description("One Shot Control")] OSC,
 
-        [UsageType(UsageTypeGroup.Controls)] [Description("Re-trigger Control")]
-        RTC,
+        /// <summary>
+        ///     The Re-trigger Control usage type.
+        /// </summary>
+        [Description("Re-trigger Control")] RTC,
 
-        [UsageType(UsageTypeGroup.Data)] [Description("Selector")]
-        Sel,
+        /// <summary>
+        ///     The Selector usage type.
+        /// </summary>
+        [Description("Selector")] Sel,
 
-        [UsageType(UsageTypeGroup.Data)] [Description("Static Value")]
-        SV,
+        /// <summary>
+        ///     The Static Value usage type.
+        /// </summary>
+        [Description("Static Value")] SV,
 
-        [UsageType(UsageTypeGroup.Data)] [Description("Static Flag")]
-        SF,
+        /// <summary>
+        ///     The Static Flag usage type.
+        /// </summary>
+        [Description("Static Flag")] SF,
 
-        [UsageType(UsageTypeGroup.Data)] [Description("Dynamic Value")]
-        DV,
+        /// <summary>
+        ///     The Dynamic Value usage type.
+        /// </summary>
+        [Description("Dynamic Value")] DV,
 
-        [UsageType(UsageTypeGroup.Data)] [Description("Dynamic Flag")]
-        DF,
+        /// <summary>
+        ///     The Dynamic Flag usage type.
+        /// </summary>
+        [Description("Dynamic Flag")] DF,
 
-        [UsageType(UsageTypeGroup.Collection)] [Description("Named Array")]
-        NAry,
+        /// <summary>
+        ///     The Named Array usage type.
+        /// </summary>
+        [Description("Named Array")] NAry,
 
-        [UsageType(UsageTypeGroup.Collection)] [Description("Application Collection")]
+        /// <summary>
+        ///     The Application Collection usage type.
+        /// </summary>
+        [Description("Application Collection")]
         CA,
 
-        [UsageType(UsageTypeGroup.Collection)] [Description("Logical Collection")]
-        CL,
+        /// <summary>
+        ///     The Logical Collection usage type.
+        /// </summary>
+        [Description("Logical Collection")] CL,
 
-        [UsageType(UsageTypeGroup.Collection)] [Description("Physical Collection")]
-        CP,
+        /// <summary>
+        ///     The Physical Collection usage type.
+        /// </summary>
+        [Description("Physical Collection")] CP,
 
-        [UsageType(UsageTypeGroup.Collection)] [Description("Usage Switch")]
-        US,
+        /// <summary>
+        ///     The Usage Switch usage type.
+        /// </summary>
+        [Description("Usage Switch")] US,
 
-        [UsageType(UsageTypeGroup.Collection)] [Description("Application Collection")]
-        UM
+        /// <summary>
+        ///     The Usage Modifier usage type.
+        /// </summary>
+        [Description("Usage Modifier")] UM
     }
 }

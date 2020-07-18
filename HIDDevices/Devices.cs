@@ -4,18 +4,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DynamicData;
 using DynamicData.Kernel;
 using HidSharp;
-using HidSharp.Utility;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.Threading;
 
 namespace HIDDevices
 {
+    /// <summary>
+    ///     Class Devices. This class cannot be inherited.
+    ///     Implements the <see cref="IObservableCache{T, TKey}" /> interface.
+    ///     An observable collection of <see cref="Device">devices</see> that monitors HID Devices asynchronously.
+    /// </summary>
+    /// <seealso cref="IObservableCache{T, TKey}" />
     public sealed class Devices : IObservableCache<Device, string>
     {
         private readonly TaskCompletionSource<bool> _loadedTaskCompletionSource =
@@ -44,6 +48,11 @@ namespace HIDDevices
             Refresh();
         }
 
+        /// <summary>
+        ///     Gets an enumeration of currently available devices.
+        /// </summary>
+        /// <value>An enumeration of currently available devices.</value>
+        /// <exception cref="ObjectDisposedException">This collection is disposed.</exception>
         public IEnumerable<Device> All =>
             _controllers?.Items ?? throw new ObjectDisposedException(nameof(Devices));
 
@@ -104,11 +113,19 @@ namespace HIDDevices
         public int Count => _controllers?.Count ?? throw new ObjectDisposedException(nameof(Devices));
 
         /// <summary>
-        ///     Force a refresh of controllers.  The refresh will occur asynchronously.
+        ///     Trigger a refresh of controllers.  The refresh will occur asynchronously.
         /// </summary>
-        /// TODO Consider making this async and awaiting next refresh completion.
+        /// TODO Consider adding an async version that awaits next refresh completion.
         public void Refresh() => _triggerRefresh.Set();
 
+        /// <summary>
+        ///     Background task that continuously waits for device changes, or refresh triggers.
+        /// </summary>
+        /// <param name="cancellationToken">
+        ///     The cancellation token that can be used by other objects or threads to receive notice
+        ///     of cancellation.
+        /// </param>
+        /// <exception cref="ObjectDisposedException">This collection is disposed.</exception>
         private async Task RefreshAsync(CancellationToken cancellationToken)
         {
             // Create dictionary to hold disconnected controllers, allowing for resurrection.
@@ -248,7 +265,15 @@ namespace HIDDevices
             } while (!cancellationToken.IsCancellationRequested);
         }
 
-        public Task LoadAsync(CancellationToken cancellationToken = default) =>
-            _loadedTaskCompletionSource.Task.WithCancellation(cancellationToken);
+        /// <summary>
+        ///     Asynchronous task that completes when the first load of devices has completed.
+        /// </summary>
+        /// <param name="cancellationToken">
+        ///     The cancellation token that can be used by other objects or threads to receive notice
+        ///     of cancellation.
+        /// </param>
+        /// <returns>An awaitable task that completes when the first load of devices has completed.</returns>
+        public Task LoadAsync(CancellationToken cancellationToken = default)
+            => _loadedTaskCompletionSource.Task.WithCancellation(cancellationToken);
     }
 }

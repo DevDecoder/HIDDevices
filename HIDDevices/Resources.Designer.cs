@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace HIDDevices.OLD {
+namespace HIDDevices {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace HIDDevices.OLD {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("HIDDevices.OLD.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("HIDDevices.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,146 +61,47 @@ namespace HIDDevices.OLD {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The {0} Device&apos;s {1} control must be a boolean!.
+        ///   Looks up a localized string similar to The &apos;{0}&apos; type does not contain a constructor with the correct parameter types..
         /// </summary>
-        internal static string ButtonNotBoolean {
+        internal static string ControllerInvalidConstructor {
             get {
-                return ResourceManager.GetString("ButtonNotBoolean", resourceCulture);
+                return ResourceManager.GetString("ControllerInvalidConstructor", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The {0} Device&apos;s {1} control button number was incalculable!.
+        ///   Looks up a localized string similar to The supplied converter must implement IControlConverter&lt;&gt;.
         /// </summary>
-        internal static string ButtonNumberUnknown {
+        internal static string ControllerInvalidConverter {
             get {
-                return ResourceManager.GetString("ButtonNumberUnknown", resourceCulture);
+                return ResourceManager.GetString("ControllerInvalidConverter", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The {0} Device&apos;s {1} control value changed from {2} to {3}..
+        ///   Looks up a localized string similar to The {0} is expecting a value of type &apos;{1}&apos; but has a value of type &apos;{2}&apos;..
         /// </summary>
-        internal static string ControlChange {
+        internal static string ControllerInvalidPropertyType {
             get {
-                return ResourceManager.GetString("ControlChange", resourceCulture);
+                return ResourceManager.GetString("ControllerInvalidPropertyType", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot create control, expected {0} control, but received {1} control..
+        ///   Looks up a localized string similar to The &apos;{0}&apos; device type must be assignable to the &apos;{1}&apos; type..
         /// </summary>
-        internal static string ControlCreationFailure2 {
+        internal static string ControllerInvalidType {
             get {
-                return ResourceManager.GetString("ControlCreationFailure2", resourceCulture);
+                return ResourceManager.GetString("ControllerInvalidType", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The {0} controller was found..
+        ///   Looks up a localized string similar to The {0} is expecting a value of type &apos;{1}&apos; but there is no default converter registered for that type, nor explicit converter supplied..
         /// </summary>
-        internal static string DeviceAdd {
+        internal static string ControllerMissingConverter {
             get {
-                return ResourceManager.GetString("ControllerAdd", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Event logged when a new Device is found and successfully added..
-        /// </summary>
-        internal static string DeviceAddDescription {
-            get {
-                return ResourceManager.GetString("ControllerAddDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Could not create the {0} controller!.
-        /// </summary>
-        internal static string DeviceCreationFailure {
-            get {
-                return ResourceManager.GetString("ControllerCreationFailure", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Event logged when an exception is thrown whilst trying to create a Device class, usually this is an access violation..
-        /// </summary>
-        internal static string DeviceCreationFailureDescription {
-            get {
-                return ResourceManager.GetString("ControllerCreationFailureDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The {0} controller&apos;s input could not be parsed!.
-        /// </summary>
-        internal static string DeviceInputParseFailure {
-            get {
-                return ResourceManager.GetString("ControllerInputParseFailure", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Event logged when the data sent from a Device could not be parsed successfully..
-        /// </summary>
-        internal static string DeviceInputParseFailureDescription {
-            get {
-                return ResourceManager.GetString("ControllerInputParseFailureDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The {0} controller was removed..
-        /// </summary>
-        internal static string DeviceRemove {
-            get {
-                return ResourceManager.GetString("ControllerRemove", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Event logged when a Device is unplugged..
-        /// </summary>
-        internal static string DeviceRemoveDescription {
-            get {
-                return ResourceManager.GetString("ControllerRemoveDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The {0} controller&apos;s HIDStream stopped unexpectedly!.
-        /// </summary>
-        internal static string DeviceStreamStopped {
-            get {
-                return ResourceManager.GetString("ControllerStreamStopped", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Event logged when a Device&apos;s HIDStream stops unexpectedly..
-        /// </summary>
-        internal static string DeviceStreamStoppedDescription {
-            get {
-                return ResourceManager.GetString("ControllerStreamStoppedDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The {0} controller was updated..
-        /// </summary>
-        internal static string DeviceUpdate {
-            get {
-                return ResourceManager.GetString("ControllerUpdate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Event logged when a Device&apos;s definition is changed..
-        /// </summary>
-        internal static string DeviceUpdateDescription {
-            get {
-                return ResourceManager.GetString("ControllerUpdateDescription", resourceCulture);
+                return ResourceManager.GetString("ControllerMissingConverter", resourceCulture);
             }
         }
         
@@ -214,97 +115,151 @@ namespace HIDDevices.OLD {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Consumer Device.
+        ///   Looks up a localized string similar to The {0} device was found..
         /// </summary>
-        internal static string DeviceTypeConsumerController {
+        internal static string DeviceAdd {
             get {
-                return ResourceManager.GetString("DeviceTypeConsumerController", resourceCulture);
+                return ResourceManager.GetString("DeviceAdd", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Gamepad.
+        ///   Looks up a localized string similar to Event logged when a new Device is found and successfully added..
         /// </summary>
-        internal static string DeviceTypeGamepad {
+        internal static string DeviceAddDescription {
             get {
-                return ResourceManager.GetString("DeviceTypeGamepad", resourceCulture);
+                return ResourceManager.GetString("DeviceAddDescription", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Joystick.
+        ///   Looks up a localized string similar to Connected to {0} Device..
         /// </summary>
-        internal static string DeviceTypeJoystick {
+        internal static string DeviceConnected {
             get {
-                return ResourceManager.GetString("DeviceTypeJoystick", resourceCulture);
+                return ResourceManager.GetString("DeviceConnected", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Keypad.
+        ///   Looks up a localized string similar to Event logged when a connection is established with a device..
         /// </summary>
-        internal static string DeviceTypeKeypad {
+        internal static string DeviceConnectedDescription {
             get {
-                return ResourceManager.GetString("DeviceTypeKeypad", resourceCulture);
+                return ResourceManager.GetString("DeviceConnectedDescription", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Multi-axis Device.
+        ///   Looks up a localized string similar to The connection to the {0} was closed..
         /// </summary>
-        internal static string DeviceTypeMultiAxisController {
+        internal static string DeviceConnectionClosed {
             get {
-                return ResourceManager.GetString("DeviceTypeMultiAxisController", resourceCulture);
+                return ResourceManager.GetString("DeviceConnectionClosed", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Programmable Buttons.
+        ///   Looks up a localized string similar to Event logged when a connection is closed to a device..
         /// </summary>
-        internal static string DeviceTypeProgrammableButtons {
+        internal static string DeviceConnectionClosedDescription {
             get {
-                return ResourceManager.GetString("DeviceTypeProgrammableButtons", resourceCulture);
+                return ResourceManager.GetString("DeviceConnectionClosedDescription", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The {0} HAT controller does not have a nullable value so is unsupported!.
+        ///   Looks up a localized string similar to Failed to open a connection to the {0} Device..
         /// </summary>
-        internal static string HatNotNullable {
+        internal static string DeviceConnectionFailed {
             get {
-                return ResourceManager.GetString("HatNotNullable", resourceCulture);
+                return ResourceManager.GetString("DeviceConnectionFailed", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Could not open the HIDStream for the {0} Device..
+        ///   Looks up a localized string similar to Event logged when an attempt to open a connection to a Device fails..
         /// </summary>
-        internal static string HidStreamOpenFailure {
+        internal static string DeviceConnectionFailedDescription {
             get {
-                return ResourceManager.GetString("HidStreamOpenFailure", resourceCulture);
+                return ResourceManager.GetString("DeviceConnectionFailedDescription", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The dead zone must be between 0 and 1..
+        ///   Looks up a localized string similar to Could not create the {0} device!.
         /// </summary>
-        internal static string InvalidDeadZone {
+        internal static string DeviceCreationFailure {
             get {
-                return ResourceManager.GetString("InvalidDeadZone", resourceCulture);
+                return ResourceManager.GetString("DeviceCreationFailure", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Sensitivity must be between 0 and 15 decimal places..
+        ///   Looks up a localized string similar to Event logged when an exception is thrown whilst trying to create a Device class, usually this is an access violation..
         /// </summary>
-        internal static string InvalidSensitivity {
+        internal static string DeviceCreationFailureDescription {
             get {
-                return ResourceManager.GetString("InvalidSensitivity", resourceCulture);
+                return ResourceManager.GetString("DeviceCreationFailureDescription", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The HID controllers failed to update!.
+        ///   Looks up a localized string similar to An error occurred whilst listening to the {0} device..
+        /// </summary>
+        internal static string DeviceError {
+            get {
+                return ResourceManager.GetString("DeviceError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Event logged when an error occurs whilst listening to a device..
+        /// </summary>
+        internal static string DeviceErrorDescription {
+            get {
+                return ResourceManager.GetString("DeviceErrorDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The {0} device was removed..
+        /// </summary>
+        internal static string DeviceRemove {
+            get {
+                return ResourceManager.GetString("DeviceRemove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Event logged when a Device is unplugged..
+        /// </summary>
+        internal static string DeviceRemoveDescription {
+            get {
+                return ResourceManager.GetString("DeviceRemoveDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The {0} device was updated..
+        /// </summary>
+        internal static string DeviceUpdate {
+            get {
+                return ResourceManager.GetString("DeviceUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Event logged when a Device&apos;s definition is changed..
+        /// </summary>
+        internal static string DeviceUpdateDescription {
+            get {
+                return ResourceManager.GetString("DeviceUpdateDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The HID devices failed to update!.
         /// </summary>
         internal static string RefreshFailure {
             get {
