@@ -1,11 +1,12 @@
 ﻿// Licensed under the Apache License, Version 2.0 (the "License").
 // See the LICENSE file in the project root for more information.
 //
-// Auto Generated 2581 usages in 36 pages on 18/07/2020 13:19:53.
+// Auto Generated 2581 usages in 36 pages on 19/07/2020 08:30:06.
 
 #pragma warning disable CS0108 // Member hides inherited member; missing new keyword
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 
@@ -17911,8 +17912,8 @@ namespace HIDDevices
         /// <summary>
         ///     Dictionary of all defined usage pages.
         /// </summary>
-        private static IReadOnlyDictionary<ushort, UsagePage> s_pages =
-                new Dictionary<ushort, UsagePage>
+        private static ConcurrentDictionary<ushort, UsagePage> s_pages =
+                new ConcurrentDictionary<ushort, UsagePage>
                 {
                     [0x0000] = UndefinedUsagePage.Instance,
                     [0x0001] = GenericDesktopUsagePage.Instance,
@@ -18149,12 +18150,19 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly UndefinedUsagePage Instance = new UndefinedUsagePage();
 
-        private UndefinedUsagePage()
-        : base(
-            0x0000,
-            "Undefined",
-            (0x0000, "Undefined", UsageTypes.None))
+        private UndefinedUsagePage() : base(0x0000, "Undefined")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -18168,121 +18176,128 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly GenericDesktopUsagePage Instance = new GenericDesktopUsagePage();
 
-        private GenericDesktopUsagePage()
-        : base(
-            0x0001,
-            "GenericDesktop",
-            (0x0000, "Undefined", UsageTypes.None),
-            (0x0001, "Pointer", UsageTypes.CP),
-            (0x0002, "Mouse", UsageTypes.CA),
-            (0x0004, "Joystick", UsageTypes.CA),
-            (0x0005, "Game Pad", UsageTypes.CA),
-            (0x0006, "Keyboard", UsageTypes.CA),
-            (0x0007, "Keypad", UsageTypes.CA),
-            (0x0008, "Multi-axis Controller", UsageTypes.CA),
-            (0x0009, "Tablet PC System Controls", UsageTypes.CA),
-            (0x000a, "Water Cooling Device", UsageTypes.CA),
-            (0x000b, "Computer Chassis Device", UsageTypes.CA),
-            (0x000c, "Wireless Radio Controls", UsageTypes.CA),
-            (0x000d, "Portable Device Control", UsageTypes.CA),
-            (0x000e, "System Multi-axis Controller", UsageTypes.CA),
-            (0x000f, "Spatial Controller", UsageTypes.CA),
-            (0x0010, "Assistive Control", UsageTypes.CA),
-            (0x0011, "Device Dock", UsageTypes.CA),
-            (0x0012, "Dockable Device", UsageTypes.CA),
-            (0x0030, "X", UsageTypes.DV),
-            (0x0031, "Y", UsageTypes.DV),
-            (0x0032, "Z", UsageTypes.DV),
-            (0x0033, "Rx", UsageTypes.DV),
-            (0x0034, "Ry", UsageTypes.DV),
-            (0x0035, "Rz", UsageTypes.DV),
-            (0x0036, "Slider", UsageTypes.DV),
-            (0x0037, "Dial", UsageTypes.DV),
-            (0x0038, "Wheel", UsageTypes.DV),
-            (0x0039, "Hat switch", UsageTypes.DV),
-            (0x003a, "Counter Buffer", UsageTypes.CL),
-            (0x003b, "Byte Count", UsageTypes.DV),
-            (0x003c, "Motion Wakeup", UsageTypes.OSC),
-            (0x003d, "Start", UsageTypes.OOC),
-            (0x003e, "Select", UsageTypes.OOC),
-            (0x0040, "Vx", UsageTypes.DV),
-            (0x0041, "Vy", UsageTypes.DV),
-            (0x0042, "Vz", UsageTypes.DV),
-            (0x0043, "Vbrx", UsageTypes.DV),
-            (0x0044, "Vbry", UsageTypes.DV),
-            (0x0045, "Vbrz", UsageTypes.DV),
-            (0x0046, "Vno", UsageTypes.DV),
-            (0x0047, "Feature Notification", UsageTypes.DV|UsageTypes.DF),
-            (0x0048, "Resolution Multiplier", UsageTypes.DV),
-            (0x0049, "Qx", UsageTypes.DV),
-            (0x004a, "Qy", UsageTypes.DV),
-            (0x004b, "Qz", UsageTypes.DV),
-            (0x004c, "Qw", UsageTypes.DV),
-            (0x0080, "System Control", UsageTypes.CA),
-            (0x0081, "System Power Down", UsageTypes.OSC),
-            (0x0082, "System Sleep", UsageTypes.OSC),
-            (0x0083, "System Wake up", UsageTypes.OSC),
-            (0x0084, "System Context Menu", UsageTypes.OSC),
-            (0x0085, "System Main Menu", UsageTypes.OSC),
-            (0x0086, "System App Menu", UsageTypes.OSC),
-            (0x0087, "System Menu Help", UsageTypes.OSC),
-            (0x0088, "System Menu Exit", UsageTypes.OSC),
-            (0x0089, "System Menu Select", UsageTypes.OSC),
-            (0x008a, "System Menu Right", UsageTypes.RTC),
-            (0x008b, "System Menu Left", UsageTypes.RTC),
-            (0x008c, "System Menu Up", UsageTypes.RTC),
-            (0x008d, "System Menu Down", UsageTypes.RTC),
-            (0x008e, "System Cold Restart", UsageTypes.OSC),
-            (0x008f, "System Warm Restart", UsageTypes.OSC),
-            (0x0090, "D-pad Up", UsageTypes.OOC),
-            (0x0091, "D-pad Down", UsageTypes.OOC),
-            (0x0092, "D-pad Right", UsageTypes.OOC),
-            (0x0093, "D-pad Left", UsageTypes.OOC),
-            (0x0094, "Index Trigger", UsageTypes.MC|UsageTypes.DV),
-            (0x0095, "Palm Trigger", UsageTypes.MC|UsageTypes.DV),
-            (0x0096, "Thumbstick", UsageTypes.CP),
-            (0x0097, "System Function Shift", UsageTypes.MC),
-            (0x0098, "System Function Shift Lock", UsageTypes.OOC),
-            (0x0099, "System Function Shift Lock Indicator", UsageTypes.DV),
-            (0x009a, "System Dismiss Notification", UsageTypes.OSC),
-            (0x009b, "System Do Not Disturb", UsageTypes.OOC),
-            (0x00a0, "System Dock", UsageTypes.OSC),
-            (0x00a1, "System Undock", UsageTypes.OSC),
-            (0x00a2, "System Setup", UsageTypes.OSC),
-            (0x00a3, "System Break", UsageTypes.OSC),
-            (0x00a4, "System Debugger Break", UsageTypes.OSC),
-            (0x00a5, "Application Break", UsageTypes.OSC),
-            (0x00a6, "Application Debugger Break", UsageTypes.OSC),
-            (0x00a7, "System Speaker Mute", UsageTypes.OSC),
-            (0x00a8, "System Hibernate", UsageTypes.OSC),
-            (0x00b0, "System Display Invert", UsageTypes.OSC),
-            (0x00b1, "System Display Internal", UsageTypes.OSC),
-            (0x00b2, "System Display External", UsageTypes.OSC),
-            (0x00b3, "System Display Both", UsageTypes.OSC),
-            (0x00b4, "System Display Dual", UsageTypes.OSC),
-            (0x00b5, "System Display Toggle Int/Ext", UsageTypes.OSC),
-            (0x00b6, "System Display Swap Primary/Secondary", UsageTypes.OSC),
-            (0x00b7, "System Display LCD Autoscale", UsageTypes.OSC),
-            (0x00c0, "Sensor Zone", UsageTypes.CL),
-            (0x00c1, "RPM", UsageTypes.DV),
-            (0x00c2, "Coolant Level", UsageTypes.DV),
-            (0x00c3, "Coolant Critical Level", UsageTypes.SV),
-            (0x00c4, "Coolant Pump", UsageTypes.US),
-            (0x00c5, "Chassis Enclosure", UsageTypes.CL),
-            (0x00c6, "Wireless Radio Button", UsageTypes.OOC),
-            (0x00c7, "Wireless Radio LED", UsageTypes.OOC),
-            (0x00c8, "Wireless Radio Slider Switch", UsageTypes.OOC),
-            (0x00c9, "System Display Rotation Lock Button", UsageTypes.OOC),
-            (0x00ca, "System Display Rotation Lock Slider Switch", UsageTypes.OOC),
-            (0x00cb, "Control Enable", UsageTypes.DF),
-            (0x00d0, "Dockable Device Unique ID", UsageTypes.DV),
-            (0x00d1, "Dockable Device Vendor ID", UsageTypes.DV),
-            (0x00d2, "Dockable Device Primary Usage Page", UsageTypes.DV),
-            (0x00d3, "Dockable Device Primary Usage ID", UsageTypes.DV),
-            (0x00d4, "Dockable Device Docking State", UsageTypes.DF),
-            (0x00d5, "Dockable Device Display Occlusion", UsageTypes.CL),
-            (0x00d6, "Dockable Device Object Type", UsageTypes.DV))
+        private GenericDesktopUsagePage() : base(0x0001, "GenericDesktop")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "Pointer", UsageTypes.CP);
+                case 0x0002: return new Usage(this, id, "Mouse", UsageTypes.CA);
+                case 0x0004: return new Usage(this, id, "Joystick", UsageTypes.CA);
+                case 0x0005: return new Usage(this, id, "Game Pad", UsageTypes.CA);
+                case 0x0006: return new Usage(this, id, "Keyboard", UsageTypes.CA);
+                case 0x0007: return new Usage(this, id, "Keypad", UsageTypes.CA);
+                case 0x0008: return new Usage(this, id, "Multi-axis Controller", UsageTypes.CA);
+                case 0x0009: return new Usage(this, id, "Tablet PC System Controls", UsageTypes.CA);
+                case 0x000a: return new Usage(this, id, "Water Cooling Device", UsageTypes.CA);
+                case 0x000b: return new Usage(this, id, "Computer Chassis Device", UsageTypes.CA);
+                case 0x000c: return new Usage(this, id, "Wireless Radio Controls", UsageTypes.CA);
+                case 0x000d: return new Usage(this, id, "Portable Device Control", UsageTypes.CA);
+                case 0x000e: return new Usage(this, id, "System Multi-axis Controller", UsageTypes.CA);
+                case 0x000f: return new Usage(this, id, "Spatial Controller", UsageTypes.CA);
+                case 0x0010: return new Usage(this, id, "Assistive Control", UsageTypes.CA);
+                case 0x0011: return new Usage(this, id, "Device Dock", UsageTypes.CA);
+                case 0x0012: return new Usage(this, id, "Dockable Device", UsageTypes.CA);
+                case 0x0030: return new Usage(this, id, "X", UsageTypes.DV);
+                case 0x0031: return new Usage(this, id, "Y", UsageTypes.DV);
+                case 0x0032: return new Usage(this, id, "Z", UsageTypes.DV);
+                case 0x0033: return new Usage(this, id, "Rx", UsageTypes.DV);
+                case 0x0034: return new Usage(this, id, "Ry", UsageTypes.DV);
+                case 0x0035: return new Usage(this, id, "Rz", UsageTypes.DV);
+                case 0x0036: return new Usage(this, id, "Slider", UsageTypes.DV);
+                case 0x0037: return new Usage(this, id, "Dial", UsageTypes.DV);
+                case 0x0038: return new Usage(this, id, "Wheel", UsageTypes.DV);
+                case 0x0039: return new Usage(this, id, "Hat switch", UsageTypes.DV);
+                case 0x003a: return new Usage(this, id, "Counter Buffer", UsageTypes.CL);
+                case 0x003b: return new Usage(this, id, "Byte Count", UsageTypes.DV);
+                case 0x003c: return new Usage(this, id, "Motion Wakeup", UsageTypes.OSC);
+                case 0x003d: return new Usage(this, id, "Start", UsageTypes.OOC);
+                case 0x003e: return new Usage(this, id, "Select", UsageTypes.OOC);
+                case 0x0040: return new Usage(this, id, "Vx", UsageTypes.DV);
+                case 0x0041: return new Usage(this, id, "Vy", UsageTypes.DV);
+                case 0x0042: return new Usage(this, id, "Vz", UsageTypes.DV);
+                case 0x0043: return new Usage(this, id, "Vbrx", UsageTypes.DV);
+                case 0x0044: return new Usage(this, id, "Vbry", UsageTypes.DV);
+                case 0x0045: return new Usage(this, id, "Vbrz", UsageTypes.DV);
+                case 0x0046: return new Usage(this, id, "Vno", UsageTypes.DV);
+                case 0x0047: return new Usage(this, id, "Feature Notification", UsageTypes.DV|UsageTypes.DF);
+                case 0x0048: return new Usage(this, id, "Resolution Multiplier", UsageTypes.DV);
+                case 0x0049: return new Usage(this, id, "Qx", UsageTypes.DV);
+                case 0x004a: return new Usage(this, id, "Qy", UsageTypes.DV);
+                case 0x004b: return new Usage(this, id, "Qz", UsageTypes.DV);
+                case 0x004c: return new Usage(this, id, "Qw", UsageTypes.DV);
+                case 0x0080: return new Usage(this, id, "System Control", UsageTypes.CA);
+                case 0x0081: return new Usage(this, id, "System Power Down", UsageTypes.OSC);
+                case 0x0082: return new Usage(this, id, "System Sleep", UsageTypes.OSC);
+                case 0x0083: return new Usage(this, id, "System Wake up", UsageTypes.OSC);
+                case 0x0084: return new Usage(this, id, "System Context Menu", UsageTypes.OSC);
+                case 0x0085: return new Usage(this, id, "System Main Menu", UsageTypes.OSC);
+                case 0x0086: return new Usage(this, id, "System App Menu", UsageTypes.OSC);
+                case 0x0087: return new Usage(this, id, "System Menu Help", UsageTypes.OSC);
+                case 0x0088: return new Usage(this, id, "System Menu Exit", UsageTypes.OSC);
+                case 0x0089: return new Usage(this, id, "System Menu Select", UsageTypes.OSC);
+                case 0x008a: return new Usage(this, id, "System Menu Right", UsageTypes.RTC);
+                case 0x008b: return new Usage(this, id, "System Menu Left", UsageTypes.RTC);
+                case 0x008c: return new Usage(this, id, "System Menu Up", UsageTypes.RTC);
+                case 0x008d: return new Usage(this, id, "System Menu Down", UsageTypes.RTC);
+                case 0x008e: return new Usage(this, id, "System Cold Restart", UsageTypes.OSC);
+                case 0x008f: return new Usage(this, id, "System Warm Restart", UsageTypes.OSC);
+                case 0x0090: return new Usage(this, id, "D-pad Up", UsageTypes.OOC);
+                case 0x0091: return new Usage(this, id, "D-pad Down", UsageTypes.OOC);
+                case 0x0092: return new Usage(this, id, "D-pad Right", UsageTypes.OOC);
+                case 0x0093: return new Usage(this, id, "D-pad Left", UsageTypes.OOC);
+                case 0x0094: return new Usage(this, id, "Index Trigger", UsageTypes.MC|UsageTypes.DV);
+                case 0x0095: return new Usage(this, id, "Palm Trigger", UsageTypes.MC|UsageTypes.DV);
+                case 0x0096: return new Usage(this, id, "Thumbstick", UsageTypes.CP);
+                case 0x0097: return new Usage(this, id, "System Function Shift", UsageTypes.MC);
+                case 0x0098: return new Usage(this, id, "System Function Shift Lock", UsageTypes.OOC);
+                case 0x0099: return new Usage(this, id, "System Function Shift Lock Indicator", UsageTypes.DV);
+                case 0x009a: return new Usage(this, id, "System Dismiss Notification", UsageTypes.OSC);
+                case 0x009b: return new Usage(this, id, "System Do Not Disturb", UsageTypes.OOC);
+                case 0x00a0: return new Usage(this, id, "System Dock", UsageTypes.OSC);
+                case 0x00a1: return new Usage(this, id, "System Undock", UsageTypes.OSC);
+                case 0x00a2: return new Usage(this, id, "System Setup", UsageTypes.OSC);
+                case 0x00a3: return new Usage(this, id, "System Break", UsageTypes.OSC);
+                case 0x00a4: return new Usage(this, id, "System Debugger Break", UsageTypes.OSC);
+                case 0x00a5: return new Usage(this, id, "Application Break", UsageTypes.OSC);
+                case 0x00a6: return new Usage(this, id, "Application Debugger Break", UsageTypes.OSC);
+                case 0x00a7: return new Usage(this, id, "System Speaker Mute", UsageTypes.OSC);
+                case 0x00a8: return new Usage(this, id, "System Hibernate", UsageTypes.OSC);
+                case 0x00b0: return new Usage(this, id, "System Display Invert", UsageTypes.OSC);
+                case 0x00b1: return new Usage(this, id, "System Display Internal", UsageTypes.OSC);
+                case 0x00b2: return new Usage(this, id, "System Display External", UsageTypes.OSC);
+                case 0x00b3: return new Usage(this, id, "System Display Both", UsageTypes.OSC);
+                case 0x00b4: return new Usage(this, id, "System Display Dual", UsageTypes.OSC);
+                case 0x00b5: return new Usage(this, id, "System Display Toggle Int/Ext", UsageTypes.OSC);
+                case 0x00b6: return new Usage(this, id, "System Display Swap Primary/Secondary", UsageTypes.OSC);
+                case 0x00b7: return new Usage(this, id, "System Display LCD Autoscale", UsageTypes.OSC);
+                case 0x00c0: return new Usage(this, id, "Sensor Zone", UsageTypes.CL);
+                case 0x00c1: return new Usage(this, id, "RPM", UsageTypes.DV);
+                case 0x00c2: return new Usage(this, id, "Coolant Level", UsageTypes.DV);
+                case 0x00c3: return new Usage(this, id, "Coolant Critical Level", UsageTypes.SV);
+                case 0x00c4: return new Usage(this, id, "Coolant Pump", UsageTypes.US);
+                case 0x00c5: return new Usage(this, id, "Chassis Enclosure", UsageTypes.CL);
+                case 0x00c6: return new Usage(this, id, "Wireless Radio Button", UsageTypes.OOC);
+                case 0x00c7: return new Usage(this, id, "Wireless Radio LED", UsageTypes.OOC);
+                case 0x00c8: return new Usage(this, id, "Wireless Radio Slider Switch", UsageTypes.OOC);
+                case 0x00c9: return new Usage(this, id, "System Display Rotation Lock Button", UsageTypes.OOC);
+                case 0x00ca: return new Usage(this, id, "System Display Rotation Lock Slider Switch", UsageTypes.OOC);
+                case 0x00cb: return new Usage(this, id, "Control Enable", UsageTypes.DF);
+                case 0x00d0: return new Usage(this, id, "Dockable Device Unique ID", UsageTypes.DV);
+                case 0x00d1: return new Usage(this, id, "Dockable Device Vendor ID", UsageTypes.DV);
+                case 0x00d2: return new Usage(this, id, "Dockable Device Primary Usage Page", UsageTypes.DV);
+                case 0x00d3: return new Usage(this, id, "Dockable Device Primary Usage ID", UsageTypes.DV);
+                case 0x00d4: return new Usage(this, id, "Dockable Device Docking State", UsageTypes.DF);
+                case 0x00d5: return new Usage(this, id, "Dockable Device Display Occlusion", UsageTypes.CL);
+                case 0x00d6: return new Usage(this, id, "Dockable Device Object Type", UsageTypes.DV);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -18296,63 +18311,70 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly SimulationUsagePage Instance = new SimulationUsagePage();
 
-        private SimulationUsagePage()
-        : base(
-            0x0002,
-            "Simulation",
-            (0x0000, "Undefined", UsageTypes.None),
-            (0x0001, "Flight Simulation Device", UsageTypes.CA),
-            (0x0002, "Automobile Simulation Device", UsageTypes.CA),
-            (0x0003, "Tank Simulation Device", UsageTypes.CA),
-            (0x0004, "Spaceship Simulation Device", UsageTypes.CA),
-            (0x0005, "Submarine Simulation Device", UsageTypes.CA),
-            (0x0006, "Sailing Simulation Device", UsageTypes.CA),
-            (0x0007, "Motorcycle Simulation Device", UsageTypes.CA),
-            (0x0008, "Sports Simulation Device", UsageTypes.CA),
-            (0x0009, "Airplane Simulation Device", UsageTypes.CA),
-            (0x000a, "Helicopter Simulation Device", UsageTypes.CA),
-            (0x000b, "Magic Carpet Simulation Device", UsageTypes.CA),
-            (0x000c, "Bicycle Simulation Device", UsageTypes.CA),
-            (0x0020, "Flight Control Stick", UsageTypes.CA),
-            (0x0021, "Flight Stick", UsageTypes.CA),
-            (0x0022, "Cyclic Control", UsageTypes.CP),
-            (0x0023, "Cyclic Trim", UsageTypes.CP),
-            (0x0024, "Flight Yoke", UsageTypes.CA),
-            (0x0025, "Track Control", UsageTypes.CP),
-            (0x00b0, "Aileron", UsageTypes.DV),
-            (0x00b1, "Aileron Trim", UsageTypes.DV),
-            (0x00b2, "Anti-Torque Control", UsageTypes.DV),
-            (0x00b3, "Autopilot Enable", UsageTypes.OOC),
-            (0x00b4, "Chaff Release", UsageTypes.OSC),
-            (0x00b5, "Collective Control", UsageTypes.DV),
-            (0x00b6, "Dive Brake", UsageTypes.DV),
-            (0x00b7, "Electronic Countermeasures", UsageTypes.OOC),
-            (0x00b8, "Elevator", UsageTypes.DV),
-            (0x00b9, "Elevator Trim", UsageTypes.DV),
-            (0x00ba, "Rudder", UsageTypes.DV),
-            (0x00bb, "Throttle", UsageTypes.DV),
-            (0x00bc, "Flight Communications", UsageTypes.OOC),
-            (0x00bd, "Flare Release", UsageTypes.OSC),
-            (0x00be, "Landing Gear", UsageTypes.OOC),
-            (0x00bf, "Toe Brake", UsageTypes.DV),
-            (0x00c0, "Trigger", UsageTypes.MC),
-            (0x00c1, "Weapons Arm", UsageTypes.OOC),
-            (0x00c2, "Weapons Select", UsageTypes.OSC),
-            (0x00c3, "Wing Flaps", UsageTypes.DV),
-            (0x00c4, "Accelerator", UsageTypes.DV),
-            (0x00c5, "Brake", UsageTypes.DV),
-            (0x00c6, "Clutch", UsageTypes.DV),
-            (0x00c7, "Shifter", UsageTypes.DV),
-            (0x00c8, "Steering", UsageTypes.DV),
-            (0x00c9, "Turret Direction", UsageTypes.DV),
-            (0x00ca, "Barrel Elevation", UsageTypes.DV),
-            (0x00cb, "Dive Plane", UsageTypes.DV),
-            (0x00cc, "Ballast", UsageTypes.DV),
-            (0x00cd, "Bicycle Crank", UsageTypes.DV),
-            (0x00ce, "Handle Bars", UsageTypes.DV),
-            (0x00cf, "Front Brake", UsageTypes.DV),
-            (0x00d0, "Rear Brake", UsageTypes.DV))
+        private SimulationUsagePage() : base(0x0002, "Simulation")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "Flight Simulation Device", UsageTypes.CA);
+                case 0x0002: return new Usage(this, id, "Automobile Simulation Device", UsageTypes.CA);
+                case 0x0003: return new Usage(this, id, "Tank Simulation Device", UsageTypes.CA);
+                case 0x0004: return new Usage(this, id, "Spaceship Simulation Device", UsageTypes.CA);
+                case 0x0005: return new Usage(this, id, "Submarine Simulation Device", UsageTypes.CA);
+                case 0x0006: return new Usage(this, id, "Sailing Simulation Device", UsageTypes.CA);
+                case 0x0007: return new Usage(this, id, "Motorcycle Simulation Device", UsageTypes.CA);
+                case 0x0008: return new Usage(this, id, "Sports Simulation Device", UsageTypes.CA);
+                case 0x0009: return new Usage(this, id, "Airplane Simulation Device", UsageTypes.CA);
+                case 0x000a: return new Usage(this, id, "Helicopter Simulation Device", UsageTypes.CA);
+                case 0x000b: return new Usage(this, id, "Magic Carpet Simulation Device", UsageTypes.CA);
+                case 0x000c: return new Usage(this, id, "Bicycle Simulation Device", UsageTypes.CA);
+                case 0x0020: return new Usage(this, id, "Flight Control Stick", UsageTypes.CA);
+                case 0x0021: return new Usage(this, id, "Flight Stick", UsageTypes.CA);
+                case 0x0022: return new Usage(this, id, "Cyclic Control", UsageTypes.CP);
+                case 0x0023: return new Usage(this, id, "Cyclic Trim", UsageTypes.CP);
+                case 0x0024: return new Usage(this, id, "Flight Yoke", UsageTypes.CA);
+                case 0x0025: return new Usage(this, id, "Track Control", UsageTypes.CP);
+                case 0x00b0: return new Usage(this, id, "Aileron", UsageTypes.DV);
+                case 0x00b1: return new Usage(this, id, "Aileron Trim", UsageTypes.DV);
+                case 0x00b2: return new Usage(this, id, "Anti-Torque Control", UsageTypes.DV);
+                case 0x00b3: return new Usage(this, id, "Autopilot Enable", UsageTypes.OOC);
+                case 0x00b4: return new Usage(this, id, "Chaff Release", UsageTypes.OSC);
+                case 0x00b5: return new Usage(this, id, "Collective Control", UsageTypes.DV);
+                case 0x00b6: return new Usage(this, id, "Dive Brake", UsageTypes.DV);
+                case 0x00b7: return new Usage(this, id, "Electronic Countermeasures", UsageTypes.OOC);
+                case 0x00b8: return new Usage(this, id, "Elevator", UsageTypes.DV);
+                case 0x00b9: return new Usage(this, id, "Elevator Trim", UsageTypes.DV);
+                case 0x00ba: return new Usage(this, id, "Rudder", UsageTypes.DV);
+                case 0x00bb: return new Usage(this, id, "Throttle", UsageTypes.DV);
+                case 0x00bc: return new Usage(this, id, "Flight Communications", UsageTypes.OOC);
+                case 0x00bd: return new Usage(this, id, "Flare Release", UsageTypes.OSC);
+                case 0x00be: return new Usage(this, id, "Landing Gear", UsageTypes.OOC);
+                case 0x00bf: return new Usage(this, id, "Toe Brake", UsageTypes.DV);
+                case 0x00c0: return new Usage(this, id, "Trigger", UsageTypes.MC);
+                case 0x00c1: return new Usage(this, id, "Weapons Arm", UsageTypes.OOC);
+                case 0x00c2: return new Usage(this, id, "Weapons Select", UsageTypes.OSC);
+                case 0x00c3: return new Usage(this, id, "Wing Flaps", UsageTypes.DV);
+                case 0x00c4: return new Usage(this, id, "Accelerator", UsageTypes.DV);
+                case 0x00c5: return new Usage(this, id, "Brake", UsageTypes.DV);
+                case 0x00c6: return new Usage(this, id, "Clutch", UsageTypes.DV);
+                case 0x00c7: return new Usage(this, id, "Shifter", UsageTypes.DV);
+                case 0x00c8: return new Usage(this, id, "Steering", UsageTypes.DV);
+                case 0x00c9: return new Usage(this, id, "Turret Direction", UsageTypes.DV);
+                case 0x00ca: return new Usage(this, id, "Barrel Elevation", UsageTypes.DV);
+                case 0x00cb: return new Usage(this, id, "Dive Plane", UsageTypes.DV);
+                case 0x00cc: return new Usage(this, id, "Ballast", UsageTypes.DV);
+                case 0x00cd: return new Usage(this, id, "Bicycle Crank", UsageTypes.DV);
+                case 0x00ce: return new Usage(this, id, "Handle Bars", UsageTypes.DV);
+                case 0x00cf: return new Usage(this, id, "Front Brake", UsageTypes.DV);
+                case 0x00d0: return new Usage(this, id, "Rear Brake", UsageTypes.DV);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -18366,24 +18388,31 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly VRUsagePage Instance = new VRUsagePage();
 
-        private VRUsagePage()
-        : base(
-            0x0003,
-            "VR",
-            (0x0000, "Undefined", UsageTypes.None),
-            (0x0001, "Belt", UsageTypes.CA),
-            (0x0002, "Body Suit", UsageTypes.CA),
-            (0x0003, "Flexor", UsageTypes.CP),
-            (0x0004, "Glove", UsageTypes.CA),
-            (0x0005, "Head Tracker", UsageTypes.CP),
-            (0x0006, "Head Mounted Display", UsageTypes.CA),
-            (0x0007, "Hand Tracker", UsageTypes.CA),
-            (0x0008, "Oculometer", UsageTypes.CA),
-            (0x0009, "Vest", UsageTypes.CA),
-            (0x000a, "Animatronic Device", UsageTypes.CA),
-            (0x0020, "Stereo Enable", UsageTypes.OOC),
-            (0x0021, "Display Enable", UsageTypes.OOC))
+        private VRUsagePage() : base(0x0003, "VR")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "Belt", UsageTypes.CA);
+                case 0x0002: return new Usage(this, id, "Body Suit", UsageTypes.CA);
+                case 0x0003: return new Usage(this, id, "Flexor", UsageTypes.CP);
+                case 0x0004: return new Usage(this, id, "Glove", UsageTypes.CA);
+                case 0x0005: return new Usage(this, id, "Head Tracker", UsageTypes.CP);
+                case 0x0006: return new Usage(this, id, "Head Mounted Display", UsageTypes.CA);
+                case 0x0007: return new Usage(this, id, "Hand Tracker", UsageTypes.CA);
+                case 0x0008: return new Usage(this, id, "Oculometer", UsageTypes.CA);
+                case 0x0009: return new Usage(this, id, "Vest", UsageTypes.CA);
+                case 0x000a: return new Usage(this, id, "Animatronic Device", UsageTypes.CA);
+                case 0x0020: return new Usage(this, id, "Stereo Enable", UsageTypes.OOC);
+                case 0x0021: return new Usage(this, id, "Display Enable", UsageTypes.OOC);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -18397,46 +18426,53 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly SportUsagePage Instance = new SportUsagePage();
 
-        private SportUsagePage()
-        : base(
-            0x0004,
-            "Sport",
-            (0x0000, "Undefined", UsageTypes.None),
-            (0x0001, "Baseball Bat", UsageTypes.CA),
-            (0x0002, "Golf Club", UsageTypes.CA),
-            (0x0003, "Rowing Machine", UsageTypes.CA),
-            (0x0004, "Treadmill", UsageTypes.CA),
-            (0x0030, "Oar", UsageTypes.DV),
-            (0x0031, "Slope", UsageTypes.DV),
-            (0x0032, "Rate", UsageTypes.DV),
-            (0x0033, "Stick Speed", UsageTypes.DV),
-            (0x0034, "Stick Face Angle", UsageTypes.DV),
-            (0x0035, "Stick Heel/Toe", UsageTypes.DV),
-            (0x0036, "Stick Follow Through", UsageTypes.DV),
-            (0x0037, "Stick Tempo", UsageTypes.DV),
-            (0x0038, "Stick Type", UsageTypes.NAry),
-            (0x0039, "Stick Height", UsageTypes.DV),
-            (0x0050, "Putter", UsageTypes.Sel),
-            (0x0051, "1 Iron", UsageTypes.Sel),
-            (0x0052, "2 Iron", UsageTypes.Sel),
-            (0x0053, "3 Iron", UsageTypes.Sel),
-            (0x0054, "4 Iron", UsageTypes.Sel),
-            (0x0055, "5 Iron", UsageTypes.Sel),
-            (0x0056, "6 Iron", UsageTypes.Sel),
-            (0x0057, "7 Iron", UsageTypes.Sel),
-            (0x0058, "8 Iron", UsageTypes.Sel),
-            (0x0059, "9 Iron", UsageTypes.Sel),
-            (0x005a, "10 Iron", UsageTypes.Sel),
-            (0x005b, "11 Iron", UsageTypes.Sel),
-            (0x005c, "Sand Wedge", UsageTypes.Sel),
-            (0x005d, "Loft Wedge", UsageTypes.Sel),
-            (0x005e, "Power Wedge", UsageTypes.Sel),
-            (0x005f, "1 Wood", UsageTypes.Sel),
-            (0x0060, "3 Wood", UsageTypes.Sel),
-            (0x0061, "5 Wood", UsageTypes.Sel),
-            (0x0062, "7 Wood", UsageTypes.Sel),
-            (0x0063, "9 Wood", UsageTypes.Sel))
+        private SportUsagePage() : base(0x0004, "Sport")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "Baseball Bat", UsageTypes.CA);
+                case 0x0002: return new Usage(this, id, "Golf Club", UsageTypes.CA);
+                case 0x0003: return new Usage(this, id, "Rowing Machine", UsageTypes.CA);
+                case 0x0004: return new Usage(this, id, "Treadmill", UsageTypes.CA);
+                case 0x0030: return new Usage(this, id, "Oar", UsageTypes.DV);
+                case 0x0031: return new Usage(this, id, "Slope", UsageTypes.DV);
+                case 0x0032: return new Usage(this, id, "Rate", UsageTypes.DV);
+                case 0x0033: return new Usage(this, id, "Stick Speed", UsageTypes.DV);
+                case 0x0034: return new Usage(this, id, "Stick Face Angle", UsageTypes.DV);
+                case 0x0035: return new Usage(this, id, "Stick Heel/Toe", UsageTypes.DV);
+                case 0x0036: return new Usage(this, id, "Stick Follow Through", UsageTypes.DV);
+                case 0x0037: return new Usage(this, id, "Stick Tempo", UsageTypes.DV);
+                case 0x0038: return new Usage(this, id, "Stick Type", UsageTypes.NAry);
+                case 0x0039: return new Usage(this, id, "Stick Height", UsageTypes.DV);
+                case 0x0050: return new Usage(this, id, "Putter", UsageTypes.Sel);
+                case 0x0051: return new Usage(this, id, "1 Iron", UsageTypes.Sel);
+                case 0x0052: return new Usage(this, id, "2 Iron", UsageTypes.Sel);
+                case 0x0053: return new Usage(this, id, "3 Iron", UsageTypes.Sel);
+                case 0x0054: return new Usage(this, id, "4 Iron", UsageTypes.Sel);
+                case 0x0055: return new Usage(this, id, "5 Iron", UsageTypes.Sel);
+                case 0x0056: return new Usage(this, id, "6 Iron", UsageTypes.Sel);
+                case 0x0057: return new Usage(this, id, "7 Iron", UsageTypes.Sel);
+                case 0x0058: return new Usage(this, id, "8 Iron", UsageTypes.Sel);
+                case 0x0059: return new Usage(this, id, "9 Iron", UsageTypes.Sel);
+                case 0x005a: return new Usage(this, id, "10 Iron", UsageTypes.Sel);
+                case 0x005b: return new Usage(this, id, "11 Iron", UsageTypes.Sel);
+                case 0x005c: return new Usage(this, id, "Sand Wedge", UsageTypes.Sel);
+                case 0x005d: return new Usage(this, id, "Loft Wedge", UsageTypes.Sel);
+                case 0x005e: return new Usage(this, id, "Power Wedge", UsageTypes.Sel);
+                case 0x005f: return new Usage(this, id, "1 Wood", UsageTypes.Sel);
+                case 0x0060: return new Usage(this, id, "3 Wood", UsageTypes.Sel);
+                case 0x0061: return new Usage(this, id, "5 Wood", UsageTypes.Sel);
+                case 0x0062: return new Usage(this, id, "7 Wood", UsageTypes.Sel);
+                case 0x0063: return new Usage(this, id, "9 Wood", UsageTypes.Sel);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -18450,41 +18486,48 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly GameUsagePage Instance = new GameUsagePage();
 
-        private GameUsagePage()
-        : base(
-            0x0005,
-            "Game",
-            (0x0000, "Undefined", UsageTypes.None),
-            (0x0001, "3D Game Controller", UsageTypes.CA),
-            (0x0002, "Pinball Device", UsageTypes.CA),
-            (0x0003, "Gun Device", UsageTypes.CA),
-            (0x0020, "Point of View", UsageTypes.CP),
-            (0x0021, "Turn Right/Left", UsageTypes.DV),
-            (0x0022, "Pitch Right/Left", UsageTypes.DV),
-            (0x0023, "Roll Right/Left", UsageTypes.DV),
-            (0x0024, "Move Right/Left", UsageTypes.DV),
-            (0x0025, "Move Forward/Backward", UsageTypes.DV),
-            (0x0026, "Move Up/Down", UsageTypes.DV),
-            (0x0027, "Lean Right/Left", UsageTypes.DV),
-            (0x0028, "Lean Forward/Backward", UsageTypes.DV),
-            (0x0029, "Height of POV", UsageTypes.DV),
-            (0x002a, "Flipper", UsageTypes.MC),
-            (0x002b, "Secondary Flipper", UsageTypes.MC),
-            (0x002c, "Bump", UsageTypes.MC),
-            (0x002d, "New Game", UsageTypes.OSC),
-            (0x002e, "Shoot Ball", UsageTypes.OSC),
-            (0x002f, "Player", UsageTypes.OSC),
-            (0x0030, "Gun Bolt", UsageTypes.OOC),
-            (0x0031, "Gun Clip", UsageTypes.OOC),
-            (0x0032, "Gun Selector", UsageTypes.NAry),
-            (0x0033, "Gun Single Shot", UsageTypes.Sel),
-            (0x0034, "Gun Burst", UsageTypes.Sel),
-            (0x0035, "Gun Automatic", UsageTypes.Sel),
-            (0x0036, "Gun Safety", UsageTypes.OOC),
-            (0x0037, "Gamepad Fire/Jump", UsageTypes.CL),
-            (0x0039, "Gamepad Trigger", UsageTypes.CL),
-            (0x003a, "Form-fitting Gamepad", UsageTypes.SF))
+        private GameUsagePage() : base(0x0005, "Game")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "3D Game Controller", UsageTypes.CA);
+                case 0x0002: return new Usage(this, id, "Pinball Device", UsageTypes.CA);
+                case 0x0003: return new Usage(this, id, "Gun Device", UsageTypes.CA);
+                case 0x0020: return new Usage(this, id, "Point of View", UsageTypes.CP);
+                case 0x0021: return new Usage(this, id, "Turn Right/Left", UsageTypes.DV);
+                case 0x0022: return new Usage(this, id, "Pitch Right/Left", UsageTypes.DV);
+                case 0x0023: return new Usage(this, id, "Roll Right/Left", UsageTypes.DV);
+                case 0x0024: return new Usage(this, id, "Move Right/Left", UsageTypes.DV);
+                case 0x0025: return new Usage(this, id, "Move Forward/Backward", UsageTypes.DV);
+                case 0x0026: return new Usage(this, id, "Move Up/Down", UsageTypes.DV);
+                case 0x0027: return new Usage(this, id, "Lean Right/Left", UsageTypes.DV);
+                case 0x0028: return new Usage(this, id, "Lean Forward/Backward", UsageTypes.DV);
+                case 0x0029: return new Usage(this, id, "Height of POV", UsageTypes.DV);
+                case 0x002a: return new Usage(this, id, "Flipper", UsageTypes.MC);
+                case 0x002b: return new Usage(this, id, "Secondary Flipper", UsageTypes.MC);
+                case 0x002c: return new Usage(this, id, "Bump", UsageTypes.MC);
+                case 0x002d: return new Usage(this, id, "New Game", UsageTypes.OSC);
+                case 0x002e: return new Usage(this, id, "Shoot Ball", UsageTypes.OSC);
+                case 0x002f: return new Usage(this, id, "Player", UsageTypes.OSC);
+                case 0x0030: return new Usage(this, id, "Gun Bolt", UsageTypes.OOC);
+                case 0x0031: return new Usage(this, id, "Gun Clip", UsageTypes.OOC);
+                case 0x0032: return new Usage(this, id, "Gun Selector", UsageTypes.NAry);
+                case 0x0033: return new Usage(this, id, "Gun Single Shot", UsageTypes.Sel);
+                case 0x0034: return new Usage(this, id, "Gun Burst", UsageTypes.Sel);
+                case 0x0035: return new Usage(this, id, "Gun Automatic", UsageTypes.Sel);
+                case 0x0036: return new Usage(this, id, "Gun Safety", UsageTypes.OOC);
+                case 0x0037: return new Usage(this, id, "Gamepad Fire/Jump", UsageTypes.CL);
+                case 0x0039: return new Usage(this, id, "Gamepad Trigger", UsageTypes.CL);
+                case 0x003a: return new Usage(this, id, "Form-fitting Gamepad", UsageTypes.SF);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -18498,36 +18541,43 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly GenericDeviceUsagePage Instance = new GenericDeviceUsagePage();
 
-        private GenericDeviceUsagePage()
-        : base(
-            0x0006,
-            "GenericDevice",
-            (0x0000, "Undefined", UsageTypes.None),
-            (0x0001, "Background Controls", UsageTypes.CA),
-            (0x0020, "Battery Strength", UsageTypes.DV),
-            (0x0021, "Wireless Channel", UsageTypes.DV),
-            (0x0022, "Wireless ID", UsageTypes.DV),
-            (0x0023, "Discover Wireless Control", UsageTypes.OSC),
-            (0x0024, "Security Code Character Entered", UsageTypes.OSC),
-            (0x0025, "Security Code Character Erased", UsageTypes.OSC),
-            (0x0026, "Security Code Cleared", UsageTypes.OSC),
-            (0x0027, "Sequence ID", UsageTypes.DV),
-            (0x0028, "Sequence ID Reset", UsageTypes.DF),
-            (0x0029, "RF Signal Strength", UsageTypes.DV),
-            (0x002a, "Software Version", UsageTypes.CL),
-            (0x002b, "Protocol Version", UsageTypes.CL),
-            (0x002c, "Hardware Version", UsageTypes.CL),
-            (0x002d, "Major", UsageTypes.SV),
-            (0x002e, "Minor", UsageTypes.SV),
-            (0x002f, "Revision", UsageTypes.SV),
-            (0x0030, "Handedness", UsageTypes.NAry),
-            (0x0031, "Either Hand", UsageTypes.Sel),
-            (0x0032, "Left Hand", UsageTypes.Sel),
-            (0x0033, "Right Hand", UsageTypes.Sel),
-            (0x0034, "Both Hands", UsageTypes.Sel),
-            (0x0040, "Grip Pose Offset", UsageTypes.CP),
-            (0x0041, "Pointer Pose Offset", UsageTypes.CP))
+        private GenericDeviceUsagePage() : base(0x0006, "GenericDevice")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "Background Controls", UsageTypes.CA);
+                case 0x0020: return new Usage(this, id, "Battery Strength", UsageTypes.DV);
+                case 0x0021: return new Usage(this, id, "Wireless Channel", UsageTypes.DV);
+                case 0x0022: return new Usage(this, id, "Wireless ID", UsageTypes.DV);
+                case 0x0023: return new Usage(this, id, "Discover Wireless Control", UsageTypes.OSC);
+                case 0x0024: return new Usage(this, id, "Security Code Character Entered", UsageTypes.OSC);
+                case 0x0025: return new Usage(this, id, "Security Code Character Erased", UsageTypes.OSC);
+                case 0x0026: return new Usage(this, id, "Security Code Cleared", UsageTypes.OSC);
+                case 0x0027: return new Usage(this, id, "Sequence ID", UsageTypes.DV);
+                case 0x0028: return new Usage(this, id, "Sequence ID Reset", UsageTypes.DF);
+                case 0x0029: return new Usage(this, id, "RF Signal Strength", UsageTypes.DV);
+                case 0x002a: return new Usage(this, id, "Software Version", UsageTypes.CL);
+                case 0x002b: return new Usage(this, id, "Protocol Version", UsageTypes.CL);
+                case 0x002c: return new Usage(this, id, "Hardware Version", UsageTypes.CL);
+                case 0x002d: return new Usage(this, id, "Major", UsageTypes.SV);
+                case 0x002e: return new Usage(this, id, "Minor", UsageTypes.SV);
+                case 0x002f: return new Usage(this, id, "Revision", UsageTypes.SV);
+                case 0x0030: return new Usage(this, id, "Handedness", UsageTypes.NAry);
+                case 0x0031: return new Usage(this, id, "Either Hand", UsageTypes.Sel);
+                case 0x0032: return new Usage(this, id, "Left Hand", UsageTypes.Sel);
+                case 0x0033: return new Usage(this, id, "Right Hand", UsageTypes.Sel);
+                case 0x0034: return new Usage(this, id, "Both Hands", UsageTypes.Sel);
+                case 0x0040: return new Usage(this, id, "Grip Pose Offset", UsageTypes.CP);
+                case 0x0041: return new Usage(this, id, "Pointer Pose Offset", UsageTypes.CP);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -18541,230 +18591,237 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly KeyboardKeypadUsagePage Instance = new KeyboardKeypadUsagePage();
 
-        private KeyboardKeypadUsagePage()
-        : base(
-            0x0007,
-            "KeyboardKeypad",
-            (0x0000, "None", UsageTypes.Sel),
-            (0x0001, "ErrorRollOver", UsageTypes.Sel),
-            (0x0002, "POSTFail", UsageTypes.Sel),
-            (0x0003, "ErrorUndefined", UsageTypes.Sel),
-            (0x0004, "a A", UsageTypes.Sel),
-            (0x0005, "b B", UsageTypes.Sel),
-            (0x0006, "c C", UsageTypes.Sel),
-            (0x0007, "d D", UsageTypes.Sel),
-            (0x0008, "e E", UsageTypes.Sel),
-            (0x0009, "f F", UsageTypes.Sel),
-            (0x000a, "g G", UsageTypes.Sel),
-            (0x000b, "h H", UsageTypes.Sel),
-            (0x000c, "i I", UsageTypes.Sel),
-            (0x000d, "j J", UsageTypes.Sel),
-            (0x000e, "k K", UsageTypes.Sel),
-            (0x000f, "l L", UsageTypes.Sel),
-            (0x0010, "m M", UsageTypes.Sel),
-            (0x0011, "n N", UsageTypes.Sel),
-            (0x0012, "o O", UsageTypes.Sel),
-            (0x0013, "p P", UsageTypes.Sel),
-            (0x0014, "q Q", UsageTypes.Sel),
-            (0x0015, "r R", UsageTypes.Sel),
-            (0x0016, "s S", UsageTypes.Sel),
-            (0x0017, "t T", UsageTypes.Sel),
-            (0x0018, "u U", UsageTypes.Sel),
-            (0x0019, "v V", UsageTypes.Sel),
-            (0x001a, "w W", UsageTypes.Sel),
-            (0x001b, "x X", UsageTypes.Sel),
-            (0x001c, "y Y", UsageTypes.Sel),
-            (0x001d, "z Z", UsageTypes.Sel),
-            (0x001e, "1 !", UsageTypes.Sel),
-            (0x001f, "2 @", UsageTypes.Sel),
-            (0x0020, "3 #", UsageTypes.Sel),
-            (0x0021, "4 $", UsageTypes.Sel),
-            (0x0022, "5 %", UsageTypes.Sel),
-            (0x0023, "6 ^", UsageTypes.Sel),
-            (0x0024, "7 &", UsageTypes.Sel),
-            (0x0025, "8 *", UsageTypes.Sel),
-            (0x0026, "9 (", UsageTypes.Sel),
-            (0x0027, "0 )", UsageTypes.Sel),
-            (0x0028, "Enter", UsageTypes.Sel),
-            (0x0029, "Esc", UsageTypes.Sel),
-            (0x002a, "Backspace", UsageTypes.Sel),
-            (0x002b, "Tab", UsageTypes.Sel),
-            (0x002c, "Space", UsageTypes.Sel),
-            (0x002d, "- _", UsageTypes.Sel),
-            (0x002e, "= +", UsageTypes.Sel),
-            (0x002f, "[ {", UsageTypes.Sel),
-            (0x0030, "] }", UsageTypes.Sel),
-            (0x0031, "\\ |", UsageTypes.Sel),
-            (0x0032, "# ~", UsageTypes.Sel),
-            (0x0033, "; :", UsageTypes.Sel),
-            (0x0034, "' \"", UsageTypes.Sel),
-            (0x0035, "` ´", UsageTypes.Sel),
-            (0x0036, ", <", UsageTypes.Sel),
-            (0x0037, ". >", UsageTypes.Sel),
-            (0x0038, "/ ?", UsageTypes.Sel),
-            (0x0039, "CapsLock", UsageTypes.Sel),
-            (0x003a, "F1", UsageTypes.Sel),
-            (0x003b, "F2", UsageTypes.Sel),
-            (0x003c, "F3", UsageTypes.Sel),
-            (0x003d, "F4", UsageTypes.Sel),
-            (0x003e, "F5", UsageTypes.Sel),
-            (0x003f, "F6", UsageTypes.Sel),
-            (0x0040, "F7", UsageTypes.Sel),
-            (0x0041, "F8", UsageTypes.Sel),
-            (0x0042, "F9", UsageTypes.Sel),
-            (0x0043, "F10", UsageTypes.Sel),
-            (0x0044, "F11", UsageTypes.Sel),
-            (0x0045, "F12", UsageTypes.Sel),
-            (0x0046, "PrintScreen SysRq", UsageTypes.Sel),
-            (0x0047, "ScrollLock", UsageTypes.Sel),
-            (0x0048, "Pause", UsageTypes.Sel),
-            (0x0049, "Insert", UsageTypes.Sel),
-            (0x004a, "Home", UsageTypes.Sel),
-            (0x004b, "PageUp", UsageTypes.Sel),
-            (0x004c, "Delete", UsageTypes.Sel),
-            (0x004d, "End", UsageTypes.Sel),
-            (0x004e, "PageDown", UsageTypes.Sel),
-            (0x004f, "RightArrow", UsageTypes.Sel),
-            (0x0050, "LeftArrow", UsageTypes.Sel),
-            (0x0051, "DownArrow", UsageTypes.Sel),
-            (0x0052, "UpArrow", UsageTypes.Sel),
-            (0x0053, "NumLock Clear", UsageTypes.Sel),
-            (0x0054, "Keypad /", UsageTypes.Sel),
-            (0x0055, "Keypad *", UsageTypes.Sel),
-            (0x0056, "Keypad -", UsageTypes.Sel),
-            (0x0057, "Keypad +", UsageTypes.Sel),
-            (0x0058, "Keypad Enter", UsageTypes.Sel),
-            (0x0059, "Keypad 1", UsageTypes.Sel),
-            (0x005a, "Keypad 2", UsageTypes.Sel),
-            (0x005b, "Keypad 3", UsageTypes.Sel),
-            (0x005c, "Keypad 4", UsageTypes.Sel),
-            (0x005d, "Keypad 5", UsageTypes.Sel),
-            (0x005e, "Keypad 6", UsageTypes.Sel),
-            (0x005f, "Keypad 7", UsageTypes.Sel),
-            (0x0060, "Keypad 8", UsageTypes.Sel),
-            (0x0061, "Keypad 9", UsageTypes.Sel),
-            (0x0062, "Keypad 0", UsageTypes.Sel),
-            (0x0063, "Keypad .", UsageTypes.Sel),
-            (0x0064, "\\ |", UsageTypes.Sel),
-            (0x0065, "Application", UsageTypes.Sel),
-            (0x0066, "Power", UsageTypes.Sel),
-            (0x0067, "Keypad =", UsageTypes.Sel),
-            (0x0068, "F13", UsageTypes.Sel),
-            (0x0069, "F14", UsageTypes.Sel),
-            (0x006a, "F15", UsageTypes.Sel),
-            (0x006b, "F16", UsageTypes.Sel),
-            (0x006c, "F17", UsageTypes.Sel),
-            (0x006d, "F18", UsageTypes.Sel),
-            (0x006e, "F19", UsageTypes.Sel),
-            (0x006f, "F20", UsageTypes.Sel),
-            (0x0070, "F21", UsageTypes.Sel),
-            (0x0071, "F22", UsageTypes.Sel),
-            (0x0072, "F23", UsageTypes.Sel),
-            (0x0073, "F24", UsageTypes.Sel),
-            (0x0074, "Execute", UsageTypes.Sel),
-            (0x0075, "Help", UsageTypes.Sel),
-            (0x0076, "Menu", UsageTypes.Sel),
-            (0x0077, "Select", UsageTypes.Sel),
-            (0x0078, "Stop", UsageTypes.Sel),
-            (0x0079, "Again", UsageTypes.Sel),
-            (0x007a, "Undo", UsageTypes.Sel),
-            (0x007b, "Cut", UsageTypes.Sel),
-            (0x007c, "Copy", UsageTypes.Sel),
-            (0x007d, "Paste", UsageTypes.Sel),
-            (0x007e, "Find", UsageTypes.Sel),
-            (0x007f, "Mute", UsageTypes.Sel),
-            (0x0080, "VolumeUp", UsageTypes.Sel),
-            (0x0081, "VolumeDown", UsageTypes.Sel),
-            (0x0082, "LockingCapsLock", UsageTypes.Sel),
-            (0x0083, "LockingNumLock", UsageTypes.Sel),
-            (0x0084, "LockingScrollLock", UsageTypes.Sel),
-            (0x0085, "Keypad ,", UsageTypes.Sel),
-            (0x0086, "Keypad ==", UsageTypes.Sel),
-            (0x0087, "International1", UsageTypes.Sel),
-            (0x0088, "International2", UsageTypes.Sel),
-            (0x0089, "International3", UsageTypes.Sel),
-            (0x008a, "International4", UsageTypes.Sel),
-            (0x008b, "International5", UsageTypes.Sel),
-            (0x008c, "International6", UsageTypes.Sel),
-            (0x008d, "International7", UsageTypes.Sel),
-            (0x008e, "International8", UsageTypes.Sel),
-            (0x008f, "International9", UsageTypes.Sel),
-            (0x0090, "LANG1", UsageTypes.Sel),
-            (0x0091, "LANG2", UsageTypes.Sel),
-            (0x0092, "LANG3", UsageTypes.Sel),
-            (0x0093, "LANG4", UsageTypes.Sel),
-            (0x0094, "LANG5", UsageTypes.Sel),
-            (0x0095, "LANG6", UsageTypes.Sel),
-            (0x0096, "LANG7", UsageTypes.Sel),
-            (0x0097, "LANG8", UsageTypes.Sel),
-            (0x0098, "LANG9", UsageTypes.Sel),
-            (0x0099, "Alternate Erase", UsageTypes.Sel),
-            (0x009a, "SysReq Attention", UsageTypes.Sel),
-            (0x009b, "Cancel", UsageTypes.Sel),
-            (0x009c, "Clear", UsageTypes.Sel),
-            (0x009d, "Prior", UsageTypes.Sel),
-            (0x009e, "Return", UsageTypes.Sel),
-            (0x009f, "Separator", UsageTypes.Sel),
-            (0x00a0, "Out", UsageTypes.Sel),
-            (0x00a1, "Oper", UsageTypes.Sel),
-            (0x00a2, "Clear Again", UsageTypes.Sel),
-            (0x00a3, "CrSel Props", UsageTypes.Sel),
-            (0x00a4, "ExSel", UsageTypes.Sel),
-            (0x00b0, "Keypad 00", UsageTypes.Sel),
-            (0x00b1, "Keypad 000", UsageTypes.Sel),
-            (0x00b2, "1000sSeparator", UsageTypes.Sel),
-            (0x00b3, "DecimalSeparator", UsageTypes.Sel),
-            (0x00b4, "CurrencyUnit", UsageTypes.Sel),
-            (0x00b5, "CurrencySubunit", UsageTypes.Sel),
-            (0x00b6, "Keypad (", UsageTypes.Sel),
-            (0x00b7, "Keypad )", UsageTypes.Sel),
-            (0x00b8, "Keypad {", UsageTypes.Sel),
-            (0x00b9, "Keypad }", UsageTypes.Sel),
-            (0x00ba, "Keypad Tab", UsageTypes.Sel),
-            (0x00bb, "Keypad Backspace", UsageTypes.Sel),
-            (0x00bc, "Keypad A", UsageTypes.Sel),
-            (0x00bd, "Keypad B", UsageTypes.Sel),
-            (0x00be, "Keypad C", UsageTypes.Sel),
-            (0x00bf, "Keypad D", UsageTypes.Sel),
-            (0x00c0, "Keypad E", UsageTypes.Sel),
-            (0x00c1, "Keypad F", UsageTypes.Sel),
-            (0x00c2, "Keypad XOR", UsageTypes.Sel),
-            (0x00c3, "Keypad ^", UsageTypes.Sel),
-            (0x00c4, "Keypad %", UsageTypes.Sel),
-            (0x00c5, "Keypad <", UsageTypes.Sel),
-            (0x00c6, "Keypad >", UsageTypes.Sel),
-            (0x00c7, "Keypad &", UsageTypes.Sel),
-            (0x00c8, "Keypad &&", UsageTypes.Sel),
-            (0x00c9, "Keypad |", UsageTypes.Sel),
-            (0x00ca, "Keypad ||", UsageTypes.Sel),
-            (0x00cb, "Keypad :", UsageTypes.Sel),
-            (0x00cc, "Keypad #", UsageTypes.Sel),
-            (0x00cd, "Keypad Space", UsageTypes.Sel),
-            (0x00ce, "Keypad @", UsageTypes.Sel),
-            (0x00cf, "Keypad !", UsageTypes.Sel),
-            (0x00d0, "Keypad MemoryStore", UsageTypes.Sel),
-            (0x00d1, "Keypad MemoryRecall", UsageTypes.Sel),
-            (0x00d2, "Keypad MemoryClear", UsageTypes.Sel),
-            (0x00d3, "Keypad MemoryAdd", UsageTypes.Sel),
-            (0x00d4, "Keypad MemorySubtract", UsageTypes.Sel),
-            (0x00d5, "Keypad MemoryMultiply", UsageTypes.Sel),
-            (0x00d6, "Keypad MemoryDivide", UsageTypes.Sel),
-            (0x00d7, "Keypad +/-", UsageTypes.Sel),
-            (0x00d8, "Keypad Clear", UsageTypes.Sel),
-            (0x00d9, "Keypad ClearEntry", UsageTypes.Sel),
-            (0x00da, "Keypad Binary", UsageTypes.Sel),
-            (0x00db, "Keypad Octal", UsageTypes.Sel),
-            (0x00dc, "Keypad Decimal", UsageTypes.Sel),
-            (0x00dd, "Keypad Hexadecimal", UsageTypes.Sel),
-            (0x00e0, "LeftCtrl", UsageTypes.DF),
-            (0x00e1, "LeftShift", UsageTypes.DF),
-            (0x00e2, "LeftAlt", UsageTypes.DF),
-            (0x00e3, "LeftGUI", UsageTypes.DF),
-            (0x00e4, "RightCtrl", UsageTypes.DF),
-            (0x00e5, "RightShift", UsageTypes.DF),
-            (0x00e6, "RightAlt", UsageTypes.DF),
-            (0x00e7, "RightGUI", UsageTypes.DF))
+        private KeyboardKeypadUsagePage() : base(0x0007, "KeyboardKeypad")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "None", UsageTypes.Sel);
+                case 0x0001: return new Usage(this, id, "ErrorRollOver", UsageTypes.Sel);
+                case 0x0002: return new Usage(this, id, "POSTFail", UsageTypes.Sel);
+                case 0x0003: return new Usage(this, id, "ErrorUndefined", UsageTypes.Sel);
+                case 0x0004: return new Usage(this, id, "a A", UsageTypes.Sel);
+                case 0x0005: return new Usage(this, id, "b B", UsageTypes.Sel);
+                case 0x0006: return new Usage(this, id, "c C", UsageTypes.Sel);
+                case 0x0007: return new Usage(this, id, "d D", UsageTypes.Sel);
+                case 0x0008: return new Usage(this, id, "e E", UsageTypes.Sel);
+                case 0x0009: return new Usage(this, id, "f F", UsageTypes.Sel);
+                case 0x000a: return new Usage(this, id, "g G", UsageTypes.Sel);
+                case 0x000b: return new Usage(this, id, "h H", UsageTypes.Sel);
+                case 0x000c: return new Usage(this, id, "i I", UsageTypes.Sel);
+                case 0x000d: return new Usage(this, id, "j J", UsageTypes.Sel);
+                case 0x000e: return new Usage(this, id, "k K", UsageTypes.Sel);
+                case 0x000f: return new Usage(this, id, "l L", UsageTypes.Sel);
+                case 0x0010: return new Usage(this, id, "m M", UsageTypes.Sel);
+                case 0x0011: return new Usage(this, id, "n N", UsageTypes.Sel);
+                case 0x0012: return new Usage(this, id, "o O", UsageTypes.Sel);
+                case 0x0013: return new Usage(this, id, "p P", UsageTypes.Sel);
+                case 0x0014: return new Usage(this, id, "q Q", UsageTypes.Sel);
+                case 0x0015: return new Usage(this, id, "r R", UsageTypes.Sel);
+                case 0x0016: return new Usage(this, id, "s S", UsageTypes.Sel);
+                case 0x0017: return new Usage(this, id, "t T", UsageTypes.Sel);
+                case 0x0018: return new Usage(this, id, "u U", UsageTypes.Sel);
+                case 0x0019: return new Usage(this, id, "v V", UsageTypes.Sel);
+                case 0x001a: return new Usage(this, id, "w W", UsageTypes.Sel);
+                case 0x001b: return new Usage(this, id, "x X", UsageTypes.Sel);
+                case 0x001c: return new Usage(this, id, "y Y", UsageTypes.Sel);
+                case 0x001d: return new Usage(this, id, "z Z", UsageTypes.Sel);
+                case 0x001e: return new Usage(this, id, "1 !", UsageTypes.Sel);
+                case 0x001f: return new Usage(this, id, "2 @", UsageTypes.Sel);
+                case 0x0020: return new Usage(this, id, "3 #", UsageTypes.Sel);
+                case 0x0021: return new Usage(this, id, "4 $", UsageTypes.Sel);
+                case 0x0022: return new Usage(this, id, "5 %", UsageTypes.Sel);
+                case 0x0023: return new Usage(this, id, "6 ^", UsageTypes.Sel);
+                case 0x0024: return new Usage(this, id, "7 &", UsageTypes.Sel);
+                case 0x0025: return new Usage(this, id, "8 *", UsageTypes.Sel);
+                case 0x0026: return new Usage(this, id, "9 (", UsageTypes.Sel);
+                case 0x0027: return new Usage(this, id, "0 )", UsageTypes.Sel);
+                case 0x0028: return new Usage(this, id, "Enter", UsageTypes.Sel);
+                case 0x0029: return new Usage(this, id, "Esc", UsageTypes.Sel);
+                case 0x002a: return new Usage(this, id, "Backspace", UsageTypes.Sel);
+                case 0x002b: return new Usage(this, id, "Tab", UsageTypes.Sel);
+                case 0x002c: return new Usage(this, id, "Space", UsageTypes.Sel);
+                case 0x002d: return new Usage(this, id, "- _", UsageTypes.Sel);
+                case 0x002e: return new Usage(this, id, "= +", UsageTypes.Sel);
+                case 0x002f: return new Usage(this, id, "[ {", UsageTypes.Sel);
+                case 0x0030: return new Usage(this, id, "] }", UsageTypes.Sel);
+                case 0x0031: return new Usage(this, id, "\\ |", UsageTypes.Sel);
+                case 0x0032: return new Usage(this, id, "# ~", UsageTypes.Sel);
+                case 0x0033: return new Usage(this, id, "; :", UsageTypes.Sel);
+                case 0x0034: return new Usage(this, id, "' \"", UsageTypes.Sel);
+                case 0x0035: return new Usage(this, id, "` ´", UsageTypes.Sel);
+                case 0x0036: return new Usage(this, id, ", <", UsageTypes.Sel);
+                case 0x0037: return new Usage(this, id, ". >", UsageTypes.Sel);
+                case 0x0038: return new Usage(this, id, "/ ?", UsageTypes.Sel);
+                case 0x0039: return new Usage(this, id, "CapsLock", UsageTypes.Sel);
+                case 0x003a: return new Usage(this, id, "F1", UsageTypes.Sel);
+                case 0x003b: return new Usage(this, id, "F2", UsageTypes.Sel);
+                case 0x003c: return new Usage(this, id, "F3", UsageTypes.Sel);
+                case 0x003d: return new Usage(this, id, "F4", UsageTypes.Sel);
+                case 0x003e: return new Usage(this, id, "F5", UsageTypes.Sel);
+                case 0x003f: return new Usage(this, id, "F6", UsageTypes.Sel);
+                case 0x0040: return new Usage(this, id, "F7", UsageTypes.Sel);
+                case 0x0041: return new Usage(this, id, "F8", UsageTypes.Sel);
+                case 0x0042: return new Usage(this, id, "F9", UsageTypes.Sel);
+                case 0x0043: return new Usage(this, id, "F10", UsageTypes.Sel);
+                case 0x0044: return new Usage(this, id, "F11", UsageTypes.Sel);
+                case 0x0045: return new Usage(this, id, "F12", UsageTypes.Sel);
+                case 0x0046: return new Usage(this, id, "PrintScreen SysRq", UsageTypes.Sel);
+                case 0x0047: return new Usage(this, id, "ScrollLock", UsageTypes.Sel);
+                case 0x0048: return new Usage(this, id, "Pause", UsageTypes.Sel);
+                case 0x0049: return new Usage(this, id, "Insert", UsageTypes.Sel);
+                case 0x004a: return new Usage(this, id, "Home", UsageTypes.Sel);
+                case 0x004b: return new Usage(this, id, "PageUp", UsageTypes.Sel);
+                case 0x004c: return new Usage(this, id, "Delete", UsageTypes.Sel);
+                case 0x004d: return new Usage(this, id, "End", UsageTypes.Sel);
+                case 0x004e: return new Usage(this, id, "PageDown", UsageTypes.Sel);
+                case 0x004f: return new Usage(this, id, "RightArrow", UsageTypes.Sel);
+                case 0x0050: return new Usage(this, id, "LeftArrow", UsageTypes.Sel);
+                case 0x0051: return new Usage(this, id, "DownArrow", UsageTypes.Sel);
+                case 0x0052: return new Usage(this, id, "UpArrow", UsageTypes.Sel);
+                case 0x0053: return new Usage(this, id, "NumLock Clear", UsageTypes.Sel);
+                case 0x0054: return new Usage(this, id, "Keypad /", UsageTypes.Sel);
+                case 0x0055: return new Usage(this, id, "Keypad *", UsageTypes.Sel);
+                case 0x0056: return new Usage(this, id, "Keypad -", UsageTypes.Sel);
+                case 0x0057: return new Usage(this, id, "Keypad +", UsageTypes.Sel);
+                case 0x0058: return new Usage(this, id, "Keypad Enter", UsageTypes.Sel);
+                case 0x0059: return new Usage(this, id, "Keypad 1", UsageTypes.Sel);
+                case 0x005a: return new Usage(this, id, "Keypad 2", UsageTypes.Sel);
+                case 0x005b: return new Usage(this, id, "Keypad 3", UsageTypes.Sel);
+                case 0x005c: return new Usage(this, id, "Keypad 4", UsageTypes.Sel);
+                case 0x005d: return new Usage(this, id, "Keypad 5", UsageTypes.Sel);
+                case 0x005e: return new Usage(this, id, "Keypad 6", UsageTypes.Sel);
+                case 0x005f: return new Usage(this, id, "Keypad 7", UsageTypes.Sel);
+                case 0x0060: return new Usage(this, id, "Keypad 8", UsageTypes.Sel);
+                case 0x0061: return new Usage(this, id, "Keypad 9", UsageTypes.Sel);
+                case 0x0062: return new Usage(this, id, "Keypad 0", UsageTypes.Sel);
+                case 0x0063: return new Usage(this, id, "Keypad .", UsageTypes.Sel);
+                case 0x0064: return new Usage(this, id, "\\ |", UsageTypes.Sel);
+                case 0x0065: return new Usage(this, id, "Application", UsageTypes.Sel);
+                case 0x0066: return new Usage(this, id, "Power", UsageTypes.Sel);
+                case 0x0067: return new Usage(this, id, "Keypad =", UsageTypes.Sel);
+                case 0x0068: return new Usage(this, id, "F13", UsageTypes.Sel);
+                case 0x0069: return new Usage(this, id, "F14", UsageTypes.Sel);
+                case 0x006a: return new Usage(this, id, "F15", UsageTypes.Sel);
+                case 0x006b: return new Usage(this, id, "F16", UsageTypes.Sel);
+                case 0x006c: return new Usage(this, id, "F17", UsageTypes.Sel);
+                case 0x006d: return new Usage(this, id, "F18", UsageTypes.Sel);
+                case 0x006e: return new Usage(this, id, "F19", UsageTypes.Sel);
+                case 0x006f: return new Usage(this, id, "F20", UsageTypes.Sel);
+                case 0x0070: return new Usage(this, id, "F21", UsageTypes.Sel);
+                case 0x0071: return new Usage(this, id, "F22", UsageTypes.Sel);
+                case 0x0072: return new Usage(this, id, "F23", UsageTypes.Sel);
+                case 0x0073: return new Usage(this, id, "F24", UsageTypes.Sel);
+                case 0x0074: return new Usage(this, id, "Execute", UsageTypes.Sel);
+                case 0x0075: return new Usage(this, id, "Help", UsageTypes.Sel);
+                case 0x0076: return new Usage(this, id, "Menu", UsageTypes.Sel);
+                case 0x0077: return new Usage(this, id, "Select", UsageTypes.Sel);
+                case 0x0078: return new Usage(this, id, "Stop", UsageTypes.Sel);
+                case 0x0079: return new Usage(this, id, "Again", UsageTypes.Sel);
+                case 0x007a: return new Usage(this, id, "Undo", UsageTypes.Sel);
+                case 0x007b: return new Usage(this, id, "Cut", UsageTypes.Sel);
+                case 0x007c: return new Usage(this, id, "Copy", UsageTypes.Sel);
+                case 0x007d: return new Usage(this, id, "Paste", UsageTypes.Sel);
+                case 0x007e: return new Usage(this, id, "Find", UsageTypes.Sel);
+                case 0x007f: return new Usage(this, id, "Mute", UsageTypes.Sel);
+                case 0x0080: return new Usage(this, id, "VolumeUp", UsageTypes.Sel);
+                case 0x0081: return new Usage(this, id, "VolumeDown", UsageTypes.Sel);
+                case 0x0082: return new Usage(this, id, "LockingCapsLock", UsageTypes.Sel);
+                case 0x0083: return new Usage(this, id, "LockingNumLock", UsageTypes.Sel);
+                case 0x0084: return new Usage(this, id, "LockingScrollLock", UsageTypes.Sel);
+                case 0x0085: return new Usage(this, id, "Keypad ,", UsageTypes.Sel);
+                case 0x0086: return new Usage(this, id, "Keypad ==", UsageTypes.Sel);
+                case 0x0087: return new Usage(this, id, "International1", UsageTypes.Sel);
+                case 0x0088: return new Usage(this, id, "International2", UsageTypes.Sel);
+                case 0x0089: return new Usage(this, id, "International3", UsageTypes.Sel);
+                case 0x008a: return new Usage(this, id, "International4", UsageTypes.Sel);
+                case 0x008b: return new Usage(this, id, "International5", UsageTypes.Sel);
+                case 0x008c: return new Usage(this, id, "International6", UsageTypes.Sel);
+                case 0x008d: return new Usage(this, id, "International7", UsageTypes.Sel);
+                case 0x008e: return new Usage(this, id, "International8", UsageTypes.Sel);
+                case 0x008f: return new Usage(this, id, "International9", UsageTypes.Sel);
+                case 0x0090: return new Usage(this, id, "LANG1", UsageTypes.Sel);
+                case 0x0091: return new Usage(this, id, "LANG2", UsageTypes.Sel);
+                case 0x0092: return new Usage(this, id, "LANG3", UsageTypes.Sel);
+                case 0x0093: return new Usage(this, id, "LANG4", UsageTypes.Sel);
+                case 0x0094: return new Usage(this, id, "LANG5", UsageTypes.Sel);
+                case 0x0095: return new Usage(this, id, "LANG6", UsageTypes.Sel);
+                case 0x0096: return new Usage(this, id, "LANG7", UsageTypes.Sel);
+                case 0x0097: return new Usage(this, id, "LANG8", UsageTypes.Sel);
+                case 0x0098: return new Usage(this, id, "LANG9", UsageTypes.Sel);
+                case 0x0099: return new Usage(this, id, "Alternate Erase", UsageTypes.Sel);
+                case 0x009a: return new Usage(this, id, "SysReq Attention", UsageTypes.Sel);
+                case 0x009b: return new Usage(this, id, "Cancel", UsageTypes.Sel);
+                case 0x009c: return new Usage(this, id, "Clear", UsageTypes.Sel);
+                case 0x009d: return new Usage(this, id, "Prior", UsageTypes.Sel);
+                case 0x009e: return new Usage(this, id, "Return", UsageTypes.Sel);
+                case 0x009f: return new Usage(this, id, "Separator", UsageTypes.Sel);
+                case 0x00a0: return new Usage(this, id, "Out", UsageTypes.Sel);
+                case 0x00a1: return new Usage(this, id, "Oper", UsageTypes.Sel);
+                case 0x00a2: return new Usage(this, id, "Clear Again", UsageTypes.Sel);
+                case 0x00a3: return new Usage(this, id, "CrSel Props", UsageTypes.Sel);
+                case 0x00a4: return new Usage(this, id, "ExSel", UsageTypes.Sel);
+                case 0x00b0: return new Usage(this, id, "Keypad 00", UsageTypes.Sel);
+                case 0x00b1: return new Usage(this, id, "Keypad 000", UsageTypes.Sel);
+                case 0x00b2: return new Usage(this, id, "1000sSeparator", UsageTypes.Sel);
+                case 0x00b3: return new Usage(this, id, "DecimalSeparator", UsageTypes.Sel);
+                case 0x00b4: return new Usage(this, id, "CurrencyUnit", UsageTypes.Sel);
+                case 0x00b5: return new Usage(this, id, "CurrencySubunit", UsageTypes.Sel);
+                case 0x00b6: return new Usage(this, id, "Keypad (", UsageTypes.Sel);
+                case 0x00b7: return new Usage(this, id, "Keypad )", UsageTypes.Sel);
+                case 0x00b8: return new Usage(this, id, "Keypad {", UsageTypes.Sel);
+                case 0x00b9: return new Usage(this, id, "Keypad }", UsageTypes.Sel);
+                case 0x00ba: return new Usage(this, id, "Keypad Tab", UsageTypes.Sel);
+                case 0x00bb: return new Usage(this, id, "Keypad Backspace", UsageTypes.Sel);
+                case 0x00bc: return new Usage(this, id, "Keypad A", UsageTypes.Sel);
+                case 0x00bd: return new Usage(this, id, "Keypad B", UsageTypes.Sel);
+                case 0x00be: return new Usage(this, id, "Keypad C", UsageTypes.Sel);
+                case 0x00bf: return new Usage(this, id, "Keypad D", UsageTypes.Sel);
+                case 0x00c0: return new Usage(this, id, "Keypad E", UsageTypes.Sel);
+                case 0x00c1: return new Usage(this, id, "Keypad F", UsageTypes.Sel);
+                case 0x00c2: return new Usage(this, id, "Keypad XOR", UsageTypes.Sel);
+                case 0x00c3: return new Usage(this, id, "Keypad ^", UsageTypes.Sel);
+                case 0x00c4: return new Usage(this, id, "Keypad %", UsageTypes.Sel);
+                case 0x00c5: return new Usage(this, id, "Keypad <", UsageTypes.Sel);
+                case 0x00c6: return new Usage(this, id, "Keypad >", UsageTypes.Sel);
+                case 0x00c7: return new Usage(this, id, "Keypad &", UsageTypes.Sel);
+                case 0x00c8: return new Usage(this, id, "Keypad &&", UsageTypes.Sel);
+                case 0x00c9: return new Usage(this, id, "Keypad |", UsageTypes.Sel);
+                case 0x00ca: return new Usage(this, id, "Keypad ||", UsageTypes.Sel);
+                case 0x00cb: return new Usage(this, id, "Keypad :", UsageTypes.Sel);
+                case 0x00cc: return new Usage(this, id, "Keypad #", UsageTypes.Sel);
+                case 0x00cd: return new Usage(this, id, "Keypad Space", UsageTypes.Sel);
+                case 0x00ce: return new Usage(this, id, "Keypad @", UsageTypes.Sel);
+                case 0x00cf: return new Usage(this, id, "Keypad !", UsageTypes.Sel);
+                case 0x00d0: return new Usage(this, id, "Keypad MemoryStore", UsageTypes.Sel);
+                case 0x00d1: return new Usage(this, id, "Keypad MemoryRecall", UsageTypes.Sel);
+                case 0x00d2: return new Usage(this, id, "Keypad MemoryClear", UsageTypes.Sel);
+                case 0x00d3: return new Usage(this, id, "Keypad MemoryAdd", UsageTypes.Sel);
+                case 0x00d4: return new Usage(this, id, "Keypad MemorySubtract", UsageTypes.Sel);
+                case 0x00d5: return new Usage(this, id, "Keypad MemoryMultiply", UsageTypes.Sel);
+                case 0x00d6: return new Usage(this, id, "Keypad MemoryDivide", UsageTypes.Sel);
+                case 0x00d7: return new Usage(this, id, "Keypad +/-", UsageTypes.Sel);
+                case 0x00d8: return new Usage(this, id, "Keypad Clear", UsageTypes.Sel);
+                case 0x00d9: return new Usage(this, id, "Keypad ClearEntry", UsageTypes.Sel);
+                case 0x00da: return new Usage(this, id, "Keypad Binary", UsageTypes.Sel);
+                case 0x00db: return new Usage(this, id, "Keypad Octal", UsageTypes.Sel);
+                case 0x00dc: return new Usage(this, id, "Keypad Decimal", UsageTypes.Sel);
+                case 0x00dd: return new Usage(this, id, "Keypad Hexadecimal", UsageTypes.Sel);
+                case 0x00e0: return new Usage(this, id, "LeftCtrl", UsageTypes.DF);
+                case 0x00e1: return new Usage(this, id, "LeftShift", UsageTypes.DF);
+                case 0x00e2: return new Usage(this, id, "LeftAlt", UsageTypes.DF);
+                case 0x00e3: return new Usage(this, id, "LeftGUI", UsageTypes.DF);
+                case 0x00e4: return new Usage(this, id, "RightCtrl", UsageTypes.DF);
+                case 0x00e5: return new Usage(this, id, "RightShift", UsageTypes.DF);
+                case 0x00e6: return new Usage(this, id, "RightAlt", UsageTypes.DF);
+                case 0x00e7: return new Usage(this, id, "RightGUI", UsageTypes.DF);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -18778,107 +18835,114 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly LEDsUsagePage Instance = new LEDsUsagePage();
 
-        private LEDsUsagePage()
-        : base(
-            0x0008,
-            "LEDs",
-            (0x0000, "Undefined", UsageTypes.None),
-            (0x0001, "Num Lock", UsageTypes.OOC),
-            (0x0002, "Caps Lock", UsageTypes.OOC),
-            (0x0003, "Scroll Lock", UsageTypes.OOC),
-            (0x0004, "Compose", UsageTypes.OOC),
-            (0x0005, "Kana", UsageTypes.OOC),
-            (0x0006, "Power", UsageTypes.OOC),
-            (0x0007, "Shift", UsageTypes.OOC),
-            (0x0008, "Do Not Disturb", UsageTypes.OOC),
-            (0x0009, "Mute", UsageTypes.OOC),
-            (0x000a, "Tone Enable", UsageTypes.OOC),
-            (0x000b, "High Cut Filter", UsageTypes.OOC),
-            (0x000c, "Low Cut Filter", UsageTypes.OOC),
-            (0x000d, "Equalizer Enable", UsageTypes.OOC),
-            (0x000e, "Sound Field On", UsageTypes.OOC),
-            (0x000f, "Surround On", UsageTypes.OOC),
-            (0x0010, "Repeat", UsageTypes.OOC),
-            (0x0011, "Stereo", UsageTypes.OOC),
-            (0x0012, "Sampling Rate Detect", UsageTypes.OOC),
-            (0x0013, "Spinning", UsageTypes.OOC),
-            (0x0014, "CAV", UsageTypes.OOC),
-            (0x0015, "CLV", UsageTypes.OOC),
-            (0x0016, "Recording Format Detect", UsageTypes.OOC),
-            (0x0017, "Off-Hook", UsageTypes.OOC),
-            (0x0018, "Ring", UsageTypes.OOC),
-            (0x0019, "Message Waiting", UsageTypes.OOC),
-            (0x001a, "Data Mode", UsageTypes.OOC),
-            (0x001b, "Battery Operation", UsageTypes.OOC),
-            (0x001c, "Battery OK", UsageTypes.OOC),
-            (0x001d, "Battery Low", UsageTypes.OOC),
-            (0x001e, "Speaker", UsageTypes.OOC),
-            (0x001f, "Head Set", UsageTypes.OOC),
-            (0x0020, "Hold", UsageTypes.OOC),
-            (0x0021, "Microphone", UsageTypes.OOC),
-            (0x0022, "Coverage", UsageTypes.OOC),
-            (0x0023, "Night Mode", UsageTypes.OOC),
-            (0x0024, "Send Calls", UsageTypes.OOC),
-            (0x0025, "Call Pickup", UsageTypes.OOC),
-            (0x0026, "Conference", UsageTypes.OOC),
-            (0x0027, "Stand-by", UsageTypes.OOC),
-            (0x0028, "Camera On", UsageTypes.OOC),
-            (0x0029, "Camera Off", UsageTypes.OOC),
-            (0x002a, "On-Line", UsageTypes.OOC),
-            (0x002b, "Off-Line", UsageTypes.OOC),
-            (0x002c, "Busy", UsageTypes.OOC),
-            (0x002d, "Ready", UsageTypes.OOC),
-            (0x002e, "Paper-Out", UsageTypes.OOC),
-            (0x002f, "Paper-Jam", UsageTypes.OOC),
-            (0x0030, "Remote", UsageTypes.OOC),
-            (0x0031, "Forward", UsageTypes.OOC),
-            (0x0032, "Reverse", UsageTypes.OOC),
-            (0x0033, "Stop", UsageTypes.OOC),
-            (0x0034, "Rewind", UsageTypes.OOC),
-            (0x0035, "Fast Forward", UsageTypes.OOC),
-            (0x0036, "Play", UsageTypes.OOC),
-            (0x0037, "Pause", UsageTypes.OOC),
-            (0x0038, "Record", UsageTypes.OOC),
-            (0x0039, "Error", UsageTypes.OOC),
-            (0x003a, "Usage Selected Indicator", UsageTypes.US),
-            (0x003b, "Usage In Use Indicator", UsageTypes.US),
-            (0x003c, "Usage Multi Mode Indicator", UsageTypes.UM),
-            (0x003d, "Indicator On", UsageTypes.Sel),
-            (0x003e, "Indicator Flash", UsageTypes.Sel),
-            (0x003f, "Indicator Slow Blink", UsageTypes.Sel),
-            (0x0040, "Indicator Fast Blink", UsageTypes.Sel),
-            (0x0041, "Indicator Off", UsageTypes.Sel),
-            (0x0042, "Flash On Time", UsageTypes.DV),
-            (0x0043, "Slow Blink On Time", UsageTypes.DV),
-            (0x0044, "Slow Blink Off Time", UsageTypes.DV),
-            (0x0045, "Fast Blink On Time", UsageTypes.DV),
-            (0x0046, "Fast Blink Off Time", UsageTypes.DV),
-            (0x0047, "Usage Indicator Color", UsageTypes.UM),
-            (0x0048, "Indicator Red", UsageTypes.Sel),
-            (0x0049, "Indicator Green", UsageTypes.Sel),
-            (0x004a, "Indicator Amber", UsageTypes.Sel),
-            (0x004b, "Generic Indicator", UsageTypes.OOC),
-            (0x004c, "System Suspend", UsageTypes.OOC),
-            (0x004d, "External Power Connected", UsageTypes.OOC),
-            (0x004e, "Indicator Blue", UsageTypes.Sel),
-            (0x004f, "Indicator Orange", UsageTypes.Sel),
-            (0x0050, "Good Status", UsageTypes.OOC),
-            (0x0051, "Warning Status", UsageTypes.OOC),
-            (0x0052, "RGB LED", UsageTypes.CL),
-            (0x0053, "Red LED Channel", UsageTypes.DV),
-            (0x0054, "Green LED Channel", UsageTypes.DV),
-            (0x0055, "Blue LED Channel", UsageTypes.DV),
-            (0x0056, "LED Intensity", UsageTypes.DV),
-            (0x0060, "Player Indicator", UsageTypes.NAry),
-            (0x0061, "Player 1", UsageTypes.Sel),
-            (0x0062, "Player 2", UsageTypes.Sel),
-            (0x0063, "Player 3", UsageTypes.Sel),
-            (0x0064, "Player 4", UsageTypes.Sel),
-            (0x0065, "Player 5", UsageTypes.Sel),
-            (0x0066, "Player 6", UsageTypes.Sel),
-            (0x0067, "Player 7", UsageTypes.Sel),
-            (0x0068, "Player 8", UsageTypes.Sel))
+        private LEDsUsagePage() : base(0x0008, "LEDs")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "Num Lock", UsageTypes.OOC);
+                case 0x0002: return new Usage(this, id, "Caps Lock", UsageTypes.OOC);
+                case 0x0003: return new Usage(this, id, "Scroll Lock", UsageTypes.OOC);
+                case 0x0004: return new Usage(this, id, "Compose", UsageTypes.OOC);
+                case 0x0005: return new Usage(this, id, "Kana", UsageTypes.OOC);
+                case 0x0006: return new Usage(this, id, "Power", UsageTypes.OOC);
+                case 0x0007: return new Usage(this, id, "Shift", UsageTypes.OOC);
+                case 0x0008: return new Usage(this, id, "Do Not Disturb", UsageTypes.OOC);
+                case 0x0009: return new Usage(this, id, "Mute", UsageTypes.OOC);
+                case 0x000a: return new Usage(this, id, "Tone Enable", UsageTypes.OOC);
+                case 0x000b: return new Usage(this, id, "High Cut Filter", UsageTypes.OOC);
+                case 0x000c: return new Usage(this, id, "Low Cut Filter", UsageTypes.OOC);
+                case 0x000d: return new Usage(this, id, "Equalizer Enable", UsageTypes.OOC);
+                case 0x000e: return new Usage(this, id, "Sound Field On", UsageTypes.OOC);
+                case 0x000f: return new Usage(this, id, "Surround On", UsageTypes.OOC);
+                case 0x0010: return new Usage(this, id, "Repeat", UsageTypes.OOC);
+                case 0x0011: return new Usage(this, id, "Stereo", UsageTypes.OOC);
+                case 0x0012: return new Usage(this, id, "Sampling Rate Detect", UsageTypes.OOC);
+                case 0x0013: return new Usage(this, id, "Spinning", UsageTypes.OOC);
+                case 0x0014: return new Usage(this, id, "CAV", UsageTypes.OOC);
+                case 0x0015: return new Usage(this, id, "CLV", UsageTypes.OOC);
+                case 0x0016: return new Usage(this, id, "Recording Format Detect", UsageTypes.OOC);
+                case 0x0017: return new Usage(this, id, "Off-Hook", UsageTypes.OOC);
+                case 0x0018: return new Usage(this, id, "Ring", UsageTypes.OOC);
+                case 0x0019: return new Usage(this, id, "Message Waiting", UsageTypes.OOC);
+                case 0x001a: return new Usage(this, id, "Data Mode", UsageTypes.OOC);
+                case 0x001b: return new Usage(this, id, "Battery Operation", UsageTypes.OOC);
+                case 0x001c: return new Usage(this, id, "Battery OK", UsageTypes.OOC);
+                case 0x001d: return new Usage(this, id, "Battery Low", UsageTypes.OOC);
+                case 0x001e: return new Usage(this, id, "Speaker", UsageTypes.OOC);
+                case 0x001f: return new Usage(this, id, "Head Set", UsageTypes.OOC);
+                case 0x0020: return new Usage(this, id, "Hold", UsageTypes.OOC);
+                case 0x0021: return new Usage(this, id, "Microphone", UsageTypes.OOC);
+                case 0x0022: return new Usage(this, id, "Coverage", UsageTypes.OOC);
+                case 0x0023: return new Usage(this, id, "Night Mode", UsageTypes.OOC);
+                case 0x0024: return new Usage(this, id, "Send Calls", UsageTypes.OOC);
+                case 0x0025: return new Usage(this, id, "Call Pickup", UsageTypes.OOC);
+                case 0x0026: return new Usage(this, id, "Conference", UsageTypes.OOC);
+                case 0x0027: return new Usage(this, id, "Stand-by", UsageTypes.OOC);
+                case 0x0028: return new Usage(this, id, "Camera On", UsageTypes.OOC);
+                case 0x0029: return new Usage(this, id, "Camera Off", UsageTypes.OOC);
+                case 0x002a: return new Usage(this, id, "On-Line", UsageTypes.OOC);
+                case 0x002b: return new Usage(this, id, "Off-Line", UsageTypes.OOC);
+                case 0x002c: return new Usage(this, id, "Busy", UsageTypes.OOC);
+                case 0x002d: return new Usage(this, id, "Ready", UsageTypes.OOC);
+                case 0x002e: return new Usage(this, id, "Paper-Out", UsageTypes.OOC);
+                case 0x002f: return new Usage(this, id, "Paper-Jam", UsageTypes.OOC);
+                case 0x0030: return new Usage(this, id, "Remote", UsageTypes.OOC);
+                case 0x0031: return new Usage(this, id, "Forward", UsageTypes.OOC);
+                case 0x0032: return new Usage(this, id, "Reverse", UsageTypes.OOC);
+                case 0x0033: return new Usage(this, id, "Stop", UsageTypes.OOC);
+                case 0x0034: return new Usage(this, id, "Rewind", UsageTypes.OOC);
+                case 0x0035: return new Usage(this, id, "Fast Forward", UsageTypes.OOC);
+                case 0x0036: return new Usage(this, id, "Play", UsageTypes.OOC);
+                case 0x0037: return new Usage(this, id, "Pause", UsageTypes.OOC);
+                case 0x0038: return new Usage(this, id, "Record", UsageTypes.OOC);
+                case 0x0039: return new Usage(this, id, "Error", UsageTypes.OOC);
+                case 0x003a: return new Usage(this, id, "Usage Selected Indicator", UsageTypes.US);
+                case 0x003b: return new Usage(this, id, "Usage In Use Indicator", UsageTypes.US);
+                case 0x003c: return new Usage(this, id, "Usage Multi Mode Indicator", UsageTypes.UM);
+                case 0x003d: return new Usage(this, id, "Indicator On", UsageTypes.Sel);
+                case 0x003e: return new Usage(this, id, "Indicator Flash", UsageTypes.Sel);
+                case 0x003f: return new Usage(this, id, "Indicator Slow Blink", UsageTypes.Sel);
+                case 0x0040: return new Usage(this, id, "Indicator Fast Blink", UsageTypes.Sel);
+                case 0x0041: return new Usage(this, id, "Indicator Off", UsageTypes.Sel);
+                case 0x0042: return new Usage(this, id, "Flash On Time", UsageTypes.DV);
+                case 0x0043: return new Usage(this, id, "Slow Blink On Time", UsageTypes.DV);
+                case 0x0044: return new Usage(this, id, "Slow Blink Off Time", UsageTypes.DV);
+                case 0x0045: return new Usage(this, id, "Fast Blink On Time", UsageTypes.DV);
+                case 0x0046: return new Usage(this, id, "Fast Blink Off Time", UsageTypes.DV);
+                case 0x0047: return new Usage(this, id, "Usage Indicator Color", UsageTypes.UM);
+                case 0x0048: return new Usage(this, id, "Indicator Red", UsageTypes.Sel);
+                case 0x0049: return new Usage(this, id, "Indicator Green", UsageTypes.Sel);
+                case 0x004a: return new Usage(this, id, "Indicator Amber", UsageTypes.Sel);
+                case 0x004b: return new Usage(this, id, "Generic Indicator", UsageTypes.OOC);
+                case 0x004c: return new Usage(this, id, "System Suspend", UsageTypes.OOC);
+                case 0x004d: return new Usage(this, id, "External Power Connected", UsageTypes.OOC);
+                case 0x004e: return new Usage(this, id, "Indicator Blue", UsageTypes.Sel);
+                case 0x004f: return new Usage(this, id, "Indicator Orange", UsageTypes.Sel);
+                case 0x0050: return new Usage(this, id, "Good Status", UsageTypes.OOC);
+                case 0x0051: return new Usage(this, id, "Warning Status", UsageTypes.OOC);
+                case 0x0052: return new Usage(this, id, "RGB LED", UsageTypes.CL);
+                case 0x0053: return new Usage(this, id, "Red LED Channel", UsageTypes.DV);
+                case 0x0054: return new Usage(this, id, "Green LED Channel", UsageTypes.DV);
+                case 0x0055: return new Usage(this, id, "Blue LED Channel", UsageTypes.DV);
+                case 0x0056: return new Usage(this, id, "LED Intensity", UsageTypes.DV);
+                case 0x0060: return new Usage(this, id, "Player Indicator", UsageTypes.NAry);
+                case 0x0061: return new Usage(this, id, "Player 1", UsageTypes.Sel);
+                case 0x0062: return new Usage(this, id, "Player 2", UsageTypes.Sel);
+                case 0x0063: return new Usage(this, id, "Player 3", UsageTypes.Sel);
+                case 0x0064: return new Usage(this, id, "Player 4", UsageTypes.Sel);
+                case 0x0065: return new Usage(this, id, "Player 5", UsageTypes.Sel);
+                case 0x0066: return new Usage(this, id, "Player 6", UsageTypes.Sel);
+                case 0x0067: return new Usage(this, id, "Player 7", UsageTypes.Sel);
+                case 0x0068: return new Usage(this, id, "Player 8", UsageTypes.Sel);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -18892,38 +18956,37 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly ButtonUsagePage Instance = new ButtonUsagePage();
 
-        private ButtonUsagePage()
-        : base(
-            0x0009,
-            "Button",
-            (0x0000, "No button pressed", UsageTypes.Sel),
-            (0x0001, "Button 1", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC),
-            (0x0002, "Button 2", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC),
-            (0x0003, "Button 3", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC),
-            (0x0004, "Button 4", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC),
-            (0x0005, "Button 5", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC),
-            (0x0006, "Button 6", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC),
-            (0x0007, "Button 7", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC),
-            (0x0008, "Button 8", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC),
-            (0x0009, "Button 9", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC),
-            (0x000a, "Button 10", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC),
-            (0x000b, "Button 11", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC),
-            (0x000c, "Button 12", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC),
-            (0x000d, "Button 13", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC),
-            (0x000e, "Button 14", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC),
-            (0x000f, "Button 15", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC),
-            (0x0010, "Button 16", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC))
+        private ButtonUsagePage() : base(0x0009, "Button")
         {
         }
 
         /// <inheritdoc />
-        public override Usage GetUsage(ushort id) 
+        protected override Usage CreateUsage(ushort id) 
         {
-            if (Usages.TryGetValue(id, out var usage)) return usage;
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "No button pressed", UsageTypes.Sel);
+                case 0x0001: return new Usage(this, id, "Button 1", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x0002: return new Usage(this, id, "Button 2", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x0003: return new Usage(this, id, "Button 3", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x0004: return new Usage(this, id, "Button 4", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x0005: return new Usage(this, id, "Button 5", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x0006: return new Usage(this, id, "Button 6", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x0007: return new Usage(this, id, "Button 7", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x0008: return new Usage(this, id, "Button 8", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x0009: return new Usage(this, id, "Button 9", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x000a: return new Usage(this, id, "Button 10", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x000b: return new Usage(this, id, "Button 11", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x000c: return new Usage(this, id, "Button 12", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x000d: return new Usage(this, id, "Button 13", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x000e: return new Usage(this, id, "Button 14", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x000f: return new Usage(this, id, "Button 15", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x0010: return new Usage(this, id, "Button 16", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+            }
 
-            // Create dynamic usages on demand
+            // Create dynamic usages from ranges
             var n = (ushort)(id-0x0001);
-            if (id >= 0x0001 || id < 0xffff) return new Usage(this, id, "Button {n+1}", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+            if (id >= 0x0001 || id < 0xffff) return new Usage(this, id, $"Button {n+1}", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
 
             return base.GetUsage(id);
         }
@@ -18939,38 +19002,37 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly OrdinalUsagePage Instance = new OrdinalUsagePage();
 
-        private OrdinalUsagePage()
-        : base(
-            0x000a,
-            "Ordinal",
-            (0x0000, "Undefined", UsageTypes.None),
-            (0x0001, "Instance 1", UsageTypes.UM),
-            (0x0002, "Instance 2", UsageTypes.UM),
-            (0x0003, "Instance 3", UsageTypes.UM),
-            (0x0004, "Instance 4", UsageTypes.UM),
-            (0x0005, "Instance 5", UsageTypes.UM),
-            (0x0006, "Instance 6", UsageTypes.UM),
-            (0x0007, "Instance 7", UsageTypes.UM),
-            (0x0008, "Instance 8", UsageTypes.UM),
-            (0x0009, "Instance 9", UsageTypes.UM),
-            (0x000a, "Instance 10", UsageTypes.UM),
-            (0x000b, "Instance 11", UsageTypes.UM),
-            (0x000c, "Instance 12", UsageTypes.UM),
-            (0x000d, "Instance 13", UsageTypes.UM),
-            (0x000e, "Instance 14", UsageTypes.UM),
-            (0x000f, "Instance 15", UsageTypes.UM),
-            (0x0010, "Instance 16", UsageTypes.UM))
+        private OrdinalUsagePage() : base(0x000a, "Ordinal")
         {
         }
 
         /// <inheritdoc />
-        public override Usage GetUsage(ushort id) 
+        protected override Usage CreateUsage(ushort id) 
         {
-            if (Usages.TryGetValue(id, out var usage)) return usage;
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "Instance 1", UsageTypes.UM);
+                case 0x0002: return new Usage(this, id, "Instance 2", UsageTypes.UM);
+                case 0x0003: return new Usage(this, id, "Instance 3", UsageTypes.UM);
+                case 0x0004: return new Usage(this, id, "Instance 4", UsageTypes.UM);
+                case 0x0005: return new Usage(this, id, "Instance 5", UsageTypes.UM);
+                case 0x0006: return new Usage(this, id, "Instance 6", UsageTypes.UM);
+                case 0x0007: return new Usage(this, id, "Instance 7", UsageTypes.UM);
+                case 0x0008: return new Usage(this, id, "Instance 8", UsageTypes.UM);
+                case 0x0009: return new Usage(this, id, "Instance 9", UsageTypes.UM);
+                case 0x000a: return new Usage(this, id, "Instance 10", UsageTypes.UM);
+                case 0x000b: return new Usage(this, id, "Instance 11", UsageTypes.UM);
+                case 0x000c: return new Usage(this, id, "Instance 12", UsageTypes.UM);
+                case 0x000d: return new Usage(this, id, "Instance 13", UsageTypes.UM);
+                case 0x000e: return new Usage(this, id, "Instance 14", UsageTypes.UM);
+                case 0x000f: return new Usage(this, id, "Instance 15", UsageTypes.UM);
+                case 0x0010: return new Usage(this, id, "Instance 16", UsageTypes.UM);
+            }
 
-            // Create dynamic usages on demand
+            // Create dynamic usages from ranges
             var n = (ushort)(id-0x0001);
-            if (id >= 0x0001 || id < 0xffff) return new Usage(this, id, "Instance {n+1}", UsageTypes.UM);
+            if (id >= 0x0001 || id < 0xffff) return new Usage(this, id, $"Instance {n+1}", UsageTypes.UM);
 
             return base.GetUsage(id);
         }
@@ -18986,110 +19048,117 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly TelephonyUsagePage Instance = new TelephonyUsagePage();
 
-        private TelephonyUsagePage()
-        : base(
-            0x000b,
-            "Telephony",
-            (0x0000, "Undefined", UsageTypes.None),
-            (0x0001, "Phone", UsageTypes.CA),
-            (0x0002, "Answering Machine", UsageTypes.CA),
-            (0x0003, "Message Controls", UsageTypes.CL),
-            (0x0004, "Handset", UsageTypes.CL),
-            (0x0005, "Headset", UsageTypes.CL),
-            (0x0006, "Telephony Key Pad", UsageTypes.NAry),
-            (0x0007, "Programmable Button", UsageTypes.NAry),
-            (0x0020, "Hook Switch", UsageTypes.OOC),
-            (0x0021, "Flash", UsageTypes.MC),
-            (0x0022, "Feature", UsageTypes.OSC),
-            (0x0023, "Hold", UsageTypes.OOC),
-            (0x0024, "Redial", UsageTypes.OSC),
-            (0x0025, "Transfer", UsageTypes.OSC),
-            (0x0026, "Drop", UsageTypes.OSC),
-            (0x0027, "Park", UsageTypes.OOC),
-            (0x0028, "Forward Calls", UsageTypes.OOC),
-            (0x0029, "Alternate  Function", UsageTypes.MC),
-            (0x002a, "Line", UsageTypes.OSC|UsageTypes.NAry),
-            (0x002b, "Speaker Phone", UsageTypes.OOC),
-            (0x002c, "Conference", UsageTypes.OOC),
-            (0x002d, "Ring Enable", UsageTypes.OOC),
-            (0x002e, "Ring Select", UsageTypes.OSC),
-            (0x002f, "Phone Mute", UsageTypes.OOC),
-            (0x0030, "Caller ID", UsageTypes.MC),
-            (0x0050, "Speed Dial", UsageTypes.OSC),
-            (0x0051, "Store Number", UsageTypes.OSC),
-            (0x0052, "Recall Number", UsageTypes.OSC),
-            (0x0053, "Phone Directory", UsageTypes.OOC),
-            (0x0070, "Voice Mail", UsageTypes.OOC),
-            (0x0071, "Screen Calls", UsageTypes.OOC),
-            (0x0072, "Do Not Disturb", UsageTypes.OOC),
-            (0x0073, "Message", UsageTypes.OSC),
-            (0x0074, "Answer On/Off", UsageTypes.OOC),
-            (0x0090, "Inside Dial Tone", UsageTypes.MC),
-            (0x0091, "Outside Dial Tone", UsageTypes.MC),
-            (0x0092, "Inside Ring Tone", UsageTypes.MC),
-            (0x0093, "Outside Ring Tone", UsageTypes.MC),
-            (0x0094, "Priority Ring Tone", UsageTypes.MC),
-            (0x0095, "Inside Ringback", UsageTypes.MC),
-            (0x0096, "Priority Ringback", UsageTypes.MC),
-            (0x0097, "Line Busy Tone", UsageTypes.MC),
-            (0x0098, "Reorder Tone", UsageTypes.MC),
-            (0x0099, "Call Waiting Tone", UsageTypes.MC),
-            (0x009a, "Confirmation Tone 1", UsageTypes.MC),
-            (0x009b, "Confirmation Tone 2", UsageTypes.MC),
-            (0x009c, "Tones Off", UsageTypes.OOC),
-            (0x009d, "Outside Ringback", UsageTypes.MC),
-            (0x009e, "Ringer", UsageTypes.OOC),
-            (0x00b0, "Phone Key 0", UsageTypes.Sel),
-            (0x00b1, "Phone Key 1", UsageTypes.Sel),
-            (0x00b2, "Phone Key 2", UsageTypes.Sel),
-            (0x00b3, "Phone Key 3", UsageTypes.Sel),
-            (0x00b4, "Phone Key 4", UsageTypes.Sel),
-            (0x00b5, "Phone Key 5", UsageTypes.Sel),
-            (0x00b6, "Phone Key 6", UsageTypes.Sel),
-            (0x00b7, "Phone Key 7", UsageTypes.Sel),
-            (0x00b8, "Phone Key 8", UsageTypes.Sel),
-            (0x00b9, "Phone Key 9", UsageTypes.Sel),
-            (0x00ba, "Phone Key Star", UsageTypes.Sel),
-            (0x00bb, "Phone Key Pound", UsageTypes.Sel),
-            (0x00bc, "Phone Key A", UsageTypes.Sel),
-            (0x00bd, "Phone Key B", UsageTypes.Sel),
-            (0x00be, "Phone Key C", UsageTypes.Sel),
-            (0x00bf, "Phone Key D", UsageTypes.Sel),
-            (0x00c0, "Phone Key Call History", UsageTypes.Sel),
-            (0x00c1, "Phone Key Caller ID", UsageTypes.Sel),
-            (0x00c2, "Phone Key Settings", UsageTypes.Sel),
-            (0x00f0, "Host Control", UsageTypes.OOC),
-            (0x00f1, "Host Available", UsageTypes.OOC),
-            (0x00f2, "Host Call Active", UsageTypes.OOC),
-            (0x00f3, "Activate Handset Audio", UsageTypes.OOC),
-            (0x00f4, "Ring Type", UsageTypes.NAry),
-            (0x00f5, "Re-dialable Phone Number", UsageTypes.OOC),
-            (0x00f8, "Stop Ring Tone", UsageTypes.Sel),
-            (0x00f9, "PSTN Ring Tone", UsageTypes.Sel),
-            (0x00fa, "Host Ring Tone", UsageTypes.Sel),
-            (0x00fb, "Alert Sound Error", UsageTypes.Sel),
-            (0x00fc, "Alert Sound Confirm", UsageTypes.Sel),
-            (0x00fd, "Alert Sound Notification", UsageTypes.Sel),
-            (0x00fe, "Silent Ring", UsageTypes.Sel),
-            (0x0108, "Email Message Waiting", UsageTypes.OOC),
-            (0x0109, "Voicemail Message Waiting", UsageTypes.OOC),
-            (0x010a, "Host Hold", UsageTypes.OOC),
-            (0x0110, "Incoming Call History Count", UsageTypes.DV),
-            (0x0111, "Outgoing Call History Count", UsageTypes.DV),
-            (0x0112, "Incoming Call History", UsageTypes.CL),
-            (0x0113, "Outgoing Call History", UsageTypes.CL),
-            (0x0114, "Phone Locale", UsageTypes.DV),
-            (0x0140, "Phone Time Second", UsageTypes.DV),
-            (0x0141, "Phone Time Minute", UsageTypes.DV),
-            (0x0142, "Phone Time Hour", UsageTypes.DV),
-            (0x0143, "Phone Time Day", UsageTypes.DV),
-            (0x0144, "Phone Time Month", UsageTypes.DV),
-            (0x0145, "Phone Time Year", UsageTypes.DV),
-            (0x0146, "Handset Nickname", UsageTypes.DV),
-            (0x0147, "Address Book ID", UsageTypes.DV),
-            (0x014a, "Call Duration", UsageTypes.DV),
-            (0x014b, "Dual Mode Phone", UsageTypes.CA))
+        private TelephonyUsagePage() : base(0x000b, "Telephony")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "Phone", UsageTypes.CA);
+                case 0x0002: return new Usage(this, id, "Answering Machine", UsageTypes.CA);
+                case 0x0003: return new Usage(this, id, "Message Controls", UsageTypes.CL);
+                case 0x0004: return new Usage(this, id, "Handset", UsageTypes.CL);
+                case 0x0005: return new Usage(this, id, "Headset", UsageTypes.CL);
+                case 0x0006: return new Usage(this, id, "Telephony Key Pad", UsageTypes.NAry);
+                case 0x0007: return new Usage(this, id, "Programmable Button", UsageTypes.NAry);
+                case 0x0020: return new Usage(this, id, "Hook Switch", UsageTypes.OOC);
+                case 0x0021: return new Usage(this, id, "Flash", UsageTypes.MC);
+                case 0x0022: return new Usage(this, id, "Feature", UsageTypes.OSC);
+                case 0x0023: return new Usage(this, id, "Hold", UsageTypes.OOC);
+                case 0x0024: return new Usage(this, id, "Redial", UsageTypes.OSC);
+                case 0x0025: return new Usage(this, id, "Transfer", UsageTypes.OSC);
+                case 0x0026: return new Usage(this, id, "Drop", UsageTypes.OSC);
+                case 0x0027: return new Usage(this, id, "Park", UsageTypes.OOC);
+                case 0x0028: return new Usage(this, id, "Forward Calls", UsageTypes.OOC);
+                case 0x0029: return new Usage(this, id, "Alternate  Function", UsageTypes.MC);
+                case 0x002a: return new Usage(this, id, "Line", UsageTypes.OSC|UsageTypes.NAry);
+                case 0x002b: return new Usage(this, id, "Speaker Phone", UsageTypes.OOC);
+                case 0x002c: return new Usage(this, id, "Conference", UsageTypes.OOC);
+                case 0x002d: return new Usage(this, id, "Ring Enable", UsageTypes.OOC);
+                case 0x002e: return new Usage(this, id, "Ring Select", UsageTypes.OSC);
+                case 0x002f: return new Usage(this, id, "Phone Mute", UsageTypes.OOC);
+                case 0x0030: return new Usage(this, id, "Caller ID", UsageTypes.MC);
+                case 0x0050: return new Usage(this, id, "Speed Dial", UsageTypes.OSC);
+                case 0x0051: return new Usage(this, id, "Store Number", UsageTypes.OSC);
+                case 0x0052: return new Usage(this, id, "Recall Number", UsageTypes.OSC);
+                case 0x0053: return new Usage(this, id, "Phone Directory", UsageTypes.OOC);
+                case 0x0070: return new Usage(this, id, "Voice Mail", UsageTypes.OOC);
+                case 0x0071: return new Usage(this, id, "Screen Calls", UsageTypes.OOC);
+                case 0x0072: return new Usage(this, id, "Do Not Disturb", UsageTypes.OOC);
+                case 0x0073: return new Usage(this, id, "Message", UsageTypes.OSC);
+                case 0x0074: return new Usage(this, id, "Answer On/Off", UsageTypes.OOC);
+                case 0x0090: return new Usage(this, id, "Inside Dial Tone", UsageTypes.MC);
+                case 0x0091: return new Usage(this, id, "Outside Dial Tone", UsageTypes.MC);
+                case 0x0092: return new Usage(this, id, "Inside Ring Tone", UsageTypes.MC);
+                case 0x0093: return new Usage(this, id, "Outside Ring Tone", UsageTypes.MC);
+                case 0x0094: return new Usage(this, id, "Priority Ring Tone", UsageTypes.MC);
+                case 0x0095: return new Usage(this, id, "Inside Ringback", UsageTypes.MC);
+                case 0x0096: return new Usage(this, id, "Priority Ringback", UsageTypes.MC);
+                case 0x0097: return new Usage(this, id, "Line Busy Tone", UsageTypes.MC);
+                case 0x0098: return new Usage(this, id, "Reorder Tone", UsageTypes.MC);
+                case 0x0099: return new Usage(this, id, "Call Waiting Tone", UsageTypes.MC);
+                case 0x009a: return new Usage(this, id, "Confirmation Tone 1", UsageTypes.MC);
+                case 0x009b: return new Usage(this, id, "Confirmation Tone 2", UsageTypes.MC);
+                case 0x009c: return new Usage(this, id, "Tones Off", UsageTypes.OOC);
+                case 0x009d: return new Usage(this, id, "Outside Ringback", UsageTypes.MC);
+                case 0x009e: return new Usage(this, id, "Ringer", UsageTypes.OOC);
+                case 0x00b0: return new Usage(this, id, "Phone Key 0", UsageTypes.Sel);
+                case 0x00b1: return new Usage(this, id, "Phone Key 1", UsageTypes.Sel);
+                case 0x00b2: return new Usage(this, id, "Phone Key 2", UsageTypes.Sel);
+                case 0x00b3: return new Usage(this, id, "Phone Key 3", UsageTypes.Sel);
+                case 0x00b4: return new Usage(this, id, "Phone Key 4", UsageTypes.Sel);
+                case 0x00b5: return new Usage(this, id, "Phone Key 5", UsageTypes.Sel);
+                case 0x00b6: return new Usage(this, id, "Phone Key 6", UsageTypes.Sel);
+                case 0x00b7: return new Usage(this, id, "Phone Key 7", UsageTypes.Sel);
+                case 0x00b8: return new Usage(this, id, "Phone Key 8", UsageTypes.Sel);
+                case 0x00b9: return new Usage(this, id, "Phone Key 9", UsageTypes.Sel);
+                case 0x00ba: return new Usage(this, id, "Phone Key Star", UsageTypes.Sel);
+                case 0x00bb: return new Usage(this, id, "Phone Key Pound", UsageTypes.Sel);
+                case 0x00bc: return new Usage(this, id, "Phone Key A", UsageTypes.Sel);
+                case 0x00bd: return new Usage(this, id, "Phone Key B", UsageTypes.Sel);
+                case 0x00be: return new Usage(this, id, "Phone Key C", UsageTypes.Sel);
+                case 0x00bf: return new Usage(this, id, "Phone Key D", UsageTypes.Sel);
+                case 0x00c0: return new Usage(this, id, "Phone Key Call History", UsageTypes.Sel);
+                case 0x00c1: return new Usage(this, id, "Phone Key Caller ID", UsageTypes.Sel);
+                case 0x00c2: return new Usage(this, id, "Phone Key Settings", UsageTypes.Sel);
+                case 0x00f0: return new Usage(this, id, "Host Control", UsageTypes.OOC);
+                case 0x00f1: return new Usage(this, id, "Host Available", UsageTypes.OOC);
+                case 0x00f2: return new Usage(this, id, "Host Call Active", UsageTypes.OOC);
+                case 0x00f3: return new Usage(this, id, "Activate Handset Audio", UsageTypes.OOC);
+                case 0x00f4: return new Usage(this, id, "Ring Type", UsageTypes.NAry);
+                case 0x00f5: return new Usage(this, id, "Re-dialable Phone Number", UsageTypes.OOC);
+                case 0x00f8: return new Usage(this, id, "Stop Ring Tone", UsageTypes.Sel);
+                case 0x00f9: return new Usage(this, id, "PSTN Ring Tone", UsageTypes.Sel);
+                case 0x00fa: return new Usage(this, id, "Host Ring Tone", UsageTypes.Sel);
+                case 0x00fb: return new Usage(this, id, "Alert Sound Error", UsageTypes.Sel);
+                case 0x00fc: return new Usage(this, id, "Alert Sound Confirm", UsageTypes.Sel);
+                case 0x00fd: return new Usage(this, id, "Alert Sound Notification", UsageTypes.Sel);
+                case 0x00fe: return new Usage(this, id, "Silent Ring", UsageTypes.Sel);
+                case 0x0108: return new Usage(this, id, "Email Message Waiting", UsageTypes.OOC);
+                case 0x0109: return new Usage(this, id, "Voicemail Message Waiting", UsageTypes.OOC);
+                case 0x010a: return new Usage(this, id, "Host Hold", UsageTypes.OOC);
+                case 0x0110: return new Usage(this, id, "Incoming Call History Count", UsageTypes.DV);
+                case 0x0111: return new Usage(this, id, "Outgoing Call History Count", UsageTypes.DV);
+                case 0x0112: return new Usage(this, id, "Incoming Call History", UsageTypes.CL);
+                case 0x0113: return new Usage(this, id, "Outgoing Call History", UsageTypes.CL);
+                case 0x0114: return new Usage(this, id, "Phone Locale", UsageTypes.DV);
+                case 0x0140: return new Usage(this, id, "Phone Time Second", UsageTypes.DV);
+                case 0x0141: return new Usage(this, id, "Phone Time Minute", UsageTypes.DV);
+                case 0x0142: return new Usage(this, id, "Phone Time Hour", UsageTypes.DV);
+                case 0x0143: return new Usage(this, id, "Phone Time Day", UsageTypes.DV);
+                case 0x0144: return new Usage(this, id, "Phone Time Month", UsageTypes.DV);
+                case 0x0145: return new Usage(this, id, "Phone Time Year", UsageTypes.DV);
+                case 0x0146: return new Usage(this, id, "Handset Nickname", UsageTypes.DV);
+                case 0x0147: return new Usage(this, id, "Address Book ID", UsageTypes.DV);
+                case 0x014a: return new Usage(this, id, "Call Duration", UsageTypes.DV);
+                case 0x014b: return new Usage(this, id, "Dual Mode Phone", UsageTypes.CA);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -19103,434 +19172,441 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly ConsumerUsagePage Instance = new ConsumerUsagePage();
 
-        private ConsumerUsagePage()
-        : base(
-            0x000c,
-            "Consumer",
-            (0x0000, "Undefined", UsageTypes.None),
-            (0x0001, "Consumer Control", UsageTypes.CA),
-            (0x0002, "Numeric Key Pad", UsageTypes.NAry),
-            (0x0003, "Programmable Buttons", UsageTypes.NAry),
-            (0x0004, "Microphone", UsageTypes.CA),
-            (0x0005, "Headphone", UsageTypes.CA),
-            (0x0006, "Graphic Equalizer", UsageTypes.CA),
-            (0x0020, "+10", UsageTypes.OSC),
-            (0x0021, "+100", UsageTypes.OSC),
-            (0x0022, "AM/PM", UsageTypes.OSC),
-            (0x0030, "Power", UsageTypes.OOC),
-            (0x0031, "Reset", UsageTypes.OSC),
-            (0x0032, "Sleep", UsageTypes.OSC),
-            (0x0033, "Sleep After", UsageTypes.OSC),
-            (0x0034, "Sleep Mode", UsageTypes.RTC),
-            (0x0035, "Illumination", UsageTypes.OOC),
-            (0x0036, "Function Buttons", UsageTypes.NAry),
-            (0x0040, "Menu", UsageTypes.OOC),
-            (0x0041, "Menu Pick", UsageTypes.OSC),
-            (0x0042, "Menu Up", UsageTypes.OSC),
-            (0x0043, "Menu Down", UsageTypes.OSC),
-            (0x0044, "Menu Left", UsageTypes.OSC),
-            (0x0045, "Menu Right", UsageTypes.OSC),
-            (0x0046, "Menu Escape", UsageTypes.OSC),
-            (0x0047, "Menu Value Increase", UsageTypes.OSC),
-            (0x0048, "Menu Value Decrease", UsageTypes.OSC),
-            (0x0060, "Data On Screen", UsageTypes.OOC),
-            (0x0061, "Closed Caption", UsageTypes.OOC),
-            (0x0062, "Closed Caption Select", UsageTypes.OSC),
-            (0x0063, "VCR/TV", UsageTypes.OOC),
-            (0x0064, "Broadcast Mode", UsageTypes.OSC),
-            (0x0065, "Snapshot", UsageTypes.OSC),
-            (0x0066, "Still", UsageTypes.OSC),
-            (0x0067, "Picture-in-Picture Toggle", UsageTypes.OSC),
-            (0x0068, "Picture-in-Picture Swap", UsageTypes.OSC),
-            (0x0069, "Red Menu Button", UsageTypes.MC),
-            (0x006a, "Green Menu Button", UsageTypes.MC),
-            (0x006b, "Blue Menu Button", UsageTypes.MC),
-            (0x006c, "Yellow Menu Button", UsageTypes.MC),
-            (0x006d, "Aspect", UsageTypes.OSC),
-            (0x006e, "3D Mode Select", UsageTypes.OSC),
-            (0x006f, "Display Brightness Increment", UsageTypes.RTC),
-            (0x0070, "Display Brightness Decrement", UsageTypes.RTC),
-            (0x0071, "Display Brightness", UsageTypes.LC),
-            (0x0072, "Display Backlight Toggle", UsageTypes.OOC),
-            (0x0073, "Display Set Brightness to Minimum", UsageTypes.OSC),
-            (0x0074, "Display Set Brightness to Maximum", UsageTypes.OSC),
-            (0x0075, "Display Set Auto Brightness", UsageTypes.OOC),
-            (0x0076, "Camera Access Enabled", UsageTypes.OOC),
-            (0x0077, "Camera Access Disabled", UsageTypes.OOC),
-            (0x0078, "Camera Access Toggle", UsageTypes.OOC),
-            (0x0079, "Keyboard Brightness Increment", UsageTypes.OSC),
-            (0x007a, "Keyboard Brightness Decrement", UsageTypes.OSC),
-            (0x007b, "Keyboard Backlight Set Level", UsageTypes.LC),
-            (0x007c, "Keyboard Backlight Toggle", UsageTypes.OOC),
-            (0x007d, "Keyboard Backlight Set Minimum", UsageTypes.OSC),
-            (0x007e, "Keyboard Backlight Set Maximum", UsageTypes.OSC),
-            (0x007f, "Keyboard Backlight Auto", UsageTypes.OOC),
-            (0x0080, "Selection", UsageTypes.NAry),
-            (0x0081, "Assign Selection", UsageTypes.OSC),
-            (0x0082, "Mode Step", UsageTypes.OSC),
-            (0x0083, "Recall Last", UsageTypes.OSC),
-            (0x0084, "Enter Channel", UsageTypes.OSC),
-            (0x0085, "Order Movie", UsageTypes.OSC),
-            (0x0086, "Channel", UsageTypes.LC),
-            (0x0087, "Media Selection", UsageTypes.NAry),
-            (0x0088, "Media Select ", UsageTypes.Sel),
-            (0x0089, "Media Select TV", UsageTypes.Sel),
-            (0x008a, "Media Select WWW", UsageTypes.Sel),
-            (0x008b, "Media Select DVD", UsageTypes.Sel),
-            (0x008c, "Media Select Telephone", UsageTypes.Sel),
-            (0x008d, "Media Select Program Guide", UsageTypes.Sel),
-            (0x008e, "Media Select Video Phone", UsageTypes.Sel),
-            (0x008f, "Media Select Games", UsageTypes.Sel),
-            (0x0090, "Media Select Messages", UsageTypes.Sel),
-            (0x0091, "Media Select CD", UsageTypes.Sel),
-            (0x0092, "Media Select VCR", UsageTypes.Sel),
-            (0x0093, "Media Select Tuner", UsageTypes.Sel),
-            (0x0094, "Quit", UsageTypes.OSC),
-            (0x0095, "Help", UsageTypes.OOC),
-            (0x0096, "Media Select Tape", UsageTypes.Sel),
-            (0x0097, "Media Select Cable", UsageTypes.Sel),
-            (0x0098, "Media Select Satellite", UsageTypes.Sel),
-            (0x0099, "Media Select Security", UsageTypes.Sel),
-            (0x009a, "Media Select Home", UsageTypes.Sel),
-            (0x009b, "Media Select Call", UsageTypes.Sel),
-            (0x009c, "Channel Increment", UsageTypes.OSC),
-            (0x009d, "Channel Decrement", UsageTypes.OSC),
-            (0x009e, "Media Select SAP", UsageTypes.Sel),
-            (0x00a0, "VCR Plus", UsageTypes.OSC),
-            (0x00a1, "Once", UsageTypes.OSC),
-            (0x00a2, "Daily", UsageTypes.OSC),
-            (0x00a3, "Weekly", UsageTypes.OSC),
-            (0x00a4, "Monthly", UsageTypes.OSC),
-            (0x00b0, "Play", UsageTypes.OOC),
-            (0x00b1, "Pause", UsageTypes.OOC),
-            (0x00b2, "Record", UsageTypes.OOC),
-            (0x00b3, "Fast Forward", UsageTypes.OOC),
-            (0x00b4, "Rewind", UsageTypes.OOC),
-            (0x00b5, "Scan Next Track", UsageTypes.OSC),
-            (0x00b6, "Scan Previous Track", UsageTypes.OSC),
-            (0x00b7, "Stop", UsageTypes.OSC),
-            (0x00b8, "Eject", UsageTypes.OSC),
-            (0x00b9, "Random Play", UsageTypes.OOC),
-            (0x00ba, "Select Disk", UsageTypes.NAry),
-            (0x00bb, "Enter Disk", UsageTypes.MC),
-            (0x00bc, "Repeat", UsageTypes.OSC),
-            (0x00bd, "Tracking", UsageTypes.LC),
-            (0x00be, "Track Normal", UsageTypes.OSC),
-            (0x00bf, "Slow Tracking", UsageTypes.LC),
-            (0x00c0, "Frame Forward", UsageTypes.RTC),
-            (0x00c1, "Frame Back", UsageTypes.RTC),
-            (0x00c2, "Mark", UsageTypes.OSC),
-            (0x00c3, "Clear Mark", UsageTypes.OSC),
-            (0x00c4, "Repeat From Mark", UsageTypes.OOC),
-            (0x00c5, "Return To Mark", UsageTypes.OSC),
-            (0x00c6, "Search Mark Forward", UsageTypes.OSC),
-            (0x00c7, "Search Mark Backwards", UsageTypes.OSC),
-            (0x00c8, "Counter Reset", UsageTypes.OSC),
-            (0x00c9, "Show Counter", UsageTypes.OSC),
-            (0x00ca, "Tracking Increment", UsageTypes.RTC),
-            (0x00cb, "Tracking Decrement", UsageTypes.RTC),
-            (0x00cc, "Stop/Eject", UsageTypes.OSC),
-            (0x00cd, "Play/Pause", UsageTypes.OSC),
-            (0x00ce, "Play/Skip", UsageTypes.OSC),
-            (0x00cf, "Voice Command", UsageTypes.OSC),
-            (0x00d0, "Invoke Capture Interface", UsageTypes.OSC),
-            (0x00d1, "Start/Stop Game Recording", UsageTypes.OSC),
-            (0x00d2, "Historical Game Capture", UsageTypes.OSC),
-            (0x00d3, "Capture Game Screenshot", UsageTypes.OSC),
-            (0x00d4, "Show/Hide Recording Indicator", UsageTypes.OSC),
-            (0x00d5, "Start/Stop Microphone Capture", UsageTypes.OSC),
-            (0x00d6, "Start or Stop Camera Capture", UsageTypes.OSC),
-            (0x00d7, "Start/Stop Game Broadcast", UsageTypes.OSC),
-            (0x00e0, "Volume", UsageTypes.LC),
-            (0x00e1, "Balance", UsageTypes.LC),
-            (0x00e2, "Mute", UsageTypes.OOC),
-            (0x00e3, "Bass", UsageTypes.LC),
-            (0x00e4, "Treble", UsageTypes.LC),
-            (0x00e5, "Bass Boost", UsageTypes.OOC),
-            (0x00e6, "Surround Mode", UsageTypes.OSC),
-            (0x00e7, "Loudness", UsageTypes.OOC),
-            (0x00e8, "MPX", UsageTypes.OOC),
-            (0x00e9, "Volume Increment", UsageTypes.RTC),
-            (0x00ea, "Volume Decrement", UsageTypes.RTC),
-            (0x00f0, "Speed Select", UsageTypes.OSC),
-            (0x00f1, "Playback Speed", UsageTypes.NAry),
-            (0x00f2, "Standard Play", UsageTypes.Sel),
-            (0x00f3, "Long Play", UsageTypes.Sel),
-            (0x00f4, "Extended Play", UsageTypes.Sel),
-            (0x00f5, "Slow", UsageTypes.OSC),
-            (0x0100, "Fan Enable", UsageTypes.OOC),
-            (0x0101, "Fan Speed", UsageTypes.LC),
-            (0x0102, "Light Enable", UsageTypes.OOC),
-            (0x0103, "Light Illumination Level", UsageTypes.LC),
-            (0x0104, "Climate Control Enable", UsageTypes.OOC),
-            (0x0105, "Room Temperature", UsageTypes.LC),
-            (0x0106, "Security Enable", UsageTypes.OOC),
-            (0x0107, "Fire Alarm", UsageTypes.OSC),
-            (0x0108, "Police Alarm", UsageTypes.OSC),
-            (0x0109, "Proximity", UsageTypes.LC),
-            (0x010a, "Motion", UsageTypes.OSC),
-            (0x010b, "Duress Alarm", UsageTypes.OSC),
-            (0x010c, "Holdup Alarm", UsageTypes.OSC),
-            (0x010d, "Medical Alarm", UsageTypes.OSC),
-            (0x0150, "Balance Right", UsageTypes.RTC),
-            (0x0151, "Balance Left", UsageTypes.RTC),
-            (0x0152, "Bass Increment", UsageTypes.RTC),
-            (0x0153, "Bass Decrement", UsageTypes.RTC),
-            (0x0154, "Treble Increment", UsageTypes.RTC),
-            (0x0155, "Treble Decrement", UsageTypes.RTC),
-            (0x0160, "Speaker System", UsageTypes.CL),
-            (0x0161, "Channel Left", UsageTypes.CL),
-            (0x0162, "Channel Right", UsageTypes.CL),
-            (0x0163, "Channel Center", UsageTypes.CL),
-            (0x0164, "Channel Front", UsageTypes.CL),
-            (0x0165, "Channel Center Front", UsageTypes.CL),
-            (0x0166, "Channel Side", UsageTypes.CL),
-            (0x0167, "Channel Surround", UsageTypes.CL),
-            (0x0168, "Channel Low Frequency Enhancement", UsageTypes.CL),
-            (0x0169, "Channel Top", UsageTypes.CL),
-            (0x016a, "Channel Unknown", UsageTypes.CL),
-            (0x0170, "Sub-channel", UsageTypes.LC),
-            (0x0171, "Sub-channel Increment", UsageTypes.OSC),
-            (0x0172, "Sub-channel Decrement", UsageTypes.OSC),
-            (0x0173, "Alternate Audio Increment", UsageTypes.OSC),
-            (0x0174, "Alternate Audio Decrement", UsageTypes.OSC),
-            (0x0180, "Application Launch Buttons", UsageTypes.NAry),
-            (0x0181, "AL Launch Button Configuration Tool", UsageTypes.Sel),
-            (0x0182, "AL Programmable Button Configuration", UsageTypes.Sel),
-            (0x0183, "AL Consumer Control Configuration", UsageTypes.Sel),
-            (0x0184, "AL Word Processor", UsageTypes.Sel),
-            (0x0185, "AL Text Editor", UsageTypes.Sel),
-            (0x0186, "AL Spreadsheet", UsageTypes.Sel),
-            (0x0187, "AL Graphics Editor", UsageTypes.Sel),
-            (0x0188, "AL Presentation App", UsageTypes.Sel),
-            (0x0189, "AL Database App", UsageTypes.Sel),
-            (0x018a, "AL Email Reader", UsageTypes.Sel),
-            (0x018b, "AL Newsreader", UsageTypes.Sel),
-            (0x018c, "AL Voicemail", UsageTypes.Sel),
-            (0x018d, "AL Contacts/Address Book", UsageTypes.Sel),
-            (0x018e, "AL Calendar/Schedule", UsageTypes.Sel),
-            (0x018f, "AL Task/Project Manager", UsageTypes.Sel),
-            (0x0190, "AL Log/Journal/Timecard", UsageTypes.Sel),
-            (0x0191, "AL Checkbook/Finance", UsageTypes.Sel),
-            (0x0192, "AL Calculator", UsageTypes.Sel),
-            (0x0193, "AL A/V Capture/Playback", UsageTypes.Sel),
-            (0x0194, "AL Local Machine Browser", UsageTypes.Sel),
-            (0x0195, "AL LAN/WAN Browser", UsageTypes.Sel),
-            (0x0196, "AL Internet Browser", UsageTypes.Sel),
-            (0x0197, "AL Remote Networking/ISP Connect", UsageTypes.Sel),
-            (0x0198, "AL Network Conference", UsageTypes.Sel),
-            (0x0199, "AL Network Chat", UsageTypes.Sel),
-            (0x019a, "AL Telephony/Dialer", UsageTypes.Sel),
-            (0x019b, "AL Logon", UsageTypes.Sel),
-            (0x019c, "AL Logoff", UsageTypes.Sel),
-            (0x019d, "AL Logon/Logoff", UsageTypes.Sel),
-            (0x019e, "AL Terminal Lock/Screensaver", UsageTypes.Sel),
-            (0x019f, "AL Control Panel", UsageTypes.Sel),
-            (0x01a0, "AL Command Line Processor/Run", UsageTypes.Sel),
-            (0x01a1, "AL Process/Task Manager", UsageTypes.Sel),
-            (0x01a2, "AL Select Task/Application", UsageTypes.Sel),
-            (0x01a3, "AL Next Task/Application", UsageTypes.Sel),
-            (0x01a4, "AL Previous Task/Application", UsageTypes.Sel),
-            (0x01a5, "AL Preemptive Halt Task/Application", UsageTypes.Sel),
-            (0x01a6, "AL Integrated Help Center", UsageTypes.Sel),
-            (0x01a7, "AL Documents", UsageTypes.Sel),
-            (0x01a8, "AL Thesaurus", UsageTypes.Sel),
-            (0x01a9, "AL Dictionary", UsageTypes.Sel),
-            (0x01aa, "AL Desktop", UsageTypes.Sel),
-            (0x01ab, "AL Spell Check", UsageTypes.Sel),
-            (0x01ac, "AL Grammar Check", UsageTypes.Sel),
-            (0x01ad, "AL Wireless Status", UsageTypes.Sel),
-            (0x01ae, "AL Keyboard Layout", UsageTypes.Sel),
-            (0x01af, "AL Virus Protection", UsageTypes.Sel),
-            (0x01b0, "AL Encryption", UsageTypes.Sel),
-            (0x01b1, "AL Screen Saver", UsageTypes.Sel),
-            (0x01b2, "AL Alarms", UsageTypes.Sel),
-            (0x01b3, "AL Clock", UsageTypes.Sel),
-            (0x01b4, "AL File Browser", UsageTypes.Sel),
-            (0x01b5, "AL Power Status", UsageTypes.Sel),
-            (0x01b6, "AL Image Browser", UsageTypes.Sel),
-            (0x01b7, "AL Audio Browser", UsageTypes.Sel),
-            (0x01b8, "AL Movie Browser", UsageTypes.Sel),
-            (0x01b9, "AL Digital Rights Manager", UsageTypes.Sel),
-            (0x01ba, "AL Digital Wallet", UsageTypes.Sel),
-            (0x01bc, "AL Instant Messaging", UsageTypes.Sel),
-            (0x01bd, "AL OEM Features/Tips/Tutorial Browser", UsageTypes.Sel),
-            (0x01be, "AL OEM Help", UsageTypes.Sel),
-            (0x01bf, "AL Online Community", UsageTypes.Sel),
-            (0x01c0, "AL Entertainment Content Browser", UsageTypes.Sel),
-            (0x01c1, "AL Online Shopping Browser", UsageTypes.Sel),
-            (0x01c2, "AL SmartCard Information/Help", UsageTypes.Sel),
-            (0x01c3, "AL Market Monitor/Finance Browser", UsageTypes.Sel),
-            (0x01c4, "AL Customized Corporate News Browser", UsageTypes.Sel),
-            (0x01c5, "AL Online Activity Browser", UsageTypes.Sel),
-            (0x01c6, "AL Research/Search Browser", UsageTypes.Sel),
-            (0x01c7, "AL Audio Player", UsageTypes.Sel),
-            (0x01c8, "AL Navigation", UsageTypes.Sel),
-            (0x01cb, "AL Context-aware desktop assistant", UsageTypes.Sel),
-            (0x0200, "Generic GUI Application Controls", UsageTypes.NAry),
-            (0x0201, "AC New", UsageTypes.Sel),
-            (0x0202, "AC Open", UsageTypes.Sel),
-            (0x0203, "AC Close", UsageTypes.Sel),
-            (0x0204, "AC Exit", UsageTypes.Sel),
-            (0x0205, "AC Maximize", UsageTypes.Sel),
-            (0x0206, "AC Minimize", UsageTypes.Sel),
-            (0x0207, "AC Save", UsageTypes.Sel),
-            (0x0208, "AC Print", UsageTypes.Sel),
-            (0x0209, "AC Properties", UsageTypes.Sel),
-            (0x021a, "AC Undo", UsageTypes.Sel),
-            (0x021b, "AC Copy", UsageTypes.Sel),
-            (0x021c, "AC Cut", UsageTypes.Sel),
-            (0x021d, "AC Paste", UsageTypes.Sel),
-            (0x021e, "AC Select All", UsageTypes.Sel),
-            (0x021f, "AC Find", UsageTypes.Sel),
-            (0x0220, "AC Find and Replace", UsageTypes.Sel),
-            (0x0221, "AC Search", UsageTypes.Sel),
-            (0x0222, "AC Go To", UsageTypes.Sel),
-            (0x0223, "AC Home", UsageTypes.Sel),
-            (0x0224, "AC Back", UsageTypes.Sel),
-            (0x0225, "AC Forward", UsageTypes.Sel),
-            (0x0226, "AC Stop", UsageTypes.Sel),
-            (0x0227, "AC Refresh", UsageTypes.Sel),
-            (0x0228, "AC Previous Link", UsageTypes.Sel),
-            (0x0229, "AC Next Link", UsageTypes.Sel),
-            (0x022a, "AC Bookmarks", UsageTypes.Sel),
-            (0x022b, "AC History", UsageTypes.Sel),
-            (0x022c, "AC Subscriptions", UsageTypes.Sel),
-            (0x022d, "AC Zoom In", UsageTypes.Sel),
-            (0x022e, "AC Zoom Out", UsageTypes.Sel),
-            (0x022f, "AC Zoom", UsageTypes.LC),
-            (0x0230, "AC Full Screen View", UsageTypes.Sel),
-            (0x0231, "AC Normal View", UsageTypes.Sel),
-            (0x0232, "AC View Toggle", UsageTypes.Sel),
-            (0x0233, "AC Scroll Up", UsageTypes.Sel),
-            (0x0234, "AC Scroll Down", UsageTypes.Sel),
-            (0x0235, "AC Scroll", UsageTypes.LC),
-            (0x0236, "AC Pan Left", UsageTypes.Sel),
-            (0x0237, "AC Pan Right", UsageTypes.Sel),
-            (0x0238, "AC Pan", UsageTypes.LC),
-            (0x0239, "AC New Window", UsageTypes.Sel),
-            (0x023a, "AC Tile Horizontally", UsageTypes.Sel),
-            (0x023b, "AC Tile Vertically", UsageTypes.Sel),
-            (0x023c, "AC Format", UsageTypes.Sel),
-            (0x023d, "AC Edit", UsageTypes.Sel),
-            (0x023e, "AC Bold", UsageTypes.Sel),
-            (0x023f, "AC Italics", UsageTypes.Sel),
-            (0x0240, "AC Underline", UsageTypes.Sel),
-            (0x0241, "AC Strikethrough", UsageTypes.Sel),
-            (0x0242, "AC Subscript", UsageTypes.Sel),
-            (0x0243, "AC Superscript", UsageTypes.Sel),
-            (0x0244, "AC All Caps", UsageTypes.Sel),
-            (0x0245, "AC Rotate", UsageTypes.Sel),
-            (0x0246, "AC Resize", UsageTypes.Sel),
-            (0x0247, "AC Flip Horizontal", UsageTypes.Sel),
-            (0x0248, "AC Vertical", UsageTypes.Sel),
-            (0x0249, "AC Mirror Horizontal", UsageTypes.Sel),
-            (0x024a, "AC Mirror Vertical", UsageTypes.Sel),
-            (0x024b, "AC Font Select", UsageTypes.Sel),
-            (0x024c, "AC Font Color", UsageTypes.Sel),
-            (0x024d, "AC Font Size", UsageTypes.Sel),
-            (0x024e, "AC Justify Left", UsageTypes.Sel),
-            (0x024f, "AC Justify Center H", UsageTypes.Sel),
-            (0x0250, "AC Justify Right", UsageTypes.Sel),
-            (0x0251, "AC Justify Block H", UsageTypes.Sel),
-            (0x0252, "AC Justify Top", UsageTypes.Sel),
-            (0x0253, "AC Justify Center V", UsageTypes.Sel),
-            (0x0254, "AC Justify Bottom", UsageTypes.Sel),
-            (0x0255, "AC Justify Block V", UsageTypes.Sel),
-            (0x0256, "AC Indent Decrease", UsageTypes.Sel),
-            (0x0257, "AC Indent Increase", UsageTypes.Sel),
-            (0x0258, "AC Numbered List", UsageTypes.Sel),
-            (0x0259, "AC Restart Numbering", UsageTypes.Sel),
-            (0x025a, "AC Bulleted List", UsageTypes.Sel),
-            (0x025b, "AC Promote", UsageTypes.Sel),
-            (0x025c, "AC Demote", UsageTypes.Sel),
-            (0x025d, "AC Yes", UsageTypes.Sel),
-            (0x025e, "AC No", UsageTypes.Sel),
-            (0x025f, "AC Cancel", UsageTypes.Sel),
-            (0x0260, "AC Catalog", UsageTypes.Sel),
-            (0x0261, "AC Buy/Checkout", UsageTypes.Sel),
-            (0x0262, "AC Add to Cart", UsageTypes.Sel),
-            (0x0263, "AC Expand", UsageTypes.Sel),
-            (0x0264, "AC Expand All", UsageTypes.Sel),
-            (0x0265, "AC Collapse", UsageTypes.Sel),
-            (0x0266, "AC Collapse All", UsageTypes.Sel),
-            (0x0267, "AC Print Preview", UsageTypes.Sel),
-            (0x0268, "AC Paste Special", UsageTypes.Sel),
-            (0x0269, "AC Insert Mode", UsageTypes.Sel),
-            (0x026a, "AC Delete", UsageTypes.Sel),
-            (0x026b, "AC Lock", UsageTypes.Sel),
-            (0x026c, "AC Unlock", UsageTypes.Sel),
-            (0x026d, "AC Protect", UsageTypes.Sel),
-            (0x026e, "AC Unprotect", UsageTypes.Sel),
-            (0x026f, "AC Attach Comment", UsageTypes.Sel),
-            (0x0270, "AC Delete Comment", UsageTypes.Sel),
-            (0x0271, "AC View Comment", UsageTypes.Sel),
-            (0x0272, "AC Select Word", UsageTypes.Sel),
-            (0x0273, "AC Select Sentence", UsageTypes.Sel),
-            (0x0274, "AC Select Paragraph", UsageTypes.Sel),
-            (0x0275, "AC Select Column", UsageTypes.Sel),
-            (0x0276, "AC Select Row", UsageTypes.Sel),
-            (0x0277, "AC Select Table", UsageTypes.Sel),
-            (0x0278, "AC Select Object", UsageTypes.Sel),
-            (0x0279, "AC Redo/Repeat", UsageTypes.Sel),
-            (0x027a, "AC Sort", UsageTypes.Sel),
-            (0x027b, "AC Sort Ascending", UsageTypes.Sel),
-            (0x027c, "AC Sort Descending", UsageTypes.Sel),
-            (0x027d, "AC Filter", UsageTypes.Sel),
-            (0x027e, "AC Set Clock", UsageTypes.Sel),
-            (0x027f, "AC View Clock", UsageTypes.Sel),
-            (0x0280, "AC Select Time Zone", UsageTypes.Sel),
-            (0x0281, "AC Edit Time Zones", UsageTypes.Sel),
-            (0x0282, "AC Set Alarm", UsageTypes.Sel),
-            (0x0283, "AC Clear Alarm", UsageTypes.Sel),
-            (0x0284, "AC Snooze Alarm", UsageTypes.Sel),
-            (0x0285, "AC Reset Alarm", UsageTypes.Sel),
-            (0x0286, "AC Synchronize", UsageTypes.Sel),
-            (0x0287, "AC Send/Receive", UsageTypes.Sel),
-            (0x0288, "AC Send To", UsageTypes.Sel),
-            (0x0289, "AC Reply", UsageTypes.Sel),
-            (0x028a, "AC Reply All", UsageTypes.Sel),
-            (0x028b, "AC Forward Msg", UsageTypes.Sel),
-            (0x028c, "AC Send", UsageTypes.Sel),
-            (0x028d, "AC Attach File", UsageTypes.Sel),
-            (0x028e, "AC Upload", UsageTypes.Sel),
-            (0x028f, "AC Download (Save Target As)", UsageTypes.Sel),
-            (0x0290, "AC Set Borders", UsageTypes.Sel),
-            (0x0291, "AC Insert Row", UsageTypes.Sel),
-            (0x0292, "AC Insert Column", UsageTypes.Sel),
-            (0x0293, "AC Insert File", UsageTypes.Sel),
-            (0x0294, "AC Insert Picture", UsageTypes.Sel),
-            (0x0295, "AC Insert Object", UsageTypes.Sel),
-            (0x0296, "AC Insert Symbol", UsageTypes.Sel),
-            (0x0297, "AC Save and Close", UsageTypes.Sel),
-            (0x0298, "AC Rename", UsageTypes.Sel),
-            (0x0299, "AC Merge", UsageTypes.Sel),
-            (0x029a, "AC Split", UsageTypes.Sel),
-            (0x029b, "AC Distribute Horizontally", UsageTypes.Sel),
-            (0x029c, "AC Distribute Vertically", UsageTypes.Sel),
-            (0x029d, "AC Next Keyboard Layout Select", UsageTypes.Sel),
-            (0x029e, "AC Navigation Guidance", UsageTypes.Sel),
-            (0x029f, "AC Desktop Show All Windows", UsageTypes.Sel),
-            (0x02a0, "AC Desktop Show All Applications", UsageTypes.Sel),
-            (0x02c0, "Extended Keyboard Attributes Collection", UsageTypes.CL),
-            (0x02c1, "Keyboard Form Factor", UsageTypes.SV),
-            (0x02c2, "Keyboard Key Type", UsageTypes.SV),
-            (0x02c3, "Keyboard Physical Layout", UsageTypes.SV),
-            (0x02c4, "Vendor-Specific Keyboard Physical Layout", UsageTypes.SV),
-            (0x02c5, "Keyboard IETF Language Tag Index", UsageTypes.SV),
-            (0x02c6, "Implemented Keyboard Input Assist Controls", UsageTypes.SV),
-            (0x02c7, "Keyboard Input Assist Previous", UsageTypes.Sel),
-            (0x02c8, "Keyboard Input Assist Next", UsageTypes.Sel),
-            (0x02c9, "Keyboard Input Assist Previous Group", UsageTypes.Sel),
-            (0x02ca, "Keyboard Input Assist Next Group", UsageTypes.Sel),
-            (0x02cb, "Keyboard Input Assist Accept", UsageTypes.Sel),
-            (0x02cc, "Keyboard Input Assist Cancel", UsageTypes.Sel),
-            (0x02d0, "Privacy Screen Toggle", UsageTypes.OOC),
-            (0x02d1, "Privacy Screen Level Decrement", UsageTypes.RTC),
-            (0x02d2, "Privacy Screen Level Increment", UsageTypes.RTC),
-            (0x02d3, "Privacy Screen Level Minimum", UsageTypes.OSC),
-            (0x02d4, "Privacy Screen Level Maximum", UsageTypes.OSC))
+        private ConsumerUsagePage() : base(0x000c, "Consumer")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "Consumer Control", UsageTypes.CA);
+                case 0x0002: return new Usage(this, id, "Numeric Key Pad", UsageTypes.NAry);
+                case 0x0003: return new Usage(this, id, "Programmable Buttons", UsageTypes.NAry);
+                case 0x0004: return new Usage(this, id, "Microphone", UsageTypes.CA);
+                case 0x0005: return new Usage(this, id, "Headphone", UsageTypes.CA);
+                case 0x0006: return new Usage(this, id, "Graphic Equalizer", UsageTypes.CA);
+                case 0x0020: return new Usage(this, id, "+10", UsageTypes.OSC);
+                case 0x0021: return new Usage(this, id, "+100", UsageTypes.OSC);
+                case 0x0022: return new Usage(this, id, "AM/PM", UsageTypes.OSC);
+                case 0x0030: return new Usage(this, id, "Power", UsageTypes.OOC);
+                case 0x0031: return new Usage(this, id, "Reset", UsageTypes.OSC);
+                case 0x0032: return new Usage(this, id, "Sleep", UsageTypes.OSC);
+                case 0x0033: return new Usage(this, id, "Sleep After", UsageTypes.OSC);
+                case 0x0034: return new Usage(this, id, "Sleep Mode", UsageTypes.RTC);
+                case 0x0035: return new Usage(this, id, "Illumination", UsageTypes.OOC);
+                case 0x0036: return new Usage(this, id, "Function Buttons", UsageTypes.NAry);
+                case 0x0040: return new Usage(this, id, "Menu", UsageTypes.OOC);
+                case 0x0041: return new Usage(this, id, "Menu Pick", UsageTypes.OSC);
+                case 0x0042: return new Usage(this, id, "Menu Up", UsageTypes.OSC);
+                case 0x0043: return new Usage(this, id, "Menu Down", UsageTypes.OSC);
+                case 0x0044: return new Usage(this, id, "Menu Left", UsageTypes.OSC);
+                case 0x0045: return new Usage(this, id, "Menu Right", UsageTypes.OSC);
+                case 0x0046: return new Usage(this, id, "Menu Escape", UsageTypes.OSC);
+                case 0x0047: return new Usage(this, id, "Menu Value Increase", UsageTypes.OSC);
+                case 0x0048: return new Usage(this, id, "Menu Value Decrease", UsageTypes.OSC);
+                case 0x0060: return new Usage(this, id, "Data On Screen", UsageTypes.OOC);
+                case 0x0061: return new Usage(this, id, "Closed Caption", UsageTypes.OOC);
+                case 0x0062: return new Usage(this, id, "Closed Caption Select", UsageTypes.OSC);
+                case 0x0063: return new Usage(this, id, "VCR/TV", UsageTypes.OOC);
+                case 0x0064: return new Usage(this, id, "Broadcast Mode", UsageTypes.OSC);
+                case 0x0065: return new Usage(this, id, "Snapshot", UsageTypes.OSC);
+                case 0x0066: return new Usage(this, id, "Still", UsageTypes.OSC);
+                case 0x0067: return new Usage(this, id, "Picture-in-Picture Toggle", UsageTypes.OSC);
+                case 0x0068: return new Usage(this, id, "Picture-in-Picture Swap", UsageTypes.OSC);
+                case 0x0069: return new Usage(this, id, "Red Menu Button", UsageTypes.MC);
+                case 0x006a: return new Usage(this, id, "Green Menu Button", UsageTypes.MC);
+                case 0x006b: return new Usage(this, id, "Blue Menu Button", UsageTypes.MC);
+                case 0x006c: return new Usage(this, id, "Yellow Menu Button", UsageTypes.MC);
+                case 0x006d: return new Usage(this, id, "Aspect", UsageTypes.OSC);
+                case 0x006e: return new Usage(this, id, "3D Mode Select", UsageTypes.OSC);
+                case 0x006f: return new Usage(this, id, "Display Brightness Increment", UsageTypes.RTC);
+                case 0x0070: return new Usage(this, id, "Display Brightness Decrement", UsageTypes.RTC);
+                case 0x0071: return new Usage(this, id, "Display Brightness", UsageTypes.LC);
+                case 0x0072: return new Usage(this, id, "Display Backlight Toggle", UsageTypes.OOC);
+                case 0x0073: return new Usage(this, id, "Display Set Brightness to Minimum", UsageTypes.OSC);
+                case 0x0074: return new Usage(this, id, "Display Set Brightness to Maximum", UsageTypes.OSC);
+                case 0x0075: return new Usage(this, id, "Display Set Auto Brightness", UsageTypes.OOC);
+                case 0x0076: return new Usage(this, id, "Camera Access Enabled", UsageTypes.OOC);
+                case 0x0077: return new Usage(this, id, "Camera Access Disabled", UsageTypes.OOC);
+                case 0x0078: return new Usage(this, id, "Camera Access Toggle", UsageTypes.OOC);
+                case 0x0079: return new Usage(this, id, "Keyboard Brightness Increment", UsageTypes.OSC);
+                case 0x007a: return new Usage(this, id, "Keyboard Brightness Decrement", UsageTypes.OSC);
+                case 0x007b: return new Usage(this, id, "Keyboard Backlight Set Level", UsageTypes.LC);
+                case 0x007c: return new Usage(this, id, "Keyboard Backlight Toggle", UsageTypes.OOC);
+                case 0x007d: return new Usage(this, id, "Keyboard Backlight Set Minimum", UsageTypes.OSC);
+                case 0x007e: return new Usage(this, id, "Keyboard Backlight Set Maximum", UsageTypes.OSC);
+                case 0x007f: return new Usage(this, id, "Keyboard Backlight Auto", UsageTypes.OOC);
+                case 0x0080: return new Usage(this, id, "Selection", UsageTypes.NAry);
+                case 0x0081: return new Usage(this, id, "Assign Selection", UsageTypes.OSC);
+                case 0x0082: return new Usage(this, id, "Mode Step", UsageTypes.OSC);
+                case 0x0083: return new Usage(this, id, "Recall Last", UsageTypes.OSC);
+                case 0x0084: return new Usage(this, id, "Enter Channel", UsageTypes.OSC);
+                case 0x0085: return new Usage(this, id, "Order Movie", UsageTypes.OSC);
+                case 0x0086: return new Usage(this, id, "Channel", UsageTypes.LC);
+                case 0x0087: return new Usage(this, id, "Media Selection", UsageTypes.NAry);
+                case 0x0088: return new Usage(this, id, "Media Select ", UsageTypes.Sel);
+                case 0x0089: return new Usage(this, id, "Media Select TV", UsageTypes.Sel);
+                case 0x008a: return new Usage(this, id, "Media Select WWW", UsageTypes.Sel);
+                case 0x008b: return new Usage(this, id, "Media Select DVD", UsageTypes.Sel);
+                case 0x008c: return new Usage(this, id, "Media Select Telephone", UsageTypes.Sel);
+                case 0x008d: return new Usage(this, id, "Media Select Program Guide", UsageTypes.Sel);
+                case 0x008e: return new Usage(this, id, "Media Select Video Phone", UsageTypes.Sel);
+                case 0x008f: return new Usage(this, id, "Media Select Games", UsageTypes.Sel);
+                case 0x0090: return new Usage(this, id, "Media Select Messages", UsageTypes.Sel);
+                case 0x0091: return new Usage(this, id, "Media Select CD", UsageTypes.Sel);
+                case 0x0092: return new Usage(this, id, "Media Select VCR", UsageTypes.Sel);
+                case 0x0093: return new Usage(this, id, "Media Select Tuner", UsageTypes.Sel);
+                case 0x0094: return new Usage(this, id, "Quit", UsageTypes.OSC);
+                case 0x0095: return new Usage(this, id, "Help", UsageTypes.OOC);
+                case 0x0096: return new Usage(this, id, "Media Select Tape", UsageTypes.Sel);
+                case 0x0097: return new Usage(this, id, "Media Select Cable", UsageTypes.Sel);
+                case 0x0098: return new Usage(this, id, "Media Select Satellite", UsageTypes.Sel);
+                case 0x0099: return new Usage(this, id, "Media Select Security", UsageTypes.Sel);
+                case 0x009a: return new Usage(this, id, "Media Select Home", UsageTypes.Sel);
+                case 0x009b: return new Usage(this, id, "Media Select Call", UsageTypes.Sel);
+                case 0x009c: return new Usage(this, id, "Channel Increment", UsageTypes.OSC);
+                case 0x009d: return new Usage(this, id, "Channel Decrement", UsageTypes.OSC);
+                case 0x009e: return new Usage(this, id, "Media Select SAP", UsageTypes.Sel);
+                case 0x00a0: return new Usage(this, id, "VCR Plus", UsageTypes.OSC);
+                case 0x00a1: return new Usage(this, id, "Once", UsageTypes.OSC);
+                case 0x00a2: return new Usage(this, id, "Daily", UsageTypes.OSC);
+                case 0x00a3: return new Usage(this, id, "Weekly", UsageTypes.OSC);
+                case 0x00a4: return new Usage(this, id, "Monthly", UsageTypes.OSC);
+                case 0x00b0: return new Usage(this, id, "Play", UsageTypes.OOC);
+                case 0x00b1: return new Usage(this, id, "Pause", UsageTypes.OOC);
+                case 0x00b2: return new Usage(this, id, "Record", UsageTypes.OOC);
+                case 0x00b3: return new Usage(this, id, "Fast Forward", UsageTypes.OOC);
+                case 0x00b4: return new Usage(this, id, "Rewind", UsageTypes.OOC);
+                case 0x00b5: return new Usage(this, id, "Scan Next Track", UsageTypes.OSC);
+                case 0x00b6: return new Usage(this, id, "Scan Previous Track", UsageTypes.OSC);
+                case 0x00b7: return new Usage(this, id, "Stop", UsageTypes.OSC);
+                case 0x00b8: return new Usage(this, id, "Eject", UsageTypes.OSC);
+                case 0x00b9: return new Usage(this, id, "Random Play", UsageTypes.OOC);
+                case 0x00ba: return new Usage(this, id, "Select Disk", UsageTypes.NAry);
+                case 0x00bb: return new Usage(this, id, "Enter Disk", UsageTypes.MC);
+                case 0x00bc: return new Usage(this, id, "Repeat", UsageTypes.OSC);
+                case 0x00bd: return new Usage(this, id, "Tracking", UsageTypes.LC);
+                case 0x00be: return new Usage(this, id, "Track Normal", UsageTypes.OSC);
+                case 0x00bf: return new Usage(this, id, "Slow Tracking", UsageTypes.LC);
+                case 0x00c0: return new Usage(this, id, "Frame Forward", UsageTypes.RTC);
+                case 0x00c1: return new Usage(this, id, "Frame Back", UsageTypes.RTC);
+                case 0x00c2: return new Usage(this, id, "Mark", UsageTypes.OSC);
+                case 0x00c3: return new Usage(this, id, "Clear Mark", UsageTypes.OSC);
+                case 0x00c4: return new Usage(this, id, "Repeat From Mark", UsageTypes.OOC);
+                case 0x00c5: return new Usage(this, id, "Return To Mark", UsageTypes.OSC);
+                case 0x00c6: return new Usage(this, id, "Search Mark Forward", UsageTypes.OSC);
+                case 0x00c7: return new Usage(this, id, "Search Mark Backwards", UsageTypes.OSC);
+                case 0x00c8: return new Usage(this, id, "Counter Reset", UsageTypes.OSC);
+                case 0x00c9: return new Usage(this, id, "Show Counter", UsageTypes.OSC);
+                case 0x00ca: return new Usage(this, id, "Tracking Increment", UsageTypes.RTC);
+                case 0x00cb: return new Usage(this, id, "Tracking Decrement", UsageTypes.RTC);
+                case 0x00cc: return new Usage(this, id, "Stop/Eject", UsageTypes.OSC);
+                case 0x00cd: return new Usage(this, id, "Play/Pause", UsageTypes.OSC);
+                case 0x00ce: return new Usage(this, id, "Play/Skip", UsageTypes.OSC);
+                case 0x00cf: return new Usage(this, id, "Voice Command", UsageTypes.OSC);
+                case 0x00d0: return new Usage(this, id, "Invoke Capture Interface", UsageTypes.OSC);
+                case 0x00d1: return new Usage(this, id, "Start/Stop Game Recording", UsageTypes.OSC);
+                case 0x00d2: return new Usage(this, id, "Historical Game Capture", UsageTypes.OSC);
+                case 0x00d3: return new Usage(this, id, "Capture Game Screenshot", UsageTypes.OSC);
+                case 0x00d4: return new Usage(this, id, "Show/Hide Recording Indicator", UsageTypes.OSC);
+                case 0x00d5: return new Usage(this, id, "Start/Stop Microphone Capture", UsageTypes.OSC);
+                case 0x00d6: return new Usage(this, id, "Start or Stop Camera Capture", UsageTypes.OSC);
+                case 0x00d7: return new Usage(this, id, "Start/Stop Game Broadcast", UsageTypes.OSC);
+                case 0x00e0: return new Usage(this, id, "Volume", UsageTypes.LC);
+                case 0x00e1: return new Usage(this, id, "Balance", UsageTypes.LC);
+                case 0x00e2: return new Usage(this, id, "Mute", UsageTypes.OOC);
+                case 0x00e3: return new Usage(this, id, "Bass", UsageTypes.LC);
+                case 0x00e4: return new Usage(this, id, "Treble", UsageTypes.LC);
+                case 0x00e5: return new Usage(this, id, "Bass Boost", UsageTypes.OOC);
+                case 0x00e6: return new Usage(this, id, "Surround Mode", UsageTypes.OSC);
+                case 0x00e7: return new Usage(this, id, "Loudness", UsageTypes.OOC);
+                case 0x00e8: return new Usage(this, id, "MPX", UsageTypes.OOC);
+                case 0x00e9: return new Usage(this, id, "Volume Increment", UsageTypes.RTC);
+                case 0x00ea: return new Usage(this, id, "Volume Decrement", UsageTypes.RTC);
+                case 0x00f0: return new Usage(this, id, "Speed Select", UsageTypes.OSC);
+                case 0x00f1: return new Usage(this, id, "Playback Speed", UsageTypes.NAry);
+                case 0x00f2: return new Usage(this, id, "Standard Play", UsageTypes.Sel);
+                case 0x00f3: return new Usage(this, id, "Long Play", UsageTypes.Sel);
+                case 0x00f4: return new Usage(this, id, "Extended Play", UsageTypes.Sel);
+                case 0x00f5: return new Usage(this, id, "Slow", UsageTypes.OSC);
+                case 0x0100: return new Usage(this, id, "Fan Enable", UsageTypes.OOC);
+                case 0x0101: return new Usage(this, id, "Fan Speed", UsageTypes.LC);
+                case 0x0102: return new Usage(this, id, "Light Enable", UsageTypes.OOC);
+                case 0x0103: return new Usage(this, id, "Light Illumination Level", UsageTypes.LC);
+                case 0x0104: return new Usage(this, id, "Climate Control Enable", UsageTypes.OOC);
+                case 0x0105: return new Usage(this, id, "Room Temperature", UsageTypes.LC);
+                case 0x0106: return new Usage(this, id, "Security Enable", UsageTypes.OOC);
+                case 0x0107: return new Usage(this, id, "Fire Alarm", UsageTypes.OSC);
+                case 0x0108: return new Usage(this, id, "Police Alarm", UsageTypes.OSC);
+                case 0x0109: return new Usage(this, id, "Proximity", UsageTypes.LC);
+                case 0x010a: return new Usage(this, id, "Motion", UsageTypes.OSC);
+                case 0x010b: return new Usage(this, id, "Duress Alarm", UsageTypes.OSC);
+                case 0x010c: return new Usage(this, id, "Holdup Alarm", UsageTypes.OSC);
+                case 0x010d: return new Usage(this, id, "Medical Alarm", UsageTypes.OSC);
+                case 0x0150: return new Usage(this, id, "Balance Right", UsageTypes.RTC);
+                case 0x0151: return new Usage(this, id, "Balance Left", UsageTypes.RTC);
+                case 0x0152: return new Usage(this, id, "Bass Increment", UsageTypes.RTC);
+                case 0x0153: return new Usage(this, id, "Bass Decrement", UsageTypes.RTC);
+                case 0x0154: return new Usage(this, id, "Treble Increment", UsageTypes.RTC);
+                case 0x0155: return new Usage(this, id, "Treble Decrement", UsageTypes.RTC);
+                case 0x0160: return new Usage(this, id, "Speaker System", UsageTypes.CL);
+                case 0x0161: return new Usage(this, id, "Channel Left", UsageTypes.CL);
+                case 0x0162: return new Usage(this, id, "Channel Right", UsageTypes.CL);
+                case 0x0163: return new Usage(this, id, "Channel Center", UsageTypes.CL);
+                case 0x0164: return new Usage(this, id, "Channel Front", UsageTypes.CL);
+                case 0x0165: return new Usage(this, id, "Channel Center Front", UsageTypes.CL);
+                case 0x0166: return new Usage(this, id, "Channel Side", UsageTypes.CL);
+                case 0x0167: return new Usage(this, id, "Channel Surround", UsageTypes.CL);
+                case 0x0168: return new Usage(this, id, "Channel Low Frequency Enhancement", UsageTypes.CL);
+                case 0x0169: return new Usage(this, id, "Channel Top", UsageTypes.CL);
+                case 0x016a: return new Usage(this, id, "Channel Unknown", UsageTypes.CL);
+                case 0x0170: return new Usage(this, id, "Sub-channel", UsageTypes.LC);
+                case 0x0171: return new Usage(this, id, "Sub-channel Increment", UsageTypes.OSC);
+                case 0x0172: return new Usage(this, id, "Sub-channel Decrement", UsageTypes.OSC);
+                case 0x0173: return new Usage(this, id, "Alternate Audio Increment", UsageTypes.OSC);
+                case 0x0174: return new Usage(this, id, "Alternate Audio Decrement", UsageTypes.OSC);
+                case 0x0180: return new Usage(this, id, "Application Launch Buttons", UsageTypes.NAry);
+                case 0x0181: return new Usage(this, id, "AL Launch Button Configuration Tool", UsageTypes.Sel);
+                case 0x0182: return new Usage(this, id, "AL Programmable Button Configuration", UsageTypes.Sel);
+                case 0x0183: return new Usage(this, id, "AL Consumer Control Configuration", UsageTypes.Sel);
+                case 0x0184: return new Usage(this, id, "AL Word Processor", UsageTypes.Sel);
+                case 0x0185: return new Usage(this, id, "AL Text Editor", UsageTypes.Sel);
+                case 0x0186: return new Usage(this, id, "AL Spreadsheet", UsageTypes.Sel);
+                case 0x0187: return new Usage(this, id, "AL Graphics Editor", UsageTypes.Sel);
+                case 0x0188: return new Usage(this, id, "AL Presentation App", UsageTypes.Sel);
+                case 0x0189: return new Usage(this, id, "AL Database App", UsageTypes.Sel);
+                case 0x018a: return new Usage(this, id, "AL Email Reader", UsageTypes.Sel);
+                case 0x018b: return new Usage(this, id, "AL Newsreader", UsageTypes.Sel);
+                case 0x018c: return new Usage(this, id, "AL Voicemail", UsageTypes.Sel);
+                case 0x018d: return new Usage(this, id, "AL Contacts/Address Book", UsageTypes.Sel);
+                case 0x018e: return new Usage(this, id, "AL Calendar/Schedule", UsageTypes.Sel);
+                case 0x018f: return new Usage(this, id, "AL Task/Project Manager", UsageTypes.Sel);
+                case 0x0190: return new Usage(this, id, "AL Log/Journal/Timecard", UsageTypes.Sel);
+                case 0x0191: return new Usage(this, id, "AL Checkbook/Finance", UsageTypes.Sel);
+                case 0x0192: return new Usage(this, id, "AL Calculator", UsageTypes.Sel);
+                case 0x0193: return new Usage(this, id, "AL A/V Capture/Playback", UsageTypes.Sel);
+                case 0x0194: return new Usage(this, id, "AL Local Machine Browser", UsageTypes.Sel);
+                case 0x0195: return new Usage(this, id, "AL LAN/WAN Browser", UsageTypes.Sel);
+                case 0x0196: return new Usage(this, id, "AL Internet Browser", UsageTypes.Sel);
+                case 0x0197: return new Usage(this, id, "AL Remote Networking/ISP Connect", UsageTypes.Sel);
+                case 0x0198: return new Usage(this, id, "AL Network Conference", UsageTypes.Sel);
+                case 0x0199: return new Usage(this, id, "AL Network Chat", UsageTypes.Sel);
+                case 0x019a: return new Usage(this, id, "AL Telephony/Dialer", UsageTypes.Sel);
+                case 0x019b: return new Usage(this, id, "AL Logon", UsageTypes.Sel);
+                case 0x019c: return new Usage(this, id, "AL Logoff", UsageTypes.Sel);
+                case 0x019d: return new Usage(this, id, "AL Logon/Logoff", UsageTypes.Sel);
+                case 0x019e: return new Usage(this, id, "AL Terminal Lock/Screensaver", UsageTypes.Sel);
+                case 0x019f: return new Usage(this, id, "AL Control Panel", UsageTypes.Sel);
+                case 0x01a0: return new Usage(this, id, "AL Command Line Processor/Run", UsageTypes.Sel);
+                case 0x01a1: return new Usage(this, id, "AL Process/Task Manager", UsageTypes.Sel);
+                case 0x01a2: return new Usage(this, id, "AL Select Task/Application", UsageTypes.Sel);
+                case 0x01a3: return new Usage(this, id, "AL Next Task/Application", UsageTypes.Sel);
+                case 0x01a4: return new Usage(this, id, "AL Previous Task/Application", UsageTypes.Sel);
+                case 0x01a5: return new Usage(this, id, "AL Preemptive Halt Task/Application", UsageTypes.Sel);
+                case 0x01a6: return new Usage(this, id, "AL Integrated Help Center", UsageTypes.Sel);
+                case 0x01a7: return new Usage(this, id, "AL Documents", UsageTypes.Sel);
+                case 0x01a8: return new Usage(this, id, "AL Thesaurus", UsageTypes.Sel);
+                case 0x01a9: return new Usage(this, id, "AL Dictionary", UsageTypes.Sel);
+                case 0x01aa: return new Usage(this, id, "AL Desktop", UsageTypes.Sel);
+                case 0x01ab: return new Usage(this, id, "AL Spell Check", UsageTypes.Sel);
+                case 0x01ac: return new Usage(this, id, "AL Grammar Check", UsageTypes.Sel);
+                case 0x01ad: return new Usage(this, id, "AL Wireless Status", UsageTypes.Sel);
+                case 0x01ae: return new Usage(this, id, "AL Keyboard Layout", UsageTypes.Sel);
+                case 0x01af: return new Usage(this, id, "AL Virus Protection", UsageTypes.Sel);
+                case 0x01b0: return new Usage(this, id, "AL Encryption", UsageTypes.Sel);
+                case 0x01b1: return new Usage(this, id, "AL Screen Saver", UsageTypes.Sel);
+                case 0x01b2: return new Usage(this, id, "AL Alarms", UsageTypes.Sel);
+                case 0x01b3: return new Usage(this, id, "AL Clock", UsageTypes.Sel);
+                case 0x01b4: return new Usage(this, id, "AL File Browser", UsageTypes.Sel);
+                case 0x01b5: return new Usage(this, id, "AL Power Status", UsageTypes.Sel);
+                case 0x01b6: return new Usage(this, id, "AL Image Browser", UsageTypes.Sel);
+                case 0x01b7: return new Usage(this, id, "AL Audio Browser", UsageTypes.Sel);
+                case 0x01b8: return new Usage(this, id, "AL Movie Browser", UsageTypes.Sel);
+                case 0x01b9: return new Usage(this, id, "AL Digital Rights Manager", UsageTypes.Sel);
+                case 0x01ba: return new Usage(this, id, "AL Digital Wallet", UsageTypes.Sel);
+                case 0x01bc: return new Usage(this, id, "AL Instant Messaging", UsageTypes.Sel);
+                case 0x01bd: return new Usage(this, id, "AL OEM Features/Tips/Tutorial Browser", UsageTypes.Sel);
+                case 0x01be: return new Usage(this, id, "AL OEM Help", UsageTypes.Sel);
+                case 0x01bf: return new Usage(this, id, "AL Online Community", UsageTypes.Sel);
+                case 0x01c0: return new Usage(this, id, "AL Entertainment Content Browser", UsageTypes.Sel);
+                case 0x01c1: return new Usage(this, id, "AL Online Shopping Browser", UsageTypes.Sel);
+                case 0x01c2: return new Usage(this, id, "AL SmartCard Information/Help", UsageTypes.Sel);
+                case 0x01c3: return new Usage(this, id, "AL Market Monitor/Finance Browser", UsageTypes.Sel);
+                case 0x01c4: return new Usage(this, id, "AL Customized Corporate News Browser", UsageTypes.Sel);
+                case 0x01c5: return new Usage(this, id, "AL Online Activity Browser", UsageTypes.Sel);
+                case 0x01c6: return new Usage(this, id, "AL Research/Search Browser", UsageTypes.Sel);
+                case 0x01c7: return new Usage(this, id, "AL Audio Player", UsageTypes.Sel);
+                case 0x01c8: return new Usage(this, id, "AL Navigation", UsageTypes.Sel);
+                case 0x01cb: return new Usage(this, id, "AL Context-aware desktop assistant", UsageTypes.Sel);
+                case 0x0200: return new Usage(this, id, "Generic GUI Application Controls", UsageTypes.NAry);
+                case 0x0201: return new Usage(this, id, "AC New", UsageTypes.Sel);
+                case 0x0202: return new Usage(this, id, "AC Open", UsageTypes.Sel);
+                case 0x0203: return new Usage(this, id, "AC Close", UsageTypes.Sel);
+                case 0x0204: return new Usage(this, id, "AC Exit", UsageTypes.Sel);
+                case 0x0205: return new Usage(this, id, "AC Maximize", UsageTypes.Sel);
+                case 0x0206: return new Usage(this, id, "AC Minimize", UsageTypes.Sel);
+                case 0x0207: return new Usage(this, id, "AC Save", UsageTypes.Sel);
+                case 0x0208: return new Usage(this, id, "AC Print", UsageTypes.Sel);
+                case 0x0209: return new Usage(this, id, "AC Properties", UsageTypes.Sel);
+                case 0x021a: return new Usage(this, id, "AC Undo", UsageTypes.Sel);
+                case 0x021b: return new Usage(this, id, "AC Copy", UsageTypes.Sel);
+                case 0x021c: return new Usage(this, id, "AC Cut", UsageTypes.Sel);
+                case 0x021d: return new Usage(this, id, "AC Paste", UsageTypes.Sel);
+                case 0x021e: return new Usage(this, id, "AC Select All", UsageTypes.Sel);
+                case 0x021f: return new Usage(this, id, "AC Find", UsageTypes.Sel);
+                case 0x0220: return new Usage(this, id, "AC Find and Replace", UsageTypes.Sel);
+                case 0x0221: return new Usage(this, id, "AC Search", UsageTypes.Sel);
+                case 0x0222: return new Usage(this, id, "AC Go To", UsageTypes.Sel);
+                case 0x0223: return new Usage(this, id, "AC Home", UsageTypes.Sel);
+                case 0x0224: return new Usage(this, id, "AC Back", UsageTypes.Sel);
+                case 0x0225: return new Usage(this, id, "AC Forward", UsageTypes.Sel);
+                case 0x0226: return new Usage(this, id, "AC Stop", UsageTypes.Sel);
+                case 0x0227: return new Usage(this, id, "AC Refresh", UsageTypes.Sel);
+                case 0x0228: return new Usage(this, id, "AC Previous Link", UsageTypes.Sel);
+                case 0x0229: return new Usage(this, id, "AC Next Link", UsageTypes.Sel);
+                case 0x022a: return new Usage(this, id, "AC Bookmarks", UsageTypes.Sel);
+                case 0x022b: return new Usage(this, id, "AC History", UsageTypes.Sel);
+                case 0x022c: return new Usage(this, id, "AC Subscriptions", UsageTypes.Sel);
+                case 0x022d: return new Usage(this, id, "AC Zoom In", UsageTypes.Sel);
+                case 0x022e: return new Usage(this, id, "AC Zoom Out", UsageTypes.Sel);
+                case 0x022f: return new Usage(this, id, "AC Zoom", UsageTypes.LC);
+                case 0x0230: return new Usage(this, id, "AC Full Screen View", UsageTypes.Sel);
+                case 0x0231: return new Usage(this, id, "AC Normal View", UsageTypes.Sel);
+                case 0x0232: return new Usage(this, id, "AC View Toggle", UsageTypes.Sel);
+                case 0x0233: return new Usage(this, id, "AC Scroll Up", UsageTypes.Sel);
+                case 0x0234: return new Usage(this, id, "AC Scroll Down", UsageTypes.Sel);
+                case 0x0235: return new Usage(this, id, "AC Scroll", UsageTypes.LC);
+                case 0x0236: return new Usage(this, id, "AC Pan Left", UsageTypes.Sel);
+                case 0x0237: return new Usage(this, id, "AC Pan Right", UsageTypes.Sel);
+                case 0x0238: return new Usage(this, id, "AC Pan", UsageTypes.LC);
+                case 0x0239: return new Usage(this, id, "AC New Window", UsageTypes.Sel);
+                case 0x023a: return new Usage(this, id, "AC Tile Horizontally", UsageTypes.Sel);
+                case 0x023b: return new Usage(this, id, "AC Tile Vertically", UsageTypes.Sel);
+                case 0x023c: return new Usage(this, id, "AC Format", UsageTypes.Sel);
+                case 0x023d: return new Usage(this, id, "AC Edit", UsageTypes.Sel);
+                case 0x023e: return new Usage(this, id, "AC Bold", UsageTypes.Sel);
+                case 0x023f: return new Usage(this, id, "AC Italics", UsageTypes.Sel);
+                case 0x0240: return new Usage(this, id, "AC Underline", UsageTypes.Sel);
+                case 0x0241: return new Usage(this, id, "AC Strikethrough", UsageTypes.Sel);
+                case 0x0242: return new Usage(this, id, "AC Subscript", UsageTypes.Sel);
+                case 0x0243: return new Usage(this, id, "AC Superscript", UsageTypes.Sel);
+                case 0x0244: return new Usage(this, id, "AC All Caps", UsageTypes.Sel);
+                case 0x0245: return new Usage(this, id, "AC Rotate", UsageTypes.Sel);
+                case 0x0246: return new Usage(this, id, "AC Resize", UsageTypes.Sel);
+                case 0x0247: return new Usage(this, id, "AC Flip Horizontal", UsageTypes.Sel);
+                case 0x0248: return new Usage(this, id, "AC Vertical", UsageTypes.Sel);
+                case 0x0249: return new Usage(this, id, "AC Mirror Horizontal", UsageTypes.Sel);
+                case 0x024a: return new Usage(this, id, "AC Mirror Vertical", UsageTypes.Sel);
+                case 0x024b: return new Usage(this, id, "AC Font Select", UsageTypes.Sel);
+                case 0x024c: return new Usage(this, id, "AC Font Color", UsageTypes.Sel);
+                case 0x024d: return new Usage(this, id, "AC Font Size", UsageTypes.Sel);
+                case 0x024e: return new Usage(this, id, "AC Justify Left", UsageTypes.Sel);
+                case 0x024f: return new Usage(this, id, "AC Justify Center H", UsageTypes.Sel);
+                case 0x0250: return new Usage(this, id, "AC Justify Right", UsageTypes.Sel);
+                case 0x0251: return new Usage(this, id, "AC Justify Block H", UsageTypes.Sel);
+                case 0x0252: return new Usage(this, id, "AC Justify Top", UsageTypes.Sel);
+                case 0x0253: return new Usage(this, id, "AC Justify Center V", UsageTypes.Sel);
+                case 0x0254: return new Usage(this, id, "AC Justify Bottom", UsageTypes.Sel);
+                case 0x0255: return new Usage(this, id, "AC Justify Block V", UsageTypes.Sel);
+                case 0x0256: return new Usage(this, id, "AC Indent Decrease", UsageTypes.Sel);
+                case 0x0257: return new Usage(this, id, "AC Indent Increase", UsageTypes.Sel);
+                case 0x0258: return new Usage(this, id, "AC Numbered List", UsageTypes.Sel);
+                case 0x0259: return new Usage(this, id, "AC Restart Numbering", UsageTypes.Sel);
+                case 0x025a: return new Usage(this, id, "AC Bulleted List", UsageTypes.Sel);
+                case 0x025b: return new Usage(this, id, "AC Promote", UsageTypes.Sel);
+                case 0x025c: return new Usage(this, id, "AC Demote", UsageTypes.Sel);
+                case 0x025d: return new Usage(this, id, "AC Yes", UsageTypes.Sel);
+                case 0x025e: return new Usage(this, id, "AC No", UsageTypes.Sel);
+                case 0x025f: return new Usage(this, id, "AC Cancel", UsageTypes.Sel);
+                case 0x0260: return new Usage(this, id, "AC Catalog", UsageTypes.Sel);
+                case 0x0261: return new Usage(this, id, "AC Buy/Checkout", UsageTypes.Sel);
+                case 0x0262: return new Usage(this, id, "AC Add to Cart", UsageTypes.Sel);
+                case 0x0263: return new Usage(this, id, "AC Expand", UsageTypes.Sel);
+                case 0x0264: return new Usage(this, id, "AC Expand All", UsageTypes.Sel);
+                case 0x0265: return new Usage(this, id, "AC Collapse", UsageTypes.Sel);
+                case 0x0266: return new Usage(this, id, "AC Collapse All", UsageTypes.Sel);
+                case 0x0267: return new Usage(this, id, "AC Print Preview", UsageTypes.Sel);
+                case 0x0268: return new Usage(this, id, "AC Paste Special", UsageTypes.Sel);
+                case 0x0269: return new Usage(this, id, "AC Insert Mode", UsageTypes.Sel);
+                case 0x026a: return new Usage(this, id, "AC Delete", UsageTypes.Sel);
+                case 0x026b: return new Usage(this, id, "AC Lock", UsageTypes.Sel);
+                case 0x026c: return new Usage(this, id, "AC Unlock", UsageTypes.Sel);
+                case 0x026d: return new Usage(this, id, "AC Protect", UsageTypes.Sel);
+                case 0x026e: return new Usage(this, id, "AC Unprotect", UsageTypes.Sel);
+                case 0x026f: return new Usage(this, id, "AC Attach Comment", UsageTypes.Sel);
+                case 0x0270: return new Usage(this, id, "AC Delete Comment", UsageTypes.Sel);
+                case 0x0271: return new Usage(this, id, "AC View Comment", UsageTypes.Sel);
+                case 0x0272: return new Usage(this, id, "AC Select Word", UsageTypes.Sel);
+                case 0x0273: return new Usage(this, id, "AC Select Sentence", UsageTypes.Sel);
+                case 0x0274: return new Usage(this, id, "AC Select Paragraph", UsageTypes.Sel);
+                case 0x0275: return new Usage(this, id, "AC Select Column", UsageTypes.Sel);
+                case 0x0276: return new Usage(this, id, "AC Select Row", UsageTypes.Sel);
+                case 0x0277: return new Usage(this, id, "AC Select Table", UsageTypes.Sel);
+                case 0x0278: return new Usage(this, id, "AC Select Object", UsageTypes.Sel);
+                case 0x0279: return new Usage(this, id, "AC Redo/Repeat", UsageTypes.Sel);
+                case 0x027a: return new Usage(this, id, "AC Sort", UsageTypes.Sel);
+                case 0x027b: return new Usage(this, id, "AC Sort Ascending", UsageTypes.Sel);
+                case 0x027c: return new Usage(this, id, "AC Sort Descending", UsageTypes.Sel);
+                case 0x027d: return new Usage(this, id, "AC Filter", UsageTypes.Sel);
+                case 0x027e: return new Usage(this, id, "AC Set Clock", UsageTypes.Sel);
+                case 0x027f: return new Usage(this, id, "AC View Clock", UsageTypes.Sel);
+                case 0x0280: return new Usage(this, id, "AC Select Time Zone", UsageTypes.Sel);
+                case 0x0281: return new Usage(this, id, "AC Edit Time Zones", UsageTypes.Sel);
+                case 0x0282: return new Usage(this, id, "AC Set Alarm", UsageTypes.Sel);
+                case 0x0283: return new Usage(this, id, "AC Clear Alarm", UsageTypes.Sel);
+                case 0x0284: return new Usage(this, id, "AC Snooze Alarm", UsageTypes.Sel);
+                case 0x0285: return new Usage(this, id, "AC Reset Alarm", UsageTypes.Sel);
+                case 0x0286: return new Usage(this, id, "AC Synchronize", UsageTypes.Sel);
+                case 0x0287: return new Usage(this, id, "AC Send/Receive", UsageTypes.Sel);
+                case 0x0288: return new Usage(this, id, "AC Send To", UsageTypes.Sel);
+                case 0x0289: return new Usage(this, id, "AC Reply", UsageTypes.Sel);
+                case 0x028a: return new Usage(this, id, "AC Reply All", UsageTypes.Sel);
+                case 0x028b: return new Usage(this, id, "AC Forward Msg", UsageTypes.Sel);
+                case 0x028c: return new Usage(this, id, "AC Send", UsageTypes.Sel);
+                case 0x028d: return new Usage(this, id, "AC Attach File", UsageTypes.Sel);
+                case 0x028e: return new Usage(this, id, "AC Upload", UsageTypes.Sel);
+                case 0x028f: return new Usage(this, id, "AC Download (Save Target As)", UsageTypes.Sel);
+                case 0x0290: return new Usage(this, id, "AC Set Borders", UsageTypes.Sel);
+                case 0x0291: return new Usage(this, id, "AC Insert Row", UsageTypes.Sel);
+                case 0x0292: return new Usage(this, id, "AC Insert Column", UsageTypes.Sel);
+                case 0x0293: return new Usage(this, id, "AC Insert File", UsageTypes.Sel);
+                case 0x0294: return new Usage(this, id, "AC Insert Picture", UsageTypes.Sel);
+                case 0x0295: return new Usage(this, id, "AC Insert Object", UsageTypes.Sel);
+                case 0x0296: return new Usage(this, id, "AC Insert Symbol", UsageTypes.Sel);
+                case 0x0297: return new Usage(this, id, "AC Save and Close", UsageTypes.Sel);
+                case 0x0298: return new Usage(this, id, "AC Rename", UsageTypes.Sel);
+                case 0x0299: return new Usage(this, id, "AC Merge", UsageTypes.Sel);
+                case 0x029a: return new Usage(this, id, "AC Split", UsageTypes.Sel);
+                case 0x029b: return new Usage(this, id, "AC Distribute Horizontally", UsageTypes.Sel);
+                case 0x029c: return new Usage(this, id, "AC Distribute Vertically", UsageTypes.Sel);
+                case 0x029d: return new Usage(this, id, "AC Next Keyboard Layout Select", UsageTypes.Sel);
+                case 0x029e: return new Usage(this, id, "AC Navigation Guidance", UsageTypes.Sel);
+                case 0x029f: return new Usage(this, id, "AC Desktop Show All Windows", UsageTypes.Sel);
+                case 0x02a0: return new Usage(this, id, "AC Desktop Show All Applications", UsageTypes.Sel);
+                case 0x02c0: return new Usage(this, id, "Extended Keyboard Attributes Collection", UsageTypes.CL);
+                case 0x02c1: return new Usage(this, id, "Keyboard Form Factor", UsageTypes.SV);
+                case 0x02c2: return new Usage(this, id, "Keyboard Key Type", UsageTypes.SV);
+                case 0x02c3: return new Usage(this, id, "Keyboard Physical Layout", UsageTypes.SV);
+                case 0x02c4: return new Usage(this, id, "Vendor-Specific Keyboard Physical Layout", UsageTypes.SV);
+                case 0x02c5: return new Usage(this, id, "Keyboard IETF Language Tag Index", UsageTypes.SV);
+                case 0x02c6: return new Usage(this, id, "Implemented Keyboard Input Assist Controls", UsageTypes.SV);
+                case 0x02c7: return new Usage(this, id, "Keyboard Input Assist Previous", UsageTypes.Sel);
+                case 0x02c8: return new Usage(this, id, "Keyboard Input Assist Next", UsageTypes.Sel);
+                case 0x02c9: return new Usage(this, id, "Keyboard Input Assist Previous Group", UsageTypes.Sel);
+                case 0x02ca: return new Usage(this, id, "Keyboard Input Assist Next Group", UsageTypes.Sel);
+                case 0x02cb: return new Usage(this, id, "Keyboard Input Assist Accept", UsageTypes.Sel);
+                case 0x02cc: return new Usage(this, id, "Keyboard Input Assist Cancel", UsageTypes.Sel);
+                case 0x02d0: return new Usage(this, id, "Privacy Screen Toggle", UsageTypes.OOC);
+                case 0x02d1: return new Usage(this, id, "Privacy Screen Level Decrement", UsageTypes.RTC);
+                case 0x02d2: return new Usage(this, id, "Privacy Screen Level Increment", UsageTypes.RTC);
+                case 0x02d3: return new Usage(this, id, "Privacy Screen Level Minimum", UsageTypes.OSC);
+                case 0x02d4: return new Usage(this, id, "Privacy Screen Level Maximum", UsageTypes.OSC);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -19544,99 +19620,106 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly DigitizerUsagePage Instance = new DigitizerUsagePage();
 
-        private DigitizerUsagePage()
-        : base(
-            0x000d,
-            "Digitizer",
-            (0x0000, "Undefined", UsageTypes.None),
-            (0x0001, "Digitizer", UsageTypes.CA),
-            (0x0002, "Pen", UsageTypes.CA),
-            (0x0003, "Light Pen", UsageTypes.CA),
-            (0x0004, "Touch Screen", UsageTypes.CA),
-            (0x0005, "Touch Pad", UsageTypes.CA),
-            (0x0006, "White Board", UsageTypes.CA),
-            (0x0007, "Coordinate Measuring Machine", UsageTypes.CA),
-            (0x0008, "3D Digitizer", UsageTypes.CA),
-            (0x0009, "Stereo Plotter", UsageTypes.CA),
-            (0x000a, "Articulated Arm", UsageTypes.CA),
-            (0x000b, "Armature", UsageTypes.CA),
-            (0x000c, "Multiple Point Digitizer", UsageTypes.CA),
-            (0x000d, "Free Space Wand", UsageTypes.CA),
-            (0x000e, "Device Configuration", UsageTypes.CA),
-            (0x000f, "Capacitive Heat Map Digitizer", UsageTypes.CA),
-            (0x0020, "Stylus", UsageTypes.CA|UsageTypes.CL),
-            (0x0021, "Puck", UsageTypes.CL),
-            (0x0022, "Finger", UsageTypes.CL),
-            (0x0023, "Device Settings", UsageTypes.CL),
-            (0x0024, "Character Gesture", UsageTypes.CL),
-            (0x0030, "Tip Pressure", UsageTypes.DV),
-            (0x0031, "Barrel Pressure", UsageTypes.DV),
-            (0x0032, "In Range", UsageTypes.MC),
-            (0x0033, "Touch", UsageTypes.MC),
-            (0x0034, "Untouch", UsageTypes.OSC),
-            (0x0035, "Tap", UsageTypes.OSC),
-            (0x0036, "Quality", UsageTypes.DV),
-            (0x0037, "Data Valid", UsageTypes.MC),
-            (0x0038, "Transducer Index", UsageTypes.DV),
-            (0x0039, "Tablet Function Keys", UsageTypes.CL),
-            (0x003a, "Program Change Keys", UsageTypes.CL),
-            (0x003b, "Battery Strength", UsageTypes.DV),
-            (0x003c, "Invert", UsageTypes.MC),
-            (0x003d, "X Tilt", UsageTypes.DV),
-            (0x003e, "Y Tilt", UsageTypes.DV),
-            (0x003f, "Azimuth", UsageTypes.DV),
-            (0x0040, "Altitude", UsageTypes.DV),
-            (0x0041, "Twist", UsageTypes.DV),
-            (0x0042, "Tip Switch", UsageTypes.MC),
-            (0x0043, "Secondary Tip Switch", UsageTypes.MC),
-            (0x0044, "Barrel Switch", UsageTypes.MC),
-            (0x0045, "Eraser", UsageTypes.MC),
-            (0x0046, "Tablet Pick", UsageTypes.MC),
-            (0x0047, "Touch Valid", UsageTypes.MC),
-            (0x0048, "Width", UsageTypes.DV),
-            (0x0049, "Height", UsageTypes.DV),
-            (0x0051, "Contact Identifier", UsageTypes.DV),
-            (0x0052, "Device Mode", UsageTypes.DV),
-            (0x0053, "Device Identifier", UsageTypes.DV),
-            (0x0054, "Contact Count", UsageTypes.DV),
-            (0x0055, "Contact Count Maximum", UsageTypes.SV),
-            (0x0056, "Scan Time", UsageTypes.DV),
-            (0x0057, "Surface Width", UsageTypes.DF),
-            (0x0058, "Button Switch", UsageTypes.DF),
-            (0x0059, "Pad Type", UsageTypes.SF),
-            (0x005a, "Secondary Barrel Switch", UsageTypes.MC),
-            (0x005b, "Transducer Serial Number", UsageTypes.SV),
-            (0x005c, "Preferred Color", UsageTypes.DV),
-            (0x0060, "Latency Mode", UsageTypes.DF),
-            (0x0061, "Gesture Character Quality", UsageTypes.DV),
-            (0x0062, "Character Gesture Data Length", UsageTypes.DV),
-            (0x0063, "Character Gesture Data", UsageTypes.DV),
-            (0x0064, "Gesture Character Encoding", UsageTypes.NAry),
-            (0x0065, "UTF8 Character Gesture Encoding", UsageTypes.Sel),
-            (0x0066, "UTF16 Little Endian Character Gesture Encoding", UsageTypes.Sel),
-            (0x0067, "UTF16 Big Endian Character Gesture Encoding", UsageTypes.Sel),
-            (0x0068, "UTF32 Little Endian Character Gesture Encoding", UsageTypes.Sel),
-            (0x0069, "UTF32 Big Endian Character Gesture Encoding", UsageTypes.Sel),
-            (0x006a, "Capacitive Heat Map Protocol Vendor ID", UsageTypes.SV),
-            (0x006b, "Capacitive Heat Map Protocol Version", UsageTypes.SV),
-            (0x006c, "Capacitive Heat Map Frame Data", UsageTypes.DV),
-            (0x006d, "Gesture Character Enable", UsageTypes.DF),
-            (0x0090, "Transducer Software Info", UsageTypes.CL),
-            (0x0091, "Transducer Vendor ID", UsageTypes.SV),
-            (0x0092, "Transducer Product ID", UsageTypes.SV),
-            (0x0093, "Device Supported Protocols", UsageTypes.CL|UsageTypes.NAry),
-            (0x0094, "Transducer Supported Protocols", UsageTypes.CL|UsageTypes.NAry),
-            (0x0095, "No Protocol", UsageTypes.Sel),
-            (0x0096, "Wacom AES Protocol", UsageTypes.Sel),
-            (0x0097, "USI Protocol", UsageTypes.Sel),
-            (0x0098, "Microsoft Pen Protocol", UsageTypes.Sel),
-            (0x00a0, "Supported Report Rates", UsageTypes.CL|UsageTypes.SV),
-            (0x00a1, "Report Rate", UsageTypes.DV),
-            (0x00a2, "Transducer Connected", UsageTypes.SF),
-            (0x00a3, "Switch Disabled", UsageTypes.Sel),
-            (0x00a4, "Switch Unimplemented", UsageTypes.Sel),
-            (0x00a5, "Transducer Switches", UsageTypes.CL))
+        private DigitizerUsagePage() : base(0x000d, "Digitizer")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "Digitizer", UsageTypes.CA);
+                case 0x0002: return new Usage(this, id, "Pen", UsageTypes.CA);
+                case 0x0003: return new Usage(this, id, "Light Pen", UsageTypes.CA);
+                case 0x0004: return new Usage(this, id, "Touch Screen", UsageTypes.CA);
+                case 0x0005: return new Usage(this, id, "Touch Pad", UsageTypes.CA);
+                case 0x0006: return new Usage(this, id, "White Board", UsageTypes.CA);
+                case 0x0007: return new Usage(this, id, "Coordinate Measuring Machine", UsageTypes.CA);
+                case 0x0008: return new Usage(this, id, "3D Digitizer", UsageTypes.CA);
+                case 0x0009: return new Usage(this, id, "Stereo Plotter", UsageTypes.CA);
+                case 0x000a: return new Usage(this, id, "Articulated Arm", UsageTypes.CA);
+                case 0x000b: return new Usage(this, id, "Armature", UsageTypes.CA);
+                case 0x000c: return new Usage(this, id, "Multiple Point Digitizer", UsageTypes.CA);
+                case 0x000d: return new Usage(this, id, "Free Space Wand", UsageTypes.CA);
+                case 0x000e: return new Usage(this, id, "Device Configuration", UsageTypes.CA);
+                case 0x000f: return new Usage(this, id, "Capacitive Heat Map Digitizer", UsageTypes.CA);
+                case 0x0020: return new Usage(this, id, "Stylus", UsageTypes.CA|UsageTypes.CL);
+                case 0x0021: return new Usage(this, id, "Puck", UsageTypes.CL);
+                case 0x0022: return new Usage(this, id, "Finger", UsageTypes.CL);
+                case 0x0023: return new Usage(this, id, "Device Settings", UsageTypes.CL);
+                case 0x0024: return new Usage(this, id, "Character Gesture", UsageTypes.CL);
+                case 0x0030: return new Usage(this, id, "Tip Pressure", UsageTypes.DV);
+                case 0x0031: return new Usage(this, id, "Barrel Pressure", UsageTypes.DV);
+                case 0x0032: return new Usage(this, id, "In Range", UsageTypes.MC);
+                case 0x0033: return new Usage(this, id, "Touch", UsageTypes.MC);
+                case 0x0034: return new Usage(this, id, "Untouch", UsageTypes.OSC);
+                case 0x0035: return new Usage(this, id, "Tap", UsageTypes.OSC);
+                case 0x0036: return new Usage(this, id, "Quality", UsageTypes.DV);
+                case 0x0037: return new Usage(this, id, "Data Valid", UsageTypes.MC);
+                case 0x0038: return new Usage(this, id, "Transducer Index", UsageTypes.DV);
+                case 0x0039: return new Usage(this, id, "Tablet Function Keys", UsageTypes.CL);
+                case 0x003a: return new Usage(this, id, "Program Change Keys", UsageTypes.CL);
+                case 0x003b: return new Usage(this, id, "Battery Strength", UsageTypes.DV);
+                case 0x003c: return new Usage(this, id, "Invert", UsageTypes.MC);
+                case 0x003d: return new Usage(this, id, "X Tilt", UsageTypes.DV);
+                case 0x003e: return new Usage(this, id, "Y Tilt", UsageTypes.DV);
+                case 0x003f: return new Usage(this, id, "Azimuth", UsageTypes.DV);
+                case 0x0040: return new Usage(this, id, "Altitude", UsageTypes.DV);
+                case 0x0041: return new Usage(this, id, "Twist", UsageTypes.DV);
+                case 0x0042: return new Usage(this, id, "Tip Switch", UsageTypes.MC);
+                case 0x0043: return new Usage(this, id, "Secondary Tip Switch", UsageTypes.MC);
+                case 0x0044: return new Usage(this, id, "Barrel Switch", UsageTypes.MC);
+                case 0x0045: return new Usage(this, id, "Eraser", UsageTypes.MC);
+                case 0x0046: return new Usage(this, id, "Tablet Pick", UsageTypes.MC);
+                case 0x0047: return new Usage(this, id, "Touch Valid", UsageTypes.MC);
+                case 0x0048: return new Usage(this, id, "Width", UsageTypes.DV);
+                case 0x0049: return new Usage(this, id, "Height", UsageTypes.DV);
+                case 0x0051: return new Usage(this, id, "Contact Identifier", UsageTypes.DV);
+                case 0x0052: return new Usage(this, id, "Device Mode", UsageTypes.DV);
+                case 0x0053: return new Usage(this, id, "Device Identifier", UsageTypes.DV);
+                case 0x0054: return new Usage(this, id, "Contact Count", UsageTypes.DV);
+                case 0x0055: return new Usage(this, id, "Contact Count Maximum", UsageTypes.SV);
+                case 0x0056: return new Usage(this, id, "Scan Time", UsageTypes.DV);
+                case 0x0057: return new Usage(this, id, "Surface Width", UsageTypes.DF);
+                case 0x0058: return new Usage(this, id, "Button Switch", UsageTypes.DF);
+                case 0x0059: return new Usage(this, id, "Pad Type", UsageTypes.SF);
+                case 0x005a: return new Usage(this, id, "Secondary Barrel Switch", UsageTypes.MC);
+                case 0x005b: return new Usage(this, id, "Transducer Serial Number", UsageTypes.SV);
+                case 0x005c: return new Usage(this, id, "Preferred Color", UsageTypes.DV);
+                case 0x0060: return new Usage(this, id, "Latency Mode", UsageTypes.DF);
+                case 0x0061: return new Usage(this, id, "Gesture Character Quality", UsageTypes.DV);
+                case 0x0062: return new Usage(this, id, "Character Gesture Data Length", UsageTypes.DV);
+                case 0x0063: return new Usage(this, id, "Character Gesture Data", UsageTypes.DV);
+                case 0x0064: return new Usage(this, id, "Gesture Character Encoding", UsageTypes.NAry);
+                case 0x0065: return new Usage(this, id, "UTF8 Character Gesture Encoding", UsageTypes.Sel);
+                case 0x0066: return new Usage(this, id, "UTF16 Little Endian Character Gesture Encoding", UsageTypes.Sel);
+                case 0x0067: return new Usage(this, id, "UTF16 Big Endian Character Gesture Encoding", UsageTypes.Sel);
+                case 0x0068: return new Usage(this, id, "UTF32 Little Endian Character Gesture Encoding", UsageTypes.Sel);
+                case 0x0069: return new Usage(this, id, "UTF32 Big Endian Character Gesture Encoding", UsageTypes.Sel);
+                case 0x006a: return new Usage(this, id, "Capacitive Heat Map Protocol Vendor ID", UsageTypes.SV);
+                case 0x006b: return new Usage(this, id, "Capacitive Heat Map Protocol Version", UsageTypes.SV);
+                case 0x006c: return new Usage(this, id, "Capacitive Heat Map Frame Data", UsageTypes.DV);
+                case 0x006d: return new Usage(this, id, "Gesture Character Enable", UsageTypes.DF);
+                case 0x0090: return new Usage(this, id, "Transducer Software Info", UsageTypes.CL);
+                case 0x0091: return new Usage(this, id, "Transducer Vendor ID", UsageTypes.SV);
+                case 0x0092: return new Usage(this, id, "Transducer Product ID", UsageTypes.SV);
+                case 0x0093: return new Usage(this, id, "Device Supported Protocols", UsageTypes.CL|UsageTypes.NAry);
+                case 0x0094: return new Usage(this, id, "Transducer Supported Protocols", UsageTypes.CL|UsageTypes.NAry);
+                case 0x0095: return new Usage(this, id, "No Protocol", UsageTypes.Sel);
+                case 0x0096: return new Usage(this, id, "Wacom AES Protocol", UsageTypes.Sel);
+                case 0x0097: return new Usage(this, id, "USI Protocol", UsageTypes.Sel);
+                case 0x0098: return new Usage(this, id, "Microsoft Pen Protocol", UsageTypes.Sel);
+                case 0x00a0: return new Usage(this, id, "Supported Report Rates", UsageTypes.CL|UsageTypes.SV);
+                case 0x00a1: return new Usage(this, id, "Report Rate", UsageTypes.DV);
+                case 0x00a2: return new Usage(this, id, "Transducer Connected", UsageTypes.SF);
+                case 0x00a3: return new Usage(this, id, "Switch Disabled", UsageTypes.Sel);
+                case 0x00a4: return new Usage(this, id, "Switch Unimplemented", UsageTypes.Sel);
+                case 0x00a5: return new Usage(this, id, "Transducer Switches", UsageTypes.CL);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -19650,31 +19733,38 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly HapticsUsagePage Instance = new HapticsUsagePage();
 
-        private HapticsUsagePage()
-        : base(
-            0x000e,
-            "Haptics",
-            (0x0000, "Undefined", UsageTypes.None),
-            (0x0001, "Simple Haptic Controller", UsageTypes.CA|UsageTypes.CL),
-            (0x0010, "Waveform List", UsageTypes.NAry),
-            (0x0011, "Duration List", UsageTypes.NAry),
-            (0x0020, "Auto Trigger", UsageTypes.DV),
-            (0x0021, "Manual Trigger", UsageTypes.DV),
-            (0x0022, "Auto Trigger Associated Control", UsageTypes.SV),
-            (0x0023, "Intensity", UsageTypes.DV),
-            (0x0024, "Repeat Count", UsageTypes.DV),
-            (0x0025, "Retrigger Period", UsageTypes.DV),
-            (0x0026, "Waveform Vendor Page", UsageTypes.SV),
-            (0x0027, "Waveform Vendor ID", UsageTypes.SV),
-            (0x0028, "Waveform Cutoff Time", UsageTypes.SV),
-            (0x1001, "WAVEFORM_NONE", UsageTypes.Sel),
-            (0x1002, "WAVEFORM_STOP", UsageTypes.Sel),
-            (0x1003, "WAVEFORM_CLICK", UsageTypes.Sel),
-            (0x1004, "WAVEFORM_BUZZ_CONTINUOUS", UsageTypes.Sel),
-            (0x1005, "WAVEFORM_RUMBLE_CONTINUOUS", UsageTypes.Sel),
-            (0x1006, "WAVEFORM_PRESS", UsageTypes.Sel),
-            (0x1007, "WAVEFORM_RELEASE", UsageTypes.Sel))
+        private HapticsUsagePage() : base(0x000e, "Haptics")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "Simple Haptic Controller", UsageTypes.CA|UsageTypes.CL);
+                case 0x0010: return new Usage(this, id, "Waveform List", UsageTypes.NAry);
+                case 0x0011: return new Usage(this, id, "Duration List", UsageTypes.NAry);
+                case 0x0020: return new Usage(this, id, "Auto Trigger", UsageTypes.DV);
+                case 0x0021: return new Usage(this, id, "Manual Trigger", UsageTypes.DV);
+                case 0x0022: return new Usage(this, id, "Auto Trigger Associated Control", UsageTypes.SV);
+                case 0x0023: return new Usage(this, id, "Intensity", UsageTypes.DV);
+                case 0x0024: return new Usage(this, id, "Repeat Count", UsageTypes.DV);
+                case 0x0025: return new Usage(this, id, "Retrigger Period", UsageTypes.DV);
+                case 0x0026: return new Usage(this, id, "Waveform Vendor Page", UsageTypes.SV);
+                case 0x0027: return new Usage(this, id, "Waveform Vendor ID", UsageTypes.SV);
+                case 0x0028: return new Usage(this, id, "Waveform Cutoff Time", UsageTypes.SV);
+                case 0x1001: return new Usage(this, id, "WAVEFORM_NONE", UsageTypes.Sel);
+                case 0x1002: return new Usage(this, id, "WAVEFORM_STOP", UsageTypes.Sel);
+                case 0x1003: return new Usage(this, id, "WAVEFORM_CLICK", UsageTypes.Sel);
+                case 0x1004: return new Usage(this, id, "WAVEFORM_BUZZ_CONTINUOUS", UsageTypes.Sel);
+                case 0x1005: return new Usage(this, id, "WAVEFORM_RUMBLE_CONTINUOUS", UsageTypes.Sel);
+                case 0x1006: return new Usage(this, id, "WAVEFORM_PRESS", UsageTypes.Sel);
+                case 0x1007: return new Usage(this, id, "WAVEFORM_RELEASE", UsageTypes.Sel);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -19688,117 +19778,124 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly PhysicalInterfaceDeviceUsagePage Instance = new PhysicalInterfaceDeviceUsagePage();
 
-        private PhysicalInterfaceDeviceUsagePage()
-        : base(
-            0x000f,
-            "PhysicalInterfaceDevice",
-            (0x0000, "Undefined", UsageTypes.None),
-            (0x0001, "Physical Interface Device", UsageTypes.CA),
-            (0x0020, "Normal", UsageTypes.DV),
-            (0x0021, "Set Effect Report", UsageTypes.CL),
-            (0x0022, "Effect Block Index", UsageTypes.DV),
-            (0x0023, "Parameter Block Offset", UsageTypes.DV),
-            (0x0024, "ROM Flag", UsageTypes.DF),
-            (0x0025, "Effect Type", UsageTypes.NAry),
-            (0x0026, "ET Constant Force", UsageTypes.Sel),
-            (0x0027, "ET Ramp", UsageTypes.Sel),
-            (0x0028, "ET Custom Force Data", UsageTypes.Sel),
-            (0x0030, "ET Square", UsageTypes.Sel),
-            (0x0031, "ET Sine", UsageTypes.Sel),
-            (0x0032, "ET Triangle", UsageTypes.Sel),
-            (0x0033, "ET Sawtooth Up", UsageTypes.Sel),
-            (0x0034, "ET Sawtooth Down", UsageTypes.Sel),
-            (0x0040, "ET Spring", UsageTypes.Sel),
-            (0x0041, "ET Damper", UsageTypes.Sel),
-            (0x0042, "ET Inertia", UsageTypes.Sel),
-            (0x0043, "ET Friction", UsageTypes.Sel),
-            (0x0050, "Duration", UsageTypes.DV),
-            (0x0051, "Sample Period", UsageTypes.DV),
-            (0x0052, "Gain", UsageTypes.DV),
-            (0x0053, "Trigger Button", UsageTypes.DV),
-            (0x0054, "Trigger Repeat Interval", UsageTypes.DV),
-            (0x0055, "Axes Enable", UsageTypes.US),
-            (0x0056, "Direction Enable", UsageTypes.DF),
-            (0x0057, "Direction", UsageTypes.CL),
-            (0x0058, "Type Specific Block Offset", UsageTypes.CL),
-            (0x0059, "Block Type", UsageTypes.NAry),
-            (0x005a, "Set Envelope Report", UsageTypes.CL),
-            (0x005b, "Attack Level", UsageTypes.DV),
-            (0x005c, "Attack Time", UsageTypes.DV),
-            (0x005d, "Fade Level", UsageTypes.DV),
-            (0x005e, "Fade Time", UsageTypes.DV),
-            (0x005f, "Set Condition Report", UsageTypes.CL),
-            (0x0060, "CP Offset", UsageTypes.DV),
-            (0x0061, "Positive Coefficient", UsageTypes.DV),
-            (0x0062, "Negative Coefficient", UsageTypes.DV),
-            (0x0063, "Positive Saturation", UsageTypes.DV),
-            (0x0064, "Negative Saturation", UsageTypes.DV),
-            (0x0065, "Dead Band", UsageTypes.DV),
-            (0x0066, "Download Force Sample", UsageTypes.CL),
-            (0x0067, "Isoch Custom Force Enable", UsageTypes.DF),
-            (0x0068, "Custom Force Data Report", UsageTypes.CL),
-            (0x0069, "Custom Force Data", UsageTypes.DV),
-            (0x006a, "Custom Force Vendor Defined Data", UsageTypes.DV),
-            (0x006b, "Set Custom Force Report", UsageTypes.CL),
-            (0x006c, "Custom Force Data Offset", UsageTypes.DV),
-            (0x006d, "Sample Count", UsageTypes.DV),
-            (0x006e, "Set Periodic Report", UsageTypes.CL),
-            (0x006f, "Offset", UsageTypes.DV),
-            (0x0070, "Magnitude", UsageTypes.DV),
-            (0x0071, "Phase", UsageTypes.DV),
-            (0x0072, "Period", UsageTypes.DV),
-            (0x0073, "Set Constant Force Report", UsageTypes.CL),
-            (0x0074, "Set Ramp Force Report", UsageTypes.CL),
-            (0x0075, "Ramp Start", UsageTypes.DV),
-            (0x0076, "Ramp End", UsageTypes.DV),
-            (0x0077, "Effect Operation Report", UsageTypes.CL),
-            (0x0078, "Effect Operation", UsageTypes.NAry),
-            (0x0079, "Op Effect Start", UsageTypes.Sel),
-            (0x007a, "Op Effect Start Solo", UsageTypes.Sel),
-            (0x007b, "Op Effect Stop", UsageTypes.Sel),
-            (0x007c, "Loop Count", UsageTypes.DV),
-            (0x007d, "Device Gain Report", UsageTypes.CL),
-            (0x007e, "Device Gain", UsageTypes.DV),
-            (0x007f, "PID Pool Report", UsageTypes.CL),
-            (0x0080, "RAM Pool Size", UsageTypes.DV),
-            (0x0081, "ROM Pool Size", UsageTypes.SV),
-            (0x0082, "ROM Effect Block Count", UsageTypes.SV),
-            (0x0083, "Simultaneous Effects Max", UsageTypes.SV),
-            (0x0084, "Pool Alignment", UsageTypes.SV),
-            (0x0085, "PID Pool Move Report", UsageTypes.CL),
-            (0x0086, "Move Source", UsageTypes.DV),
-            (0x0087, "Move Destination", UsageTypes.DV),
-            (0x0088, "Move Length", UsageTypes.DV),
-            (0x0089, "PID Block Load Report", UsageTypes.CL),
-            (0x008b, "Block Load Status", UsageTypes.NAry),
-            (0x008c, "Block Load Success", UsageTypes.Sel),
-            (0x008d, "Block Load Full", UsageTypes.Sel),
-            (0x008e, "Block Load Error", UsageTypes.Sel),
-            (0x008f, "Block Handle", UsageTypes.None),
-            (0x0090, "PID Block Free Report", UsageTypes.CL),
-            (0x0091, "Type Specific Block Handle", UsageTypes.CL),
-            (0x0092, "PID State Report", UsageTypes.CL),
-            (0x0094, "Effect Playing", UsageTypes.DF),
-            (0x0095, "PID Device Control Report", UsageTypes.CL),
-            (0x0096, "PID Device Control", UsageTypes.NAry),
-            (0x0097, "DC Enable Actuators", UsageTypes.Sel),
-            (0x0098, "DC Disable Actuators", UsageTypes.Sel),
-            (0x0099, "DC Stop All Effects", UsageTypes.Sel),
-            (0x009a, "DC Device Reset", UsageTypes.Sel),
-            (0x009b, "DC Device Pause", UsageTypes.Sel),
-            (0x009c, "DC Device Continue", UsageTypes.Sel),
-            (0x009f, "Device Paused", UsageTypes.DF),
-            (0x00a0, "Actuators Enabled", UsageTypes.DF),
-            (0x00a4, "Safety Switch", UsageTypes.DF),
-            (0x00a5, "Actuator Override Switch", UsageTypes.DF),
-            (0x00a6, "Actuator Power", UsageTypes.OOC),
-            (0x00a7, "Start Delay", UsageTypes.DV),
-            (0x00a8, "Parameter Block Size", UsageTypes.CL),
-            (0x00a9, "Device Managed Pool", UsageTypes.SF),
-            (0x00aa, "Shared Parameter Blocks", UsageTypes.SF),
-            (0x00ab, "Create New Effect Report", UsageTypes.CL),
-            (0x00ac, "RAM Pool Available", UsageTypes.DV))
+        private PhysicalInterfaceDeviceUsagePage() : base(0x000f, "PhysicalInterfaceDevice")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "Physical Interface Device", UsageTypes.CA);
+                case 0x0020: return new Usage(this, id, "Normal", UsageTypes.DV);
+                case 0x0021: return new Usage(this, id, "Set Effect Report", UsageTypes.CL);
+                case 0x0022: return new Usage(this, id, "Effect Block Index", UsageTypes.DV);
+                case 0x0023: return new Usage(this, id, "Parameter Block Offset", UsageTypes.DV);
+                case 0x0024: return new Usage(this, id, "ROM Flag", UsageTypes.DF);
+                case 0x0025: return new Usage(this, id, "Effect Type", UsageTypes.NAry);
+                case 0x0026: return new Usage(this, id, "ET Constant Force", UsageTypes.Sel);
+                case 0x0027: return new Usage(this, id, "ET Ramp", UsageTypes.Sel);
+                case 0x0028: return new Usage(this, id, "ET Custom Force Data", UsageTypes.Sel);
+                case 0x0030: return new Usage(this, id, "ET Square", UsageTypes.Sel);
+                case 0x0031: return new Usage(this, id, "ET Sine", UsageTypes.Sel);
+                case 0x0032: return new Usage(this, id, "ET Triangle", UsageTypes.Sel);
+                case 0x0033: return new Usage(this, id, "ET Sawtooth Up", UsageTypes.Sel);
+                case 0x0034: return new Usage(this, id, "ET Sawtooth Down", UsageTypes.Sel);
+                case 0x0040: return new Usage(this, id, "ET Spring", UsageTypes.Sel);
+                case 0x0041: return new Usage(this, id, "ET Damper", UsageTypes.Sel);
+                case 0x0042: return new Usage(this, id, "ET Inertia", UsageTypes.Sel);
+                case 0x0043: return new Usage(this, id, "ET Friction", UsageTypes.Sel);
+                case 0x0050: return new Usage(this, id, "Duration", UsageTypes.DV);
+                case 0x0051: return new Usage(this, id, "Sample Period", UsageTypes.DV);
+                case 0x0052: return new Usage(this, id, "Gain", UsageTypes.DV);
+                case 0x0053: return new Usage(this, id, "Trigger Button", UsageTypes.DV);
+                case 0x0054: return new Usage(this, id, "Trigger Repeat Interval", UsageTypes.DV);
+                case 0x0055: return new Usage(this, id, "Axes Enable", UsageTypes.US);
+                case 0x0056: return new Usage(this, id, "Direction Enable", UsageTypes.DF);
+                case 0x0057: return new Usage(this, id, "Direction", UsageTypes.CL);
+                case 0x0058: return new Usage(this, id, "Type Specific Block Offset", UsageTypes.CL);
+                case 0x0059: return new Usage(this, id, "Block Type", UsageTypes.NAry);
+                case 0x005a: return new Usage(this, id, "Set Envelope Report", UsageTypes.CL);
+                case 0x005b: return new Usage(this, id, "Attack Level", UsageTypes.DV);
+                case 0x005c: return new Usage(this, id, "Attack Time", UsageTypes.DV);
+                case 0x005d: return new Usage(this, id, "Fade Level", UsageTypes.DV);
+                case 0x005e: return new Usage(this, id, "Fade Time", UsageTypes.DV);
+                case 0x005f: return new Usage(this, id, "Set Condition Report", UsageTypes.CL);
+                case 0x0060: return new Usage(this, id, "CP Offset", UsageTypes.DV);
+                case 0x0061: return new Usage(this, id, "Positive Coefficient", UsageTypes.DV);
+                case 0x0062: return new Usage(this, id, "Negative Coefficient", UsageTypes.DV);
+                case 0x0063: return new Usage(this, id, "Positive Saturation", UsageTypes.DV);
+                case 0x0064: return new Usage(this, id, "Negative Saturation", UsageTypes.DV);
+                case 0x0065: return new Usage(this, id, "Dead Band", UsageTypes.DV);
+                case 0x0066: return new Usage(this, id, "Download Force Sample", UsageTypes.CL);
+                case 0x0067: return new Usage(this, id, "Isoch Custom Force Enable", UsageTypes.DF);
+                case 0x0068: return new Usage(this, id, "Custom Force Data Report", UsageTypes.CL);
+                case 0x0069: return new Usage(this, id, "Custom Force Data", UsageTypes.DV);
+                case 0x006a: return new Usage(this, id, "Custom Force Vendor Defined Data", UsageTypes.DV);
+                case 0x006b: return new Usage(this, id, "Set Custom Force Report", UsageTypes.CL);
+                case 0x006c: return new Usage(this, id, "Custom Force Data Offset", UsageTypes.DV);
+                case 0x006d: return new Usage(this, id, "Sample Count", UsageTypes.DV);
+                case 0x006e: return new Usage(this, id, "Set Periodic Report", UsageTypes.CL);
+                case 0x006f: return new Usage(this, id, "Offset", UsageTypes.DV);
+                case 0x0070: return new Usage(this, id, "Magnitude", UsageTypes.DV);
+                case 0x0071: return new Usage(this, id, "Phase", UsageTypes.DV);
+                case 0x0072: return new Usage(this, id, "Period", UsageTypes.DV);
+                case 0x0073: return new Usage(this, id, "Set Constant Force Report", UsageTypes.CL);
+                case 0x0074: return new Usage(this, id, "Set Ramp Force Report", UsageTypes.CL);
+                case 0x0075: return new Usage(this, id, "Ramp Start", UsageTypes.DV);
+                case 0x0076: return new Usage(this, id, "Ramp End", UsageTypes.DV);
+                case 0x0077: return new Usage(this, id, "Effect Operation Report", UsageTypes.CL);
+                case 0x0078: return new Usage(this, id, "Effect Operation", UsageTypes.NAry);
+                case 0x0079: return new Usage(this, id, "Op Effect Start", UsageTypes.Sel);
+                case 0x007a: return new Usage(this, id, "Op Effect Start Solo", UsageTypes.Sel);
+                case 0x007b: return new Usage(this, id, "Op Effect Stop", UsageTypes.Sel);
+                case 0x007c: return new Usage(this, id, "Loop Count", UsageTypes.DV);
+                case 0x007d: return new Usage(this, id, "Device Gain Report", UsageTypes.CL);
+                case 0x007e: return new Usage(this, id, "Device Gain", UsageTypes.DV);
+                case 0x007f: return new Usage(this, id, "PID Pool Report", UsageTypes.CL);
+                case 0x0080: return new Usage(this, id, "RAM Pool Size", UsageTypes.DV);
+                case 0x0081: return new Usage(this, id, "ROM Pool Size", UsageTypes.SV);
+                case 0x0082: return new Usage(this, id, "ROM Effect Block Count", UsageTypes.SV);
+                case 0x0083: return new Usage(this, id, "Simultaneous Effects Max", UsageTypes.SV);
+                case 0x0084: return new Usage(this, id, "Pool Alignment", UsageTypes.SV);
+                case 0x0085: return new Usage(this, id, "PID Pool Move Report", UsageTypes.CL);
+                case 0x0086: return new Usage(this, id, "Move Source", UsageTypes.DV);
+                case 0x0087: return new Usage(this, id, "Move Destination", UsageTypes.DV);
+                case 0x0088: return new Usage(this, id, "Move Length", UsageTypes.DV);
+                case 0x0089: return new Usage(this, id, "PID Block Load Report", UsageTypes.CL);
+                case 0x008b: return new Usage(this, id, "Block Load Status", UsageTypes.NAry);
+                case 0x008c: return new Usage(this, id, "Block Load Success", UsageTypes.Sel);
+                case 0x008d: return new Usage(this, id, "Block Load Full", UsageTypes.Sel);
+                case 0x008e: return new Usage(this, id, "Block Load Error", UsageTypes.Sel);
+                case 0x008f: return new Usage(this, id, "Block Handle", UsageTypes.None);
+                case 0x0090: return new Usage(this, id, "PID Block Free Report", UsageTypes.CL);
+                case 0x0091: return new Usage(this, id, "Type Specific Block Handle", UsageTypes.CL);
+                case 0x0092: return new Usage(this, id, "PID State Report", UsageTypes.CL);
+                case 0x0094: return new Usage(this, id, "Effect Playing", UsageTypes.DF);
+                case 0x0095: return new Usage(this, id, "PID Device Control Report", UsageTypes.CL);
+                case 0x0096: return new Usage(this, id, "PID Device Control", UsageTypes.NAry);
+                case 0x0097: return new Usage(this, id, "DC Enable Actuators", UsageTypes.Sel);
+                case 0x0098: return new Usage(this, id, "DC Disable Actuators", UsageTypes.Sel);
+                case 0x0099: return new Usage(this, id, "DC Stop All Effects", UsageTypes.Sel);
+                case 0x009a: return new Usage(this, id, "DC Device Reset", UsageTypes.Sel);
+                case 0x009b: return new Usage(this, id, "DC Device Pause", UsageTypes.Sel);
+                case 0x009c: return new Usage(this, id, "DC Device Continue", UsageTypes.Sel);
+                case 0x009f: return new Usage(this, id, "Device Paused", UsageTypes.DF);
+                case 0x00a0: return new Usage(this, id, "Actuators Enabled", UsageTypes.DF);
+                case 0x00a4: return new Usage(this, id, "Safety Switch", UsageTypes.DF);
+                case 0x00a5: return new Usage(this, id, "Actuator Override Switch", UsageTypes.DF);
+                case 0x00a6: return new Usage(this, id, "Actuator Power", UsageTypes.OOC);
+                case 0x00a7: return new Usage(this, id, "Start Delay", UsageTypes.DV);
+                case 0x00a8: return new Usage(this, id, "Parameter Block Size", UsageTypes.CL);
+                case 0x00a9: return new Usage(this, id, "Device Managed Pool", UsageTypes.SF);
+                case 0x00aa: return new Usage(this, id, "Shared Parameter Blocks", UsageTypes.SF);
+                case 0x00ab: return new Usage(this, id, "Create New Effect Report", UsageTypes.CL);
+                case 0x00ac: return new Usage(this, id, "RAM Pool Available", UsageTypes.DV);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -19812,12 +19909,19 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly UnicodeUsagePage Instance = new UnicodeUsagePage();
 
-        private UnicodeUsagePage()
-        : base(
-            0x0010,
-            "Unicode",
-            (0x0000, "Undefined", UsageTypes.None))
+        private UnicodeUsagePage() : base(0x0010, "Unicode")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -19831,46 +19935,53 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly EyeAndHeadTrackersUsagePage Instance = new EyeAndHeadTrackersUsagePage();
 
-        private EyeAndHeadTrackersUsagePage()
-        : base(
-            0x0012,
-            "EyeAndHeadTrackers",
-            (0x0000, "Undefined", UsageTypes.None),
-            (0x0001, "Eye Tracker", UsageTypes.CA),
-            (0x0002, "Head Tracker", UsageTypes.CA),
-            (0x0010, "Tracking Data", UsageTypes.CP),
-            (0x0011, "Capabilities", UsageTypes.CL),
-            (0x0012, "Configuration", UsageTypes.CL),
-            (0x0013, "Status", UsageTypes.CL),
-            (0x0014, "Control", UsageTypes.CL),
-            (0x0020, "Sensor Timestamp", UsageTypes.DV),
-            (0x0021, "Position X", UsageTypes.DV),
-            (0x0022, "Position Y", UsageTypes.DV),
-            (0x0023, "Position Z", UsageTypes.DV),
-            (0x0024, "Gaze Point", UsageTypes.CP),
-            (0x0025, "Left Eye Position", UsageTypes.CP),
-            (0x0026, "Right Eye Position", UsageTypes.CP),
-            (0x0027, "Head Position", UsageTypes.CP),
-            (0x0028, "Head Direction Point", UsageTypes.CP),
-            (0x0029, "Rotation about X axis", UsageTypes.DV),
-            (0x002a, "Rotation about Y axis", UsageTypes.DV),
-            (0x002b, "Rotation about Z axis", UsageTypes.DV),
-            (0x0100, "Tracker Quality", UsageTypes.SV),
-            (0x0101, "Minimum Tracking Distance", UsageTypes.SV),
-            (0x0102, "Optimum Tracking Distance", UsageTypes.SV),
-            (0x0103, "Maximum Tracking Distance", UsageTypes.SV),
-            (0x0104, "Maximum Screen Plane Width", UsageTypes.SV),
-            (0x0105, "Maximum Screen Plane Height", UsageTypes.SV),
-            (0x0200, "Display Manufacturer ID", UsageTypes.SV),
-            (0x0201, "Display Product ID", UsageTypes.SV),
-            (0x0202, "Display Serial Number", UsageTypes.SV),
-            (0x0203, "Display Manufacturer Date", UsageTypes.SV),
-            (0x0204, "Calibrated Screen Width", UsageTypes.SV),
-            (0x0205, "Calibrated Screen Height", UsageTypes.SV),
-            (0x0300, "Sampling Frequency", UsageTypes.DV),
-            (0x0301, "Configuration Status", UsageTypes.DV),
-            (0x0400, "Device Mode Request", UsageTypes.DV))
+        private EyeAndHeadTrackersUsagePage() : base(0x0012, "EyeAndHeadTrackers")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "Eye Tracker", UsageTypes.CA);
+                case 0x0002: return new Usage(this, id, "Head Tracker", UsageTypes.CA);
+                case 0x0010: return new Usage(this, id, "Tracking Data", UsageTypes.CP);
+                case 0x0011: return new Usage(this, id, "Capabilities", UsageTypes.CL);
+                case 0x0012: return new Usage(this, id, "Configuration", UsageTypes.CL);
+                case 0x0013: return new Usage(this, id, "Status", UsageTypes.CL);
+                case 0x0014: return new Usage(this, id, "Control", UsageTypes.CL);
+                case 0x0020: return new Usage(this, id, "Sensor Timestamp", UsageTypes.DV);
+                case 0x0021: return new Usage(this, id, "Position X", UsageTypes.DV);
+                case 0x0022: return new Usage(this, id, "Position Y", UsageTypes.DV);
+                case 0x0023: return new Usage(this, id, "Position Z", UsageTypes.DV);
+                case 0x0024: return new Usage(this, id, "Gaze Point", UsageTypes.CP);
+                case 0x0025: return new Usage(this, id, "Left Eye Position", UsageTypes.CP);
+                case 0x0026: return new Usage(this, id, "Right Eye Position", UsageTypes.CP);
+                case 0x0027: return new Usage(this, id, "Head Position", UsageTypes.CP);
+                case 0x0028: return new Usage(this, id, "Head Direction Point", UsageTypes.CP);
+                case 0x0029: return new Usage(this, id, "Rotation about X axis", UsageTypes.DV);
+                case 0x002a: return new Usage(this, id, "Rotation about Y axis", UsageTypes.DV);
+                case 0x002b: return new Usage(this, id, "Rotation about Z axis", UsageTypes.DV);
+                case 0x0100: return new Usage(this, id, "Tracker Quality", UsageTypes.SV);
+                case 0x0101: return new Usage(this, id, "Minimum Tracking Distance", UsageTypes.SV);
+                case 0x0102: return new Usage(this, id, "Optimum Tracking Distance", UsageTypes.SV);
+                case 0x0103: return new Usage(this, id, "Maximum Tracking Distance", UsageTypes.SV);
+                case 0x0104: return new Usage(this, id, "Maximum Screen Plane Width", UsageTypes.SV);
+                case 0x0105: return new Usage(this, id, "Maximum Screen Plane Height", UsageTypes.SV);
+                case 0x0200: return new Usage(this, id, "Display Manufacturer ID", UsageTypes.SV);
+                case 0x0201: return new Usage(this, id, "Display Product ID", UsageTypes.SV);
+                case 0x0202: return new Usage(this, id, "Display Serial Number", UsageTypes.SV);
+                case 0x0203: return new Usage(this, id, "Display Manufacturer Date", UsageTypes.SV);
+                case 0x0204: return new Usage(this, id, "Calibrated Screen Width", UsageTypes.SV);
+                case 0x0205: return new Usage(this, id, "Calibrated Screen Height", UsageTypes.SV);
+                case 0x0300: return new Usage(this, id, "Sampling Frequency", UsageTypes.DV);
+                case 0x0301: return new Usage(this, id, "Configuration Status", UsageTypes.DV);
+                case 0x0400: return new Usage(this, id, "Device Mode Request", UsageTypes.DV);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -19884,81 +19995,88 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly AuxiliaryDisplayUsagePage Instance = new AuxiliaryDisplayUsagePage();
 
-        private AuxiliaryDisplayUsagePage()
-        : base(
-            0x0014,
-            "AuxiliaryDisplay",
-            (0x0000, "Undefined", UsageTypes.None),
-            (0x0001, "Alphanumeric Display", UsageTypes.CA),
-            (0x0002, "Auxiliary Display", UsageTypes.CA),
-            (0x0020, "Display Attributes Report", UsageTypes.CL),
-            (0x0021, "ASCII Character Set", UsageTypes.SF),
-            (0x0022, "Data Read Back", UsageTypes.SF),
-            (0x0023, "Font Read Back", UsageTypes.SF),
-            (0x0024, "Display Control Report", UsageTypes.CL),
-            (0x0025, "Clear Display", UsageTypes.DF),
-            (0x0026, "Display Enable", UsageTypes.DF),
-            (0x0027, "Screen Saver Delay", UsageTypes.SV|UsageTypes.DV),
-            (0x0028, "Screen Saver Enable", UsageTypes.DF),
-            (0x0029, "Vertical Scroll", UsageTypes.SF|UsageTypes.DF),
-            (0x002a, "Horizontal Scroll", UsageTypes.SF|UsageTypes.DF),
-            (0x002b, "Character Report", UsageTypes.CL),
-            (0x002c, "Display Data", UsageTypes.DV),
-            (0x002d, "Display Status", UsageTypes.CL),
-            (0x002e, "Stat Not Ready", UsageTypes.Sel),
-            (0x002f, "Stat Ready", UsageTypes.Sel),
-            (0x0030, "Err Not a loadable character", UsageTypes.Sel),
-            (0x0031, "Err Font data cannot be read", UsageTypes.Sel),
-            (0x0032, "Cursor Position Report", UsageTypes.CL),
-            (0x0033, "Row", UsageTypes.DV),
-            (0x0034, "Column", UsageTypes.DV),
-            (0x0035, "Rows", UsageTypes.SV),
-            (0x0036, "Columns", UsageTypes.SV),
-            (0x0037, "Cursor Pixel Positioning", UsageTypes.SF),
-            (0x0038, "Cursor Mode", UsageTypes.DF),
-            (0x0039, "Cursor Enable", UsageTypes.DF),
-            (0x003a, "Cursor Blink", UsageTypes.DF),
-            (0x003b, "Font Report", UsageTypes.CL),
-            (0x003c, "Font Data", UsageTypes.None),
-            (0x003d, "Character Width", UsageTypes.SV),
-            (0x003e, "Character Height", UsageTypes.SV),
-            (0x003f, "Character Spacing Horizontal", UsageTypes.SV),
-            (0x0040, "Character Spacing Vertical", UsageTypes.SV),
-            (0x0041, "Unicode Character Set", UsageTypes.SF),
-            (0x0042, "Font 7-Segment", UsageTypes.SF),
-            (0x0043, "7-Segment Direct Map", UsageTypes.SF),
-            (0x0044, "Font 14-Segment", UsageTypes.SF),
-            (0x0045, "14-Segment Direct Map", UsageTypes.SF),
-            (0x0046, "Display Brightness", UsageTypes.DV),
-            (0x0047, "Display Contrast", UsageTypes.DV),
-            (0x0048, "Character Attribute", UsageTypes.CL),
-            (0x0049, "Attribute Readback", UsageTypes.SF),
-            (0x004a, "Attribute Data", UsageTypes.DV),
-            (0x004b, "Char Attr Enhance", UsageTypes.OOC),
-            (0x004c, "Char Attr Underline", UsageTypes.OOC),
-            (0x004d, "Char Attr Blink", UsageTypes.OOC),
-            (0x0080, "Bitmap Size X", UsageTypes.SV),
-            (0x0081, "Bitmap Size Y", UsageTypes.SV),
-            (0x0082, "Max Blit Size", UsageTypes.SV),
-            (0x0083, "Bit Depth Format", UsageTypes.SV),
-            (0x0084, "Display Orientation", UsageTypes.DV),
-            (0x0085, "Palette Report", UsageTypes.CL),
-            (0x0086, "Palette Data Size", UsageTypes.SV),
-            (0x0087, "Palette Data Offset", UsageTypes.SV),
-            (0x0088, "Palette Data", UsageTypes.None),
-            (0x008a, "Blit Report", UsageTypes.CL),
-            (0x008b, "Blit Rectangle X1", UsageTypes.SV),
-            (0x008c, "Blit Rectangle Y1", UsageTypes.SV),
-            (0x008d, "Blit Rectangle X2", UsageTypes.SV),
-            (0x008e, "Blit Rectangle Y2", UsageTypes.SV),
-            (0x008f, "Blit Data", UsageTypes.None),
-            (0x0090, "Soft Button", UsageTypes.CL),
-            (0x0091, "Soft Button ID", UsageTypes.SV),
-            (0x0092, "Soft Button Side", UsageTypes.SV),
-            (0x0093, "Soft Button Offset 1", UsageTypes.SV),
-            (0x0094, "Soft Button Offset 2", UsageTypes.SV),
-            (0x0095, "Soft Button Report", UsageTypes.SV))
+        private AuxiliaryDisplayUsagePage() : base(0x0014, "AuxiliaryDisplay")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "Alphanumeric Display", UsageTypes.CA);
+                case 0x0002: return new Usage(this, id, "Auxiliary Display", UsageTypes.CA);
+                case 0x0020: return new Usage(this, id, "Display Attributes Report", UsageTypes.CL);
+                case 0x0021: return new Usage(this, id, "ASCII Character Set", UsageTypes.SF);
+                case 0x0022: return new Usage(this, id, "Data Read Back", UsageTypes.SF);
+                case 0x0023: return new Usage(this, id, "Font Read Back", UsageTypes.SF);
+                case 0x0024: return new Usage(this, id, "Display Control Report", UsageTypes.CL);
+                case 0x0025: return new Usage(this, id, "Clear Display", UsageTypes.DF);
+                case 0x0026: return new Usage(this, id, "Display Enable", UsageTypes.DF);
+                case 0x0027: return new Usage(this, id, "Screen Saver Delay", UsageTypes.SV|UsageTypes.DV);
+                case 0x0028: return new Usage(this, id, "Screen Saver Enable", UsageTypes.DF);
+                case 0x0029: return new Usage(this, id, "Vertical Scroll", UsageTypes.SF|UsageTypes.DF);
+                case 0x002a: return new Usage(this, id, "Horizontal Scroll", UsageTypes.SF|UsageTypes.DF);
+                case 0x002b: return new Usage(this, id, "Character Report", UsageTypes.CL);
+                case 0x002c: return new Usage(this, id, "Display Data", UsageTypes.DV);
+                case 0x002d: return new Usage(this, id, "Display Status", UsageTypes.CL);
+                case 0x002e: return new Usage(this, id, "Stat Not Ready", UsageTypes.Sel);
+                case 0x002f: return new Usage(this, id, "Stat Ready", UsageTypes.Sel);
+                case 0x0030: return new Usage(this, id, "Err Not a loadable character", UsageTypes.Sel);
+                case 0x0031: return new Usage(this, id, "Err Font data cannot be read", UsageTypes.Sel);
+                case 0x0032: return new Usage(this, id, "Cursor Position Report", UsageTypes.CL);
+                case 0x0033: return new Usage(this, id, "Row", UsageTypes.DV);
+                case 0x0034: return new Usage(this, id, "Column", UsageTypes.DV);
+                case 0x0035: return new Usage(this, id, "Rows", UsageTypes.SV);
+                case 0x0036: return new Usage(this, id, "Columns", UsageTypes.SV);
+                case 0x0037: return new Usage(this, id, "Cursor Pixel Positioning", UsageTypes.SF);
+                case 0x0038: return new Usage(this, id, "Cursor Mode", UsageTypes.DF);
+                case 0x0039: return new Usage(this, id, "Cursor Enable", UsageTypes.DF);
+                case 0x003a: return new Usage(this, id, "Cursor Blink", UsageTypes.DF);
+                case 0x003b: return new Usage(this, id, "Font Report", UsageTypes.CL);
+                case 0x003c: return new Usage(this, id, "Font Data", UsageTypes.None);
+                case 0x003d: return new Usage(this, id, "Character Width", UsageTypes.SV);
+                case 0x003e: return new Usage(this, id, "Character Height", UsageTypes.SV);
+                case 0x003f: return new Usage(this, id, "Character Spacing Horizontal", UsageTypes.SV);
+                case 0x0040: return new Usage(this, id, "Character Spacing Vertical", UsageTypes.SV);
+                case 0x0041: return new Usage(this, id, "Unicode Character Set", UsageTypes.SF);
+                case 0x0042: return new Usage(this, id, "Font 7-Segment", UsageTypes.SF);
+                case 0x0043: return new Usage(this, id, "7-Segment Direct Map", UsageTypes.SF);
+                case 0x0044: return new Usage(this, id, "Font 14-Segment", UsageTypes.SF);
+                case 0x0045: return new Usage(this, id, "14-Segment Direct Map", UsageTypes.SF);
+                case 0x0046: return new Usage(this, id, "Display Brightness", UsageTypes.DV);
+                case 0x0047: return new Usage(this, id, "Display Contrast", UsageTypes.DV);
+                case 0x0048: return new Usage(this, id, "Character Attribute", UsageTypes.CL);
+                case 0x0049: return new Usage(this, id, "Attribute Readback", UsageTypes.SF);
+                case 0x004a: return new Usage(this, id, "Attribute Data", UsageTypes.DV);
+                case 0x004b: return new Usage(this, id, "Char Attr Enhance", UsageTypes.OOC);
+                case 0x004c: return new Usage(this, id, "Char Attr Underline", UsageTypes.OOC);
+                case 0x004d: return new Usage(this, id, "Char Attr Blink", UsageTypes.OOC);
+                case 0x0080: return new Usage(this, id, "Bitmap Size X", UsageTypes.SV);
+                case 0x0081: return new Usage(this, id, "Bitmap Size Y", UsageTypes.SV);
+                case 0x0082: return new Usage(this, id, "Max Blit Size", UsageTypes.SV);
+                case 0x0083: return new Usage(this, id, "Bit Depth Format", UsageTypes.SV);
+                case 0x0084: return new Usage(this, id, "Display Orientation", UsageTypes.DV);
+                case 0x0085: return new Usage(this, id, "Palette Report", UsageTypes.CL);
+                case 0x0086: return new Usage(this, id, "Palette Data Size", UsageTypes.SV);
+                case 0x0087: return new Usage(this, id, "Palette Data Offset", UsageTypes.SV);
+                case 0x0088: return new Usage(this, id, "Palette Data", UsageTypes.None);
+                case 0x008a: return new Usage(this, id, "Blit Report", UsageTypes.CL);
+                case 0x008b: return new Usage(this, id, "Blit Rectangle X1", UsageTypes.SV);
+                case 0x008c: return new Usage(this, id, "Blit Rectangle Y1", UsageTypes.SV);
+                case 0x008d: return new Usage(this, id, "Blit Rectangle X2", UsageTypes.SV);
+                case 0x008e: return new Usage(this, id, "Blit Rectangle Y2", UsageTypes.SV);
+                case 0x008f: return new Usage(this, id, "Blit Data", UsageTypes.None);
+                case 0x0090: return new Usage(this, id, "Soft Button", UsageTypes.CL);
+                case 0x0091: return new Usage(this, id, "Soft Button ID", UsageTypes.SV);
+                case 0x0092: return new Usage(this, id, "Soft Button Side", UsageTypes.SV);
+                case 0x0093: return new Usage(this, id, "Soft Button Offset 1", UsageTypes.SV);
+                case 0x0094: return new Usage(this, id, "Soft Button Offset 2", UsageTypes.SV);
+                case 0x0095: return new Usage(this, id, "Soft Button Report", UsageTypes.SV);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -19972,846 +20090,845 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly SensorUsagePage Instance = new SensorUsagePage();
 
-        private SensorUsagePage()
-        : base(
-            0x0020,
-            "Sensor",
-            (0x0000, "Undefined", UsageTypes.None),
-            (0x0001, "Sensor", UsageTypes.CA|UsageTypes.CP),
-            (0x0010, "Biometric", UsageTypes.CA|UsageTypes.CP),
-            (0x0011, "Biometric: Human Presence", UsageTypes.CA|UsageTypes.CP),
-            (0x0012, "Biometric: Human Proximity", UsageTypes.CA|UsageTypes.CP),
-            (0x0013, "Biometric: Human Touch", UsageTypes.CA|UsageTypes.CP),
-            (0x0014, "Biometric: Blood Pressure", UsageTypes.CA|UsageTypes.CP),
-            (0x0015, "Biometric: Body Temperature", UsageTypes.CA|UsageTypes.CP),
-            (0x0016, "Biometric: Heart Rate", UsageTypes.CA|UsageTypes.CP),
-            (0x0017, "Biometric: Heart Rate Variability", UsageTypes.CA|UsageTypes.CP),
-            (0x0018, "Biometric: Peripheral Oxygen Saturation", UsageTypes.CA|UsageTypes.CP),
-            (0x0019, "Biometric: Respiratory Rate", UsageTypes.CA|UsageTypes.CP),
-            (0x0020, "Electrical", UsageTypes.CA|UsageTypes.CP),
-            (0x0021, "Electrical: Capacitance", UsageTypes.CA|UsageTypes.CP),
-            (0x0022, "Electrical: Current", UsageTypes.CA|UsageTypes.CP),
-            (0x0023, "Electrical: Power", UsageTypes.CA|UsageTypes.CP),
-            (0x0024, "Electrical: Inductance", UsageTypes.CA|UsageTypes.CP),
-            (0x0025, "Electrical: Resistance", UsageTypes.CA|UsageTypes.CP),
-            (0x0026, "Electrical: Voltage", UsageTypes.CA|UsageTypes.CP),
-            (0x0027, "Electrical: Potentiometer", UsageTypes.CA|UsageTypes.CP),
-            (0x0028, "Electrical: Frequency", UsageTypes.CA|UsageTypes.CP),
-            (0x0029, "Electrical: Period", UsageTypes.CA|UsageTypes.CP),
-            (0x0030, "Environmental", UsageTypes.CA|UsageTypes.CP),
-            (0x0031, "Environmental: Atmospheric Pressure", UsageTypes.CA|UsageTypes.CP),
-            (0x0032, "Environmental: Humidity", UsageTypes.CA|UsageTypes.CP),
-            (0x0033, "Environmental: Temperature", UsageTypes.CA|UsageTypes.CP),
-            (0x0034, "Environmental: Wind Direction", UsageTypes.CA|UsageTypes.CP),
-            (0x0035, "Environmental: Wind Speed", UsageTypes.CA|UsageTypes.CP),
-            (0x0036, "Environmental: Air Quality", UsageTypes.CA|UsageTypes.CP),
-            (0x0037, "Environmental: Heat Index", UsageTypes.CA|UsageTypes.CP),
-            (0x0038, "Environmental: Surface Temperature", UsageTypes.CA|UsageTypes.CP),
-            (0x0039, "Environmental: Volatile Organic Compounds", UsageTypes.CA|UsageTypes.CP),
-            (0x0040, "Light", UsageTypes.CA|UsageTypes.CP),
-            (0x0041, "Light: Ambient Light", UsageTypes.CA|UsageTypes.CP),
-            (0x0042, "Light: Consumer Infrared", UsageTypes.CA|UsageTypes.CP),
-            (0x0043, "Light: Infrared Light", UsageTypes.CA|UsageTypes.CP),
-            (0x0044, "Light: Visible Light", UsageTypes.CA|UsageTypes.CP),
-            (0x0045, "Light: Ultraviolet Light", UsageTypes.CA|UsageTypes.CP),
-            (0x0050, "Location", UsageTypes.CA|UsageTypes.CP),
-            (0x0051, "Location: Broadcast", UsageTypes.CA|UsageTypes.CP),
-            (0x0052, "Location: Dead Reckoning", UsageTypes.CA|UsageTypes.CP),
-            (0x0053, "Location: GPS", UsageTypes.CA|UsageTypes.CP),
-            (0x0054, "Location: Lookup", UsageTypes.CA|UsageTypes.CP),
-            (0x0055, "Location: Other", UsageTypes.CA|UsageTypes.CP),
-            (0x0056, "Location: Static", UsageTypes.CA|UsageTypes.CP),
-            (0x0057, "Location: Triangulation", UsageTypes.CA|UsageTypes.CP),
-            (0x0060, "Mechanical", UsageTypes.CA|UsageTypes.CP),
-            (0x0061, "Mechanical: Boolean Switch", UsageTypes.CA|UsageTypes.CP),
-            (0x0062, "Mechanical: Boolean Switch Array", UsageTypes.CA|UsageTypes.CP),
-            (0x0063, "Mechanical: Multivalue Switch", UsageTypes.CA|UsageTypes.CP),
-            (0x0064, "Mechanical: Force", UsageTypes.CA|UsageTypes.CP),
-            (0x0065, "Mechanical: Pressure", UsageTypes.CA|UsageTypes.CP),
-            (0x0066, "Mechanical: Strain", UsageTypes.CA|UsageTypes.CP),
-            (0x0067, "Mechanical: Weight", UsageTypes.CA|UsageTypes.CP),
-            (0x0068, "Mechanical: Haptic Vibrator", UsageTypes.CA|UsageTypes.CP),
-            (0x0069, "Mechanical: Hall Effect Switch", UsageTypes.CA|UsageTypes.CP),
-            (0x0070, "Motion", UsageTypes.CA|UsageTypes.CP),
-            (0x0071, "Motion: Accelerometer 1D", UsageTypes.CA|UsageTypes.CP),
-            (0x0072, "Motion: Accelerometer 2D", UsageTypes.CA|UsageTypes.CP),
-            (0x0073, "Motion: Accelerometer 3D", UsageTypes.CA|UsageTypes.CP),
-            (0x0074, "Motion: Gyrometer 1D", UsageTypes.CA|UsageTypes.CP),
-            (0x0075, "Motion: Gyrometer 2D", UsageTypes.CA|UsageTypes.CP),
-            (0x0076, "Motion: Gyrometer 3D", UsageTypes.CA|UsageTypes.CP),
-            (0x0077, "Motion: Motion Detector", UsageTypes.CA|UsageTypes.CP),
-            (0x0078, "Motion: Speedometer", UsageTypes.CA|UsageTypes.CP),
-            (0x0079, "Motion: Accelerometer", UsageTypes.CA|UsageTypes.CP),
-            (0x007a, "Motion: Gyrometer", UsageTypes.CA|UsageTypes.CP),
-            (0x007b, "Motion: Gravity Vector", UsageTypes.CA|UsageTypes.CP),
-            (0x007c, "Motion: Linear Accelerometer", UsageTypes.CA|UsageTypes.CP),
-            (0x0080, "Orientation", UsageTypes.CA|UsageTypes.CP),
-            (0x0081, "Orientation: Compass 1D", UsageTypes.CA|UsageTypes.CP),
-            (0x0082, "Orientation: Compass 2D", UsageTypes.CA|UsageTypes.CP),
-            (0x0083, "Orientation: Compass 3D", UsageTypes.CA|UsageTypes.CP),
-            (0x0084, "Orientation: Inclinometer 1D", UsageTypes.CA|UsageTypes.CP),
-            (0x0085, "Orientation: Inclinometer 2D", UsageTypes.CA|UsageTypes.CP),
-            (0x0086, "Orientation: Inclinometer 3D", UsageTypes.CA|UsageTypes.CP),
-            (0x0087, "Orientation: Distance 1D", UsageTypes.CA|UsageTypes.CP),
-            (0x0088, "Orientation: Distance 2D", UsageTypes.CA|UsageTypes.CP),
-            (0x0089, "Orientation: Distance 3D", UsageTypes.CA|UsageTypes.CP),
-            (0x008a, "Orientation: Device Orientation", UsageTypes.CA|UsageTypes.CP),
-            (0x008b, "Orientation: Compass", UsageTypes.CA|UsageTypes.CP),
-            (0x008c, "Orientation: Inclinometer", UsageTypes.CA|UsageTypes.CP),
-            (0x008d, "Orientation: Distance", UsageTypes.CA|UsageTypes.CP),
-            (0x008e, "Orientation: Relative Orientation", UsageTypes.CA|UsageTypes.CP),
-            (0x008f, "Orientation: Simple Orientation", UsageTypes.CA|UsageTypes.CP),
-            (0x0090, "Scanner", UsageTypes.CA|UsageTypes.CP),
-            (0x0091, "Scanner: Barcode", UsageTypes.CA|UsageTypes.CP),
-            (0x0092, "Scanner: RFID", UsageTypes.CA|UsageTypes.CP),
-            (0x0093, "Scanner: NFC", UsageTypes.CA|UsageTypes.CP),
-            (0x00a0, "Time", UsageTypes.CA|UsageTypes.CP),
-            (0x00a1, "Time: Alarm Timer", UsageTypes.CA|UsageTypes.CP),
-            (0x00a2, "Time: Real Time Clock", UsageTypes.CA|UsageTypes.CP),
-            (0x00b0, "Personal Activity", UsageTypes.CA|UsageTypes.CP),
-            (0x00b1, "Personal Activity: Activity Detection", UsageTypes.CA|UsageTypes.CP),
-            (0x00b2, "Personal Activity: Device Position", UsageTypes.CA|UsageTypes.CP),
-            (0x00b3, "Personal Activity: Pedometer", UsageTypes.CA|UsageTypes.CP),
-            (0x00b4, "Personal Activity: Step Detection", UsageTypes.CA|UsageTypes.CP),
-            (0x00c0, "Orientation Extended", UsageTypes.CA|UsageTypes.CP),
-            (0x00c1, "Orientation Extended: Geomagnetic Orientation", UsageTypes.CA|UsageTypes.CP),
-            (0x00c2, "Orientation Extended: Magnetometer", UsageTypes.CA|UsageTypes.CP),
-            (0x00d0, "Gesture", UsageTypes.CA|UsageTypes.CP),
-            (0x00d1, "Gesture: Chassis Flip Gesture", UsageTypes.CA|UsageTypes.CP),
-            (0x00d2, "Gesture: Hinge Fold Gesture", UsageTypes.CA|UsageTypes.CP),
-            (0x00e0, "Other", UsageTypes.CA|UsageTypes.CP),
-            (0x00e1, "Other: Custom", UsageTypes.CA|UsageTypes.CP),
-            (0x00e2, "Other: Generic", UsageTypes.CA|UsageTypes.CP),
-            (0x00e3, "Other: Generic Enumerator", UsageTypes.CA|UsageTypes.CP),
-            (0x00e4, "Other: Hinge Angle", UsageTypes.CA|UsageTypes.CP),
-            (0x0201, "Event: Sensor State", UsageTypes.NAry),
-            (0x0202, "Event: Sensor Event", UsageTypes.NAry),
-            (0x0301, "Property: Friendly Name", UsageTypes.SV),
-            (0x0302, "Property: Persistent Unique ID", UsageTypes.DV),
-            (0x0303, "Property: Sensor Status", UsageTypes.DV),
-            (0x0304, "Property: Minimum Report Interval", UsageTypes.SV),
-            (0x0305, "Property: Sensor Manufacturer", UsageTypes.SV),
-            (0x0306, "Property: Sensor Model", UsageTypes.SV),
-            (0x0307, "Property: Sensor Serial Number", UsageTypes.SV),
-            (0x0308, "Property: Sensor Description", UsageTypes.SV),
-            (0x0309, "Property: Sensor Connection Type", UsageTypes.NAry),
-            (0x030a, "Property: Sensor Device Path", UsageTypes.DV),
-            (0x030b, "Property: Sensor Hardware Revision", UsageTypes.SV),
-            (0x030c, "Property: Sensor Firmware Revision", UsageTypes.SV),
-            (0x030d, "Property: Release Date", UsageTypes.SV),
-            (0x030e, "Property: Report Interval", UsageTypes.DV),
-            (0x030f, "Property: Change Sensitivity Absolute", UsageTypes.DV),
-            (0x0310, "Property: Change Sensitivity Percent of Range", UsageTypes.DV),
-            (0x0311, "Property: Change Sensitivity Percent Relative", UsageTypes.DV),
-            (0x0312, "Property: Accuracy", UsageTypes.DV),
-            (0x0313, "Property: Resolution", UsageTypes.DV),
-            (0x0314, "Property: Maximum", UsageTypes.DV),
-            (0x0315, "Property: Minimum", UsageTypes.DV),
-            (0x0316, "Property: Reporting State", UsageTypes.NAry),
-            (0x0317, "Property: Sampling Rate", UsageTypes.DV),
-            (0x0318, "Property: Response Curve", UsageTypes.DV),
-            (0x0319, "Property: Power State", UsageTypes.NAry),
-            (0x031a, "Property: Maximum FIFO Events", UsageTypes.SV),
-            (0x031b, "Property: Report Latency", UsageTypes.DV),
-            (0x031c, "Property: Flush FIFO Events", UsageTypes.DF),
-            (0x031d, "Property: Maximum Power Consumption", UsageTypes.DV),
-            (0x0400, "Data Field: Location", UsageTypes.SV),
-            (0x0402, "Data Field: Altitude Antenna Sea Level", UsageTypes.SV),
-            (0x0403, "Data Field: Differential Reference Station ID", UsageTypes.SV),
-            (0x0404, "Data Field: Altitude Ellipsoid Error", UsageTypes.SV),
-            (0x0405, "Data Field: Altitude Ellipsoid", UsageTypes.SV),
-            (0x0406, "Data Field: Altitude Sea Level Error", UsageTypes.SV),
-            (0x0407, "Data Field: Altitude Sea Level", UsageTypes.SV),
-            (0x0408, "Data Field: Differential GPS Data Age", UsageTypes.SV),
-            (0x0409, "Data Field: Error Radius", UsageTypes.SV),
-            (0x040a, "Data Field: Fix Quality", UsageTypes.NAry),
-            (0x040b, "Data Field: Fix Type", UsageTypes.NAry),
-            (0x040c, "Data Field: Geoidal Separation", UsageTypes.SV),
-            (0x040d, "Data Field: GPS Operation Mode", UsageTypes.NAry),
-            (0x040e, "Data Field: GPS Selection Mode", UsageTypes.NAry),
-            (0x040f, "Data Field: GPS Status", UsageTypes.NAry),
-            (0x0410, "Data Field: Position Dilution of Precision", UsageTypes.SV),
-            (0x0411, "Data Field: Horizontal Dilution of Precision", UsageTypes.SV),
-            (0x0412, "Data Field: Vertical Dilution of Precision", UsageTypes.SV),
-            (0x0413, "Data Field: Latitude", UsageTypes.SV),
-            (0x0414, "Data Field: Longitude", UsageTypes.SV),
-            (0x0415, "Data Field: True Heading", UsageTypes.SV),
-            (0x0416, "Data Field: Magnetic Heading", UsageTypes.SV),
-            (0x0417, "Data Field: Magnetic Variation", UsageTypes.SV),
-            (0x0418, "Data Field: Speed", UsageTypes.SV),
-            (0x0419, "Data Field: Satellites in View", UsageTypes.SV),
-            (0x041a, "Data Field: Satellites in View Azimuth", UsageTypes.SV),
-            (0x041b, "Data Field: Satellites in View Elevation", UsageTypes.SV),
-            (0x041c, "Data Field: Satellites in View IDs", UsageTypes.SV),
-            (0x041d, "Data Field: Satellites in View PRNs", UsageTypes.SV),
-            (0x041e, "Data Field: Satellites in View S/N Ratios", UsageTypes.SV),
-            (0x041f, "Data Field: Satellites Used Count", UsageTypes.SV),
-            (0x0420, "Data Field: Satellites Used PRNs", UsageTypes.SV),
-            (0x0421, "Data Field: NMEA Sentence", UsageTypes.SV),
-            (0x0422, "Data Field: Address Line 1", UsageTypes.SV),
-            (0x0423, "Data Field: Address Line 2", UsageTypes.SV),
-            (0x0424, "Data Field: City", UsageTypes.SV),
-            (0x0425, "Data Field: State or Province", UsageTypes.SV),
-            (0x0426, "Data Field: Country or Region (ISO 3166)", UsageTypes.SV),
-            (0x0427, "Data Field: Postal Code", UsageTypes.SV),
-            (0x042b, "Property: Location Desired Accuracy", UsageTypes.NAry),
-            (0x0430, "Data Field: Environmental", UsageTypes.SV),
-            (0x0431, "Data Field: Atmospheric Pressure", UsageTypes.SV),
-            (0x0433, "Data Field: Relative Humidity", UsageTypes.SV),
-            (0x0434, "Data Field: Temperature", UsageTypes.SV),
-            (0x0435, "Data Field: Wind Direction", UsageTypes.SV),
-            (0x0436, "Data Field: Wind Speed", UsageTypes.SV),
-            (0x0437, "Data Field: Air Quality Index", UsageTypes.SV),
-            (0x0438, "Data Field: Equivalent CO2", UsageTypes.SV),
-            (0x0439, "Data Field: Volatile Organic Compound Concentration", UsageTypes.SV),
-            (0x0440, "Property: Environmental", UsageTypes.SV),
-            (0x0441, "Property: Reference Pressure (default Sel \"Unit: bars)", UsageTypes.SV),
-            (0x0450, "Data Field: Motion", UsageTypes.SV),
-            (0x0451, "Data Field: Motion State", UsageTypes.SF),
-            (0x0452, "Data Field: Acceleration", UsageTypes.SV),
-            (0x0453, "Data Field: Acceleration Axis X", UsageTypes.SV),
-            (0x0454, "Data Field: Acceleration Axis Y", UsageTypes.SV),
-            (0x0455, "Data Field: Acceleration Axis Z", UsageTypes.SV),
-            (0x0456, "Data Field: Angular Velocity", UsageTypes.SV),
-            (0x0457, "Data Field: Angular Velocity X about Axis", UsageTypes.SV),
-            (0x0458, "Data Field: Angular Velocity Y about Axis", UsageTypes.SV),
-            (0x0459, "Data Field: Angular Velocity Z about Axis", UsageTypes.SV),
-            (0x045a, "Data Field: Angular Position", UsageTypes.SV),
-            (0x045b, "Data Field: Angular Position about X Axis", UsageTypes.SV),
-            (0x045c, "Data Field: Angular Position about Y Axis", UsageTypes.SV),
-            (0x045d, "Data Field: Angular Position about Z Axis", UsageTypes.SV),
-            (0x045e, "Data Field: Motion Speed", UsageTypes.SV),
-            (0x045f, "Data Field: Motion Intensity (percent)", UsageTypes.SV),
-            (0x0470, "Data Field: Orientation", UsageTypes.SV),
-            (0x0471, "Data Field: Heading", UsageTypes.SV),
-            (0x0472, "Data Field: Heading X Axis", UsageTypes.SV),
-            (0x0473, "Data Field: Heading Y Axis", UsageTypes.SV),
-            (0x0474, "Data Field: Heading Z Axis", UsageTypes.SV),
-            (0x0475, "Data Field: Heading Compensated Magnetic North", UsageTypes.SV),
-            (0x0476, "Data Field: Heading Compensated True North", UsageTypes.SV),
-            (0x0477, "Data Field: Heading Magnetic North", UsageTypes.SV),
-            (0x0478, "Data Field: Heading True North", UsageTypes.SV),
-            (0x0479, "Data Field: Distance", UsageTypes.SV),
-            (0x047a, "Data Field: Distance X Axis", UsageTypes.SV),
-            (0x047b, "Data Field: Distance Y Axis", UsageTypes.SV),
-            (0x047c, "Data Field: Distance Z Axis", UsageTypes.SV),
-            (0x047d, "Data Field: Distance Out-of-Range", UsageTypes.SV),
-            (0x047e, "Data Field: Tilt", UsageTypes.SV),
-            (0x047f, "Data Field: Tilt X Axis", UsageTypes.SV),
-            (0x0480, "Data Field: Tilt Y Axis", UsageTypes.SV),
-            (0x0481, "Data Field: Tilt Z Axis", UsageTypes.SV),
-            (0x0482, "Data Field: Rotation Matrix", UsageTypes.SV),
-            (0x0483, "Data Field: Quaternion", UsageTypes.SV),
-            (0x0484, "Data Field: Magnetic Flux", UsageTypes.SV),
-            (0x0485, "Data Field: Magnetic Flux X Axis", UsageTypes.SV),
-            (0x0486, "Data Field: Magnetic Flux Y Axis", UsageTypes.SV),
-            (0x0487, "Data Field: Magnetic Flux Z Axis", UsageTypes.SV),
-            (0x0488, "Data Field: Magnetometer Accuracy", UsageTypes.NAry),
-            (0x0489, "Data Field: Simple Orientation Direction", UsageTypes.NAry),
-            (0x0490, "Data Field: Mechanical", UsageTypes.SV),
-            (0x0491, "Data Field: Boolean Switch State", UsageTypes.SF),
-            (0x0492, "Data Field: Boolean Switch Array States", UsageTypes.SV),
-            (0x0493, "Data Field: Multivalue Switch Value", UsageTypes.SV),
-            (0x0494, "Data Field: Force", UsageTypes.SV),
-            (0x0495, "Data Field: Absolute Pressure", UsageTypes.SV),
-            (0x0496, "Data Field: Gauge Pressure", UsageTypes.SV),
-            (0x0497, "Data Field: Strain", UsageTypes.SV),
-            (0x0498, "Data Field: Weight", UsageTypes.SV),
-            (0x04a0, "Property: Mechanical", UsageTypes.SV),
-            (0x04a1, "Property: Vibration State", UsageTypes.SV),
-            (0x04a2, "Property: Forward Vibration Speed (percent)", UsageTypes.SV),
-            (0x04a3, "Property: Backward Vibration Speed (percent)", UsageTypes.SV),
-            (0x04b0, "Data Field: Biometric", UsageTypes.SV),
-            (0x04b1, "Data Field: Human Presence", UsageTypes.SF),
-            (0x04b2, "Data Field: Human Proximity Range", UsageTypes.SV),
-            (0x04b3, "Data Field: Human Proximity Out of Range", UsageTypes.SF),
-            (0x04b4, "Data Field: Human Touch State", UsageTypes.SF),
-            (0x04b5, "Data Field: Blood Pressure", UsageTypes.SV),
-            (0x04b6, "Data Field: Blood Pressure Diastolic", UsageTypes.SV),
-            (0x04b7, "Data Field: Blood Pressure Systolic", UsageTypes.SV),
-            (0x04b8, "Data Field: Heart Rate (HeartbeatsPM)", UsageTypes.SV),
-            (0x04b9, "Data Field: Resting Heart Rate (HeartbeatsPM)", UsageTypes.SV),
-            (0x04ba, "Data Field: Heartbeat Interval", UsageTypes.SV),
-            (0x04bb, "Data Field: Respiratory Rate", UsageTypes.SV),
-            (0x04bc, "Data Field: SpO2 (percent)", UsageTypes.SV),
-            (0x04d0, "Data Field: Light", UsageTypes.SV),
-            (0x04d1, "Data Field: Illuminance", UsageTypes.SV),
-            (0x04d2, "Data Field: Color Temperature", UsageTypes.SV),
-            (0x04d3, "Data Field: Chromaticity", UsageTypes.SV),
-            (0x04d4, "Data Field: Chromaticity X", UsageTypes.SV),
-            (0x04d5, "Data Field: Chromaticity Y", UsageTypes.SV),
-            (0x04d6, "Data Field: Consumer IR Sentence Receive", UsageTypes.SV),
-            (0x04d7, "Data Field: Infrared Light", UsageTypes.SV),
-            (0x04d8, "Data Field: Red Light", UsageTypes.SV),
-            (0x04d9, "Data Field: Green Light", UsageTypes.SV),
-            (0x04da, "Data Field: Blue Light", UsageTypes.SV),
-            (0x04db, "Data Field: Ultraviolet A Light", UsageTypes.SV),
-            (0x04dc, "Data Field: Ultraviolet B Light", UsageTypes.SV),
-            (0x04dd, "Data Field: Ultraviolet Index", UsageTypes.SV),
-            (0x04e0, "Property: Light", UsageTypes.DV),
-            (0x04e1, "Property: Consumer IR Sentence Send", UsageTypes.DV),
-            (0x04f0, "Data Field: Scanner", UsageTypes.SV),
-            (0x04f1, "Data Field: RFID Tag 40 Bit", UsageTypes.SV),
-            (0x04f2, "Data Field: NFC Sentence Receive", UsageTypes.SV),
-            (0x04f8, "Property: Scanner", UsageTypes.SV),
-            (0x04f9, "Property: NFC Sentence Send", UsageTypes.SV),
-            (0x0500, "Data Field: Electrical", UsageTypes.SV),
-            (0x0501, "Data Field: Capacitance", UsageTypes.SV),
-            (0x0502, "Data Field: Current", UsageTypes.SV),
-            (0x0503, "Data Field: Electrical Power", UsageTypes.SV),
-            (0x0504, "Data Field: Inductance", UsageTypes.SV),
-            (0x0505, "Data Field: Resistance", UsageTypes.SV),
-            (0x0506, "Data Field: Voltage", UsageTypes.SV),
-            (0x0507, "Data Field: Frequency", UsageTypes.SV),
-            (0x0508, "Data Field: Period", UsageTypes.SV),
-            (0x0509, "Data Field: Percent of Range", UsageTypes.SV),
-            (0x0520, "Data Field: Time", UsageTypes.SV),
-            (0x0521, "Data Field: Year", UsageTypes.SV),
-            (0x0522, "Data Field: Month", UsageTypes.SV),
-            (0x0523, "Data Field: Day", UsageTypes.SV),
-            (0x0524, "Data Field: Day of Week", UsageTypes.NAry),
-            (0x0526, "Data Field: Minute", UsageTypes.SV),
-            (0x0527, "Data Field: Second", UsageTypes.SV),
-            (0x0528, "Data Field: Millisecond", UsageTypes.SV),
-            (0x0529, "Data Field: Timestamp", UsageTypes.SV),
-            (0x052a, "Data Field: Julian Day of Year", UsageTypes.SV),
-            (0x052b, "Data Field: Time Since System Boot", UsageTypes.SV),
-            (0x0530, "Property: Time", UsageTypes.DV),
-            (0x0531, "Property: Time Zone Offset from UTC", UsageTypes.DV),
-            (0x0532, "Property: Time Zone Name", UsageTypes.DV),
-            (0x0533, "Property: Daylight Savings Time Observed", UsageTypes.DF),
-            (0x0534, "Property: Time Trim Adjustment", UsageTypes.DV),
-            (0x0535, "Property: Arm Alarm", UsageTypes.DF),
-            (0x0540, "Data Field: Custom", UsageTypes.SV),
-            (0x0541, "Data Field: Custom Usage", UsageTypes.SV),
-            (0x0542, "Data Field: Custom Boolean Array", UsageTypes.SV),
-            (0x0543, "Data Field: Custom Value", UsageTypes.SV),
-            (0x0544, "Data Field: Custom Value 1", UsageTypes.SV),
-            (0x0545, "Data Field: Custom Value 2", UsageTypes.SV),
-            (0x0546, "Data Field: Custom Value 3", UsageTypes.SV),
-            (0x0547, "Data Field: Custom Value 4", UsageTypes.SV),
-            (0x0548, "Data Field: Custom Value 5", UsageTypes.SV),
-            (0x0549, "Data Field: Custom Value 6", UsageTypes.SV),
-            (0x054a, "Data Field: Custom Value 7", UsageTypes.SV),
-            (0x054b, "Data Field: Custom Value 8", UsageTypes.SV),
-            (0x054c, "Data Field: Custom Value 9", UsageTypes.SV),
-            (0x054d, "Data Field: Custom Value 10", UsageTypes.SV),
-            (0x054e, "Data Field: Custom Value 11", UsageTypes.SV),
-            (0x054f, "Data Field: Custom Value 12", UsageTypes.SV),
-            (0x0550, "Data Field: Custom Value 13", UsageTypes.SV),
-            (0x0551, "Data Field: Custom Value 14", UsageTypes.SV),
-            (0x0552, "Data Field: Custom Value 15", UsageTypes.SV),
-            (0x0553, "Data Field: Custom Value 16", UsageTypes.SV),
-            (0x0560, "Data Field: Generic", UsageTypes.SV),
-            (0x0561, "Data Field: Generic GUID or PROPERTYKEY", UsageTypes.SV),
-            (0x0562, "Data Field: Generic Category GUID", UsageTypes.SV),
-            (0x0563, "Data Field: Generic Type GUID", UsageTypes.SV),
-            (0x0564, "Data Field: Generic Event PROPERTYKEY", UsageTypes.SV),
-            (0x0565, "Data Field: Generic Property PROPERTYKEY", UsageTypes.SV),
-            (0x0566, "Data Field: Generic Data Field PROPERTYKEY", UsageTypes.SV),
-            (0x0567, "Data Field: Generic Event", UsageTypes.SV),
-            (0x0568, "Data Field: Generic Property", UsageTypes.SV),
-            (0x0569, "Data Field: Generic Data Field", UsageTypes.SV),
-            (0x056a, "Data Field: Enumerator Table Row Index", UsageTypes.SV),
-            (0x056b, "Data Field: Enumerator Table Row Count", UsageTypes.SV),
-            (0x056c, "Data Field: Generic GUID or PROPERTYKEY kind", UsageTypes.NAry),
-            (0x056d, "Data Field: Generic GUID", UsageTypes.SV),
-            (0x056e, "Data Field: Generic PROPERTYKEY", UsageTypes.SV),
-            (0x056f, "Data Field: Generic Top Level Collection ID", UsageTypes.SV),
-            (0x0570, "Data Field: Generic Report ID", UsageTypes.SV),
-            (0x0571, "Data Field: Generic Report Item Position Index", UsageTypes.SV),
-            (0x0572, "Data Field: Generic Firmware VARTYPE", UsageTypes.NAry),
-            (0x0573, "Data Field: Generic Unit of Measure", UsageTypes.NAry),
-            (0x0574, "Data Field: Generic Unit Exponent", UsageTypes.NAry),
-            (0x0575, "Data Field: Generic Report Size", UsageTypes.SV),
-            (0x0576, "Data Field: Generic Report Count", UsageTypes.SV),
-            (0x0580, "Property: Generic", UsageTypes.DV),
-            (0x0581, "Property: Enumerator Table Row Index", UsageTypes.DV),
-            (0x0582, "Property: Enumerator Table Row Count", UsageTypes.SV),
-            (0x0590, "Data Field: Personal Activity", UsageTypes.SV),
-            (0x0591, "Data Field: Activity Type", UsageTypes.NAry),
-            (0x0592, "Data Field: Activity State", UsageTypes.NAry),
-            (0x0593, "Data Field: Device Position", UsageTypes.NAry),
-            (0x0594, "Data Field: Step Count", UsageTypes.SV),
-            (0x0595, "Data Field: Step Count Reset", UsageTypes.DF),
-            (0x0596, "Data Field: Step Duration", UsageTypes.SV),
-            (0x0597, "Data Field: Step Type", UsageTypes.NAry),
-            (0x05a0, "Property: Minimum Activity Detection Interval", UsageTypes.DV),
-            (0x05a1, "Property: Supported Activity Types", UsageTypes.NAry),
-            (0x05a2, "Property: Subscribed Activity Types", UsageTypes.NAry),
-            (0x05a3, "Property: Supported Step Types", UsageTypes.NAry),
-            (0x05a4, "Property: Subscribed Step Types", UsageTypes.NAry),
-            (0x05a5, "Property: Floor Height", UsageTypes.DV),
-            (0x05b0, "Data Field: Custom Type ID", UsageTypes.SV),
-            (0x05e0, "Data Field: Hinge", UsageTypes.SV|UsageTypes.DV),
-            (0x05e1, "Data Field: Hinge Angle", UsageTypes.SV|UsageTypes.DV),
-            (0x05f0, "Data Field: Gesture Sensor", UsageTypes.SV),
-            (0x05f1, "Data Field: Gesture State", UsageTypes.NAry),
-            (0x05f2, "Data Field: Hinge Fold Initial Angle", UsageTypes.SV),
-            (0x05f3, "Data Field: Hinge Fold Final Angle", UsageTypes.SV),
-            (0x05f4, "Data Field: Hinge Fold Contributing Panel", UsageTypes.NAry),
-            (0x05f5, "Data Field: Hinge Fold Type", UsageTypes.NAry),
-            (0x0800, "Sensor State: Undefined", UsageTypes.Sel),
-            (0x0801, "Sensor State: Ready", UsageTypes.Sel),
-            (0x0802, "Sensor State: Not Available", UsageTypes.Sel),
-            (0x0803, "Sensor State: No Data", UsageTypes.Sel),
-            (0x0804, "Sensor State: Initializing", UsageTypes.Sel),
-            (0x0805, "Sensor State: Access Denied", UsageTypes.Sel),
-            (0x0806, "Sensor State: Error", UsageTypes.Sel),
-            (0x0810, "Sensor Event: Unknown", UsageTypes.Sel),
-            (0x0811, "Sensor Event: State Changed", UsageTypes.Sel),
-            (0x0812, "Sensor Event: Property Changed", UsageTypes.Sel),
-            (0x0813, "Sensor Event: Data Updated", UsageTypes.Sel),
-            (0x0814, "Sensor Event: Poll Response", UsageTypes.Sel),
-            (0x0815, "Sensor Event: Change Sensitivity", UsageTypes.Sel),
-            (0x0816, "Sensor Event: Range Maximum Reached", UsageTypes.Sel),
-            (0x0817, "Sensor Event: Range Minimum Reached", UsageTypes.Sel),
-            (0x0818, "Sensor Event: High Threshold Cross Upward", UsageTypes.Sel),
-            (0x0819, "Sensor Event: High Threshold Cross Downward", UsageTypes.Sel),
-            (0x081a, "Sensor Event: Low Threshold Cross Upward", UsageTypes.Sel),
-            (0x081b, "Sensor Event: Low Threshold Cross Downward", UsageTypes.Sel),
-            (0x081c, "Sensor Event: Zero Threshold Cross Upward", UsageTypes.Sel),
-            (0x081d, "Sensor Event: Zero Threshold Cross Downward", UsageTypes.Sel),
-            (0x081e, "Sensor Event: Period Exceeded", UsageTypes.Sel),
-            (0x081f, "Sensor Event: Frequency Exceeded", UsageTypes.Sel),
-            (0x0820, "Sensor Event: Complex Trigger", UsageTypes.Sel),
-            (0x0830, "Connection Type: Integrated", UsageTypes.Sel),
-            (0x0831, "Connection Type: Attached", UsageTypes.Sel),
-            (0x0832, "Connection Type: External", UsageTypes.Sel),
-            (0x0840, "Reporting State: Report No Events", UsageTypes.Sel),
-            (0x0841, "Reporting State: Report All Events", UsageTypes.Sel),
-            (0x0842, "Reporting State: Report Threshold Events", UsageTypes.Sel),
-            (0x0843, "Reporting State: Wake On No Events", UsageTypes.Sel),
-            (0x0844, "Reporting State: Wake On All Events", UsageTypes.Sel),
-            (0x0845, "Reporting State: Wake On Threshold Events", UsageTypes.Sel),
-            (0x0850, "Power State: Undefined", UsageTypes.Sel),
-            (0x0851, "Power State: D0 Full Power", UsageTypes.Sel),
-            (0x0852, "Power State: D1 Low Power", UsageTypes.Sel),
-            (0x0853, "Power State: D2 Standby Power with Wakeup", UsageTypes.Sel),
-            (0x0854, "Power State: D3 Sleep with Wakeup", UsageTypes.Sel),
-            (0x0855, "Power State: D4 Power Off", UsageTypes.Sel),
-            (0x0860, "Accuracy: Default", UsageTypes.Sel),
-            (0x0861, "Accuracy: High", UsageTypes.Sel),
-            (0x0862, "Accuracy: Medium", UsageTypes.Sel),
-            (0x0863, "Accuracy: Low", UsageTypes.Sel),
-            (0x0870, "Fix Quality: No Fix", UsageTypes.Sel),
-            (0x0871, "Fix Quality: GPS", UsageTypes.Sel),
-            (0x0872, "Fix Quality: DGPS", UsageTypes.Sel),
-            (0x0880, "Fix Type: No Fix", UsageTypes.Sel),
-            (0x0881, "Fix Type: GPS SPS Mode, Fix Valid", UsageTypes.Sel),
-            (0x0882, "Fix Type: DGPS SPS Mode, Fix Valid", UsageTypes.Sel),
-            (0x0883, "Fix Type: GPS PPS Mode, Fix Valid", UsageTypes.Sel),
-            (0x0884, "Fix Type: Real Time Kinematic", UsageTypes.Sel),
-            (0x0885, "Fix Type: Float RTK", UsageTypes.Sel),
-            (0x0886, "Fix Type: Estimated (dead reckoned)", UsageTypes.Sel),
-            (0x0887, "Fix Type: Manual Input Mode", UsageTypes.Sel),
-            (0x0888, "Fix Type: Simulator Mode", UsageTypes.Sel),
-            (0x0890, "GPS Operation Mode: Manual", UsageTypes.Sel),
-            (0x0891, "GPS Operation Mode: Automatic", UsageTypes.Sel),
-            (0x08a0, "GPS Selection Mode: Autonomous", UsageTypes.Sel),
-            (0x08a1, "GPS Selection Mode: DGPS", UsageTypes.Sel),
-            (0x08a2, "GPS Selection Mode: Estimated (dead reckoned)", UsageTypes.Sel),
-            (0x08a3, "GPS Selection Mode: Manual Input", UsageTypes.Sel),
-            (0x08a4, "GPS Selection Mode: Simulator", UsageTypes.Sel),
-            (0x08a5, "GPS Selection Mode: Data Not Valid", UsageTypes.Sel),
-            (0x08b0, "GPS Status: Data Valid", UsageTypes.Sel),
-            (0x08b1, "GPS Status: Data Not Valid", UsageTypes.Sel),
-            (0x08c0, "Day of Week: Sunday", UsageTypes.Sel),
-            (0x08c1, "Day of Week: Monday", UsageTypes.Sel),
-            (0x08c2, "Day of Week: Tuesday", UsageTypes.Sel),
-            (0x08c3, "Day of Week: Wednesday", UsageTypes.Sel),
-            (0x08c4, "Day of Week: Thursday", UsageTypes.Sel),
-            (0x08c5, "Day of Week: Friday", UsageTypes.Sel),
-            (0x08c6, "Day of Week: Saturday", UsageTypes.Sel),
-            (0x08d0, "Kind: Category", UsageTypes.Sel),
-            (0x08d1, "Kind: Type", UsageTypes.Sel),
-            (0x08d2, "Kind: Event", UsageTypes.Sel),
-            (0x08d3, "Kind: Property", UsageTypes.Sel),
-            (0x08d4, "Kind: Data Field", UsageTypes.Sel),
-            (0x08e0, "Magnetometer Accuracy: Low", UsageTypes.Sel),
-            (0x08e1, "Magnetometer Accuracy: Medium", UsageTypes.Sel),
-            (0x08e2, "Magnetometer Accuracy: High", UsageTypes.Sel),
-            (0x08f0, "Simple Orientation Direction: Not Rotated", UsageTypes.Sel),
-            (0x08f1, "Simple Orientation Direction: Rotated 90 Degrees CCW", UsageTypes.Sel),
-            (0x08f2, "Simple Orientation Direction: Rotated 180 Degrees CCW", UsageTypes.Sel),
-            (0x08f3, "Simple Orientation Direction: Rotated 270 Degrees CCW", UsageTypes.Sel),
-            (0x08f4, "Simple Orientation Direction: Face Up", UsageTypes.Sel),
-            (0x08f5, "Simple Orientation Direction: Face Down", UsageTypes.Sel),
-            (0x0900, "VT_NULL: Empty", UsageTypes.Sel),
-            (0x0901, "VT_BOOL: Boolean", UsageTypes.Sel),
-            (0x0902, "VT_UI1: Byte", UsageTypes.Sel),
-            (0x0903, "VT_I1: Character", UsageTypes.Sel),
-            (0x0904, "VT_UI2: Unsigned Short", UsageTypes.Sel),
-            (0x0905, "VT_I2: Short", UsageTypes.Sel),
-            (0x0906, "VT_UI4: Unsigned Long", UsageTypes.Sel),
-            (0x0907, "VT_I4: Long", UsageTypes.Sel),
-            (0x0908, "VT_UI8: Unsigned Long Long", UsageTypes.Sel),
-            (0x0909, "VT_I8: Long Long", UsageTypes.Sel),
-            (0x090a, "VT_R4: Float", UsageTypes.Sel),
-            (0x090b, "VT_R8: Double", UsageTypes.Sel),
-            (0x090c, "VT_WSTR: Wide String", UsageTypes.Sel),
-            (0x090d, "VT_STR: Narrow String", UsageTypes.Sel),
-            (0x090e, "VT_CLSID: Guid", UsageTypes.Sel),
-            (0x090f, "VT_VECTOR|VT_UI1: Opaque Structure", UsageTypes.Sel),
-            (0x0910, "VT_F16E0: HID 16-bit Float e0", UsageTypes.Sel),
-            (0x0911, "VT_F16E1: HID 16-bit Float e1", UsageTypes.Sel),
-            (0x0912, "VT_F16E2: HID 16-bit Float e2", UsageTypes.Sel),
-            (0x0913, "VT_F16E3: HID 16-bit Float e3", UsageTypes.Sel),
-            (0x0914, "VT_F16E4: HID 16-bit Float e4", UsageTypes.Sel),
-            (0x0915, "VT_F16E5: HID 16-bit Float e5", UsageTypes.Sel),
-            (0x0916, "VT_F16E6: HID 16-bit Float e6", UsageTypes.Sel),
-            (0x0917, "VT_F16E7: HID 16-bit Float e7", UsageTypes.Sel),
-            (0x0918, "VT_F16E8: HID 16-bit Float e-8", UsageTypes.Sel),
-            (0x0919, "VT_F16E9: HID 16-bit Float e-7", UsageTypes.Sel),
-            (0x091a, "VT_F16EA: HID 16-bit Float e-6", UsageTypes.Sel),
-            (0x091b, "VT_F16EB: HID 16-bit Float e-5", UsageTypes.Sel),
-            (0x091c, "VT_F16EC: HID 16-bit Float e-4", UsageTypes.Sel),
-            (0x091d, "VT_F16ED: HID 16-bit Float e-3", UsageTypes.Sel),
-            (0x091e, "VT_F16EE: HID 16-bit Float e-2", UsageTypes.Sel),
-            (0x091f, "VT_F16EF: HID 16-bit Float e-1", UsageTypes.Sel),
-            (0x0920, "VT_F32E0: HID 32-bit Float e0", UsageTypes.Sel),
-            (0x0921, "VT_F32E1: HID 32-bit Float e1", UsageTypes.Sel),
-            (0x0922, "VT_F32E2: HID 32-bit Float e2", UsageTypes.Sel),
-            (0x0923, "VT_F32E3: HID 32-bit Float e3", UsageTypes.Sel),
-            (0x0924, "VT_F32E4: HID 32-bit Float e4", UsageTypes.Sel),
-            (0x0925, "VT_F32E5: HID 32-bit Float e5", UsageTypes.Sel),
-            (0x0926, "VT_F32E6: HID 32-bit Float e6", UsageTypes.Sel),
-            (0x0927, "VT_F32E7: HID 32-bit Float e7", UsageTypes.Sel),
-            (0x0928, "VT_F32E8: HID 32-bit Float e-8", UsageTypes.Sel),
-            (0x0929, "VT_F32E9: HID 32-bit Float e-7", UsageTypes.Sel),
-            (0x092a, "VT_F32EA: HID 32-bit Float e-6", UsageTypes.Sel),
-            (0x092b, "VT_F32EB: HID 32-bit Float e-5", UsageTypes.Sel),
-            (0x092c, "VT_F32EC: HID 32-bit Float e-4", UsageTypes.Sel),
-            (0x092d, "VT_F32ED: HID 32-bit Float e-3", UsageTypes.Sel),
-            (0x092e, "VT_F32EE: HID 32-bit Float e-2", UsageTypes.Sel),
-            (0x092f, "VT_F32EF: HID 32-bit Float e-1", UsageTypes.Sel),
-            (0x0930, "Activity Type: Unknown", UsageTypes.Sel),
-            (0x0931, "Activity Type: Stationary", UsageTypes.Sel),
-            (0x0932, "Activity Type: Fidgeting", UsageTypes.Sel),
-            (0x0933, "Activity Type: Walking", UsageTypes.Sel),
-            (0x0934, "Activity Type: Running", UsageTypes.Sel),
-            (0x0935, "Activity Type: In Vehicle", UsageTypes.Sel),
-            (0x0936, "Activity Type: Biking", UsageTypes.Sel),
-            (0x0937, "Activity Type: Idle", UsageTypes.Sel),
-            (0x0940, "Unit: Not Specified", UsageTypes.Sel),
-            (0x0941, "Unit: Lux", UsageTypes.Sel),
-            (0x0942, "Unit: Degrees Kelvin", UsageTypes.Sel),
-            (0x0943, "Unit: Degrees Celsius", UsageTypes.Sel),
-            (0x0944, "Unit: Pascal", UsageTypes.Sel),
-            (0x0945, "Unit: Newton", UsageTypes.Sel),
-            (0x0946, "Unit: Meters/Second", UsageTypes.Sel),
-            (0x0947, "Unit: Kilogram", UsageTypes.Sel),
-            (0x0948, "Unit: Meter", UsageTypes.Sel),
-            (0x0949, "Unit: Meters/Second/Second", UsageTypes.Sel),
-            (0x094a, "Unit: Farad", UsageTypes.Sel),
-            (0x094b, "Unit: Ampere", UsageTypes.Sel),
-            (0x094c, "Unit: Watt", UsageTypes.Sel),
-            (0x094d, "Unit: Henry", UsageTypes.Sel),
-            (0x094e, "Unit: Ohm", UsageTypes.Sel),
-            (0x094f, "Unit: Volt", UsageTypes.Sel),
-            (0x0950, "Unit: Hertz", UsageTypes.Sel),
-            (0x0951, "Unit: Bar", UsageTypes.Sel),
-            (0x0952, "Unit: Degrees Anti-clockwise", UsageTypes.Sel),
-            (0x0953, "Unit: Degrees Clockwise", UsageTypes.Sel),
-            (0x0954, "Unit: Degrees", UsageTypes.Sel),
-            (0x0955, "Unit: Degrees/Second", UsageTypes.Sel),
-            (0x0956, "Unit: Degrees/Second/Second", UsageTypes.Sel),
-            (0x0957, "Unit: Knot", UsageTypes.Sel),
-            (0x0958, "Unit: Percent", UsageTypes.Sel),
-            (0x0959, "Unit: Second", UsageTypes.Sel),
-            (0x095a, "Unit: Millisecond", UsageTypes.Sel),
-            (0x095b, "Unit: G", UsageTypes.Sel),
-            (0x095c, "Unit: Bytes", UsageTypes.Sel),
-            (0x095d, "Unit: Milligauss", UsageTypes.Sel),
-            (0x095e, "Unit: Bits", UsageTypes.Sel),
-            (0x0960, "Activity State: No State Change", UsageTypes.Sel),
-            (0x0961, "Activity State: Start Activity", UsageTypes.Sel),
-            (0x0962, "Activity State: End Activity", UsageTypes.Sel),
-            (0x0970, "Exponent 0: 1", UsageTypes.Sel),
-            (0x0971, "Exponent 1: 10", UsageTypes.Sel),
-            (0x0972, "Exponent 2: 100", UsageTypes.Sel),
-            (0x0973, "Exponent 3: 1 000", UsageTypes.Sel),
-            (0x0974, "Exponent 4: 10 000", UsageTypes.Sel),
-            (0x0975, "Exponent 5: 100 000", UsageTypes.Sel),
-            (0x0976, "Exponent 6: 1 000 000", UsageTypes.Sel),
-            (0x0977, "Exponent 7: 10 000 000", UsageTypes.Sel),
-            (0x0978, "Exponent 8: 0.00 000 001", UsageTypes.Sel),
-            (0x0979, "Exponent 9: 0.0 000 001", UsageTypes.Sel),
-            (0x097a, "Exponent A: 0.000 001", UsageTypes.Sel),
-            (0x097b, "Exponent B: 0.00 001", UsageTypes.Sel),
-            (0x097c, "Exponent C: 0.0 001", UsageTypes.Sel),
-            (0x097d, "Exponent D: 0.001", UsageTypes.Sel),
-            (0x097e, "Exponent E: 0.01", UsageTypes.Sel),
-            (0x097f, "Exponent F: 0.1", UsageTypes.Sel),
-            (0x0980, "Device Position: Unknown", UsageTypes.Sel),
-            (0x0981, "Device Position: Unchanged", UsageTypes.Sel),
-            (0x0982, "Device Position: On Desk", UsageTypes.Sel),
-            (0x0983, "Device Position: In Hand", UsageTypes.Sel),
-            (0x0984, "Device Position: Moving in Bag", UsageTypes.Sel),
-            (0x0985, "Device Position: Stationary in Bag", UsageTypes.Sel),
-            (0x0990, "Step Type: Unknown", UsageTypes.Sel),
-            (0x0991, "Step Type: Running", UsageTypes.Sel),
-            (0x0992, "Step Type: Walking", UsageTypes.Sel),
-            (0x09a0, "Gesture State: Unknown", UsageTypes.Sel),
-            (0x09a1, "Gesture State: Started", UsageTypes.Sel),
-            (0x09a2, "Gesture State: Completed", UsageTypes.Sel),
-            (0x09a3, "Gesture State: Cancelled", UsageTypes.Sel),
-            (0x09b0, "Contributing Panel: Unknown", UsageTypes.Sel),
-            (0x09b1, "Contributing Panel: Panel1", UsageTypes.Sel),
-            (0x09b2, "Contributing Panel: Panel2", UsageTypes.Sel),
-            (0x09b3, "Contributing Panel: Both", UsageTypes.Sel),
-            (0x09b4, "Fold Type: Unknown", UsageTypes.Sel),
-            (0x09b5, "Fold Type: Increasing", UsageTypes.Sel),
-            (0x09b6, "Fold Type: Decreasing", UsageTypes.Sel),
-            (0x1000, "Change Sensitivity Absolute", UsageTypes.US),
-            (0x1001, "Change Sensitivity Absolute", UsageTypes.US),
-            (0x1002, "Change Sensitivity Absolute", UsageTypes.US),
-            (0x1003, "Change Sensitivity Absolute", UsageTypes.US),
-            (0x1004, "Change Sensitivity Absolute", UsageTypes.US),
-            (0x1005, "Change Sensitivity Absolute", UsageTypes.US),
-            (0x1006, "Change Sensitivity Absolute", UsageTypes.US),
-            (0x1007, "Change Sensitivity Absolute", UsageTypes.US),
-            (0x1008, "Change Sensitivity Absolute", UsageTypes.US),
-            (0x1009, "Change Sensitivity Absolute", UsageTypes.US),
-            (0x100a, "Change Sensitivity Absolute", UsageTypes.US),
-            (0x100b, "Change Sensitivity Absolute", UsageTypes.US),
-            (0x100c, "Change Sensitivity Absolute", UsageTypes.US),
-            (0x100d, "Change Sensitivity Absolute", UsageTypes.US),
-            (0x100e, "Change Sensitivity Absolute", UsageTypes.US),
-            (0x100f, "Change Sensitivity Absolute", UsageTypes.US),
-            (0x2000, "Maximum", UsageTypes.US),
-            (0x2001, "Maximum", UsageTypes.US),
-            (0x2002, "Maximum", UsageTypes.US),
-            (0x2003, "Maximum", UsageTypes.US),
-            (0x2004, "Maximum", UsageTypes.US),
-            (0x2005, "Maximum", UsageTypes.US),
-            (0x2006, "Maximum", UsageTypes.US),
-            (0x2007, "Maximum", UsageTypes.US),
-            (0x2008, "Maximum", UsageTypes.US),
-            (0x2009, "Maximum", UsageTypes.US),
-            (0x200a, "Maximum", UsageTypes.US),
-            (0x200b, "Maximum", UsageTypes.US),
-            (0x200c, "Maximum", UsageTypes.US),
-            (0x200d, "Maximum", UsageTypes.US),
-            (0x200e, "Maximum", UsageTypes.US),
-            (0x200f, "Maximum", UsageTypes.US),
-            (0x3000, "Minimum", UsageTypes.US),
-            (0x3001, "Minimum", UsageTypes.US),
-            (0x3002, "Minimum", UsageTypes.US),
-            (0x3003, "Minimum", UsageTypes.US),
-            (0x3004, "Minimum", UsageTypes.US),
-            (0x3005, "Minimum", UsageTypes.US),
-            (0x3006, "Minimum", UsageTypes.US),
-            (0x3007, "Minimum", UsageTypes.US),
-            (0x3008, "Minimum", UsageTypes.US),
-            (0x3009, "Minimum", UsageTypes.US),
-            (0x300a, "Minimum", UsageTypes.US),
-            (0x300b, "Minimum", UsageTypes.US),
-            (0x300c, "Minimum", UsageTypes.US),
-            (0x300d, "Minimum", UsageTypes.US),
-            (0x300e, "Minimum", UsageTypes.US),
-            (0x300f, "Minimum", UsageTypes.US),
-            (0x4000, "Accuracy", UsageTypes.US),
-            (0x4001, "Accuracy", UsageTypes.US),
-            (0x4002, "Accuracy", UsageTypes.US),
-            (0x4003, "Accuracy", UsageTypes.US),
-            (0x4004, "Accuracy", UsageTypes.US),
-            (0x4005, "Accuracy", UsageTypes.US),
-            (0x4006, "Accuracy", UsageTypes.US),
-            (0x4007, "Accuracy", UsageTypes.US),
-            (0x4008, "Accuracy", UsageTypes.US),
-            (0x4009, "Accuracy", UsageTypes.US),
-            (0x400a, "Accuracy", UsageTypes.US),
-            (0x400b, "Accuracy", UsageTypes.US),
-            (0x400c, "Accuracy", UsageTypes.US),
-            (0x400d, "Accuracy", UsageTypes.US),
-            (0x400e, "Accuracy", UsageTypes.US),
-            (0x400f, "Accuracy", UsageTypes.US),
-            (0x5000, "Resolution", UsageTypes.US),
-            (0x5001, "Resolution", UsageTypes.US),
-            (0x5002, "Resolution", UsageTypes.US),
-            (0x5003, "Resolution", UsageTypes.US),
-            (0x5004, "Resolution", UsageTypes.US),
-            (0x5005, "Resolution", UsageTypes.US),
-            (0x5006, "Resolution", UsageTypes.US),
-            (0x5007, "Resolution", UsageTypes.US),
-            (0x5008, "Resolution", UsageTypes.US),
-            (0x5009, "Resolution", UsageTypes.US),
-            (0x500a, "Resolution", UsageTypes.US),
-            (0x500b, "Resolution", UsageTypes.US),
-            (0x500c, "Resolution", UsageTypes.US),
-            (0x500d, "Resolution", UsageTypes.US),
-            (0x500e, "Resolution", UsageTypes.US),
-            (0x500f, "Resolution", UsageTypes.US),
-            (0x6000, "Threshold High", UsageTypes.US),
-            (0x6001, "Threshold High", UsageTypes.US),
-            (0x6002, "Threshold High", UsageTypes.US),
-            (0x6003, "Threshold High", UsageTypes.US),
-            (0x6004, "Threshold High", UsageTypes.US),
-            (0x6005, "Threshold High", UsageTypes.US),
-            (0x6006, "Threshold High", UsageTypes.US),
-            (0x6007, "Threshold High", UsageTypes.US),
-            (0x6008, "Threshold High", UsageTypes.US),
-            (0x6009, "Threshold High", UsageTypes.US),
-            (0x600a, "Threshold High", UsageTypes.US),
-            (0x600b, "Threshold High", UsageTypes.US),
-            (0x600c, "Threshold High", UsageTypes.US),
-            (0x600d, "Threshold High", UsageTypes.US),
-            (0x600e, "Threshold High", UsageTypes.US),
-            (0x600f, "Threshold High", UsageTypes.US),
-            (0x7000, "Threshold Low", UsageTypes.US),
-            (0x7001, "Threshold Low", UsageTypes.US),
-            (0x7002, "Threshold Low", UsageTypes.US),
-            (0x7003, "Threshold Low", UsageTypes.US),
-            (0x7004, "Threshold Low", UsageTypes.US),
-            (0x7005, "Threshold Low", UsageTypes.US),
-            (0x7006, "Threshold Low", UsageTypes.US),
-            (0x7007, "Threshold Low", UsageTypes.US),
-            (0x7008, "Threshold Low", UsageTypes.US),
-            (0x7009, "Threshold Low", UsageTypes.US),
-            (0x700a, "Threshold Low", UsageTypes.US),
-            (0x700b, "Threshold Low", UsageTypes.US),
-            (0x700c, "Threshold Low", UsageTypes.US),
-            (0x700d, "Threshold Low", UsageTypes.US),
-            (0x700e, "Threshold Low", UsageTypes.US),
-            (0x700f, "Threshold Low", UsageTypes.US),
-            (0x8000, "Calibration Offset", UsageTypes.US),
-            (0x8001, "Calibration Offset", UsageTypes.US),
-            (0x8002, "Calibration Offset", UsageTypes.US),
-            (0x8003, "Calibration Offset", UsageTypes.US),
-            (0x8004, "Calibration Offset", UsageTypes.US),
-            (0x8005, "Calibration Offset", UsageTypes.US),
-            (0x8006, "Calibration Offset", UsageTypes.US),
-            (0x8007, "Calibration Offset", UsageTypes.US),
-            (0x8008, "Calibration Offset", UsageTypes.US),
-            (0x8009, "Calibration Offset", UsageTypes.US),
-            (0x800a, "Calibration Offset", UsageTypes.US),
-            (0x800b, "Calibration Offset", UsageTypes.US),
-            (0x800c, "Calibration Offset", UsageTypes.US),
-            (0x800d, "Calibration Offset", UsageTypes.US),
-            (0x800e, "Calibration Offset", UsageTypes.US),
-            (0x800f, "Calibration Offset", UsageTypes.US),
-            (0x9000, "Calibration Multiplier", UsageTypes.US),
-            (0x9001, "Calibration Multiplier", UsageTypes.US),
-            (0x9002, "Calibration Multiplier", UsageTypes.US),
-            (0x9003, "Calibration Multiplier", UsageTypes.US),
-            (0x9004, "Calibration Multiplier", UsageTypes.US),
-            (0x9005, "Calibration Multiplier", UsageTypes.US),
-            (0x9006, "Calibration Multiplier", UsageTypes.US),
-            (0x9007, "Calibration Multiplier", UsageTypes.US),
-            (0x9008, "Calibration Multiplier", UsageTypes.US),
-            (0x9009, "Calibration Multiplier", UsageTypes.US),
-            (0x900a, "Calibration Multiplier", UsageTypes.US),
-            (0x900b, "Calibration Multiplier", UsageTypes.US),
-            (0x900c, "Calibration Multiplier", UsageTypes.US),
-            (0x900d, "Calibration Multiplier", UsageTypes.US),
-            (0x900e, "Calibration Multiplier", UsageTypes.US),
-            (0x900f, "Calibration Multiplier", UsageTypes.US),
-            (0xa000, "Report Interval", UsageTypes.US),
-            (0xa001, "Report Interval", UsageTypes.US),
-            (0xa002, "Report Interval", UsageTypes.US),
-            (0xa003, "Report Interval", UsageTypes.US),
-            (0xa004, "Report Interval", UsageTypes.US),
-            (0xa005, "Report Interval", UsageTypes.US),
-            (0xa006, "Report Interval", UsageTypes.US),
-            (0xa007, "Report Interval", UsageTypes.US),
-            (0xa008, "Report Interval", UsageTypes.US),
-            (0xa009, "Report Interval", UsageTypes.US),
-            (0xa00a, "Report Interval", UsageTypes.US),
-            (0xa00b, "Report Interval", UsageTypes.US),
-            (0xa00c, "Report Interval", UsageTypes.US),
-            (0xa00d, "Report Interval", UsageTypes.US),
-            (0xa00e, "Report Interval", UsageTypes.US),
-            (0xa00f, "Report Interval", UsageTypes.US),
-            (0xb000, "Frequency Max", UsageTypes.US),
-            (0xb001, "Frequency Max", UsageTypes.US),
-            (0xb002, "Frequency Max", UsageTypes.US),
-            (0xb003, "Frequency Max", UsageTypes.US),
-            (0xb004, "Frequency Max", UsageTypes.US),
-            (0xb005, "Frequency Max", UsageTypes.US),
-            (0xb006, "Frequency Max", UsageTypes.US),
-            (0xb007, "Frequency Max", UsageTypes.US),
-            (0xb008, "Frequency Max", UsageTypes.US),
-            (0xb009, "Frequency Max", UsageTypes.US),
-            (0xb00a, "Frequency Max", UsageTypes.US),
-            (0xb00b, "Frequency Max", UsageTypes.US),
-            (0xb00c, "Frequency Max", UsageTypes.US),
-            (0xb00d, "Frequency Max", UsageTypes.US),
-            (0xb00e, "Frequency Max", UsageTypes.US),
-            (0xb00f, "Frequency Max", UsageTypes.US),
-            (0xc000, "Period Max", UsageTypes.US),
-            (0xc001, "Period Max", UsageTypes.US),
-            (0xc002, "Period Max", UsageTypes.US),
-            (0xc003, "Period Max", UsageTypes.US),
-            (0xc004, "Period Max", UsageTypes.US),
-            (0xc005, "Period Max", UsageTypes.US),
-            (0xc006, "Period Max", UsageTypes.US),
-            (0xc007, "Period Max", UsageTypes.US),
-            (0xc008, "Period Max", UsageTypes.US),
-            (0xc009, "Period Max", UsageTypes.US),
-            (0xc00a, "Period Max", UsageTypes.US),
-            (0xc00b, "Period Max", UsageTypes.US),
-            (0xc00c, "Period Max", UsageTypes.US),
-            (0xc00d, "Period Max", UsageTypes.US),
-            (0xc00e, "Period Max", UsageTypes.US),
-            (0xc00f, "Period Max", UsageTypes.US),
-            (0xd000, "Change Sensitivity Percent of Range", UsageTypes.US),
-            (0xd001, "Change Sensitivity Percent of Range", UsageTypes.US),
-            (0xd002, "Change Sensitivity Percent of Range", UsageTypes.US),
-            (0xd003, "Change Sensitivity Percent of Range", UsageTypes.US),
-            (0xd004, "Change Sensitivity Percent of Range", UsageTypes.US),
-            (0xd005, "Change Sensitivity Percent of Range", UsageTypes.US),
-            (0xd006, "Change Sensitivity Percent of Range", UsageTypes.US),
-            (0xd007, "Change Sensitivity Percent of Range", UsageTypes.US),
-            (0xd008, "Change Sensitivity Percent of Range", UsageTypes.US),
-            (0xd009, "Change Sensitivity Percent of Range", UsageTypes.US),
-            (0xd00a, "Change Sensitivity Percent of Range", UsageTypes.US),
-            (0xd00b, "Change Sensitivity Percent of Range", UsageTypes.US),
-            (0xd00c, "Change Sensitivity Percent of Range", UsageTypes.US),
-            (0xd00d, "Change Sensitivity Percent of Range", UsageTypes.US),
-            (0xd00e, "Change Sensitivity Percent of Range", UsageTypes.US),
-            (0xd00f, "Change Sensitivity Percent of Range", UsageTypes.US),
-            (0xe000, "Change Sensitivity Percent Relative", UsageTypes.US),
-            (0xe001, "Change Sensitivity Percent Relative", UsageTypes.US),
-            (0xe002, "Change Sensitivity Percent Relative", UsageTypes.US),
-            (0xe003, "Change Sensitivity Percent Relative", UsageTypes.US),
-            (0xe004, "Change Sensitivity Percent Relative", UsageTypes.US),
-            (0xe005, "Change Sensitivity Percent Relative", UsageTypes.US),
-            (0xe006, "Change Sensitivity Percent Relative", UsageTypes.US),
-            (0xe007, "Change Sensitivity Percent Relative", UsageTypes.US),
-            (0xe008, "Change Sensitivity Percent Relative", UsageTypes.US),
-            (0xe009, "Change Sensitivity Percent Relative", UsageTypes.US),
-            (0xe00a, "Change Sensitivity Percent Relative", UsageTypes.US),
-            (0xe00b, "Change Sensitivity Percent Relative", UsageTypes.US),
-            (0xe00c, "Change Sensitivity Percent Relative", UsageTypes.US),
-            (0xe00d, "Change Sensitivity Percent Relative", UsageTypes.US),
-            (0xe00e, "Change Sensitivity Percent Relative", UsageTypes.US),
-            (0xe00f, "Change Sensitivity Percent Relative", UsageTypes.US))
+        private SensorUsagePage() : base(0x0020, "Sensor")
         {
         }
 
         /// <inheritdoc />
-        public override Usage GetUsage(ushort id) 
+        protected override Usage CreateUsage(ushort id) 
         {
-            if (Usages.TryGetValue(id, out var usage)) return usage;
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "Sensor", UsageTypes.CA|UsageTypes.CP);
+                case 0x0010: return new Usage(this, id, "Biometric", UsageTypes.CA|UsageTypes.CP);
+                case 0x0011: return new Usage(this, id, "Biometric: Human Presence", UsageTypes.CA|UsageTypes.CP);
+                case 0x0012: return new Usage(this, id, "Biometric: Human Proximity", UsageTypes.CA|UsageTypes.CP);
+                case 0x0013: return new Usage(this, id, "Biometric: Human Touch", UsageTypes.CA|UsageTypes.CP);
+                case 0x0014: return new Usage(this, id, "Biometric: Blood Pressure", UsageTypes.CA|UsageTypes.CP);
+                case 0x0015: return new Usage(this, id, "Biometric: Body Temperature", UsageTypes.CA|UsageTypes.CP);
+                case 0x0016: return new Usage(this, id, "Biometric: Heart Rate", UsageTypes.CA|UsageTypes.CP);
+                case 0x0017: return new Usage(this, id, "Biometric: Heart Rate Variability", UsageTypes.CA|UsageTypes.CP);
+                case 0x0018: return new Usage(this, id, "Biometric: Peripheral Oxygen Saturation", UsageTypes.CA|UsageTypes.CP);
+                case 0x0019: return new Usage(this, id, "Biometric: Respiratory Rate", UsageTypes.CA|UsageTypes.CP);
+                case 0x0020: return new Usage(this, id, "Electrical", UsageTypes.CA|UsageTypes.CP);
+                case 0x0021: return new Usage(this, id, "Electrical: Capacitance", UsageTypes.CA|UsageTypes.CP);
+                case 0x0022: return new Usage(this, id, "Electrical: Current", UsageTypes.CA|UsageTypes.CP);
+                case 0x0023: return new Usage(this, id, "Electrical: Power", UsageTypes.CA|UsageTypes.CP);
+                case 0x0024: return new Usage(this, id, "Electrical: Inductance", UsageTypes.CA|UsageTypes.CP);
+                case 0x0025: return new Usage(this, id, "Electrical: Resistance", UsageTypes.CA|UsageTypes.CP);
+                case 0x0026: return new Usage(this, id, "Electrical: Voltage", UsageTypes.CA|UsageTypes.CP);
+                case 0x0027: return new Usage(this, id, "Electrical: Potentiometer", UsageTypes.CA|UsageTypes.CP);
+                case 0x0028: return new Usage(this, id, "Electrical: Frequency", UsageTypes.CA|UsageTypes.CP);
+                case 0x0029: return new Usage(this, id, "Electrical: Period", UsageTypes.CA|UsageTypes.CP);
+                case 0x0030: return new Usage(this, id, "Environmental", UsageTypes.CA|UsageTypes.CP);
+                case 0x0031: return new Usage(this, id, "Environmental: Atmospheric Pressure", UsageTypes.CA|UsageTypes.CP);
+                case 0x0032: return new Usage(this, id, "Environmental: Humidity", UsageTypes.CA|UsageTypes.CP);
+                case 0x0033: return new Usage(this, id, "Environmental: Temperature", UsageTypes.CA|UsageTypes.CP);
+                case 0x0034: return new Usage(this, id, "Environmental: Wind Direction", UsageTypes.CA|UsageTypes.CP);
+                case 0x0035: return new Usage(this, id, "Environmental: Wind Speed", UsageTypes.CA|UsageTypes.CP);
+                case 0x0036: return new Usage(this, id, "Environmental: Air Quality", UsageTypes.CA|UsageTypes.CP);
+                case 0x0037: return new Usage(this, id, "Environmental: Heat Index", UsageTypes.CA|UsageTypes.CP);
+                case 0x0038: return new Usage(this, id, "Environmental: Surface Temperature", UsageTypes.CA|UsageTypes.CP);
+                case 0x0039: return new Usage(this, id, "Environmental: Volatile Organic Compounds", UsageTypes.CA|UsageTypes.CP);
+                case 0x0040: return new Usage(this, id, "Light", UsageTypes.CA|UsageTypes.CP);
+                case 0x0041: return new Usage(this, id, "Light: Ambient Light", UsageTypes.CA|UsageTypes.CP);
+                case 0x0042: return new Usage(this, id, "Light: Consumer Infrared", UsageTypes.CA|UsageTypes.CP);
+                case 0x0043: return new Usage(this, id, "Light: Infrared Light", UsageTypes.CA|UsageTypes.CP);
+                case 0x0044: return new Usage(this, id, "Light: Visible Light", UsageTypes.CA|UsageTypes.CP);
+                case 0x0045: return new Usage(this, id, "Light: Ultraviolet Light", UsageTypes.CA|UsageTypes.CP);
+                case 0x0050: return new Usage(this, id, "Location", UsageTypes.CA|UsageTypes.CP);
+                case 0x0051: return new Usage(this, id, "Location: Broadcast", UsageTypes.CA|UsageTypes.CP);
+                case 0x0052: return new Usage(this, id, "Location: Dead Reckoning", UsageTypes.CA|UsageTypes.CP);
+                case 0x0053: return new Usage(this, id, "Location: GPS", UsageTypes.CA|UsageTypes.CP);
+                case 0x0054: return new Usage(this, id, "Location: Lookup", UsageTypes.CA|UsageTypes.CP);
+                case 0x0055: return new Usage(this, id, "Location: Other", UsageTypes.CA|UsageTypes.CP);
+                case 0x0056: return new Usage(this, id, "Location: Static", UsageTypes.CA|UsageTypes.CP);
+                case 0x0057: return new Usage(this, id, "Location: Triangulation", UsageTypes.CA|UsageTypes.CP);
+                case 0x0060: return new Usage(this, id, "Mechanical", UsageTypes.CA|UsageTypes.CP);
+                case 0x0061: return new Usage(this, id, "Mechanical: Boolean Switch", UsageTypes.CA|UsageTypes.CP);
+                case 0x0062: return new Usage(this, id, "Mechanical: Boolean Switch Array", UsageTypes.CA|UsageTypes.CP);
+                case 0x0063: return new Usage(this, id, "Mechanical: Multivalue Switch", UsageTypes.CA|UsageTypes.CP);
+                case 0x0064: return new Usage(this, id, "Mechanical: Force", UsageTypes.CA|UsageTypes.CP);
+                case 0x0065: return new Usage(this, id, "Mechanical: Pressure", UsageTypes.CA|UsageTypes.CP);
+                case 0x0066: return new Usage(this, id, "Mechanical: Strain", UsageTypes.CA|UsageTypes.CP);
+                case 0x0067: return new Usage(this, id, "Mechanical: Weight", UsageTypes.CA|UsageTypes.CP);
+                case 0x0068: return new Usage(this, id, "Mechanical: Haptic Vibrator", UsageTypes.CA|UsageTypes.CP);
+                case 0x0069: return new Usage(this, id, "Mechanical: Hall Effect Switch", UsageTypes.CA|UsageTypes.CP);
+                case 0x0070: return new Usage(this, id, "Motion", UsageTypes.CA|UsageTypes.CP);
+                case 0x0071: return new Usage(this, id, "Motion: Accelerometer 1D", UsageTypes.CA|UsageTypes.CP);
+                case 0x0072: return new Usage(this, id, "Motion: Accelerometer 2D", UsageTypes.CA|UsageTypes.CP);
+                case 0x0073: return new Usage(this, id, "Motion: Accelerometer 3D", UsageTypes.CA|UsageTypes.CP);
+                case 0x0074: return new Usage(this, id, "Motion: Gyrometer 1D", UsageTypes.CA|UsageTypes.CP);
+                case 0x0075: return new Usage(this, id, "Motion: Gyrometer 2D", UsageTypes.CA|UsageTypes.CP);
+                case 0x0076: return new Usage(this, id, "Motion: Gyrometer 3D", UsageTypes.CA|UsageTypes.CP);
+                case 0x0077: return new Usage(this, id, "Motion: Motion Detector", UsageTypes.CA|UsageTypes.CP);
+                case 0x0078: return new Usage(this, id, "Motion: Speedometer", UsageTypes.CA|UsageTypes.CP);
+                case 0x0079: return new Usage(this, id, "Motion: Accelerometer", UsageTypes.CA|UsageTypes.CP);
+                case 0x007a: return new Usage(this, id, "Motion: Gyrometer", UsageTypes.CA|UsageTypes.CP);
+                case 0x007b: return new Usage(this, id, "Motion: Gravity Vector", UsageTypes.CA|UsageTypes.CP);
+                case 0x007c: return new Usage(this, id, "Motion: Linear Accelerometer", UsageTypes.CA|UsageTypes.CP);
+                case 0x0080: return new Usage(this, id, "Orientation", UsageTypes.CA|UsageTypes.CP);
+                case 0x0081: return new Usage(this, id, "Orientation: Compass 1D", UsageTypes.CA|UsageTypes.CP);
+                case 0x0082: return new Usage(this, id, "Orientation: Compass 2D", UsageTypes.CA|UsageTypes.CP);
+                case 0x0083: return new Usage(this, id, "Orientation: Compass 3D", UsageTypes.CA|UsageTypes.CP);
+                case 0x0084: return new Usage(this, id, "Orientation: Inclinometer 1D", UsageTypes.CA|UsageTypes.CP);
+                case 0x0085: return new Usage(this, id, "Orientation: Inclinometer 2D", UsageTypes.CA|UsageTypes.CP);
+                case 0x0086: return new Usage(this, id, "Orientation: Inclinometer 3D", UsageTypes.CA|UsageTypes.CP);
+                case 0x0087: return new Usage(this, id, "Orientation: Distance 1D", UsageTypes.CA|UsageTypes.CP);
+                case 0x0088: return new Usage(this, id, "Orientation: Distance 2D", UsageTypes.CA|UsageTypes.CP);
+                case 0x0089: return new Usage(this, id, "Orientation: Distance 3D", UsageTypes.CA|UsageTypes.CP);
+                case 0x008a: return new Usage(this, id, "Orientation: Device Orientation", UsageTypes.CA|UsageTypes.CP);
+                case 0x008b: return new Usage(this, id, "Orientation: Compass", UsageTypes.CA|UsageTypes.CP);
+                case 0x008c: return new Usage(this, id, "Orientation: Inclinometer", UsageTypes.CA|UsageTypes.CP);
+                case 0x008d: return new Usage(this, id, "Orientation: Distance", UsageTypes.CA|UsageTypes.CP);
+                case 0x008e: return new Usage(this, id, "Orientation: Relative Orientation", UsageTypes.CA|UsageTypes.CP);
+                case 0x008f: return new Usage(this, id, "Orientation: Simple Orientation", UsageTypes.CA|UsageTypes.CP);
+                case 0x0090: return new Usage(this, id, "Scanner", UsageTypes.CA|UsageTypes.CP);
+                case 0x0091: return new Usage(this, id, "Scanner: Barcode", UsageTypes.CA|UsageTypes.CP);
+                case 0x0092: return new Usage(this, id, "Scanner: RFID", UsageTypes.CA|UsageTypes.CP);
+                case 0x0093: return new Usage(this, id, "Scanner: NFC", UsageTypes.CA|UsageTypes.CP);
+                case 0x00a0: return new Usage(this, id, "Time", UsageTypes.CA|UsageTypes.CP);
+                case 0x00a1: return new Usage(this, id, "Time: Alarm Timer", UsageTypes.CA|UsageTypes.CP);
+                case 0x00a2: return new Usage(this, id, "Time: Real Time Clock", UsageTypes.CA|UsageTypes.CP);
+                case 0x00b0: return new Usage(this, id, "Personal Activity", UsageTypes.CA|UsageTypes.CP);
+                case 0x00b1: return new Usage(this, id, "Personal Activity: Activity Detection", UsageTypes.CA|UsageTypes.CP);
+                case 0x00b2: return new Usage(this, id, "Personal Activity: Device Position", UsageTypes.CA|UsageTypes.CP);
+                case 0x00b3: return new Usage(this, id, "Personal Activity: Pedometer", UsageTypes.CA|UsageTypes.CP);
+                case 0x00b4: return new Usage(this, id, "Personal Activity: Step Detection", UsageTypes.CA|UsageTypes.CP);
+                case 0x00c0: return new Usage(this, id, "Orientation Extended", UsageTypes.CA|UsageTypes.CP);
+                case 0x00c1: return new Usage(this, id, "Orientation Extended: Geomagnetic Orientation", UsageTypes.CA|UsageTypes.CP);
+                case 0x00c2: return new Usage(this, id, "Orientation Extended: Magnetometer", UsageTypes.CA|UsageTypes.CP);
+                case 0x00d0: return new Usage(this, id, "Gesture", UsageTypes.CA|UsageTypes.CP);
+                case 0x00d1: return new Usage(this, id, "Gesture: Chassis Flip Gesture", UsageTypes.CA|UsageTypes.CP);
+                case 0x00d2: return new Usage(this, id, "Gesture: Hinge Fold Gesture", UsageTypes.CA|UsageTypes.CP);
+                case 0x00e0: return new Usage(this, id, "Other", UsageTypes.CA|UsageTypes.CP);
+                case 0x00e1: return new Usage(this, id, "Other: Custom", UsageTypes.CA|UsageTypes.CP);
+                case 0x00e2: return new Usage(this, id, "Other: Generic", UsageTypes.CA|UsageTypes.CP);
+                case 0x00e3: return new Usage(this, id, "Other: Generic Enumerator", UsageTypes.CA|UsageTypes.CP);
+                case 0x00e4: return new Usage(this, id, "Other: Hinge Angle", UsageTypes.CA|UsageTypes.CP);
+                case 0x0201: return new Usage(this, id, "Event: Sensor State", UsageTypes.NAry);
+                case 0x0202: return new Usage(this, id, "Event: Sensor Event", UsageTypes.NAry);
+                case 0x0301: return new Usage(this, id, "Property: Friendly Name", UsageTypes.SV);
+                case 0x0302: return new Usage(this, id, "Property: Persistent Unique ID", UsageTypes.DV);
+                case 0x0303: return new Usage(this, id, "Property: Sensor Status", UsageTypes.DV);
+                case 0x0304: return new Usage(this, id, "Property: Minimum Report Interval", UsageTypes.SV);
+                case 0x0305: return new Usage(this, id, "Property: Sensor Manufacturer", UsageTypes.SV);
+                case 0x0306: return new Usage(this, id, "Property: Sensor Model", UsageTypes.SV);
+                case 0x0307: return new Usage(this, id, "Property: Sensor Serial Number", UsageTypes.SV);
+                case 0x0308: return new Usage(this, id, "Property: Sensor Description", UsageTypes.SV);
+                case 0x0309: return new Usage(this, id, "Property: Sensor Connection Type", UsageTypes.NAry);
+                case 0x030a: return new Usage(this, id, "Property: Sensor Device Path", UsageTypes.DV);
+                case 0x030b: return new Usage(this, id, "Property: Sensor Hardware Revision", UsageTypes.SV);
+                case 0x030c: return new Usage(this, id, "Property: Sensor Firmware Revision", UsageTypes.SV);
+                case 0x030d: return new Usage(this, id, "Property: Release Date", UsageTypes.SV);
+                case 0x030e: return new Usage(this, id, "Property: Report Interval", UsageTypes.DV);
+                case 0x030f: return new Usage(this, id, "Property: Change Sensitivity Absolute", UsageTypes.DV);
+                case 0x0310: return new Usage(this, id, "Property: Change Sensitivity Percent of Range", UsageTypes.DV);
+                case 0x0311: return new Usage(this, id, "Property: Change Sensitivity Percent Relative", UsageTypes.DV);
+                case 0x0312: return new Usage(this, id, "Property: Accuracy", UsageTypes.DV);
+                case 0x0313: return new Usage(this, id, "Property: Resolution", UsageTypes.DV);
+                case 0x0314: return new Usage(this, id, "Property: Maximum", UsageTypes.DV);
+                case 0x0315: return new Usage(this, id, "Property: Minimum", UsageTypes.DV);
+                case 0x0316: return new Usage(this, id, "Property: Reporting State", UsageTypes.NAry);
+                case 0x0317: return new Usage(this, id, "Property: Sampling Rate", UsageTypes.DV);
+                case 0x0318: return new Usage(this, id, "Property: Response Curve", UsageTypes.DV);
+                case 0x0319: return new Usage(this, id, "Property: Power State", UsageTypes.NAry);
+                case 0x031a: return new Usage(this, id, "Property: Maximum FIFO Events", UsageTypes.SV);
+                case 0x031b: return new Usage(this, id, "Property: Report Latency", UsageTypes.DV);
+                case 0x031c: return new Usage(this, id, "Property: Flush FIFO Events", UsageTypes.DF);
+                case 0x031d: return new Usage(this, id, "Property: Maximum Power Consumption", UsageTypes.DV);
+                case 0x0400: return new Usage(this, id, "Data Field: Location", UsageTypes.SV);
+                case 0x0402: return new Usage(this, id, "Data Field: Altitude Antenna Sea Level", UsageTypes.SV);
+                case 0x0403: return new Usage(this, id, "Data Field: Differential Reference Station ID", UsageTypes.SV);
+                case 0x0404: return new Usage(this, id, "Data Field: Altitude Ellipsoid Error", UsageTypes.SV);
+                case 0x0405: return new Usage(this, id, "Data Field: Altitude Ellipsoid", UsageTypes.SV);
+                case 0x0406: return new Usage(this, id, "Data Field: Altitude Sea Level Error", UsageTypes.SV);
+                case 0x0407: return new Usage(this, id, "Data Field: Altitude Sea Level", UsageTypes.SV);
+                case 0x0408: return new Usage(this, id, "Data Field: Differential GPS Data Age", UsageTypes.SV);
+                case 0x0409: return new Usage(this, id, "Data Field: Error Radius", UsageTypes.SV);
+                case 0x040a: return new Usage(this, id, "Data Field: Fix Quality", UsageTypes.NAry);
+                case 0x040b: return new Usage(this, id, "Data Field: Fix Type", UsageTypes.NAry);
+                case 0x040c: return new Usage(this, id, "Data Field: Geoidal Separation", UsageTypes.SV);
+                case 0x040d: return new Usage(this, id, "Data Field: GPS Operation Mode", UsageTypes.NAry);
+                case 0x040e: return new Usage(this, id, "Data Field: GPS Selection Mode", UsageTypes.NAry);
+                case 0x040f: return new Usage(this, id, "Data Field: GPS Status", UsageTypes.NAry);
+                case 0x0410: return new Usage(this, id, "Data Field: Position Dilution of Precision", UsageTypes.SV);
+                case 0x0411: return new Usage(this, id, "Data Field: Horizontal Dilution of Precision", UsageTypes.SV);
+                case 0x0412: return new Usage(this, id, "Data Field: Vertical Dilution of Precision", UsageTypes.SV);
+                case 0x0413: return new Usage(this, id, "Data Field: Latitude", UsageTypes.SV);
+                case 0x0414: return new Usage(this, id, "Data Field: Longitude", UsageTypes.SV);
+                case 0x0415: return new Usage(this, id, "Data Field: True Heading", UsageTypes.SV);
+                case 0x0416: return new Usage(this, id, "Data Field: Magnetic Heading", UsageTypes.SV);
+                case 0x0417: return new Usage(this, id, "Data Field: Magnetic Variation", UsageTypes.SV);
+                case 0x0418: return new Usage(this, id, "Data Field: Speed", UsageTypes.SV);
+                case 0x0419: return new Usage(this, id, "Data Field: Satellites in View", UsageTypes.SV);
+                case 0x041a: return new Usage(this, id, "Data Field: Satellites in View Azimuth", UsageTypes.SV);
+                case 0x041b: return new Usage(this, id, "Data Field: Satellites in View Elevation", UsageTypes.SV);
+                case 0x041c: return new Usage(this, id, "Data Field: Satellites in View IDs", UsageTypes.SV);
+                case 0x041d: return new Usage(this, id, "Data Field: Satellites in View PRNs", UsageTypes.SV);
+                case 0x041e: return new Usage(this, id, "Data Field: Satellites in View S/N Ratios", UsageTypes.SV);
+                case 0x041f: return new Usage(this, id, "Data Field: Satellites Used Count", UsageTypes.SV);
+                case 0x0420: return new Usage(this, id, "Data Field: Satellites Used PRNs", UsageTypes.SV);
+                case 0x0421: return new Usage(this, id, "Data Field: NMEA Sentence", UsageTypes.SV);
+                case 0x0422: return new Usage(this, id, "Data Field: Address Line 1", UsageTypes.SV);
+                case 0x0423: return new Usage(this, id, "Data Field: Address Line 2", UsageTypes.SV);
+                case 0x0424: return new Usage(this, id, "Data Field: City", UsageTypes.SV);
+                case 0x0425: return new Usage(this, id, "Data Field: State or Province", UsageTypes.SV);
+                case 0x0426: return new Usage(this, id, "Data Field: Country or Region (ISO 3166)", UsageTypes.SV);
+                case 0x0427: return new Usage(this, id, "Data Field: Postal Code", UsageTypes.SV);
+                case 0x042b: return new Usage(this, id, "Property: Location Desired Accuracy", UsageTypes.NAry);
+                case 0x0430: return new Usage(this, id, "Data Field: Environmental", UsageTypes.SV);
+                case 0x0431: return new Usage(this, id, "Data Field: Atmospheric Pressure", UsageTypes.SV);
+                case 0x0433: return new Usage(this, id, "Data Field: Relative Humidity", UsageTypes.SV);
+                case 0x0434: return new Usage(this, id, "Data Field: Temperature", UsageTypes.SV);
+                case 0x0435: return new Usage(this, id, "Data Field: Wind Direction", UsageTypes.SV);
+                case 0x0436: return new Usage(this, id, "Data Field: Wind Speed", UsageTypes.SV);
+                case 0x0437: return new Usage(this, id, "Data Field: Air Quality Index", UsageTypes.SV);
+                case 0x0438: return new Usage(this, id, "Data Field: Equivalent CO2", UsageTypes.SV);
+                case 0x0439: return new Usage(this, id, "Data Field: Volatile Organic Compound Concentration", UsageTypes.SV);
+                case 0x0440: return new Usage(this, id, "Property: Environmental", UsageTypes.SV);
+                case 0x0441: return new Usage(this, id, "Property: Reference Pressure (default Sel \"Unit: bars)", UsageTypes.SV);
+                case 0x0450: return new Usage(this, id, "Data Field: Motion", UsageTypes.SV);
+                case 0x0451: return new Usage(this, id, "Data Field: Motion State", UsageTypes.SF);
+                case 0x0452: return new Usage(this, id, "Data Field: Acceleration", UsageTypes.SV);
+                case 0x0453: return new Usage(this, id, "Data Field: Acceleration Axis X", UsageTypes.SV);
+                case 0x0454: return new Usage(this, id, "Data Field: Acceleration Axis Y", UsageTypes.SV);
+                case 0x0455: return new Usage(this, id, "Data Field: Acceleration Axis Z", UsageTypes.SV);
+                case 0x0456: return new Usage(this, id, "Data Field: Angular Velocity", UsageTypes.SV);
+                case 0x0457: return new Usage(this, id, "Data Field: Angular Velocity X about Axis", UsageTypes.SV);
+                case 0x0458: return new Usage(this, id, "Data Field: Angular Velocity Y about Axis", UsageTypes.SV);
+                case 0x0459: return new Usage(this, id, "Data Field: Angular Velocity Z about Axis", UsageTypes.SV);
+                case 0x045a: return new Usage(this, id, "Data Field: Angular Position", UsageTypes.SV);
+                case 0x045b: return new Usage(this, id, "Data Field: Angular Position about X Axis", UsageTypes.SV);
+                case 0x045c: return new Usage(this, id, "Data Field: Angular Position about Y Axis", UsageTypes.SV);
+                case 0x045d: return new Usage(this, id, "Data Field: Angular Position about Z Axis", UsageTypes.SV);
+                case 0x045e: return new Usage(this, id, "Data Field: Motion Speed", UsageTypes.SV);
+                case 0x045f: return new Usage(this, id, "Data Field: Motion Intensity (percent)", UsageTypes.SV);
+                case 0x0470: return new Usage(this, id, "Data Field: Orientation", UsageTypes.SV);
+                case 0x0471: return new Usage(this, id, "Data Field: Heading", UsageTypes.SV);
+                case 0x0472: return new Usage(this, id, "Data Field: Heading X Axis", UsageTypes.SV);
+                case 0x0473: return new Usage(this, id, "Data Field: Heading Y Axis", UsageTypes.SV);
+                case 0x0474: return new Usage(this, id, "Data Field: Heading Z Axis", UsageTypes.SV);
+                case 0x0475: return new Usage(this, id, "Data Field: Heading Compensated Magnetic North", UsageTypes.SV);
+                case 0x0476: return new Usage(this, id, "Data Field: Heading Compensated True North", UsageTypes.SV);
+                case 0x0477: return new Usage(this, id, "Data Field: Heading Magnetic North", UsageTypes.SV);
+                case 0x0478: return new Usage(this, id, "Data Field: Heading True North", UsageTypes.SV);
+                case 0x0479: return new Usage(this, id, "Data Field: Distance", UsageTypes.SV);
+                case 0x047a: return new Usage(this, id, "Data Field: Distance X Axis", UsageTypes.SV);
+                case 0x047b: return new Usage(this, id, "Data Field: Distance Y Axis", UsageTypes.SV);
+                case 0x047c: return new Usage(this, id, "Data Field: Distance Z Axis", UsageTypes.SV);
+                case 0x047d: return new Usage(this, id, "Data Field: Distance Out-of-Range", UsageTypes.SV);
+                case 0x047e: return new Usage(this, id, "Data Field: Tilt", UsageTypes.SV);
+                case 0x047f: return new Usage(this, id, "Data Field: Tilt X Axis", UsageTypes.SV);
+                case 0x0480: return new Usage(this, id, "Data Field: Tilt Y Axis", UsageTypes.SV);
+                case 0x0481: return new Usage(this, id, "Data Field: Tilt Z Axis", UsageTypes.SV);
+                case 0x0482: return new Usage(this, id, "Data Field: Rotation Matrix", UsageTypes.SV);
+                case 0x0483: return new Usage(this, id, "Data Field: Quaternion", UsageTypes.SV);
+                case 0x0484: return new Usage(this, id, "Data Field: Magnetic Flux", UsageTypes.SV);
+                case 0x0485: return new Usage(this, id, "Data Field: Magnetic Flux X Axis", UsageTypes.SV);
+                case 0x0486: return new Usage(this, id, "Data Field: Magnetic Flux Y Axis", UsageTypes.SV);
+                case 0x0487: return new Usage(this, id, "Data Field: Magnetic Flux Z Axis", UsageTypes.SV);
+                case 0x0488: return new Usage(this, id, "Data Field: Magnetometer Accuracy", UsageTypes.NAry);
+                case 0x0489: return new Usage(this, id, "Data Field: Simple Orientation Direction", UsageTypes.NAry);
+                case 0x0490: return new Usage(this, id, "Data Field: Mechanical", UsageTypes.SV);
+                case 0x0491: return new Usage(this, id, "Data Field: Boolean Switch State", UsageTypes.SF);
+                case 0x0492: return new Usage(this, id, "Data Field: Boolean Switch Array States", UsageTypes.SV);
+                case 0x0493: return new Usage(this, id, "Data Field: Multivalue Switch Value", UsageTypes.SV);
+                case 0x0494: return new Usage(this, id, "Data Field: Force", UsageTypes.SV);
+                case 0x0495: return new Usage(this, id, "Data Field: Absolute Pressure", UsageTypes.SV);
+                case 0x0496: return new Usage(this, id, "Data Field: Gauge Pressure", UsageTypes.SV);
+                case 0x0497: return new Usage(this, id, "Data Field: Strain", UsageTypes.SV);
+                case 0x0498: return new Usage(this, id, "Data Field: Weight", UsageTypes.SV);
+                case 0x04a0: return new Usage(this, id, "Property: Mechanical", UsageTypes.SV);
+                case 0x04a1: return new Usage(this, id, "Property: Vibration State", UsageTypes.SV);
+                case 0x04a2: return new Usage(this, id, "Property: Forward Vibration Speed (percent)", UsageTypes.SV);
+                case 0x04a3: return new Usage(this, id, "Property: Backward Vibration Speed (percent)", UsageTypes.SV);
+                case 0x04b0: return new Usage(this, id, "Data Field: Biometric", UsageTypes.SV);
+                case 0x04b1: return new Usage(this, id, "Data Field: Human Presence", UsageTypes.SF);
+                case 0x04b2: return new Usage(this, id, "Data Field: Human Proximity Range", UsageTypes.SV);
+                case 0x04b3: return new Usage(this, id, "Data Field: Human Proximity Out of Range", UsageTypes.SF);
+                case 0x04b4: return new Usage(this, id, "Data Field: Human Touch State", UsageTypes.SF);
+                case 0x04b5: return new Usage(this, id, "Data Field: Blood Pressure", UsageTypes.SV);
+                case 0x04b6: return new Usage(this, id, "Data Field: Blood Pressure Diastolic", UsageTypes.SV);
+                case 0x04b7: return new Usage(this, id, "Data Field: Blood Pressure Systolic", UsageTypes.SV);
+                case 0x04b8: return new Usage(this, id, "Data Field: Heart Rate (HeartbeatsPM)", UsageTypes.SV);
+                case 0x04b9: return new Usage(this, id, "Data Field: Resting Heart Rate (HeartbeatsPM)", UsageTypes.SV);
+                case 0x04ba: return new Usage(this, id, "Data Field: Heartbeat Interval", UsageTypes.SV);
+                case 0x04bb: return new Usage(this, id, "Data Field: Respiratory Rate", UsageTypes.SV);
+                case 0x04bc: return new Usage(this, id, "Data Field: SpO2 (percent)", UsageTypes.SV);
+                case 0x04d0: return new Usage(this, id, "Data Field: Light", UsageTypes.SV);
+                case 0x04d1: return new Usage(this, id, "Data Field: Illuminance", UsageTypes.SV);
+                case 0x04d2: return new Usage(this, id, "Data Field: Color Temperature", UsageTypes.SV);
+                case 0x04d3: return new Usage(this, id, "Data Field: Chromaticity", UsageTypes.SV);
+                case 0x04d4: return new Usage(this, id, "Data Field: Chromaticity X", UsageTypes.SV);
+                case 0x04d5: return new Usage(this, id, "Data Field: Chromaticity Y", UsageTypes.SV);
+                case 0x04d6: return new Usage(this, id, "Data Field: Consumer IR Sentence Receive", UsageTypes.SV);
+                case 0x04d7: return new Usage(this, id, "Data Field: Infrared Light", UsageTypes.SV);
+                case 0x04d8: return new Usage(this, id, "Data Field: Red Light", UsageTypes.SV);
+                case 0x04d9: return new Usage(this, id, "Data Field: Green Light", UsageTypes.SV);
+                case 0x04da: return new Usage(this, id, "Data Field: Blue Light", UsageTypes.SV);
+                case 0x04db: return new Usage(this, id, "Data Field: Ultraviolet A Light", UsageTypes.SV);
+                case 0x04dc: return new Usage(this, id, "Data Field: Ultraviolet B Light", UsageTypes.SV);
+                case 0x04dd: return new Usage(this, id, "Data Field: Ultraviolet Index", UsageTypes.SV);
+                case 0x04e0: return new Usage(this, id, "Property: Light", UsageTypes.DV);
+                case 0x04e1: return new Usage(this, id, "Property: Consumer IR Sentence Send", UsageTypes.DV);
+                case 0x04f0: return new Usage(this, id, "Data Field: Scanner", UsageTypes.SV);
+                case 0x04f1: return new Usage(this, id, "Data Field: RFID Tag 40 Bit", UsageTypes.SV);
+                case 0x04f2: return new Usage(this, id, "Data Field: NFC Sentence Receive", UsageTypes.SV);
+                case 0x04f8: return new Usage(this, id, "Property: Scanner", UsageTypes.SV);
+                case 0x04f9: return new Usage(this, id, "Property: NFC Sentence Send", UsageTypes.SV);
+                case 0x0500: return new Usage(this, id, "Data Field: Electrical", UsageTypes.SV);
+                case 0x0501: return new Usage(this, id, "Data Field: Capacitance", UsageTypes.SV);
+                case 0x0502: return new Usage(this, id, "Data Field: Current", UsageTypes.SV);
+                case 0x0503: return new Usage(this, id, "Data Field: Electrical Power", UsageTypes.SV);
+                case 0x0504: return new Usage(this, id, "Data Field: Inductance", UsageTypes.SV);
+                case 0x0505: return new Usage(this, id, "Data Field: Resistance", UsageTypes.SV);
+                case 0x0506: return new Usage(this, id, "Data Field: Voltage", UsageTypes.SV);
+                case 0x0507: return new Usage(this, id, "Data Field: Frequency", UsageTypes.SV);
+                case 0x0508: return new Usage(this, id, "Data Field: Period", UsageTypes.SV);
+                case 0x0509: return new Usage(this, id, "Data Field: Percent of Range", UsageTypes.SV);
+                case 0x0520: return new Usage(this, id, "Data Field: Time", UsageTypes.SV);
+                case 0x0521: return new Usage(this, id, "Data Field: Year", UsageTypes.SV);
+                case 0x0522: return new Usage(this, id, "Data Field: Month", UsageTypes.SV);
+                case 0x0523: return new Usage(this, id, "Data Field: Day", UsageTypes.SV);
+                case 0x0524: return new Usage(this, id, "Data Field: Day of Week", UsageTypes.NAry);
+                case 0x0526: return new Usage(this, id, "Data Field: Minute", UsageTypes.SV);
+                case 0x0527: return new Usage(this, id, "Data Field: Second", UsageTypes.SV);
+                case 0x0528: return new Usage(this, id, "Data Field: Millisecond", UsageTypes.SV);
+                case 0x0529: return new Usage(this, id, "Data Field: Timestamp", UsageTypes.SV);
+                case 0x052a: return new Usage(this, id, "Data Field: Julian Day of Year", UsageTypes.SV);
+                case 0x052b: return new Usage(this, id, "Data Field: Time Since System Boot", UsageTypes.SV);
+                case 0x0530: return new Usage(this, id, "Property: Time", UsageTypes.DV);
+                case 0x0531: return new Usage(this, id, "Property: Time Zone Offset from UTC", UsageTypes.DV);
+                case 0x0532: return new Usage(this, id, "Property: Time Zone Name", UsageTypes.DV);
+                case 0x0533: return new Usage(this, id, "Property: Daylight Savings Time Observed", UsageTypes.DF);
+                case 0x0534: return new Usage(this, id, "Property: Time Trim Adjustment", UsageTypes.DV);
+                case 0x0535: return new Usage(this, id, "Property: Arm Alarm", UsageTypes.DF);
+                case 0x0540: return new Usage(this, id, "Data Field: Custom", UsageTypes.SV);
+                case 0x0541: return new Usage(this, id, "Data Field: Custom Usage", UsageTypes.SV);
+                case 0x0542: return new Usage(this, id, "Data Field: Custom Boolean Array", UsageTypes.SV);
+                case 0x0543: return new Usage(this, id, "Data Field: Custom Value", UsageTypes.SV);
+                case 0x0544: return new Usage(this, id, "Data Field: Custom Value 1", UsageTypes.SV);
+                case 0x0545: return new Usage(this, id, "Data Field: Custom Value 2", UsageTypes.SV);
+                case 0x0546: return new Usage(this, id, "Data Field: Custom Value 3", UsageTypes.SV);
+                case 0x0547: return new Usage(this, id, "Data Field: Custom Value 4", UsageTypes.SV);
+                case 0x0548: return new Usage(this, id, "Data Field: Custom Value 5", UsageTypes.SV);
+                case 0x0549: return new Usage(this, id, "Data Field: Custom Value 6", UsageTypes.SV);
+                case 0x054a: return new Usage(this, id, "Data Field: Custom Value 7", UsageTypes.SV);
+                case 0x054b: return new Usage(this, id, "Data Field: Custom Value 8", UsageTypes.SV);
+                case 0x054c: return new Usage(this, id, "Data Field: Custom Value 9", UsageTypes.SV);
+                case 0x054d: return new Usage(this, id, "Data Field: Custom Value 10", UsageTypes.SV);
+                case 0x054e: return new Usage(this, id, "Data Field: Custom Value 11", UsageTypes.SV);
+                case 0x054f: return new Usage(this, id, "Data Field: Custom Value 12", UsageTypes.SV);
+                case 0x0550: return new Usage(this, id, "Data Field: Custom Value 13", UsageTypes.SV);
+                case 0x0551: return new Usage(this, id, "Data Field: Custom Value 14", UsageTypes.SV);
+                case 0x0552: return new Usage(this, id, "Data Field: Custom Value 15", UsageTypes.SV);
+                case 0x0553: return new Usage(this, id, "Data Field: Custom Value 16", UsageTypes.SV);
+                case 0x0560: return new Usage(this, id, "Data Field: Generic", UsageTypes.SV);
+                case 0x0561: return new Usage(this, id, "Data Field: Generic GUID or PROPERTYKEY", UsageTypes.SV);
+                case 0x0562: return new Usage(this, id, "Data Field: Generic Category GUID", UsageTypes.SV);
+                case 0x0563: return new Usage(this, id, "Data Field: Generic Type GUID", UsageTypes.SV);
+                case 0x0564: return new Usage(this, id, "Data Field: Generic Event PROPERTYKEY", UsageTypes.SV);
+                case 0x0565: return new Usage(this, id, "Data Field: Generic Property PROPERTYKEY", UsageTypes.SV);
+                case 0x0566: return new Usage(this, id, "Data Field: Generic Data Field PROPERTYKEY", UsageTypes.SV);
+                case 0x0567: return new Usage(this, id, "Data Field: Generic Event", UsageTypes.SV);
+                case 0x0568: return new Usage(this, id, "Data Field: Generic Property", UsageTypes.SV);
+                case 0x0569: return new Usage(this, id, "Data Field: Generic Data Field", UsageTypes.SV);
+                case 0x056a: return new Usage(this, id, "Data Field: Enumerator Table Row Index", UsageTypes.SV);
+                case 0x056b: return new Usage(this, id, "Data Field: Enumerator Table Row Count", UsageTypes.SV);
+                case 0x056c: return new Usage(this, id, "Data Field: Generic GUID or PROPERTYKEY kind", UsageTypes.NAry);
+                case 0x056d: return new Usage(this, id, "Data Field: Generic GUID", UsageTypes.SV);
+                case 0x056e: return new Usage(this, id, "Data Field: Generic PROPERTYKEY", UsageTypes.SV);
+                case 0x056f: return new Usage(this, id, "Data Field: Generic Top Level Collection ID", UsageTypes.SV);
+                case 0x0570: return new Usage(this, id, "Data Field: Generic Report ID", UsageTypes.SV);
+                case 0x0571: return new Usage(this, id, "Data Field: Generic Report Item Position Index", UsageTypes.SV);
+                case 0x0572: return new Usage(this, id, "Data Field: Generic Firmware VARTYPE", UsageTypes.NAry);
+                case 0x0573: return new Usage(this, id, "Data Field: Generic Unit of Measure", UsageTypes.NAry);
+                case 0x0574: return new Usage(this, id, "Data Field: Generic Unit Exponent", UsageTypes.NAry);
+                case 0x0575: return new Usage(this, id, "Data Field: Generic Report Size", UsageTypes.SV);
+                case 0x0576: return new Usage(this, id, "Data Field: Generic Report Count", UsageTypes.SV);
+                case 0x0580: return new Usage(this, id, "Property: Generic", UsageTypes.DV);
+                case 0x0581: return new Usage(this, id, "Property: Enumerator Table Row Index", UsageTypes.DV);
+                case 0x0582: return new Usage(this, id, "Property: Enumerator Table Row Count", UsageTypes.SV);
+                case 0x0590: return new Usage(this, id, "Data Field: Personal Activity", UsageTypes.SV);
+                case 0x0591: return new Usage(this, id, "Data Field: Activity Type", UsageTypes.NAry);
+                case 0x0592: return new Usage(this, id, "Data Field: Activity State", UsageTypes.NAry);
+                case 0x0593: return new Usage(this, id, "Data Field: Device Position", UsageTypes.NAry);
+                case 0x0594: return new Usage(this, id, "Data Field: Step Count", UsageTypes.SV);
+                case 0x0595: return new Usage(this, id, "Data Field: Step Count Reset", UsageTypes.DF);
+                case 0x0596: return new Usage(this, id, "Data Field: Step Duration", UsageTypes.SV);
+                case 0x0597: return new Usage(this, id, "Data Field: Step Type", UsageTypes.NAry);
+                case 0x05a0: return new Usage(this, id, "Property: Minimum Activity Detection Interval", UsageTypes.DV);
+                case 0x05a1: return new Usage(this, id, "Property: Supported Activity Types", UsageTypes.NAry);
+                case 0x05a2: return new Usage(this, id, "Property: Subscribed Activity Types", UsageTypes.NAry);
+                case 0x05a3: return new Usage(this, id, "Property: Supported Step Types", UsageTypes.NAry);
+                case 0x05a4: return new Usage(this, id, "Property: Subscribed Step Types", UsageTypes.NAry);
+                case 0x05a5: return new Usage(this, id, "Property: Floor Height", UsageTypes.DV);
+                case 0x05b0: return new Usage(this, id, "Data Field: Custom Type ID", UsageTypes.SV);
+                case 0x05e0: return new Usage(this, id, "Data Field: Hinge", UsageTypes.SV|UsageTypes.DV);
+                case 0x05e1: return new Usage(this, id, "Data Field: Hinge Angle", UsageTypes.SV|UsageTypes.DV);
+                case 0x05f0: return new Usage(this, id, "Data Field: Gesture Sensor", UsageTypes.SV);
+                case 0x05f1: return new Usage(this, id, "Data Field: Gesture State", UsageTypes.NAry);
+                case 0x05f2: return new Usage(this, id, "Data Field: Hinge Fold Initial Angle", UsageTypes.SV);
+                case 0x05f3: return new Usage(this, id, "Data Field: Hinge Fold Final Angle", UsageTypes.SV);
+                case 0x05f4: return new Usage(this, id, "Data Field: Hinge Fold Contributing Panel", UsageTypes.NAry);
+                case 0x05f5: return new Usage(this, id, "Data Field: Hinge Fold Type", UsageTypes.NAry);
+                case 0x0800: return new Usage(this, id, "Sensor State: Undefined", UsageTypes.Sel);
+                case 0x0801: return new Usage(this, id, "Sensor State: Ready", UsageTypes.Sel);
+                case 0x0802: return new Usage(this, id, "Sensor State: Not Available", UsageTypes.Sel);
+                case 0x0803: return new Usage(this, id, "Sensor State: No Data", UsageTypes.Sel);
+                case 0x0804: return new Usage(this, id, "Sensor State: Initializing", UsageTypes.Sel);
+                case 0x0805: return new Usage(this, id, "Sensor State: Access Denied", UsageTypes.Sel);
+                case 0x0806: return new Usage(this, id, "Sensor State: Error", UsageTypes.Sel);
+                case 0x0810: return new Usage(this, id, "Sensor Event: Unknown", UsageTypes.Sel);
+                case 0x0811: return new Usage(this, id, "Sensor Event: State Changed", UsageTypes.Sel);
+                case 0x0812: return new Usage(this, id, "Sensor Event: Property Changed", UsageTypes.Sel);
+                case 0x0813: return new Usage(this, id, "Sensor Event: Data Updated", UsageTypes.Sel);
+                case 0x0814: return new Usage(this, id, "Sensor Event: Poll Response", UsageTypes.Sel);
+                case 0x0815: return new Usage(this, id, "Sensor Event: Change Sensitivity", UsageTypes.Sel);
+                case 0x0816: return new Usage(this, id, "Sensor Event: Range Maximum Reached", UsageTypes.Sel);
+                case 0x0817: return new Usage(this, id, "Sensor Event: Range Minimum Reached", UsageTypes.Sel);
+                case 0x0818: return new Usage(this, id, "Sensor Event: High Threshold Cross Upward", UsageTypes.Sel);
+                case 0x0819: return new Usage(this, id, "Sensor Event: High Threshold Cross Downward", UsageTypes.Sel);
+                case 0x081a: return new Usage(this, id, "Sensor Event: Low Threshold Cross Upward", UsageTypes.Sel);
+                case 0x081b: return new Usage(this, id, "Sensor Event: Low Threshold Cross Downward", UsageTypes.Sel);
+                case 0x081c: return new Usage(this, id, "Sensor Event: Zero Threshold Cross Upward", UsageTypes.Sel);
+                case 0x081d: return new Usage(this, id, "Sensor Event: Zero Threshold Cross Downward", UsageTypes.Sel);
+                case 0x081e: return new Usage(this, id, "Sensor Event: Period Exceeded", UsageTypes.Sel);
+                case 0x081f: return new Usage(this, id, "Sensor Event: Frequency Exceeded", UsageTypes.Sel);
+                case 0x0820: return new Usage(this, id, "Sensor Event: Complex Trigger", UsageTypes.Sel);
+                case 0x0830: return new Usage(this, id, "Connection Type: Integrated", UsageTypes.Sel);
+                case 0x0831: return new Usage(this, id, "Connection Type: Attached", UsageTypes.Sel);
+                case 0x0832: return new Usage(this, id, "Connection Type: External", UsageTypes.Sel);
+                case 0x0840: return new Usage(this, id, "Reporting State: Report No Events", UsageTypes.Sel);
+                case 0x0841: return new Usage(this, id, "Reporting State: Report All Events", UsageTypes.Sel);
+                case 0x0842: return new Usage(this, id, "Reporting State: Report Threshold Events", UsageTypes.Sel);
+                case 0x0843: return new Usage(this, id, "Reporting State: Wake On No Events", UsageTypes.Sel);
+                case 0x0844: return new Usage(this, id, "Reporting State: Wake On All Events", UsageTypes.Sel);
+                case 0x0845: return new Usage(this, id, "Reporting State: Wake On Threshold Events", UsageTypes.Sel);
+                case 0x0850: return new Usage(this, id, "Power State: Undefined", UsageTypes.Sel);
+                case 0x0851: return new Usage(this, id, "Power State: D0 Full Power", UsageTypes.Sel);
+                case 0x0852: return new Usage(this, id, "Power State: D1 Low Power", UsageTypes.Sel);
+                case 0x0853: return new Usage(this, id, "Power State: D2 Standby Power with Wakeup", UsageTypes.Sel);
+                case 0x0854: return new Usage(this, id, "Power State: D3 Sleep with Wakeup", UsageTypes.Sel);
+                case 0x0855: return new Usage(this, id, "Power State: D4 Power Off", UsageTypes.Sel);
+                case 0x0860: return new Usage(this, id, "Accuracy: Default", UsageTypes.Sel);
+                case 0x0861: return new Usage(this, id, "Accuracy: High", UsageTypes.Sel);
+                case 0x0862: return new Usage(this, id, "Accuracy: Medium", UsageTypes.Sel);
+                case 0x0863: return new Usage(this, id, "Accuracy: Low", UsageTypes.Sel);
+                case 0x0870: return new Usage(this, id, "Fix Quality: No Fix", UsageTypes.Sel);
+                case 0x0871: return new Usage(this, id, "Fix Quality: GPS", UsageTypes.Sel);
+                case 0x0872: return new Usage(this, id, "Fix Quality: DGPS", UsageTypes.Sel);
+                case 0x0880: return new Usage(this, id, "Fix Type: No Fix", UsageTypes.Sel);
+                case 0x0881: return new Usage(this, id, "Fix Type: GPS SPS Mode, Fix Valid", UsageTypes.Sel);
+                case 0x0882: return new Usage(this, id, "Fix Type: DGPS SPS Mode, Fix Valid", UsageTypes.Sel);
+                case 0x0883: return new Usage(this, id, "Fix Type: GPS PPS Mode, Fix Valid", UsageTypes.Sel);
+                case 0x0884: return new Usage(this, id, "Fix Type: Real Time Kinematic", UsageTypes.Sel);
+                case 0x0885: return new Usage(this, id, "Fix Type: Float RTK", UsageTypes.Sel);
+                case 0x0886: return new Usage(this, id, "Fix Type: Estimated (dead reckoned)", UsageTypes.Sel);
+                case 0x0887: return new Usage(this, id, "Fix Type: Manual Input Mode", UsageTypes.Sel);
+                case 0x0888: return new Usage(this, id, "Fix Type: Simulator Mode", UsageTypes.Sel);
+                case 0x0890: return new Usage(this, id, "GPS Operation Mode: Manual", UsageTypes.Sel);
+                case 0x0891: return new Usage(this, id, "GPS Operation Mode: Automatic", UsageTypes.Sel);
+                case 0x08a0: return new Usage(this, id, "GPS Selection Mode: Autonomous", UsageTypes.Sel);
+                case 0x08a1: return new Usage(this, id, "GPS Selection Mode: DGPS", UsageTypes.Sel);
+                case 0x08a2: return new Usage(this, id, "GPS Selection Mode: Estimated (dead reckoned)", UsageTypes.Sel);
+                case 0x08a3: return new Usage(this, id, "GPS Selection Mode: Manual Input", UsageTypes.Sel);
+                case 0x08a4: return new Usage(this, id, "GPS Selection Mode: Simulator", UsageTypes.Sel);
+                case 0x08a5: return new Usage(this, id, "GPS Selection Mode: Data Not Valid", UsageTypes.Sel);
+                case 0x08b0: return new Usage(this, id, "GPS Status: Data Valid", UsageTypes.Sel);
+                case 0x08b1: return new Usage(this, id, "GPS Status: Data Not Valid", UsageTypes.Sel);
+                case 0x08c0: return new Usage(this, id, "Day of Week: Sunday", UsageTypes.Sel);
+                case 0x08c1: return new Usage(this, id, "Day of Week: Monday", UsageTypes.Sel);
+                case 0x08c2: return new Usage(this, id, "Day of Week: Tuesday", UsageTypes.Sel);
+                case 0x08c3: return new Usage(this, id, "Day of Week: Wednesday", UsageTypes.Sel);
+                case 0x08c4: return new Usage(this, id, "Day of Week: Thursday", UsageTypes.Sel);
+                case 0x08c5: return new Usage(this, id, "Day of Week: Friday", UsageTypes.Sel);
+                case 0x08c6: return new Usage(this, id, "Day of Week: Saturday", UsageTypes.Sel);
+                case 0x08d0: return new Usage(this, id, "Kind: Category", UsageTypes.Sel);
+                case 0x08d1: return new Usage(this, id, "Kind: Type", UsageTypes.Sel);
+                case 0x08d2: return new Usage(this, id, "Kind: Event", UsageTypes.Sel);
+                case 0x08d3: return new Usage(this, id, "Kind: Property", UsageTypes.Sel);
+                case 0x08d4: return new Usage(this, id, "Kind: Data Field", UsageTypes.Sel);
+                case 0x08e0: return new Usage(this, id, "Magnetometer Accuracy: Low", UsageTypes.Sel);
+                case 0x08e1: return new Usage(this, id, "Magnetometer Accuracy: Medium", UsageTypes.Sel);
+                case 0x08e2: return new Usage(this, id, "Magnetometer Accuracy: High", UsageTypes.Sel);
+                case 0x08f0: return new Usage(this, id, "Simple Orientation Direction: Not Rotated", UsageTypes.Sel);
+                case 0x08f1: return new Usage(this, id, "Simple Orientation Direction: Rotated 90 Degrees CCW", UsageTypes.Sel);
+                case 0x08f2: return new Usage(this, id, "Simple Orientation Direction: Rotated 180 Degrees CCW", UsageTypes.Sel);
+                case 0x08f3: return new Usage(this, id, "Simple Orientation Direction: Rotated 270 Degrees CCW", UsageTypes.Sel);
+                case 0x08f4: return new Usage(this, id, "Simple Orientation Direction: Face Up", UsageTypes.Sel);
+                case 0x08f5: return new Usage(this, id, "Simple Orientation Direction: Face Down", UsageTypes.Sel);
+                case 0x0900: return new Usage(this, id, "VT_NULL: Empty", UsageTypes.Sel);
+                case 0x0901: return new Usage(this, id, "VT_BOOL: Boolean", UsageTypes.Sel);
+                case 0x0902: return new Usage(this, id, "VT_UI1: Byte", UsageTypes.Sel);
+                case 0x0903: return new Usage(this, id, "VT_I1: Character", UsageTypes.Sel);
+                case 0x0904: return new Usage(this, id, "VT_UI2: Unsigned Short", UsageTypes.Sel);
+                case 0x0905: return new Usage(this, id, "VT_I2: Short", UsageTypes.Sel);
+                case 0x0906: return new Usage(this, id, "VT_UI4: Unsigned Long", UsageTypes.Sel);
+                case 0x0907: return new Usage(this, id, "VT_I4: Long", UsageTypes.Sel);
+                case 0x0908: return new Usage(this, id, "VT_UI8: Unsigned Long Long", UsageTypes.Sel);
+                case 0x0909: return new Usage(this, id, "VT_I8: Long Long", UsageTypes.Sel);
+                case 0x090a: return new Usage(this, id, "VT_R4: Float", UsageTypes.Sel);
+                case 0x090b: return new Usage(this, id, "VT_R8: Double", UsageTypes.Sel);
+                case 0x090c: return new Usage(this, id, "VT_WSTR: Wide String", UsageTypes.Sel);
+                case 0x090d: return new Usage(this, id, "VT_STR: Narrow String", UsageTypes.Sel);
+                case 0x090e: return new Usage(this, id, "VT_CLSID: Guid", UsageTypes.Sel);
+                case 0x090f: return new Usage(this, id, "VT_VECTOR|VT_UI1: Opaque Structure", UsageTypes.Sel);
+                case 0x0910: return new Usage(this, id, "VT_F16E0: HID 16-bit Float e0", UsageTypes.Sel);
+                case 0x0911: return new Usage(this, id, "VT_F16E1: HID 16-bit Float e1", UsageTypes.Sel);
+                case 0x0912: return new Usage(this, id, "VT_F16E2: HID 16-bit Float e2", UsageTypes.Sel);
+                case 0x0913: return new Usage(this, id, "VT_F16E3: HID 16-bit Float e3", UsageTypes.Sel);
+                case 0x0914: return new Usage(this, id, "VT_F16E4: HID 16-bit Float e4", UsageTypes.Sel);
+                case 0x0915: return new Usage(this, id, "VT_F16E5: HID 16-bit Float e5", UsageTypes.Sel);
+                case 0x0916: return new Usage(this, id, "VT_F16E6: HID 16-bit Float e6", UsageTypes.Sel);
+                case 0x0917: return new Usage(this, id, "VT_F16E7: HID 16-bit Float e7", UsageTypes.Sel);
+                case 0x0918: return new Usage(this, id, "VT_F16E8: HID 16-bit Float e-8", UsageTypes.Sel);
+                case 0x0919: return new Usage(this, id, "VT_F16E9: HID 16-bit Float e-7", UsageTypes.Sel);
+                case 0x091a: return new Usage(this, id, "VT_F16EA: HID 16-bit Float e-6", UsageTypes.Sel);
+                case 0x091b: return new Usage(this, id, "VT_F16EB: HID 16-bit Float e-5", UsageTypes.Sel);
+                case 0x091c: return new Usage(this, id, "VT_F16EC: HID 16-bit Float e-4", UsageTypes.Sel);
+                case 0x091d: return new Usage(this, id, "VT_F16ED: HID 16-bit Float e-3", UsageTypes.Sel);
+                case 0x091e: return new Usage(this, id, "VT_F16EE: HID 16-bit Float e-2", UsageTypes.Sel);
+                case 0x091f: return new Usage(this, id, "VT_F16EF: HID 16-bit Float e-1", UsageTypes.Sel);
+                case 0x0920: return new Usage(this, id, "VT_F32E0: HID 32-bit Float e0", UsageTypes.Sel);
+                case 0x0921: return new Usage(this, id, "VT_F32E1: HID 32-bit Float e1", UsageTypes.Sel);
+                case 0x0922: return new Usage(this, id, "VT_F32E2: HID 32-bit Float e2", UsageTypes.Sel);
+                case 0x0923: return new Usage(this, id, "VT_F32E3: HID 32-bit Float e3", UsageTypes.Sel);
+                case 0x0924: return new Usage(this, id, "VT_F32E4: HID 32-bit Float e4", UsageTypes.Sel);
+                case 0x0925: return new Usage(this, id, "VT_F32E5: HID 32-bit Float e5", UsageTypes.Sel);
+                case 0x0926: return new Usage(this, id, "VT_F32E6: HID 32-bit Float e6", UsageTypes.Sel);
+                case 0x0927: return new Usage(this, id, "VT_F32E7: HID 32-bit Float e7", UsageTypes.Sel);
+                case 0x0928: return new Usage(this, id, "VT_F32E8: HID 32-bit Float e-8", UsageTypes.Sel);
+                case 0x0929: return new Usage(this, id, "VT_F32E9: HID 32-bit Float e-7", UsageTypes.Sel);
+                case 0x092a: return new Usage(this, id, "VT_F32EA: HID 32-bit Float e-6", UsageTypes.Sel);
+                case 0x092b: return new Usage(this, id, "VT_F32EB: HID 32-bit Float e-5", UsageTypes.Sel);
+                case 0x092c: return new Usage(this, id, "VT_F32EC: HID 32-bit Float e-4", UsageTypes.Sel);
+                case 0x092d: return new Usage(this, id, "VT_F32ED: HID 32-bit Float e-3", UsageTypes.Sel);
+                case 0x092e: return new Usage(this, id, "VT_F32EE: HID 32-bit Float e-2", UsageTypes.Sel);
+                case 0x092f: return new Usage(this, id, "VT_F32EF: HID 32-bit Float e-1", UsageTypes.Sel);
+                case 0x0930: return new Usage(this, id, "Activity Type: Unknown", UsageTypes.Sel);
+                case 0x0931: return new Usage(this, id, "Activity Type: Stationary", UsageTypes.Sel);
+                case 0x0932: return new Usage(this, id, "Activity Type: Fidgeting", UsageTypes.Sel);
+                case 0x0933: return new Usage(this, id, "Activity Type: Walking", UsageTypes.Sel);
+                case 0x0934: return new Usage(this, id, "Activity Type: Running", UsageTypes.Sel);
+                case 0x0935: return new Usage(this, id, "Activity Type: In Vehicle", UsageTypes.Sel);
+                case 0x0936: return new Usage(this, id, "Activity Type: Biking", UsageTypes.Sel);
+                case 0x0937: return new Usage(this, id, "Activity Type: Idle", UsageTypes.Sel);
+                case 0x0940: return new Usage(this, id, "Unit: Not Specified", UsageTypes.Sel);
+                case 0x0941: return new Usage(this, id, "Unit: Lux", UsageTypes.Sel);
+                case 0x0942: return new Usage(this, id, "Unit: Degrees Kelvin", UsageTypes.Sel);
+                case 0x0943: return new Usage(this, id, "Unit: Degrees Celsius", UsageTypes.Sel);
+                case 0x0944: return new Usage(this, id, "Unit: Pascal", UsageTypes.Sel);
+                case 0x0945: return new Usage(this, id, "Unit: Newton", UsageTypes.Sel);
+                case 0x0946: return new Usage(this, id, "Unit: Meters/Second", UsageTypes.Sel);
+                case 0x0947: return new Usage(this, id, "Unit: Kilogram", UsageTypes.Sel);
+                case 0x0948: return new Usage(this, id, "Unit: Meter", UsageTypes.Sel);
+                case 0x0949: return new Usage(this, id, "Unit: Meters/Second/Second", UsageTypes.Sel);
+                case 0x094a: return new Usage(this, id, "Unit: Farad", UsageTypes.Sel);
+                case 0x094b: return new Usage(this, id, "Unit: Ampere", UsageTypes.Sel);
+                case 0x094c: return new Usage(this, id, "Unit: Watt", UsageTypes.Sel);
+                case 0x094d: return new Usage(this, id, "Unit: Henry", UsageTypes.Sel);
+                case 0x094e: return new Usage(this, id, "Unit: Ohm", UsageTypes.Sel);
+                case 0x094f: return new Usage(this, id, "Unit: Volt", UsageTypes.Sel);
+                case 0x0950: return new Usage(this, id, "Unit: Hertz", UsageTypes.Sel);
+                case 0x0951: return new Usage(this, id, "Unit: Bar", UsageTypes.Sel);
+                case 0x0952: return new Usage(this, id, "Unit: Degrees Anti-clockwise", UsageTypes.Sel);
+                case 0x0953: return new Usage(this, id, "Unit: Degrees Clockwise", UsageTypes.Sel);
+                case 0x0954: return new Usage(this, id, "Unit: Degrees", UsageTypes.Sel);
+                case 0x0955: return new Usage(this, id, "Unit: Degrees/Second", UsageTypes.Sel);
+                case 0x0956: return new Usage(this, id, "Unit: Degrees/Second/Second", UsageTypes.Sel);
+                case 0x0957: return new Usage(this, id, "Unit: Knot", UsageTypes.Sel);
+                case 0x0958: return new Usage(this, id, "Unit: Percent", UsageTypes.Sel);
+                case 0x0959: return new Usage(this, id, "Unit: Second", UsageTypes.Sel);
+                case 0x095a: return new Usage(this, id, "Unit: Millisecond", UsageTypes.Sel);
+                case 0x095b: return new Usage(this, id, "Unit: G", UsageTypes.Sel);
+                case 0x095c: return new Usage(this, id, "Unit: Bytes", UsageTypes.Sel);
+                case 0x095d: return new Usage(this, id, "Unit: Milligauss", UsageTypes.Sel);
+                case 0x095e: return new Usage(this, id, "Unit: Bits", UsageTypes.Sel);
+                case 0x0960: return new Usage(this, id, "Activity State: No State Change", UsageTypes.Sel);
+                case 0x0961: return new Usage(this, id, "Activity State: Start Activity", UsageTypes.Sel);
+                case 0x0962: return new Usage(this, id, "Activity State: End Activity", UsageTypes.Sel);
+                case 0x0970: return new Usage(this, id, "Exponent 0: 1", UsageTypes.Sel);
+                case 0x0971: return new Usage(this, id, "Exponent 1: 10", UsageTypes.Sel);
+                case 0x0972: return new Usage(this, id, "Exponent 2: 100", UsageTypes.Sel);
+                case 0x0973: return new Usage(this, id, "Exponent 3: 1 000", UsageTypes.Sel);
+                case 0x0974: return new Usage(this, id, "Exponent 4: 10 000", UsageTypes.Sel);
+                case 0x0975: return new Usage(this, id, "Exponent 5: 100 000", UsageTypes.Sel);
+                case 0x0976: return new Usage(this, id, "Exponent 6: 1 000 000", UsageTypes.Sel);
+                case 0x0977: return new Usage(this, id, "Exponent 7: 10 000 000", UsageTypes.Sel);
+                case 0x0978: return new Usage(this, id, "Exponent 8: 0.00 000 001", UsageTypes.Sel);
+                case 0x0979: return new Usage(this, id, "Exponent 9: 0.0 000 001", UsageTypes.Sel);
+                case 0x097a: return new Usage(this, id, "Exponent A: 0.000 001", UsageTypes.Sel);
+                case 0x097b: return new Usage(this, id, "Exponent B: 0.00 001", UsageTypes.Sel);
+                case 0x097c: return new Usage(this, id, "Exponent C: 0.0 001", UsageTypes.Sel);
+                case 0x097d: return new Usage(this, id, "Exponent D: 0.001", UsageTypes.Sel);
+                case 0x097e: return new Usage(this, id, "Exponent E: 0.01", UsageTypes.Sel);
+                case 0x097f: return new Usage(this, id, "Exponent F: 0.1", UsageTypes.Sel);
+                case 0x0980: return new Usage(this, id, "Device Position: Unknown", UsageTypes.Sel);
+                case 0x0981: return new Usage(this, id, "Device Position: Unchanged", UsageTypes.Sel);
+                case 0x0982: return new Usage(this, id, "Device Position: On Desk", UsageTypes.Sel);
+                case 0x0983: return new Usage(this, id, "Device Position: In Hand", UsageTypes.Sel);
+                case 0x0984: return new Usage(this, id, "Device Position: Moving in Bag", UsageTypes.Sel);
+                case 0x0985: return new Usage(this, id, "Device Position: Stationary in Bag", UsageTypes.Sel);
+                case 0x0990: return new Usage(this, id, "Step Type: Unknown", UsageTypes.Sel);
+                case 0x0991: return new Usage(this, id, "Step Type: Running", UsageTypes.Sel);
+                case 0x0992: return new Usage(this, id, "Step Type: Walking", UsageTypes.Sel);
+                case 0x09a0: return new Usage(this, id, "Gesture State: Unknown", UsageTypes.Sel);
+                case 0x09a1: return new Usage(this, id, "Gesture State: Started", UsageTypes.Sel);
+                case 0x09a2: return new Usage(this, id, "Gesture State: Completed", UsageTypes.Sel);
+                case 0x09a3: return new Usage(this, id, "Gesture State: Cancelled", UsageTypes.Sel);
+                case 0x09b0: return new Usage(this, id, "Contributing Panel: Unknown", UsageTypes.Sel);
+                case 0x09b1: return new Usage(this, id, "Contributing Panel: Panel1", UsageTypes.Sel);
+                case 0x09b2: return new Usage(this, id, "Contributing Panel: Panel2", UsageTypes.Sel);
+                case 0x09b3: return new Usage(this, id, "Contributing Panel: Both", UsageTypes.Sel);
+                case 0x09b4: return new Usage(this, id, "Fold Type: Unknown", UsageTypes.Sel);
+                case 0x09b5: return new Usage(this, id, "Fold Type: Increasing", UsageTypes.Sel);
+                case 0x09b6: return new Usage(this, id, "Fold Type: Decreasing", UsageTypes.Sel);
+                case 0x1000: return new Usage(this, id, "Change Sensitivity Absolute", UsageTypes.US);
+                case 0x1001: return new Usage(this, id, "Change Sensitivity Absolute", UsageTypes.US);
+                case 0x1002: return new Usage(this, id, "Change Sensitivity Absolute", UsageTypes.US);
+                case 0x1003: return new Usage(this, id, "Change Sensitivity Absolute", UsageTypes.US);
+                case 0x1004: return new Usage(this, id, "Change Sensitivity Absolute", UsageTypes.US);
+                case 0x1005: return new Usage(this, id, "Change Sensitivity Absolute", UsageTypes.US);
+                case 0x1006: return new Usage(this, id, "Change Sensitivity Absolute", UsageTypes.US);
+                case 0x1007: return new Usage(this, id, "Change Sensitivity Absolute", UsageTypes.US);
+                case 0x1008: return new Usage(this, id, "Change Sensitivity Absolute", UsageTypes.US);
+                case 0x1009: return new Usage(this, id, "Change Sensitivity Absolute", UsageTypes.US);
+                case 0x100a: return new Usage(this, id, "Change Sensitivity Absolute", UsageTypes.US);
+                case 0x100b: return new Usage(this, id, "Change Sensitivity Absolute", UsageTypes.US);
+                case 0x100c: return new Usage(this, id, "Change Sensitivity Absolute", UsageTypes.US);
+                case 0x100d: return new Usage(this, id, "Change Sensitivity Absolute", UsageTypes.US);
+                case 0x100e: return new Usage(this, id, "Change Sensitivity Absolute", UsageTypes.US);
+                case 0x100f: return new Usage(this, id, "Change Sensitivity Absolute", UsageTypes.US);
+                case 0x2000: return new Usage(this, id, "Maximum", UsageTypes.US);
+                case 0x2001: return new Usage(this, id, "Maximum", UsageTypes.US);
+                case 0x2002: return new Usage(this, id, "Maximum", UsageTypes.US);
+                case 0x2003: return new Usage(this, id, "Maximum", UsageTypes.US);
+                case 0x2004: return new Usage(this, id, "Maximum", UsageTypes.US);
+                case 0x2005: return new Usage(this, id, "Maximum", UsageTypes.US);
+                case 0x2006: return new Usage(this, id, "Maximum", UsageTypes.US);
+                case 0x2007: return new Usage(this, id, "Maximum", UsageTypes.US);
+                case 0x2008: return new Usage(this, id, "Maximum", UsageTypes.US);
+                case 0x2009: return new Usage(this, id, "Maximum", UsageTypes.US);
+                case 0x200a: return new Usage(this, id, "Maximum", UsageTypes.US);
+                case 0x200b: return new Usage(this, id, "Maximum", UsageTypes.US);
+                case 0x200c: return new Usage(this, id, "Maximum", UsageTypes.US);
+                case 0x200d: return new Usage(this, id, "Maximum", UsageTypes.US);
+                case 0x200e: return new Usage(this, id, "Maximum", UsageTypes.US);
+                case 0x200f: return new Usage(this, id, "Maximum", UsageTypes.US);
+                case 0x3000: return new Usage(this, id, "Minimum", UsageTypes.US);
+                case 0x3001: return new Usage(this, id, "Minimum", UsageTypes.US);
+                case 0x3002: return new Usage(this, id, "Minimum", UsageTypes.US);
+                case 0x3003: return new Usage(this, id, "Minimum", UsageTypes.US);
+                case 0x3004: return new Usage(this, id, "Minimum", UsageTypes.US);
+                case 0x3005: return new Usage(this, id, "Minimum", UsageTypes.US);
+                case 0x3006: return new Usage(this, id, "Minimum", UsageTypes.US);
+                case 0x3007: return new Usage(this, id, "Minimum", UsageTypes.US);
+                case 0x3008: return new Usage(this, id, "Minimum", UsageTypes.US);
+                case 0x3009: return new Usage(this, id, "Minimum", UsageTypes.US);
+                case 0x300a: return new Usage(this, id, "Minimum", UsageTypes.US);
+                case 0x300b: return new Usage(this, id, "Minimum", UsageTypes.US);
+                case 0x300c: return new Usage(this, id, "Minimum", UsageTypes.US);
+                case 0x300d: return new Usage(this, id, "Minimum", UsageTypes.US);
+                case 0x300e: return new Usage(this, id, "Minimum", UsageTypes.US);
+                case 0x300f: return new Usage(this, id, "Minimum", UsageTypes.US);
+                case 0x4000: return new Usage(this, id, "Accuracy", UsageTypes.US);
+                case 0x4001: return new Usage(this, id, "Accuracy", UsageTypes.US);
+                case 0x4002: return new Usage(this, id, "Accuracy", UsageTypes.US);
+                case 0x4003: return new Usage(this, id, "Accuracy", UsageTypes.US);
+                case 0x4004: return new Usage(this, id, "Accuracy", UsageTypes.US);
+                case 0x4005: return new Usage(this, id, "Accuracy", UsageTypes.US);
+                case 0x4006: return new Usage(this, id, "Accuracy", UsageTypes.US);
+                case 0x4007: return new Usage(this, id, "Accuracy", UsageTypes.US);
+                case 0x4008: return new Usage(this, id, "Accuracy", UsageTypes.US);
+                case 0x4009: return new Usage(this, id, "Accuracy", UsageTypes.US);
+                case 0x400a: return new Usage(this, id, "Accuracy", UsageTypes.US);
+                case 0x400b: return new Usage(this, id, "Accuracy", UsageTypes.US);
+                case 0x400c: return new Usage(this, id, "Accuracy", UsageTypes.US);
+                case 0x400d: return new Usage(this, id, "Accuracy", UsageTypes.US);
+                case 0x400e: return new Usage(this, id, "Accuracy", UsageTypes.US);
+                case 0x400f: return new Usage(this, id, "Accuracy", UsageTypes.US);
+                case 0x5000: return new Usage(this, id, "Resolution", UsageTypes.US);
+                case 0x5001: return new Usage(this, id, "Resolution", UsageTypes.US);
+                case 0x5002: return new Usage(this, id, "Resolution", UsageTypes.US);
+                case 0x5003: return new Usage(this, id, "Resolution", UsageTypes.US);
+                case 0x5004: return new Usage(this, id, "Resolution", UsageTypes.US);
+                case 0x5005: return new Usage(this, id, "Resolution", UsageTypes.US);
+                case 0x5006: return new Usage(this, id, "Resolution", UsageTypes.US);
+                case 0x5007: return new Usage(this, id, "Resolution", UsageTypes.US);
+                case 0x5008: return new Usage(this, id, "Resolution", UsageTypes.US);
+                case 0x5009: return new Usage(this, id, "Resolution", UsageTypes.US);
+                case 0x500a: return new Usage(this, id, "Resolution", UsageTypes.US);
+                case 0x500b: return new Usage(this, id, "Resolution", UsageTypes.US);
+                case 0x500c: return new Usage(this, id, "Resolution", UsageTypes.US);
+                case 0x500d: return new Usage(this, id, "Resolution", UsageTypes.US);
+                case 0x500e: return new Usage(this, id, "Resolution", UsageTypes.US);
+                case 0x500f: return new Usage(this, id, "Resolution", UsageTypes.US);
+                case 0x6000: return new Usage(this, id, "Threshold High", UsageTypes.US);
+                case 0x6001: return new Usage(this, id, "Threshold High", UsageTypes.US);
+                case 0x6002: return new Usage(this, id, "Threshold High", UsageTypes.US);
+                case 0x6003: return new Usage(this, id, "Threshold High", UsageTypes.US);
+                case 0x6004: return new Usage(this, id, "Threshold High", UsageTypes.US);
+                case 0x6005: return new Usage(this, id, "Threshold High", UsageTypes.US);
+                case 0x6006: return new Usage(this, id, "Threshold High", UsageTypes.US);
+                case 0x6007: return new Usage(this, id, "Threshold High", UsageTypes.US);
+                case 0x6008: return new Usage(this, id, "Threshold High", UsageTypes.US);
+                case 0x6009: return new Usage(this, id, "Threshold High", UsageTypes.US);
+                case 0x600a: return new Usage(this, id, "Threshold High", UsageTypes.US);
+                case 0x600b: return new Usage(this, id, "Threshold High", UsageTypes.US);
+                case 0x600c: return new Usage(this, id, "Threshold High", UsageTypes.US);
+                case 0x600d: return new Usage(this, id, "Threshold High", UsageTypes.US);
+                case 0x600e: return new Usage(this, id, "Threshold High", UsageTypes.US);
+                case 0x600f: return new Usage(this, id, "Threshold High", UsageTypes.US);
+                case 0x7000: return new Usage(this, id, "Threshold Low", UsageTypes.US);
+                case 0x7001: return new Usage(this, id, "Threshold Low", UsageTypes.US);
+                case 0x7002: return new Usage(this, id, "Threshold Low", UsageTypes.US);
+                case 0x7003: return new Usage(this, id, "Threshold Low", UsageTypes.US);
+                case 0x7004: return new Usage(this, id, "Threshold Low", UsageTypes.US);
+                case 0x7005: return new Usage(this, id, "Threshold Low", UsageTypes.US);
+                case 0x7006: return new Usage(this, id, "Threshold Low", UsageTypes.US);
+                case 0x7007: return new Usage(this, id, "Threshold Low", UsageTypes.US);
+                case 0x7008: return new Usage(this, id, "Threshold Low", UsageTypes.US);
+                case 0x7009: return new Usage(this, id, "Threshold Low", UsageTypes.US);
+                case 0x700a: return new Usage(this, id, "Threshold Low", UsageTypes.US);
+                case 0x700b: return new Usage(this, id, "Threshold Low", UsageTypes.US);
+                case 0x700c: return new Usage(this, id, "Threshold Low", UsageTypes.US);
+                case 0x700d: return new Usage(this, id, "Threshold Low", UsageTypes.US);
+                case 0x700e: return new Usage(this, id, "Threshold Low", UsageTypes.US);
+                case 0x700f: return new Usage(this, id, "Threshold Low", UsageTypes.US);
+                case 0x8000: return new Usage(this, id, "Calibration Offset", UsageTypes.US);
+                case 0x8001: return new Usage(this, id, "Calibration Offset", UsageTypes.US);
+                case 0x8002: return new Usage(this, id, "Calibration Offset", UsageTypes.US);
+                case 0x8003: return new Usage(this, id, "Calibration Offset", UsageTypes.US);
+                case 0x8004: return new Usage(this, id, "Calibration Offset", UsageTypes.US);
+                case 0x8005: return new Usage(this, id, "Calibration Offset", UsageTypes.US);
+                case 0x8006: return new Usage(this, id, "Calibration Offset", UsageTypes.US);
+                case 0x8007: return new Usage(this, id, "Calibration Offset", UsageTypes.US);
+                case 0x8008: return new Usage(this, id, "Calibration Offset", UsageTypes.US);
+                case 0x8009: return new Usage(this, id, "Calibration Offset", UsageTypes.US);
+                case 0x800a: return new Usage(this, id, "Calibration Offset", UsageTypes.US);
+                case 0x800b: return new Usage(this, id, "Calibration Offset", UsageTypes.US);
+                case 0x800c: return new Usage(this, id, "Calibration Offset", UsageTypes.US);
+                case 0x800d: return new Usage(this, id, "Calibration Offset", UsageTypes.US);
+                case 0x800e: return new Usage(this, id, "Calibration Offset", UsageTypes.US);
+                case 0x800f: return new Usage(this, id, "Calibration Offset", UsageTypes.US);
+                case 0x9000: return new Usage(this, id, "Calibration Multiplier", UsageTypes.US);
+                case 0x9001: return new Usage(this, id, "Calibration Multiplier", UsageTypes.US);
+                case 0x9002: return new Usage(this, id, "Calibration Multiplier", UsageTypes.US);
+                case 0x9003: return new Usage(this, id, "Calibration Multiplier", UsageTypes.US);
+                case 0x9004: return new Usage(this, id, "Calibration Multiplier", UsageTypes.US);
+                case 0x9005: return new Usage(this, id, "Calibration Multiplier", UsageTypes.US);
+                case 0x9006: return new Usage(this, id, "Calibration Multiplier", UsageTypes.US);
+                case 0x9007: return new Usage(this, id, "Calibration Multiplier", UsageTypes.US);
+                case 0x9008: return new Usage(this, id, "Calibration Multiplier", UsageTypes.US);
+                case 0x9009: return new Usage(this, id, "Calibration Multiplier", UsageTypes.US);
+                case 0x900a: return new Usage(this, id, "Calibration Multiplier", UsageTypes.US);
+                case 0x900b: return new Usage(this, id, "Calibration Multiplier", UsageTypes.US);
+                case 0x900c: return new Usage(this, id, "Calibration Multiplier", UsageTypes.US);
+                case 0x900d: return new Usage(this, id, "Calibration Multiplier", UsageTypes.US);
+                case 0x900e: return new Usage(this, id, "Calibration Multiplier", UsageTypes.US);
+                case 0x900f: return new Usage(this, id, "Calibration Multiplier", UsageTypes.US);
+                case 0xa000: return new Usage(this, id, "Report Interval", UsageTypes.US);
+                case 0xa001: return new Usage(this, id, "Report Interval", UsageTypes.US);
+                case 0xa002: return new Usage(this, id, "Report Interval", UsageTypes.US);
+                case 0xa003: return new Usage(this, id, "Report Interval", UsageTypes.US);
+                case 0xa004: return new Usage(this, id, "Report Interval", UsageTypes.US);
+                case 0xa005: return new Usage(this, id, "Report Interval", UsageTypes.US);
+                case 0xa006: return new Usage(this, id, "Report Interval", UsageTypes.US);
+                case 0xa007: return new Usage(this, id, "Report Interval", UsageTypes.US);
+                case 0xa008: return new Usage(this, id, "Report Interval", UsageTypes.US);
+                case 0xa009: return new Usage(this, id, "Report Interval", UsageTypes.US);
+                case 0xa00a: return new Usage(this, id, "Report Interval", UsageTypes.US);
+                case 0xa00b: return new Usage(this, id, "Report Interval", UsageTypes.US);
+                case 0xa00c: return new Usage(this, id, "Report Interval", UsageTypes.US);
+                case 0xa00d: return new Usage(this, id, "Report Interval", UsageTypes.US);
+                case 0xa00e: return new Usage(this, id, "Report Interval", UsageTypes.US);
+                case 0xa00f: return new Usage(this, id, "Report Interval", UsageTypes.US);
+                case 0xb000: return new Usage(this, id, "Frequency Max", UsageTypes.US);
+                case 0xb001: return new Usage(this, id, "Frequency Max", UsageTypes.US);
+                case 0xb002: return new Usage(this, id, "Frequency Max", UsageTypes.US);
+                case 0xb003: return new Usage(this, id, "Frequency Max", UsageTypes.US);
+                case 0xb004: return new Usage(this, id, "Frequency Max", UsageTypes.US);
+                case 0xb005: return new Usage(this, id, "Frequency Max", UsageTypes.US);
+                case 0xb006: return new Usage(this, id, "Frequency Max", UsageTypes.US);
+                case 0xb007: return new Usage(this, id, "Frequency Max", UsageTypes.US);
+                case 0xb008: return new Usage(this, id, "Frequency Max", UsageTypes.US);
+                case 0xb009: return new Usage(this, id, "Frequency Max", UsageTypes.US);
+                case 0xb00a: return new Usage(this, id, "Frequency Max", UsageTypes.US);
+                case 0xb00b: return new Usage(this, id, "Frequency Max", UsageTypes.US);
+                case 0xb00c: return new Usage(this, id, "Frequency Max", UsageTypes.US);
+                case 0xb00d: return new Usage(this, id, "Frequency Max", UsageTypes.US);
+                case 0xb00e: return new Usage(this, id, "Frequency Max", UsageTypes.US);
+                case 0xb00f: return new Usage(this, id, "Frequency Max", UsageTypes.US);
+                case 0xc000: return new Usage(this, id, "Period Max", UsageTypes.US);
+                case 0xc001: return new Usage(this, id, "Period Max", UsageTypes.US);
+                case 0xc002: return new Usage(this, id, "Period Max", UsageTypes.US);
+                case 0xc003: return new Usage(this, id, "Period Max", UsageTypes.US);
+                case 0xc004: return new Usage(this, id, "Period Max", UsageTypes.US);
+                case 0xc005: return new Usage(this, id, "Period Max", UsageTypes.US);
+                case 0xc006: return new Usage(this, id, "Period Max", UsageTypes.US);
+                case 0xc007: return new Usage(this, id, "Period Max", UsageTypes.US);
+                case 0xc008: return new Usage(this, id, "Period Max", UsageTypes.US);
+                case 0xc009: return new Usage(this, id, "Period Max", UsageTypes.US);
+                case 0xc00a: return new Usage(this, id, "Period Max", UsageTypes.US);
+                case 0xc00b: return new Usage(this, id, "Period Max", UsageTypes.US);
+                case 0xc00c: return new Usage(this, id, "Period Max", UsageTypes.US);
+                case 0xc00d: return new Usage(this, id, "Period Max", UsageTypes.US);
+                case 0xc00e: return new Usage(this, id, "Period Max", UsageTypes.US);
+                case 0xc00f: return new Usage(this, id, "Period Max", UsageTypes.US);
+                case 0xd000: return new Usage(this, id, "Change Sensitivity Percent of Range", UsageTypes.US);
+                case 0xd001: return new Usage(this, id, "Change Sensitivity Percent of Range", UsageTypes.US);
+                case 0xd002: return new Usage(this, id, "Change Sensitivity Percent of Range", UsageTypes.US);
+                case 0xd003: return new Usage(this, id, "Change Sensitivity Percent of Range", UsageTypes.US);
+                case 0xd004: return new Usage(this, id, "Change Sensitivity Percent of Range", UsageTypes.US);
+                case 0xd005: return new Usage(this, id, "Change Sensitivity Percent of Range", UsageTypes.US);
+                case 0xd006: return new Usage(this, id, "Change Sensitivity Percent of Range", UsageTypes.US);
+                case 0xd007: return new Usage(this, id, "Change Sensitivity Percent of Range", UsageTypes.US);
+                case 0xd008: return new Usage(this, id, "Change Sensitivity Percent of Range", UsageTypes.US);
+                case 0xd009: return new Usage(this, id, "Change Sensitivity Percent of Range", UsageTypes.US);
+                case 0xd00a: return new Usage(this, id, "Change Sensitivity Percent of Range", UsageTypes.US);
+                case 0xd00b: return new Usage(this, id, "Change Sensitivity Percent of Range", UsageTypes.US);
+                case 0xd00c: return new Usage(this, id, "Change Sensitivity Percent of Range", UsageTypes.US);
+                case 0xd00d: return new Usage(this, id, "Change Sensitivity Percent of Range", UsageTypes.US);
+                case 0xd00e: return new Usage(this, id, "Change Sensitivity Percent of Range", UsageTypes.US);
+                case 0xd00f: return new Usage(this, id, "Change Sensitivity Percent of Range", UsageTypes.US);
+                case 0xe000: return new Usage(this, id, "Change Sensitivity Percent Relative", UsageTypes.US);
+                case 0xe001: return new Usage(this, id, "Change Sensitivity Percent Relative", UsageTypes.US);
+                case 0xe002: return new Usage(this, id, "Change Sensitivity Percent Relative", UsageTypes.US);
+                case 0xe003: return new Usage(this, id, "Change Sensitivity Percent Relative", UsageTypes.US);
+                case 0xe004: return new Usage(this, id, "Change Sensitivity Percent Relative", UsageTypes.US);
+                case 0xe005: return new Usage(this, id, "Change Sensitivity Percent Relative", UsageTypes.US);
+                case 0xe006: return new Usage(this, id, "Change Sensitivity Percent Relative", UsageTypes.US);
+                case 0xe007: return new Usage(this, id, "Change Sensitivity Percent Relative", UsageTypes.US);
+                case 0xe008: return new Usage(this, id, "Change Sensitivity Percent Relative", UsageTypes.US);
+                case 0xe009: return new Usage(this, id, "Change Sensitivity Percent Relative", UsageTypes.US);
+                case 0xe00a: return new Usage(this, id, "Change Sensitivity Percent Relative", UsageTypes.US);
+                case 0xe00b: return new Usage(this, id, "Change Sensitivity Percent Relative", UsageTypes.US);
+                case 0xe00c: return new Usage(this, id, "Change Sensitivity Percent Relative", UsageTypes.US);
+                case 0xe00d: return new Usage(this, id, "Change Sensitivity Percent Relative", UsageTypes.US);
+                case 0xe00e: return new Usage(this, id, "Change Sensitivity Percent Relative", UsageTypes.US);
+                case 0xe00f: return new Usage(this, id, "Change Sensitivity Percent Relative", UsageTypes.US);
+            }
 
-            // Create dynamic usages on demand
+            // Create dynamic usages from ranges
             var n = (ushort)(id-0x0544);
-            if (id >= 0x0544 || id < 0x055f) return new Usage(this, id, "Data Field: Custom Value {n+1}", UsageTypes.SV);
-            if (id >= 0x1000 || id < 0x1fff) return new Usage(this, id, "Change Sensitivity Absolute", UsageTypes.US);
-            if (id >= 0x2000 || id < 0x2fff) return new Usage(this, id, "Maximum", UsageTypes.US);
-            if (id >= 0x3000 || id < 0x3fff) return new Usage(this, id, "Minimum", UsageTypes.US);
-            if (id >= 0x4000 || id < 0x4fff) return new Usage(this, id, "Accuracy", UsageTypes.US);
-            if (id >= 0x5000 || id < 0x5fff) return new Usage(this, id, "Resolution", UsageTypes.US);
-            if (id >= 0x6000 || id < 0x6fff) return new Usage(this, id, "Threshold High", UsageTypes.US);
-            if (id >= 0x7000 || id < 0x7fff) return new Usage(this, id, "Threshold Low", UsageTypes.US);
-            if (id >= 0x8000 || id < 0x8fff) return new Usage(this, id, "Calibration Offset", UsageTypes.US);
-            if (id >= 0x9000 || id < 0x9fff) return new Usage(this, id, "Calibration Multiplier", UsageTypes.US);
-            if (id >= 0xa000 || id < 0xafff) return new Usage(this, id, "Report Interval", UsageTypes.US);
-            if (id >= 0xb000 || id < 0xbfff) return new Usage(this, id, "Frequency Max", UsageTypes.US);
-            if (id >= 0xc000 || id < 0xcfff) return new Usage(this, id, "Period Max", UsageTypes.US);
-            if (id >= 0xd000 || id < 0xdfff) return new Usage(this, id, "Change Sensitivity Percent of Range", UsageTypes.US);
-            if (id >= 0xe000 || id < 0xefff) return new Usage(this, id, "Change Sensitivity Percent Relative", UsageTypes.US);
+            if (id >= 0x0544 || id < 0x055f) return new Usage(this, id, $"Data Field: Custom Value {n+1}", UsageTypes.SV);
+            if (id >= 0x1000 || id < 0x1fff) return new Usage(this, id, $"Change Sensitivity Absolute", UsageTypes.US);
+            if (id >= 0x2000 || id < 0x2fff) return new Usage(this, id, $"Maximum", UsageTypes.US);
+            if (id >= 0x3000 || id < 0x3fff) return new Usage(this, id, $"Minimum", UsageTypes.US);
+            if (id >= 0x4000 || id < 0x4fff) return new Usage(this, id, $"Accuracy", UsageTypes.US);
+            if (id >= 0x5000 || id < 0x5fff) return new Usage(this, id, $"Resolution", UsageTypes.US);
+            if (id >= 0x6000 || id < 0x6fff) return new Usage(this, id, $"Threshold High", UsageTypes.US);
+            if (id >= 0x7000 || id < 0x7fff) return new Usage(this, id, $"Threshold Low", UsageTypes.US);
+            if (id >= 0x8000 || id < 0x8fff) return new Usage(this, id, $"Calibration Offset", UsageTypes.US);
+            if (id >= 0x9000 || id < 0x9fff) return new Usage(this, id, $"Calibration Multiplier", UsageTypes.US);
+            if (id >= 0xa000 || id < 0xafff) return new Usage(this, id, $"Report Interval", UsageTypes.US);
+            if (id >= 0xb000 || id < 0xbfff) return new Usage(this, id, $"Frequency Max", UsageTypes.US);
+            if (id >= 0xc000 || id < 0xcfff) return new Usage(this, id, $"Period Max", UsageTypes.US);
+            if (id >= 0xd000 || id < 0xdfff) return new Usage(this, id, $"Change Sensitivity Percent of Range", UsageTypes.US);
+            if (id >= 0xe000 || id < 0xefff) return new Usage(this, id, $"Change Sensitivity Percent Relative", UsageTypes.US);
 
             return base.GetUsage(id);
         }
@@ -20827,41 +20944,48 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly MedicalInstrumentsUsagePage Instance = new MedicalInstrumentsUsagePage();
 
-        private MedicalInstrumentsUsagePage()
-        : base(
-            0x0040,
-            "MedicalInstruments",
-            (0x0000, "Undefined", UsageTypes.None),
-            (0x0001, "Medical Ultrasound", UsageTypes.CA),
-            (0x0020, "VCR/Acquisition", UsageTypes.OOC),
-            (0x0021, "Freeze/Thaw", UsageTypes.OOC),
-            (0x0022, "Clip Store", UsageTypes.OSC),
-            (0x0023, "Update", UsageTypes.OSC),
-            (0x0024, "Next", UsageTypes.OSC),
-            (0x0025, "Save", UsageTypes.OSC),
-            (0x0026, "Print", UsageTypes.OSC),
-            (0x0027, "Microphone Enable", UsageTypes.OSC),
-            (0x0040, "Cine", UsageTypes.LC),
-            (0x0041, "Transmit Power", UsageTypes.LC),
-            (0x0042, "Volume", UsageTypes.LC),
-            (0x0043, "Focus", UsageTypes.LC),
-            (0x0044, "Depth", UsageTypes.LC),
-            (0x0060, "Soft Step - Primary", UsageTypes.LC),
-            (0x0061, "Soft Step - Secondary", UsageTypes.LC),
-            (0x0070, "Depth Gain Compensation", UsageTypes.LC),
-            (0x0080, "Zoom Select", UsageTypes.OSC),
-            (0x0081, "Zoom Adjust", UsageTypes.LC),
-            (0x0082, "Spectral Doppler Mode Select", UsageTypes.OSC),
-            (0x0083, "Spectral Doppler Adjust", UsageTypes.LC),
-            (0x0084, "Color Doppler Mode Select", UsageTypes.OSC),
-            (0x0085, "Color Doppler Adjust", UsageTypes.LC),
-            (0x0086, "Motion Mode Select", UsageTypes.OSC),
-            (0x0087, "Motion Mode Adjust", UsageTypes.LC),
-            (0x0088, "2D Mode Select", UsageTypes.OSC),
-            (0x0089, "2D Mode Adjust", UsageTypes.LC),
-            (0x00a0, "Soft Control Select", UsageTypes.OSC),
-            (0x00a1, "Soft Control Adjust", UsageTypes.LC))
+        private MedicalInstrumentsUsagePage() : base(0x0040, "MedicalInstruments")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "Medical Ultrasound", UsageTypes.CA);
+                case 0x0020: return new Usage(this, id, "VCR/Acquisition", UsageTypes.OOC);
+                case 0x0021: return new Usage(this, id, "Freeze/Thaw", UsageTypes.OOC);
+                case 0x0022: return new Usage(this, id, "Clip Store", UsageTypes.OSC);
+                case 0x0023: return new Usage(this, id, "Update", UsageTypes.OSC);
+                case 0x0024: return new Usage(this, id, "Next", UsageTypes.OSC);
+                case 0x0025: return new Usage(this, id, "Save", UsageTypes.OSC);
+                case 0x0026: return new Usage(this, id, "Print", UsageTypes.OSC);
+                case 0x0027: return new Usage(this, id, "Microphone Enable", UsageTypes.OSC);
+                case 0x0040: return new Usage(this, id, "Cine", UsageTypes.LC);
+                case 0x0041: return new Usage(this, id, "Transmit Power", UsageTypes.LC);
+                case 0x0042: return new Usage(this, id, "Volume", UsageTypes.LC);
+                case 0x0043: return new Usage(this, id, "Focus", UsageTypes.LC);
+                case 0x0044: return new Usage(this, id, "Depth", UsageTypes.LC);
+                case 0x0060: return new Usage(this, id, "Soft Step - Primary", UsageTypes.LC);
+                case 0x0061: return new Usage(this, id, "Soft Step - Secondary", UsageTypes.LC);
+                case 0x0070: return new Usage(this, id, "Depth Gain Compensation", UsageTypes.LC);
+                case 0x0080: return new Usage(this, id, "Zoom Select", UsageTypes.OSC);
+                case 0x0081: return new Usage(this, id, "Zoom Adjust", UsageTypes.LC);
+                case 0x0082: return new Usage(this, id, "Spectral Doppler Mode Select", UsageTypes.OSC);
+                case 0x0083: return new Usage(this, id, "Spectral Doppler Adjust", UsageTypes.LC);
+                case 0x0084: return new Usage(this, id, "Color Doppler Mode Select", UsageTypes.OSC);
+                case 0x0085: return new Usage(this, id, "Color Doppler Adjust", UsageTypes.LC);
+                case 0x0086: return new Usage(this, id, "Motion Mode Select", UsageTypes.OSC);
+                case 0x0087: return new Usage(this, id, "Motion Mode Adjust", UsageTypes.LC);
+                case 0x0088: return new Usage(this, id, "2D Mode Select", UsageTypes.OSC);
+                case 0x0089: return new Usage(this, id, "2D Mode Adjust", UsageTypes.LC);
+                case 0x00a0: return new Usage(this, id, "Soft Control Select", UsageTypes.OSC);
+                case 0x00a1: return new Usage(this, id, "Soft Control Adjust", UsageTypes.LC);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -20875,53 +20999,60 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly BrailleDisplayUsagePage Instance = new BrailleDisplayUsagePage();
 
-        private BrailleDisplayUsagePage()
-        : base(
-            0x0041,
-            "BrailleDisplay",
-            (0x0000, "Undefined", UsageTypes.None),
-            (0x0001, "Braille Display", UsageTypes.CA),
-            (0x0002, "Braille Row", UsageTypes.NAry),
-            (0x0003, "8 Dot Braille Cell", UsageTypes.DV),
-            (0x0004, "6 Dot Braille Cell", UsageTypes.DV),
-            (0x0005, "Number of Braille Cells", UsageTypes.DV),
-            (0x0006, "Screen Reader Control", UsageTypes.NAry),
-            (0x0007, "Screen Reader Identifier", UsageTypes.DV),
-            (0x00fa, "Router Set 1", UsageTypes.NAry),
-            (0x00fb, "Router Set 2", UsageTypes.NAry),
-            (0x00fc, "Router Set 3", UsageTypes.NAry),
-            (0x0100, "Braille Buttons", UsageTypes.NAry),
-            (0x0201, "Braille Keyboard Dot 1", UsageTypes.Sel),
-            (0x0202, "Braille Keyboard Dot 2", UsageTypes.Sel),
-            (0x0203, "Braille Keyboard Dot 3", UsageTypes.Sel),
-            (0x0204, "Braille Keyboard Dot 4", UsageTypes.Sel),
-            (0x0205, "Braille Keyboard Dot 5", UsageTypes.Sel),
-            (0x0206, "Braille Keyboard Dot 6", UsageTypes.Sel),
-            (0x0207, "Braille Keyboard Dot 7", UsageTypes.Sel),
-            (0x0208, "Braille Keyboard Dot 8", UsageTypes.Sel),
-            (0x0209, "Braille Keyboard Space", UsageTypes.Sel),
-            (0x020a, "Braille Keyboard Left Space", UsageTypes.Sel),
-            (0x020b, "Braille Keyboard Right Space", UsageTypes.Sel),
-            (0x020c, "Braille Face Controls", UsageTypes.NAry),
-            (0x020d, "Braille Left Controls", UsageTypes.NAry),
-            (0x020e, "Braille Right Controls", UsageTypes.NAry),
-            (0x020f, "Braille Top Controls", UsageTypes.NAry),
-            (0x0210, "Braille Joystick Center", UsageTypes.Sel),
-            (0x0211, "Braille Joystick Up", UsageTypes.Sel),
-            (0x0212, "Braille Joystick Down", UsageTypes.Sel),
-            (0x0213, "Braille Joystick Left", UsageTypes.Sel),
-            (0x0214, "Braille Joystick Right", UsageTypes.Sel),
-            (0x0215, "Braille D-pad Center", UsageTypes.Sel),
-            (0x0216, "Braille D-pad Up", UsageTypes.Sel),
-            (0x0217, "Braille D-pad Down", UsageTypes.Sel),
-            (0x0218, "Braille D-pad Left", UsageTypes.Sel),
-            (0x0219, "Braille D-pad Right", UsageTypes.Sel),
-            (0x021a, "Braille Pan Left", UsageTypes.Sel),
-            (0x021b, "Braille Pan Right", UsageTypes.Sel),
-            (0x021c, "Braille Rocker Up", UsageTypes.Sel),
-            (0x021d, "Braille Rocker Down", UsageTypes.Sel),
-            (0x021e, "Braille Rocker Press", UsageTypes.Sel))
+        private BrailleDisplayUsagePage() : base(0x0041, "BrailleDisplay")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "Braille Display", UsageTypes.CA);
+                case 0x0002: return new Usage(this, id, "Braille Row", UsageTypes.NAry);
+                case 0x0003: return new Usage(this, id, "8 Dot Braille Cell", UsageTypes.DV);
+                case 0x0004: return new Usage(this, id, "6 Dot Braille Cell", UsageTypes.DV);
+                case 0x0005: return new Usage(this, id, "Number of Braille Cells", UsageTypes.DV);
+                case 0x0006: return new Usage(this, id, "Screen Reader Control", UsageTypes.NAry);
+                case 0x0007: return new Usage(this, id, "Screen Reader Identifier", UsageTypes.DV);
+                case 0x00fa: return new Usage(this, id, "Router Set 1", UsageTypes.NAry);
+                case 0x00fb: return new Usage(this, id, "Router Set 2", UsageTypes.NAry);
+                case 0x00fc: return new Usage(this, id, "Router Set 3", UsageTypes.NAry);
+                case 0x0100: return new Usage(this, id, "Braille Buttons", UsageTypes.NAry);
+                case 0x0201: return new Usage(this, id, "Braille Keyboard Dot 1", UsageTypes.Sel);
+                case 0x0202: return new Usage(this, id, "Braille Keyboard Dot 2", UsageTypes.Sel);
+                case 0x0203: return new Usage(this, id, "Braille Keyboard Dot 3", UsageTypes.Sel);
+                case 0x0204: return new Usage(this, id, "Braille Keyboard Dot 4", UsageTypes.Sel);
+                case 0x0205: return new Usage(this, id, "Braille Keyboard Dot 5", UsageTypes.Sel);
+                case 0x0206: return new Usage(this, id, "Braille Keyboard Dot 6", UsageTypes.Sel);
+                case 0x0207: return new Usage(this, id, "Braille Keyboard Dot 7", UsageTypes.Sel);
+                case 0x0208: return new Usage(this, id, "Braille Keyboard Dot 8", UsageTypes.Sel);
+                case 0x0209: return new Usage(this, id, "Braille Keyboard Space", UsageTypes.Sel);
+                case 0x020a: return new Usage(this, id, "Braille Keyboard Left Space", UsageTypes.Sel);
+                case 0x020b: return new Usage(this, id, "Braille Keyboard Right Space", UsageTypes.Sel);
+                case 0x020c: return new Usage(this, id, "Braille Face Controls", UsageTypes.NAry);
+                case 0x020d: return new Usage(this, id, "Braille Left Controls", UsageTypes.NAry);
+                case 0x020e: return new Usage(this, id, "Braille Right Controls", UsageTypes.NAry);
+                case 0x020f: return new Usage(this, id, "Braille Top Controls", UsageTypes.NAry);
+                case 0x0210: return new Usage(this, id, "Braille Joystick Center", UsageTypes.Sel);
+                case 0x0211: return new Usage(this, id, "Braille Joystick Up", UsageTypes.Sel);
+                case 0x0212: return new Usage(this, id, "Braille Joystick Down", UsageTypes.Sel);
+                case 0x0213: return new Usage(this, id, "Braille Joystick Left", UsageTypes.Sel);
+                case 0x0214: return new Usage(this, id, "Braille Joystick Right", UsageTypes.Sel);
+                case 0x0215: return new Usage(this, id, "Braille D-pad Center", UsageTypes.Sel);
+                case 0x0216: return new Usage(this, id, "Braille D-pad Up", UsageTypes.Sel);
+                case 0x0217: return new Usage(this, id, "Braille D-pad Down", UsageTypes.Sel);
+                case 0x0218: return new Usage(this, id, "Braille D-pad Left", UsageTypes.Sel);
+                case 0x0219: return new Usage(this, id, "Braille D-pad Right", UsageTypes.Sel);
+                case 0x021a: return new Usage(this, id, "Braille Pan Left", UsageTypes.Sel);
+                case 0x021b: return new Usage(this, id, "Braille Pan Right", UsageTypes.Sel);
+                case 0x021c: return new Usage(this, id, "Braille Rocker Up", UsageTypes.Sel);
+                case 0x021d: return new Usage(this, id, "Braille Rocker Down", UsageTypes.Sel);
+                case 0x021e: return new Usage(this, id, "Braille Rocker Press", UsageTypes.Sel);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -20935,61 +21066,68 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly LightingAndIlluminationUsagePage Instance = new LightingAndIlluminationUsagePage();
 
-        private LightingAndIlluminationUsagePage()
-        : base(
-            0x0059,
-            "LightingAndIllumination",
-            (0x0000, "Undefined", UsageTypes.None),
-            (0x0001, "Lamp Array", UsageTypes.CA),
-            (0x0002, "Lamp Array Attributes Report", UsageTypes.CL),
-            (0x0003, "Lamp Count", UsageTypes.SV|UsageTypes.DV),
-            (0x0004, "Bounding Box Width (um)", UsageTypes.SV),
-            (0x0005, "Bounding Box Height (um)", UsageTypes.SV),
-            (0x0006, "Bounding Box Depth (um)", UsageTypes.SV),
-            (0x0007, "Lamp Array Kind", UsageTypes.NAry),
-            (0x0008, "Minimal Update Interval (us)", UsageTypes.SV),
-            (0x0020, "Lamp Attributes Request Report", UsageTypes.CL),
-            (0x0021, "Lamp ID", UsageTypes.SV|UsageTypes.DV),
-            (0x0022, "Lamp Attributes Response Report", UsageTypes.CL),
-            (0x0023, "Position X (um)", UsageTypes.DV),
-            (0x0024, "Position Y (um)", UsageTypes.DV),
-            (0x0025, "Position Z (um)", UsageTypes.DV),
-            (0x0026, "Lamp Purposes", UsageTypes.NAry),
-            (0x0027, "Update Latency (us)", UsageTypes.DV),
-            (0x0028, "Red Level Count", UsageTypes.DV),
-            (0x0029, "Green Level Count", UsageTypes.DV),
-            (0x002a, "Blue Level Count", UsageTypes.DV),
-            (0x002b, "Intensity Level Count", UsageTypes.DV),
-            (0x002c, "Programmable", UsageTypes.SF|UsageTypes.DF),
-            (0x002d, "Input Binding", UsageTypes.NAry),
-            (0x0050, "Lamp Multi Update Report", UsageTypes.CL),
-            (0x0051, "Red Update Channel", UsageTypes.DV),
-            (0x0052, "Green Update Channel", UsageTypes.DV),
-            (0x0053, "Blue Update Channel", UsageTypes.DV),
-            (0x0054, "Intensity Update Channel", UsageTypes.DV),
-            (0x0055, "Lamp Update Complete", UsageTypes.DF),
-            (0x0060, "Lamp Range Update Report", UsageTypes.CL),
-            (0x0061, "Lamp ID Start", UsageTypes.DV),
-            (0x0062, "Lamp ID End", UsageTypes.DV),
-            (0x0070, "Lamp Array Control Report", UsageTypes.CL),
-            (0x0071, "Autonomous Mode", UsageTypes.DF),
-            (0x0101, "Lamp Array Kind Keyboard", UsageTypes.Sel),
-            (0x0102, "Lamp Array Kind Mouse", UsageTypes.Sel),
-            (0x0103, "Lamp Array Kind Game Controller", UsageTypes.Sel),
-            (0x0104, "Lamp Array Kind Peripheral", UsageTypes.Sel),
-            (0x0105, "Lamp Array Kind Scene", UsageTypes.Sel),
-            (0x0106, "Lamp Array Kind Notification", UsageTypes.Sel),
-            (0x0107, "Lamp Array Kind Chassis", UsageTypes.Sel),
-            (0x0108, "Lamp Array Kind Wearable", UsageTypes.Sel),
-            (0x0109, "Lamp Array Kind Furniture", UsageTypes.Sel),
-            (0x010a, "Lamp Array Kind Art", UsageTypes.Sel),
-            (0x0201, "Lamp Purpose Control", UsageTypes.Sel),
-            (0x0202, "Lamp Purpose Accent", UsageTypes.Sel),
-            (0x0203, "Lamp Purpose Branding", UsageTypes.Sel),
-            (0x0204, "Lamp Purpose Status", UsageTypes.Sel),
-            (0x0205, "Lamp Purpose Illumination", UsageTypes.Sel),
-            (0x0206, "Lamp Purpose Presentation", UsageTypes.Sel))
+        private LightingAndIlluminationUsagePage() : base(0x0059, "LightingAndIllumination")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "Lamp Array", UsageTypes.CA);
+                case 0x0002: return new Usage(this, id, "Lamp Array Attributes Report", UsageTypes.CL);
+                case 0x0003: return new Usage(this, id, "Lamp Count", UsageTypes.SV|UsageTypes.DV);
+                case 0x0004: return new Usage(this, id, "Bounding Box Width (um)", UsageTypes.SV);
+                case 0x0005: return new Usage(this, id, "Bounding Box Height (um)", UsageTypes.SV);
+                case 0x0006: return new Usage(this, id, "Bounding Box Depth (um)", UsageTypes.SV);
+                case 0x0007: return new Usage(this, id, "Lamp Array Kind", UsageTypes.NAry);
+                case 0x0008: return new Usage(this, id, "Minimal Update Interval (us)", UsageTypes.SV);
+                case 0x0020: return new Usage(this, id, "Lamp Attributes Request Report", UsageTypes.CL);
+                case 0x0021: return new Usage(this, id, "Lamp ID", UsageTypes.SV|UsageTypes.DV);
+                case 0x0022: return new Usage(this, id, "Lamp Attributes Response Report", UsageTypes.CL);
+                case 0x0023: return new Usage(this, id, "Position X (um)", UsageTypes.DV);
+                case 0x0024: return new Usage(this, id, "Position Y (um)", UsageTypes.DV);
+                case 0x0025: return new Usage(this, id, "Position Z (um)", UsageTypes.DV);
+                case 0x0026: return new Usage(this, id, "Lamp Purposes", UsageTypes.NAry);
+                case 0x0027: return new Usage(this, id, "Update Latency (us)", UsageTypes.DV);
+                case 0x0028: return new Usage(this, id, "Red Level Count", UsageTypes.DV);
+                case 0x0029: return new Usage(this, id, "Green Level Count", UsageTypes.DV);
+                case 0x002a: return new Usage(this, id, "Blue Level Count", UsageTypes.DV);
+                case 0x002b: return new Usage(this, id, "Intensity Level Count", UsageTypes.DV);
+                case 0x002c: return new Usage(this, id, "Programmable", UsageTypes.SF|UsageTypes.DF);
+                case 0x002d: return new Usage(this, id, "Input Binding", UsageTypes.NAry);
+                case 0x0050: return new Usage(this, id, "Lamp Multi Update Report", UsageTypes.CL);
+                case 0x0051: return new Usage(this, id, "Red Update Channel", UsageTypes.DV);
+                case 0x0052: return new Usage(this, id, "Green Update Channel", UsageTypes.DV);
+                case 0x0053: return new Usage(this, id, "Blue Update Channel", UsageTypes.DV);
+                case 0x0054: return new Usage(this, id, "Intensity Update Channel", UsageTypes.DV);
+                case 0x0055: return new Usage(this, id, "Lamp Update Complete", UsageTypes.DF);
+                case 0x0060: return new Usage(this, id, "Lamp Range Update Report", UsageTypes.CL);
+                case 0x0061: return new Usage(this, id, "Lamp ID Start", UsageTypes.DV);
+                case 0x0062: return new Usage(this, id, "Lamp ID End", UsageTypes.DV);
+                case 0x0070: return new Usage(this, id, "Lamp Array Control Report", UsageTypes.CL);
+                case 0x0071: return new Usage(this, id, "Autonomous Mode", UsageTypes.DF);
+                case 0x0101: return new Usage(this, id, "Lamp Array Kind Keyboard", UsageTypes.Sel);
+                case 0x0102: return new Usage(this, id, "Lamp Array Kind Mouse", UsageTypes.Sel);
+                case 0x0103: return new Usage(this, id, "Lamp Array Kind Game Controller", UsageTypes.Sel);
+                case 0x0104: return new Usage(this, id, "Lamp Array Kind Peripheral", UsageTypes.Sel);
+                case 0x0105: return new Usage(this, id, "Lamp Array Kind Scene", UsageTypes.Sel);
+                case 0x0106: return new Usage(this, id, "Lamp Array Kind Notification", UsageTypes.Sel);
+                case 0x0107: return new Usage(this, id, "Lamp Array Kind Chassis", UsageTypes.Sel);
+                case 0x0108: return new Usage(this, id, "Lamp Array Kind Wearable", UsageTypes.Sel);
+                case 0x0109: return new Usage(this, id, "Lamp Array Kind Furniture", UsageTypes.Sel);
+                case 0x010a: return new Usage(this, id, "Lamp Array Kind Art", UsageTypes.Sel);
+                case 0x0201: return new Usage(this, id, "Lamp Purpose Control", UsageTypes.Sel);
+                case 0x0202: return new Usage(this, id, "Lamp Purpose Accent", UsageTypes.Sel);
+                case 0x0203: return new Usage(this, id, "Lamp Purpose Branding", UsageTypes.Sel);
+                case 0x0204: return new Usage(this, id, "Lamp Purpose Status", UsageTypes.Sel);
+                case 0x0205: return new Usage(this, id, "Lamp Purpose Illumination", UsageTypes.Sel);
+                case 0x0206: return new Usage(this, id, "Lamp Purpose Presentation", UsageTypes.Sel);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -21003,13 +21141,20 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly MonitorUsagePage Instance = new MonitorUsagePage();
 
-        private MonitorUsagePage()
-        : base(
-            0x0080,
-            "Monitor",
-            (0x0000, "Undefined", UsageTypes.None),
-            (0x0001, "Monitor Control", UsageTypes.CA))
+        private MonitorUsagePage() : base(0x0080, "Monitor")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "Monitor Control", UsageTypes.CA);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -21023,37 +21168,36 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly MonitorEnumeratedValuesUsagePage Instance = new MonitorEnumeratedValuesUsagePage();
 
-        private MonitorEnumeratedValuesUsagePage()
-        : base(
-            0x0081,
-            "MonitorEnumeratedValues",
-            (0x0000, "ENUM_0", UsageTypes.Sel),
-            (0x0001, "ENUM_1", UsageTypes.Sel),
-            (0x0002, "ENUM_2", UsageTypes.Sel),
-            (0x0003, "ENUM_3", UsageTypes.Sel),
-            (0x0004, "ENUM_4", UsageTypes.Sel),
-            (0x0005, "ENUM_5", UsageTypes.Sel),
-            (0x0006, "ENUM_6", UsageTypes.Sel),
-            (0x0007, "ENUM_7", UsageTypes.Sel),
-            (0x0008, "ENUM_8", UsageTypes.Sel),
-            (0x0009, "ENUM_9", UsageTypes.Sel),
-            (0x000a, "ENUM_10", UsageTypes.Sel),
-            (0x000b, "ENUM_11", UsageTypes.Sel),
-            (0x000c, "ENUM_12", UsageTypes.Sel),
-            (0x000d, "ENUM_13", UsageTypes.Sel),
-            (0x000e, "ENUM_14", UsageTypes.Sel),
-            (0x000f, "ENUM_15", UsageTypes.Sel))
+        private MonitorEnumeratedValuesUsagePage() : base(0x0081, "MonitorEnumeratedValues")
         {
         }
 
         /// <inheritdoc />
-        public override Usage GetUsage(ushort id) 
+        protected override Usage CreateUsage(ushort id) 
         {
-            if (Usages.TryGetValue(id, out var usage)) return usage;
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "ENUM_0", UsageTypes.Sel);
+                case 0x0001: return new Usage(this, id, "ENUM_1", UsageTypes.Sel);
+                case 0x0002: return new Usage(this, id, "ENUM_2", UsageTypes.Sel);
+                case 0x0003: return new Usage(this, id, "ENUM_3", UsageTypes.Sel);
+                case 0x0004: return new Usage(this, id, "ENUM_4", UsageTypes.Sel);
+                case 0x0005: return new Usage(this, id, "ENUM_5", UsageTypes.Sel);
+                case 0x0006: return new Usage(this, id, "ENUM_6", UsageTypes.Sel);
+                case 0x0007: return new Usage(this, id, "ENUM_7", UsageTypes.Sel);
+                case 0x0008: return new Usage(this, id, "ENUM_8", UsageTypes.Sel);
+                case 0x0009: return new Usage(this, id, "ENUM_9", UsageTypes.Sel);
+                case 0x000a: return new Usage(this, id, "ENUM_10", UsageTypes.Sel);
+                case 0x000b: return new Usage(this, id, "ENUM_11", UsageTypes.Sel);
+                case 0x000c: return new Usage(this, id, "ENUM_12", UsageTypes.Sel);
+                case 0x000d: return new Usage(this, id, "ENUM_13", UsageTypes.Sel);
+                case 0x000e: return new Usage(this, id, "ENUM_14", UsageTypes.Sel);
+                case 0x000f: return new Usage(this, id, "ENUM_15", UsageTypes.Sel);
+            }
 
-            // Create dynamic usages on demand
+            // Create dynamic usages from ranges
             var n = (ushort)(id-0x0000);
-            if (id >= 0x0000 || id < 0xffff) return new Usage(this, id, "ENUM_{id}", UsageTypes.Sel);
+            if (id >= 0x0000 || id < 0xffff) return new Usage(this, id, $"ENUM_{id}", UsageTypes.Sel);
 
             return base.GetUsage(id);
         }
@@ -21069,57 +21213,64 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly VESAVirtualUsagePage Instance = new VESAVirtualUsagePage();
 
-        private VESAVirtualUsagePage()
-        : base(
-            0x0082,
-            "VESAVirtual",
-            (0x0000, "Undefined", UsageTypes.None),
-            (0x0001, "", UsageTypes.None),
-            (0x0010, "", UsageTypes.None),
-            (0x0012, "", UsageTypes.None),
-            (0x0016, "", UsageTypes.None),
-            (0x0018, "", UsageTypes.None),
-            (0x001a, "", UsageTypes.None),
-            (0x001c, "", UsageTypes.None),
-            (0x0020, "", UsageTypes.None),
-            (0x0022, "", UsageTypes.None),
-            (0x0024, "", UsageTypes.None),
-            (0x0026, "", UsageTypes.None),
-            (0x0028, "", UsageTypes.None),
-            (0x002a, "", UsageTypes.None),
-            (0x002c, "", UsageTypes.None),
-            (0x0030, "", UsageTypes.None),
-            (0x0032, "", UsageTypes.None),
-            (0x0034, "", UsageTypes.None),
-            (0x0036, "", UsageTypes.None),
-            (0x0038, "", UsageTypes.None),
-            (0x003a, "", UsageTypes.None),
-            (0x003c, "", UsageTypes.None),
-            (0x0040, "", UsageTypes.None),
-            (0x0042, "", UsageTypes.None),
-            (0x0044, "", UsageTypes.None),
-            (0x0046, "", UsageTypes.None),
-            (0x0048, "", UsageTypes.None),
-            (0x004a, "", UsageTypes.None),
-            (0x004c, "", UsageTypes.None),
-            (0x0056, "", UsageTypes.None),
-            (0x0058, "", UsageTypes.None),
-            (0x005e, "", UsageTypes.None),
-            (0x0060, "", UsageTypes.None),
-            (0x006c, "", UsageTypes.None),
-            (0x006e, "", UsageTypes.None),
-            (0x0070, "", UsageTypes.None),
-            (0x00a2, "", UsageTypes.None),
-            (0x00a4, "", UsageTypes.None),
-            (0x00a6, "", UsageTypes.None),
-            (0x00a8, "", UsageTypes.None),
-            (0x00aa, "", UsageTypes.None),
-            (0x00ac, "", UsageTypes.None),
-            (0x00ae, "", UsageTypes.None),
-            (0x00b0, "", UsageTypes.None),
-            (0x00ca, "", UsageTypes.None),
-            (0x00d4, "", UsageTypes.None))
+        private VESAVirtualUsagePage() : base(0x0082, "VESAVirtual")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "", UsageTypes.None);
+                case 0x0010: return new Usage(this, id, "", UsageTypes.None);
+                case 0x0012: return new Usage(this, id, "", UsageTypes.None);
+                case 0x0016: return new Usage(this, id, "", UsageTypes.None);
+                case 0x0018: return new Usage(this, id, "", UsageTypes.None);
+                case 0x001a: return new Usage(this, id, "", UsageTypes.None);
+                case 0x001c: return new Usage(this, id, "", UsageTypes.None);
+                case 0x0020: return new Usage(this, id, "", UsageTypes.None);
+                case 0x0022: return new Usage(this, id, "", UsageTypes.None);
+                case 0x0024: return new Usage(this, id, "", UsageTypes.None);
+                case 0x0026: return new Usage(this, id, "", UsageTypes.None);
+                case 0x0028: return new Usage(this, id, "", UsageTypes.None);
+                case 0x002a: return new Usage(this, id, "", UsageTypes.None);
+                case 0x002c: return new Usage(this, id, "", UsageTypes.None);
+                case 0x0030: return new Usage(this, id, "", UsageTypes.None);
+                case 0x0032: return new Usage(this, id, "", UsageTypes.None);
+                case 0x0034: return new Usage(this, id, "", UsageTypes.None);
+                case 0x0036: return new Usage(this, id, "", UsageTypes.None);
+                case 0x0038: return new Usage(this, id, "", UsageTypes.None);
+                case 0x003a: return new Usage(this, id, "", UsageTypes.None);
+                case 0x003c: return new Usage(this, id, "", UsageTypes.None);
+                case 0x0040: return new Usage(this, id, "", UsageTypes.None);
+                case 0x0042: return new Usage(this, id, "", UsageTypes.None);
+                case 0x0044: return new Usage(this, id, "", UsageTypes.None);
+                case 0x0046: return new Usage(this, id, "", UsageTypes.None);
+                case 0x0048: return new Usage(this, id, "", UsageTypes.None);
+                case 0x004a: return new Usage(this, id, "", UsageTypes.None);
+                case 0x004c: return new Usage(this, id, "", UsageTypes.None);
+                case 0x0056: return new Usage(this, id, "", UsageTypes.None);
+                case 0x0058: return new Usage(this, id, "", UsageTypes.None);
+                case 0x005e: return new Usage(this, id, "", UsageTypes.None);
+                case 0x0060: return new Usage(this, id, "", UsageTypes.None);
+                case 0x006c: return new Usage(this, id, "", UsageTypes.None);
+                case 0x006e: return new Usage(this, id, "", UsageTypes.None);
+                case 0x0070: return new Usage(this, id, "", UsageTypes.None);
+                case 0x00a2: return new Usage(this, id, "", UsageTypes.None);
+                case 0x00a4: return new Usage(this, id, "", UsageTypes.None);
+                case 0x00a6: return new Usage(this, id, "", UsageTypes.None);
+                case 0x00a8: return new Usage(this, id, "", UsageTypes.None);
+                case 0x00aa: return new Usage(this, id, "", UsageTypes.None);
+                case 0x00ac: return new Usage(this, id, "", UsageTypes.None);
+                case 0x00ae: return new Usage(this, id, "", UsageTypes.None);
+                case 0x00b0: return new Usage(this, id, "", UsageTypes.None);
+                case 0x00ca: return new Usage(this, id, "", UsageTypes.None);
+                case 0x00d4: return new Usage(this, id, "", UsageTypes.None);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -21133,12 +21284,19 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly MonitorReservedUsagePage Instance = new MonitorReservedUsagePage();
 
-        private MonitorReservedUsagePage()
-        : base(
-            0x0083,
-            "MonitorReserved",
-            (0x0000, "Undefined", UsageTypes.None))
+        private MonitorReservedUsagePage() : base(0x0083, "MonitorReserved")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -21152,88 +21310,95 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly PowerDeviceUsagePage Instance = new PowerDeviceUsagePage();
 
-        private PowerDeviceUsagePage()
-        : base(
-            0x0084,
-            "PowerDevice",
-            (0x0000, "Undefined", UsageTypes.None),
-            (0x0001, "iName", UsageTypes.SV),
-            (0x0002, "Present Status", UsageTypes.CL),
-            (0x0003, "Changed Status", UsageTypes.CL),
-            (0x0004, "UPS", UsageTypes.CA),
-            (0x0005, "Power Supply", UsageTypes.CA),
-            (0x0006, "Peripheral Device", UsageTypes.CA),
-            (0x0010, "Battery System", UsageTypes.CP),
-            (0x0011, "Battery System ID", UsageTypes.SV),
-            (0x0012, "Battery", UsageTypes.CP),
-            (0x0013, "Battery ID", UsageTypes.SV),
-            (0x0014, "Charger", UsageTypes.CP),
-            (0x0015, "Charger ID", UsageTypes.SV),
-            (0x0016, "Power Converter", UsageTypes.CP),
-            (0x0017, "Power Converter ID", UsageTypes.SV),
-            (0x0018, "Outlet System", UsageTypes.CP),
-            (0x0019, "Outlet System ID", UsageTypes.SV),
-            (0x001a, "Input", UsageTypes.CP),
-            (0x001b, "Input ID", UsageTypes.SV),
-            (0x001c, "Output", UsageTypes.CP),
-            (0x001d, "Output ID", UsageTypes.SV),
-            (0x001e, "Flow", UsageTypes.CP),
-            (0x001f, "Flow ID", UsageTypes.SV),
-            (0x0020, "Outlet", UsageTypes.CP),
-            (0x0021, "Outlet ID", UsageTypes.SV),
-            (0x0022, "Gang", UsageTypes.CP),
-            (0x0023, "Gang ID", UsageTypes.SV),
-            (0x0030, "Voltage", UsageTypes.DV),
-            (0x0031, "Current", UsageTypes.DV),
-            (0x0032, "Frequency", UsageTypes.DV),
-            (0x0033, "Apparent Power", UsageTypes.DV),
-            (0x0034, "Active Power", UsageTypes.DV),
-            (0x0035, "Load (percent)", UsageTypes.DV),
-            (0x0036, "Temperature", UsageTypes.DV),
-            (0x0037, "Humidity", UsageTypes.DV),
-            (0x0038, "Bad Count", UsageTypes.DV),
-            (0x0040, "Nominal Voltage", UsageTypes.SV|UsageTypes.DV),
-            (0x0041, "Nominal Current", UsageTypes.SV|UsageTypes.DV),
-            (0x0042, "Nominal Frequency", UsageTypes.SV|UsageTypes.DV),
-            (0x0043, "Nominal Apparent Power", UsageTypes.SV|UsageTypes.DV),
-            (0x0044, "Nominal Active Power", UsageTypes.SV|UsageTypes.DV),
-            (0x0045, "Nominal Load (percent)", UsageTypes.SV|UsageTypes.DV),
-            (0x0046, "Nominal Temperature", UsageTypes.SV|UsageTypes.DV),
-            (0x0047, "Nominal Humidity", UsageTypes.SV|UsageTypes.DV),
-            (0x0050, "Switch On Control", UsageTypes.DV),
-            (0x0051, "Switch Off Control", UsageTypes.DV),
-            (0x0052, "Toggle Control", UsageTypes.DV),
-            (0x0053, "Low Voltage Transfer", UsageTypes.DV),
-            (0x0054, "High Voltage Transfer", UsageTypes.DV),
-            (0x0055, "Delay Before Reboot", UsageTypes.DV),
-            (0x0056, "Delay Before Startup", UsageTypes.DV),
-            (0x0057, "Delay Before Shutdown", UsageTypes.DV),
-            (0x0058, "Test", UsageTypes.DV),
-            (0x0059, "Module Reset", UsageTypes.DV),
-            (0x005a, "Audible Alarm Control", UsageTypes.DV),
-            (0x0060, "Present", UsageTypes.DF),
-            (0x0061, "Good", UsageTypes.DF),
-            (0x0062, "Internal Failure", UsageTypes.DF),
-            (0x0063, "Voltage Out Of Range", UsageTypes.DF),
-            (0x0064, "Frequency Out Of Range", UsageTypes.DF),
-            (0x0065, "Overload", UsageTypes.DF),
-            (0x0066, "Overcharged", UsageTypes.DF),
-            (0x0067, "Over Temperature", UsageTypes.DF),
-            (0x0068, "Shutdown Requested", UsageTypes.DF),
-            (0x0069, "Shutdown Imminent", UsageTypes.DF),
-            (0x006b, "Switch On/Off", UsageTypes.DF),
-            (0x006c, "Switchable", UsageTypes.DF),
-            (0x006d, "Used", UsageTypes.DF),
-            (0x006e, "Boost", UsageTypes.DF),
-            (0x006f, "Buck", UsageTypes.DF),
-            (0x0070, "Initialized", UsageTypes.DF),
-            (0x0071, "Tested", UsageTypes.DF),
-            (0x0072, "Awaiting Power", UsageTypes.DF),
-            (0x0073, "Communication Lost", UsageTypes.DF),
-            (0x00fd, "iManufacturer", UsageTypes.SV),
-            (0x00fe, "iProduct", UsageTypes.SV),
-            (0x00ff, "iSerialNumber", UsageTypes.SV))
+        private PowerDeviceUsagePage() : base(0x0084, "PowerDevice")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "iName", UsageTypes.SV);
+                case 0x0002: return new Usage(this, id, "Present Status", UsageTypes.CL);
+                case 0x0003: return new Usage(this, id, "Changed Status", UsageTypes.CL);
+                case 0x0004: return new Usage(this, id, "UPS", UsageTypes.CA);
+                case 0x0005: return new Usage(this, id, "Power Supply", UsageTypes.CA);
+                case 0x0006: return new Usage(this, id, "Peripheral Device", UsageTypes.CA);
+                case 0x0010: return new Usage(this, id, "Battery System", UsageTypes.CP);
+                case 0x0011: return new Usage(this, id, "Battery System ID", UsageTypes.SV);
+                case 0x0012: return new Usage(this, id, "Battery", UsageTypes.CP);
+                case 0x0013: return new Usage(this, id, "Battery ID", UsageTypes.SV);
+                case 0x0014: return new Usage(this, id, "Charger", UsageTypes.CP);
+                case 0x0015: return new Usage(this, id, "Charger ID", UsageTypes.SV);
+                case 0x0016: return new Usage(this, id, "Power Converter", UsageTypes.CP);
+                case 0x0017: return new Usage(this, id, "Power Converter ID", UsageTypes.SV);
+                case 0x0018: return new Usage(this, id, "Outlet System", UsageTypes.CP);
+                case 0x0019: return new Usage(this, id, "Outlet System ID", UsageTypes.SV);
+                case 0x001a: return new Usage(this, id, "Input", UsageTypes.CP);
+                case 0x001b: return new Usage(this, id, "Input ID", UsageTypes.SV);
+                case 0x001c: return new Usage(this, id, "Output", UsageTypes.CP);
+                case 0x001d: return new Usage(this, id, "Output ID", UsageTypes.SV);
+                case 0x001e: return new Usage(this, id, "Flow", UsageTypes.CP);
+                case 0x001f: return new Usage(this, id, "Flow ID", UsageTypes.SV);
+                case 0x0020: return new Usage(this, id, "Outlet", UsageTypes.CP);
+                case 0x0021: return new Usage(this, id, "Outlet ID", UsageTypes.SV);
+                case 0x0022: return new Usage(this, id, "Gang", UsageTypes.CP);
+                case 0x0023: return new Usage(this, id, "Gang ID", UsageTypes.SV);
+                case 0x0030: return new Usage(this, id, "Voltage", UsageTypes.DV);
+                case 0x0031: return new Usage(this, id, "Current", UsageTypes.DV);
+                case 0x0032: return new Usage(this, id, "Frequency", UsageTypes.DV);
+                case 0x0033: return new Usage(this, id, "Apparent Power", UsageTypes.DV);
+                case 0x0034: return new Usage(this, id, "Active Power", UsageTypes.DV);
+                case 0x0035: return new Usage(this, id, "Load (percent)", UsageTypes.DV);
+                case 0x0036: return new Usage(this, id, "Temperature", UsageTypes.DV);
+                case 0x0037: return new Usage(this, id, "Humidity", UsageTypes.DV);
+                case 0x0038: return new Usage(this, id, "Bad Count", UsageTypes.DV);
+                case 0x0040: return new Usage(this, id, "Nominal Voltage", UsageTypes.SV|UsageTypes.DV);
+                case 0x0041: return new Usage(this, id, "Nominal Current", UsageTypes.SV|UsageTypes.DV);
+                case 0x0042: return new Usage(this, id, "Nominal Frequency", UsageTypes.SV|UsageTypes.DV);
+                case 0x0043: return new Usage(this, id, "Nominal Apparent Power", UsageTypes.SV|UsageTypes.DV);
+                case 0x0044: return new Usage(this, id, "Nominal Active Power", UsageTypes.SV|UsageTypes.DV);
+                case 0x0045: return new Usage(this, id, "Nominal Load (percent)", UsageTypes.SV|UsageTypes.DV);
+                case 0x0046: return new Usage(this, id, "Nominal Temperature", UsageTypes.SV|UsageTypes.DV);
+                case 0x0047: return new Usage(this, id, "Nominal Humidity", UsageTypes.SV|UsageTypes.DV);
+                case 0x0050: return new Usage(this, id, "Switch On Control", UsageTypes.DV);
+                case 0x0051: return new Usage(this, id, "Switch Off Control", UsageTypes.DV);
+                case 0x0052: return new Usage(this, id, "Toggle Control", UsageTypes.DV);
+                case 0x0053: return new Usage(this, id, "Low Voltage Transfer", UsageTypes.DV);
+                case 0x0054: return new Usage(this, id, "High Voltage Transfer", UsageTypes.DV);
+                case 0x0055: return new Usage(this, id, "Delay Before Reboot", UsageTypes.DV);
+                case 0x0056: return new Usage(this, id, "Delay Before Startup", UsageTypes.DV);
+                case 0x0057: return new Usage(this, id, "Delay Before Shutdown", UsageTypes.DV);
+                case 0x0058: return new Usage(this, id, "Test", UsageTypes.DV);
+                case 0x0059: return new Usage(this, id, "Module Reset", UsageTypes.DV);
+                case 0x005a: return new Usage(this, id, "Audible Alarm Control", UsageTypes.DV);
+                case 0x0060: return new Usage(this, id, "Present", UsageTypes.DF);
+                case 0x0061: return new Usage(this, id, "Good", UsageTypes.DF);
+                case 0x0062: return new Usage(this, id, "Internal Failure", UsageTypes.DF);
+                case 0x0063: return new Usage(this, id, "Voltage Out Of Range", UsageTypes.DF);
+                case 0x0064: return new Usage(this, id, "Frequency Out Of Range", UsageTypes.DF);
+                case 0x0065: return new Usage(this, id, "Overload", UsageTypes.DF);
+                case 0x0066: return new Usage(this, id, "Overcharged", UsageTypes.DF);
+                case 0x0067: return new Usage(this, id, "Over Temperature", UsageTypes.DF);
+                case 0x0068: return new Usage(this, id, "Shutdown Requested", UsageTypes.DF);
+                case 0x0069: return new Usage(this, id, "Shutdown Imminent", UsageTypes.DF);
+                case 0x006b: return new Usage(this, id, "Switch On/Off", UsageTypes.DF);
+                case 0x006c: return new Usage(this, id, "Switchable", UsageTypes.DF);
+                case 0x006d: return new Usage(this, id, "Used", UsageTypes.DF);
+                case 0x006e: return new Usage(this, id, "Boost", UsageTypes.DF);
+                case 0x006f: return new Usage(this, id, "Buck", UsageTypes.DF);
+                case 0x0070: return new Usage(this, id, "Initialized", UsageTypes.DF);
+                case 0x0071: return new Usage(this, id, "Tested", UsageTypes.DF);
+                case 0x0072: return new Usage(this, id, "Awaiting Power", UsageTypes.DF);
+                case 0x0073: return new Usage(this, id, "Communication Lost", UsageTypes.DF);
+                case 0x00fd: return new Usage(this, id, "iManufacturer", UsageTypes.SV);
+                case 0x00fe: return new Usage(this, id, "iProduct", UsageTypes.SV);
+                case 0x00ff: return new Usage(this, id, "iSerialNumber", UsageTypes.SV);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -21247,103 +21412,110 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly BatterySystemUsagePage Instance = new BatterySystemUsagePage();
 
-        private BatterySystemUsagePage()
-        : base(
-            0x0085,
-            "BatterySystem",
-            (0x0000, "Undefined", UsageTypes.None),
-            (0x0001, "SMB Battery Mode", UsageTypes.CL),
-            (0x0002, "SMB Battery Status", UsageTypes.CL),
-            (0x0003, "SMB Alarm Warning", UsageTypes.CL),
-            (0x0004, "SMB Charger Mode", UsageTypes.CL),
-            (0x0005, "SMB Charger Status", UsageTypes.CL),
-            (0x0006, "SMB Charger Spec Info", UsageTypes.CL),
-            (0x0007, "SMB Selector State", UsageTypes.CL),
-            (0x0008, "SMB Selector Presets", UsageTypes.CL),
-            (0x0009, "SMB Selector Info", UsageTypes.CL),
-            (0x0010, "Optional Mfg Function 1", UsageTypes.DV),
-            (0x0011, "Optional Mfg Function 2", UsageTypes.DV),
-            (0x0012, "Optional Mfg Function 3", UsageTypes.DV),
-            (0x0013, "Optional Mfg Function 4", UsageTypes.DV),
-            (0x0014, "Optional Mfg Function 5", UsageTypes.DV),
-            (0x0015, "Connection To SMBus", UsageTypes.DF),
-            (0x0016, "Output Connection", UsageTypes.DF),
-            (0x0017, "Charger Connection", UsageTypes.DF),
-            (0x0018, "Battery Insertion", UsageTypes.DF),
-            (0x0019, "Use Next", UsageTypes.DF),
-            (0x001a, "OK To Use", UsageTypes.DF),
-            (0x001b, "Battery Supported", UsageTypes.DF),
-            (0x001c, "Selector Revision", UsageTypes.DF),
-            (0x001d, "Charging Indicator", UsageTypes.DF),
-            (0x0028, "Manufacturer Access", UsageTypes.DV),
-            (0x0029, "Remaining Capacity Limit", UsageTypes.DV),
-            (0x002a, "Remaining Time Limit", UsageTypes.DV),
-            (0x002b, "At Rate", UsageTypes.DV),
-            (0x002c, "Capacity Mode", UsageTypes.DV),
-            (0x002d, "Broadcast To Charger", UsageTypes.DV),
-            (0x002e, "Primary Battery", UsageTypes.DV),
-            (0x002f, "Charge Controller", UsageTypes.DV),
-            (0x0040, "Terminate Charge", UsageTypes.DF),
-            (0x0041, "Terminate Discharge", UsageTypes.DF),
-            (0x0042, "Below Remaining Capacity Limit", UsageTypes.DF),
-            (0x0043, "Remaining Time Limit Expired", UsageTypes.DF),
-            (0x0044, "Charging", UsageTypes.DF),
-            (0x0045, "Discharging", UsageTypes.DV),
-            (0x0046, "Fully Charged", UsageTypes.DF),
-            (0x0047, "Fully Discharged", UsageTypes.DV),
-            (0x0048, "Conditioning Flag", UsageTypes.DV),
-            (0x0049, "At Rate OK", UsageTypes.DV),
-            (0x004a, "SMB Error Code", UsageTypes.DF),
-            (0x004b, "Need Replacement", UsageTypes.DF),
-            (0x0060, "At Rate Time To Full", UsageTypes.DV),
-            (0x0061, "At Rate Time To Empty", UsageTypes.DV),
-            (0x0062, "Average Current", UsageTypes.DV),
-            (0x0063, "Max Error", UsageTypes.DV),
-            (0x0064, "Relative State Of Charge", UsageTypes.DV),
-            (0x0065, "Absolute State Of Charge", UsageTypes.DV),
-            (0x0066, "Remaining Capacity", UsageTypes.DV),
-            (0x0067, "Full Charge Capacity", UsageTypes.DV),
-            (0x0068, "Run Time To Empty", UsageTypes.DV),
-            (0x0069, "Average Time To Empty", UsageTypes.DV),
-            (0x006a, "Average Time To Full", UsageTypes.DV),
-            (0x006b, "Cycle Count", UsageTypes.DV),
-            (0x0080, "Battery Pack Model Level", UsageTypes.SV),
-            (0x0081, "Internal Charge Controller", UsageTypes.SF),
-            (0x0082, "Primary Battery Support", UsageTypes.SF),
-            (0x0083, "Design Capacity", UsageTypes.SV),
-            (0x0084, "Specification Info", UsageTypes.SV),
-            (0x0085, "Manufacturer Date", UsageTypes.SV),
-            (0x0086, "Serial Number", UsageTypes.SV),
-            (0x0087, "iManufacturer", UsageTypes.SV),
-            (0x0088, "iDeviceName", UsageTypes.SV),
-            (0x0089, "iDeviceChemistry", UsageTypes.SV),
-            (0x008a, "Manufacturer Data", UsageTypes.SV),
-            (0x008b, "Rechargeable", UsageTypes.SV),
-            (0x008c, "Warning Capacity Limit", UsageTypes.SV),
-            (0x008d, "Capacity Granularity 1", UsageTypes.SV),
-            (0x008e, "Capacity Granularity 2", UsageTypes.SV),
-            (0x008f, "iOEMInformation", UsageTypes.SV),
-            (0x00c0, "Inhibit Charge", UsageTypes.DF),
-            (0x00c1, "Enable Polling", UsageTypes.DF),
-            (0x00c2, "Reset To Zero", UsageTypes.DF),
-            (0x00d0, "AC Present", UsageTypes.DF),
-            (0x00d1, "Battery Present", UsageTypes.DF),
-            (0x00d2, "Power Fail", UsageTypes.DF),
-            (0x00d3, "Alarm Inhibited", UsageTypes.DF),
-            (0x00d4, "Thermistor Under Range", UsageTypes.DF),
-            (0x00d5, "Thermistor Hot", UsageTypes.DF),
-            (0x00d6, "Thermistor Cold", UsageTypes.DF),
-            (0x00d7, "Thermistor Over Range", UsageTypes.DF),
-            (0x00d8, "Voltage Out Of Range", UsageTypes.DF),
-            (0x00d9, "Current Out Of Range", UsageTypes.DF),
-            (0x00da, "Current Not Regulated", UsageTypes.DF),
-            (0x00db, "Voltage Not Regulated", UsageTypes.DF),
-            (0x00dc, "Master Mode", UsageTypes.DF),
-            (0x00f0, "Charger Selector Support", UsageTypes.SF),
-            (0x00f1, "Charger Spec", UsageTypes.SV),
-            (0x00f2, "Level 2", UsageTypes.SF),
-            (0x00f3, "Level 3", UsageTypes.SF))
+        private BatterySystemUsagePage() : base(0x0085, "BatterySystem")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "SMB Battery Mode", UsageTypes.CL);
+                case 0x0002: return new Usage(this, id, "SMB Battery Status", UsageTypes.CL);
+                case 0x0003: return new Usage(this, id, "SMB Alarm Warning", UsageTypes.CL);
+                case 0x0004: return new Usage(this, id, "SMB Charger Mode", UsageTypes.CL);
+                case 0x0005: return new Usage(this, id, "SMB Charger Status", UsageTypes.CL);
+                case 0x0006: return new Usage(this, id, "SMB Charger Spec Info", UsageTypes.CL);
+                case 0x0007: return new Usage(this, id, "SMB Selector State", UsageTypes.CL);
+                case 0x0008: return new Usage(this, id, "SMB Selector Presets", UsageTypes.CL);
+                case 0x0009: return new Usage(this, id, "SMB Selector Info", UsageTypes.CL);
+                case 0x0010: return new Usage(this, id, "Optional Mfg Function 1", UsageTypes.DV);
+                case 0x0011: return new Usage(this, id, "Optional Mfg Function 2", UsageTypes.DV);
+                case 0x0012: return new Usage(this, id, "Optional Mfg Function 3", UsageTypes.DV);
+                case 0x0013: return new Usage(this, id, "Optional Mfg Function 4", UsageTypes.DV);
+                case 0x0014: return new Usage(this, id, "Optional Mfg Function 5", UsageTypes.DV);
+                case 0x0015: return new Usage(this, id, "Connection To SMBus", UsageTypes.DF);
+                case 0x0016: return new Usage(this, id, "Output Connection", UsageTypes.DF);
+                case 0x0017: return new Usage(this, id, "Charger Connection", UsageTypes.DF);
+                case 0x0018: return new Usage(this, id, "Battery Insertion", UsageTypes.DF);
+                case 0x0019: return new Usage(this, id, "Use Next", UsageTypes.DF);
+                case 0x001a: return new Usage(this, id, "OK To Use", UsageTypes.DF);
+                case 0x001b: return new Usage(this, id, "Battery Supported", UsageTypes.DF);
+                case 0x001c: return new Usage(this, id, "Selector Revision", UsageTypes.DF);
+                case 0x001d: return new Usage(this, id, "Charging Indicator", UsageTypes.DF);
+                case 0x0028: return new Usage(this, id, "Manufacturer Access", UsageTypes.DV);
+                case 0x0029: return new Usage(this, id, "Remaining Capacity Limit", UsageTypes.DV);
+                case 0x002a: return new Usage(this, id, "Remaining Time Limit", UsageTypes.DV);
+                case 0x002b: return new Usage(this, id, "At Rate", UsageTypes.DV);
+                case 0x002c: return new Usage(this, id, "Capacity Mode", UsageTypes.DV);
+                case 0x002d: return new Usage(this, id, "Broadcast To Charger", UsageTypes.DV);
+                case 0x002e: return new Usage(this, id, "Primary Battery", UsageTypes.DV);
+                case 0x002f: return new Usage(this, id, "Charge Controller", UsageTypes.DV);
+                case 0x0040: return new Usage(this, id, "Terminate Charge", UsageTypes.DF);
+                case 0x0041: return new Usage(this, id, "Terminate Discharge", UsageTypes.DF);
+                case 0x0042: return new Usage(this, id, "Below Remaining Capacity Limit", UsageTypes.DF);
+                case 0x0043: return new Usage(this, id, "Remaining Time Limit Expired", UsageTypes.DF);
+                case 0x0044: return new Usage(this, id, "Charging", UsageTypes.DF);
+                case 0x0045: return new Usage(this, id, "Discharging", UsageTypes.DV);
+                case 0x0046: return new Usage(this, id, "Fully Charged", UsageTypes.DF);
+                case 0x0047: return new Usage(this, id, "Fully Discharged", UsageTypes.DV);
+                case 0x0048: return new Usage(this, id, "Conditioning Flag", UsageTypes.DV);
+                case 0x0049: return new Usage(this, id, "At Rate OK", UsageTypes.DV);
+                case 0x004a: return new Usage(this, id, "SMB Error Code", UsageTypes.DF);
+                case 0x004b: return new Usage(this, id, "Need Replacement", UsageTypes.DF);
+                case 0x0060: return new Usage(this, id, "At Rate Time To Full", UsageTypes.DV);
+                case 0x0061: return new Usage(this, id, "At Rate Time To Empty", UsageTypes.DV);
+                case 0x0062: return new Usage(this, id, "Average Current", UsageTypes.DV);
+                case 0x0063: return new Usage(this, id, "Max Error", UsageTypes.DV);
+                case 0x0064: return new Usage(this, id, "Relative State Of Charge", UsageTypes.DV);
+                case 0x0065: return new Usage(this, id, "Absolute State Of Charge", UsageTypes.DV);
+                case 0x0066: return new Usage(this, id, "Remaining Capacity", UsageTypes.DV);
+                case 0x0067: return new Usage(this, id, "Full Charge Capacity", UsageTypes.DV);
+                case 0x0068: return new Usage(this, id, "Run Time To Empty", UsageTypes.DV);
+                case 0x0069: return new Usage(this, id, "Average Time To Empty", UsageTypes.DV);
+                case 0x006a: return new Usage(this, id, "Average Time To Full", UsageTypes.DV);
+                case 0x006b: return new Usage(this, id, "Cycle Count", UsageTypes.DV);
+                case 0x0080: return new Usage(this, id, "Battery Pack Model Level", UsageTypes.SV);
+                case 0x0081: return new Usage(this, id, "Internal Charge Controller", UsageTypes.SF);
+                case 0x0082: return new Usage(this, id, "Primary Battery Support", UsageTypes.SF);
+                case 0x0083: return new Usage(this, id, "Design Capacity", UsageTypes.SV);
+                case 0x0084: return new Usage(this, id, "Specification Info", UsageTypes.SV);
+                case 0x0085: return new Usage(this, id, "Manufacturer Date", UsageTypes.SV);
+                case 0x0086: return new Usage(this, id, "Serial Number", UsageTypes.SV);
+                case 0x0087: return new Usage(this, id, "iManufacturer", UsageTypes.SV);
+                case 0x0088: return new Usage(this, id, "iDeviceName", UsageTypes.SV);
+                case 0x0089: return new Usage(this, id, "iDeviceChemistry", UsageTypes.SV);
+                case 0x008a: return new Usage(this, id, "Manufacturer Data", UsageTypes.SV);
+                case 0x008b: return new Usage(this, id, "Rechargeable", UsageTypes.SV);
+                case 0x008c: return new Usage(this, id, "Warning Capacity Limit", UsageTypes.SV);
+                case 0x008d: return new Usage(this, id, "Capacity Granularity 1", UsageTypes.SV);
+                case 0x008e: return new Usage(this, id, "Capacity Granularity 2", UsageTypes.SV);
+                case 0x008f: return new Usage(this, id, "iOEMInformation", UsageTypes.SV);
+                case 0x00c0: return new Usage(this, id, "Inhibit Charge", UsageTypes.DF);
+                case 0x00c1: return new Usage(this, id, "Enable Polling", UsageTypes.DF);
+                case 0x00c2: return new Usage(this, id, "Reset To Zero", UsageTypes.DF);
+                case 0x00d0: return new Usage(this, id, "AC Present", UsageTypes.DF);
+                case 0x00d1: return new Usage(this, id, "Battery Present", UsageTypes.DF);
+                case 0x00d2: return new Usage(this, id, "Power Fail", UsageTypes.DF);
+                case 0x00d3: return new Usage(this, id, "Alarm Inhibited", UsageTypes.DF);
+                case 0x00d4: return new Usage(this, id, "Thermistor Under Range", UsageTypes.DF);
+                case 0x00d5: return new Usage(this, id, "Thermistor Hot", UsageTypes.DF);
+                case 0x00d6: return new Usage(this, id, "Thermistor Cold", UsageTypes.DF);
+                case 0x00d7: return new Usage(this, id, "Thermistor Over Range", UsageTypes.DF);
+                case 0x00d8: return new Usage(this, id, "Voltage Out Of Range", UsageTypes.DF);
+                case 0x00d9: return new Usage(this, id, "Current Out Of Range", UsageTypes.DF);
+                case 0x00da: return new Usage(this, id, "Current Not Regulated", UsageTypes.DF);
+                case 0x00db: return new Usage(this, id, "Voltage Not Regulated", UsageTypes.DF);
+                case 0x00dc: return new Usage(this, id, "Master Mode", UsageTypes.DF);
+                case 0x00f0: return new Usage(this, id, "Charger Selector Support", UsageTypes.SF);
+                case 0x00f1: return new Usage(this, id, "Charger Spec", UsageTypes.SV);
+                case 0x00f2: return new Usage(this, id, "Level 2", UsageTypes.SF);
+                case 0x00f3: return new Usage(this, id, "Level 3", UsageTypes.SF);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -21357,205 +21529,212 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly BarCodeScannerUsagePage Instance = new BarCodeScannerUsagePage();
 
-        private BarCodeScannerUsagePage()
-        : base(
-            0x008c,
-            "BarCodeScanner",
-            (0x0000, "Undefined", UsageTypes.None),
-            (0x0001, "Bar Code Badge Reader", UsageTypes.CA),
-            (0x0002, "Bar Code Scanner", UsageTypes.CA),
-            (0x0003, "Dumb Bar Code Scanner", UsageTypes.CA),
-            (0x0004, "Cordless Scanner Base", UsageTypes.CA),
-            (0x0005, "Bar Code Scanner Cradle", UsageTypes.CA),
-            (0x0010, "Attribute Report", UsageTypes.CL),
-            (0x0011, "Settings Report", UsageTypes.CL),
-            (0x0012, "Scanned Data Report", UsageTypes.CL),
-            (0x0013, "Raw Scanned Data Report", UsageTypes.CL),
-            (0x0014, "Trigger Report", UsageTypes.CL),
-            (0x0015, "Status Report", UsageTypes.CL),
-            (0x0016, "UPC/EAN Control Report", UsageTypes.CL),
-            (0x0017, "EAN 2/3 Label Control Report", UsageTypes.CL),
-            (0x0018, "Code 39 Control Report", UsageTypes.CL),
-            (0x0019, "Interleaved 2 of 5 Control Report", UsageTypes.CL),
-            (0x001a, "Standard 2 of 5 Control Report", UsageTypes.CL),
-            (0x001b, "MSI Plessey Control Report", UsageTypes.CL),
-            (0x001c, "Codabar Control Report", UsageTypes.CL),
-            (0x001d, "Code 128 Control Report", UsageTypes.CL),
-            (0x001e, "Misc 1D Control Report", UsageTypes.CL),
-            (0x001f, "2D Control Report", UsageTypes.CL),
-            (0x0030, "Aiming/Pointer Mode", UsageTypes.SF),
-            (0x0031, "Bar Code Present Sensor", UsageTypes.SF),
-            (0x0032, "Class 1A Laser", UsageTypes.SF),
-            (0x0033, "Class 2 Laser", UsageTypes.SF),
-            (0x0034, "Heater Present", UsageTypes.SF),
-            (0x0035, "Contact Scanner", UsageTypes.SF),
-            (0x0036, "Electronic Article Surveillance Notification", UsageTypes.SF),
-            (0x0037, "Constant Electronic Article Surveillance", UsageTypes.SF),
-            (0x0038, "Error Indication", UsageTypes.SF),
-            (0x0039, "Fixed Beeper", UsageTypes.SF),
-            (0x003a, "Good Decode Indication", UsageTypes.SF),
-            (0x003b, "Hands Free Scanning", UsageTypes.SF),
-            (0x003c, "Intrinsically Safe", UsageTypes.SF),
-            (0x003d, "Class 1 Laser", UsageTypes.SF),
-            (0x003e, "Long Range Scanner", UsageTypes.SF),
-            (0x003f, "Mirror Speed Control", UsageTypes.SF),
-            (0x0040, "Not On File Indication", UsageTypes.SF),
-            (0x0041, "Programmable Beeper", UsageTypes.SF),
-            (0x0042, "Triggerless", UsageTypes.SF),
-            (0x0043, "Wand", UsageTypes.SF),
-            (0x0044, "Water Resistant", UsageTypes.SF),
-            (0x0045, "Multi-Range Scanner", UsageTypes.SF),
-            (0x0046, "Proximity Sensor", UsageTypes.SF),
-            (0x004d, "Fragment Decoding", UsageTypes.DF),
-            (0x004e, "Scanner Read Confidence", UsageTypes.DV),
-            (0x004f, "Data Prefix", UsageTypes.NAry),
-            (0x0050, "Prefix AIMI", UsageTypes.Sel),
-            (0x0051, "Prefix None", UsageTypes.Sel),
-            (0x0052, "Prefix Proprietary", UsageTypes.Sel),
-            (0x0055, "Active Time", UsageTypes.DV),
-            (0x0056, "Aiming Laser Pattern", UsageTypes.DF),
-            (0x0057, "Bar Code Present", UsageTypes.OOC),
-            (0x0058, "Beeper State", UsageTypes.OOC),
-            (0x0059, "Laser On Time", UsageTypes.DV),
-            (0x005a, "Laser State", UsageTypes.OOC),
-            (0x005b, "Lockout Time", UsageTypes.DV),
-            (0x005c, "Motor State", UsageTypes.OOC),
-            (0x005d, "Motor Timeout", UsageTypes.DV),
-            (0x005e, "Power On Reset Scanner", UsageTypes.DF),
-            (0x005f, "Prevent Read of Barcodes", UsageTypes.DF),
-            (0x0060, "Initiate Barcode Read", UsageTypes.DF),
-            (0x0061, "Trigger State", UsageTypes.OOC),
-            (0x0062, "Trigger Mode", UsageTypes.NAry),
-            (0x0063, "Trigger Mode Blinking Laser On", UsageTypes.Sel),
-            (0x0064, "Trigger Mode Continuous Laser On", UsageTypes.Sel),
-            (0x0065, "Trigger Mode Laser on while Pulled", UsageTypes.Sel),
-            (0x0066, "Trigger Mode Laser stays on after Trigger release", UsageTypes.Sel),
-            (0x006d, "Commit Parameters to NVM", UsageTypes.DF),
-            (0x006e, "Parameter Scanning", UsageTypes.DF),
-            (0x006f, "Parameters Changed", UsageTypes.OOC),
-            (0x0070, "Set parameter default values", UsageTypes.DF),
-            (0x0075, "Scanner In Cradle", UsageTypes.OOC),
-            (0x0076, "Scanner In Range", UsageTypes.OOC),
-            (0x007a, "Aim Duration", UsageTypes.DV),
-            (0x007b, "Good Read Lamp Duration", UsageTypes.DV),
-            (0x007c, "Good Read Lamp Intensity", UsageTypes.DV),
-            (0x007d, "Good Read LED", UsageTypes.DF),
-            (0x007e, "Good Read Tone Frequency", UsageTypes.DV),
-            (0x007f, "Good Read Tone Length", UsageTypes.DV),
-            (0x0080, "Good Read Tone Volume", UsageTypes.DV),
-            (0x0082, "No Read Message", UsageTypes.DF),
-            (0x0083, "Not on File Volume", UsageTypes.DV),
-            (0x0084, "Powerup Beep", UsageTypes.DF),
-            (0x0085, "Sound Error Beep", UsageTypes.DF),
-            (0x0086, "Sound Good Read Beep", UsageTypes.DF),
-            (0x0087, "Sound Not On File Beep", UsageTypes.DF),
-            (0x0088, "Good Read When to Write", UsageTypes.NAry),
-            (0x0089, "GRWTI After Decode", UsageTypes.Sel),
-            (0x008a, "GRWTI Beep/Lamp after transmit", UsageTypes.Sel),
-            (0x008b, "GRWTI No Beep/Lamp use at all", UsageTypes.Sel),
-            (0x0091, "Bookland EAN", UsageTypes.DF),
-            (0x0092, "Convert EAN 8 to 13 Type", UsageTypes.DF),
-            (0x0093, "Convert UPC A to EAN-13", UsageTypes.DF),
-            (0x0094, "Convert UPC-E to A", UsageTypes.DF),
-            (0x0095, "EAN-13", UsageTypes.DF),
-            (0x0096, "EAN-8", UsageTypes.DF),
-            (0x0097, "EAN-99 128_Mandatory", UsageTypes.DF),
-            (0x0098, "EAN-99 P5/128_Optional", UsageTypes.DF),
-            (0x009a, "UPC/EAN", UsageTypes.DF),
-            (0x009b, "UPC/EAN Coupon Code", UsageTypes.DF),
-            (0x009c, "UPC/EAN Periodicals", UsageTypes.DV),
-            (0x009d, "UPC-A", UsageTypes.DF),
-            (0x009e, "UPC-A with 128 Mandatory", UsageTypes.DF),
-            (0x009f, "UPC-A with 128 Optional", UsageTypes.DF),
-            (0x00a0, "UPC-A with P5 Optional", UsageTypes.DF),
-            (0x00a1, "UPC-E", UsageTypes.DF),
-            (0x00a2, "UPC-E1", UsageTypes.DF),
-            (0x00a9, "Periodical", UsageTypes.NAry),
-            (0x00aa, "Periodical Auto-Discriminate + 2", UsageTypes.Sel),
-            (0x00ab, "Periodical Only Decode with + 2", UsageTypes.Sel),
-            (0x00ac, "Periodical Ignore + 2", UsageTypes.Sel),
-            (0x00ad, "Periodical Auto-Discriminate + 5", UsageTypes.Sel),
-            (0x00ae, "Periodical Only Decode with + 5", UsageTypes.Sel),
-            (0x00af, "Periodical Ignore + 5", UsageTypes.Sel),
-            (0x00b0, "Check", UsageTypes.NAry),
-            (0x00b1, "Check Disable Price", UsageTypes.Sel),
-            (0x00b2, "Check Enable 4 digit Price", UsageTypes.Sel),
-            (0x00b3, "Check Enable 5 digit Price", UsageTypes.Sel),
-            (0x00b4, "Check Enable European 4 digit Price", UsageTypes.Sel),
-            (0x00b5, "Check Enable European 5 digit Price", UsageTypes.Sel),
-            (0x00b7, "EAN Two Label", UsageTypes.DF),
-            (0x00b8, "EAN Three Label", UsageTypes.DF),
-            (0x00b9, "EAN 8 Flag Digit 1", UsageTypes.DV),
-            (0x00ba, "EAN 8 Flag Digit 2", UsageTypes.DV),
-            (0x00bb, "EAN 8 Flag Digit 3", UsageTypes.DV),
-            (0x00bc, "EAN 13 Flag Digit 1", UsageTypes.DV),
-            (0x00bd, "EAN 13 Flag Digit 2", UsageTypes.DV),
-            (0x00be, "EAN 13 Flag Digit 3", UsageTypes.DV),
-            (0x00bf, "Add EAN 2/3 Label Definition", UsageTypes.DF),
-            (0x00c0, "Clear all EAN 2/3 Label Definitions", UsageTypes.DF),
-            (0x00c3, "Codabar", UsageTypes.DF),
-            (0x00c4, "Code 128", UsageTypes.DF),
-            (0x00c7, "Code 39", UsageTypes.DF),
-            (0x00c8, "Code 93", UsageTypes.DF),
-            (0x00c9, "Full ASCII Conversion", UsageTypes.DF),
-            (0x00ca, "Interleaved 2 of 5", UsageTypes.DF),
-            (0x00cb, "Italian Pharmacy Code", UsageTypes.DF),
-            (0x00cc, "MSI/Plessey", UsageTypes.DF),
-            (0x00cd, "Standard 2 of 5 IATA", UsageTypes.DF),
-            (0x00ce, "Standard 2 of 5", UsageTypes.DF),
-            (0x00d3, "Transmit Start/Stop", UsageTypes.DF),
-            (0x00d4, "Tri-Optic", UsageTypes.DF),
-            (0x00d5, "UCC/EAN-128", UsageTypes.DF),
-            (0x00d6, "Check Digit", UsageTypes.NAry),
-            (0x00d7, "Check Digit Disable", UsageTypes.Sel),
-            (0x00d8, "Check Digit Enable Interleaved 2 of 5 OPCC", UsageTypes.Sel),
-            (0x00d9, "Check Digit Enable Interleaved 2 of 5 USS", UsageTypes.Sel),
-            (0x00da, "Check Digit Enable Standard 2 of 5 OPCC", UsageTypes.Sel),
-            (0x00db, "Check Digit Enable Standard 2 of 5 USS", UsageTypes.Sel),
-            (0x00dc, "Check Digit Enable One MSI Plessey", UsageTypes.Sel),
-            (0x00dd, "Check Digit Enable Two MSI Plessey", UsageTypes.Sel),
-            (0x00de, "Check Digit Codabar Enable", UsageTypes.Sel),
-            (0x00df, "Check Digit Code 39 Enable", UsageTypes.Sel),
-            (0x00f0, "Transmit Check Digit", UsageTypes.NAry),
-            (0x00f1, "Disable Check Digit Transmit", UsageTypes.Sel),
-            (0x00f2, "Enable Check Digit Transmit", UsageTypes.Sel),
-            (0x00fb, "Symbology Identifier", UsageTypes.DV),
-            (0x00fc, "Symbology Identifier", UsageTypes.DV),
-            (0x00fd, "Symbology Identifier", UsageTypes.DV),
-            (0x00fe, "Decoded Data", UsageTypes.DV),
-            (0x00ff, "Decode Data Continued", UsageTypes.DF),
-            (0x0100, "Bar Space Data", UsageTypes.DV),
-            (0x0101, "Scanner Data Accuracy", UsageTypes.DV),
-            (0x0102, "Raw Data Polarity", UsageTypes.NAry),
-            (0x0103, "Polarity Inverted Bar Code", UsageTypes.Sel),
-            (0x0104, "Polarity Normal Bar Code", UsageTypes.Sel),
-            (0x0106, "Minimum Length to Decode", UsageTypes.DV),
-            (0x0107, "Maximum Length to Decode", UsageTypes.DV),
-            (0x0108, "First Discrete Length to Decode", UsageTypes.DV),
-            (0x0109, "Second Discrete Length to Decode", UsageTypes.DV),
-            (0x010a, "Data Length Method", UsageTypes.NAry),
-            (0x010b, "DL Method Read any", UsageTypes.Sel),
-            (0x010c, "DL Method Check in Range", UsageTypes.Sel),
-            (0x010d, "DL Method Check for Discrete", UsageTypes.Sel),
-            (0x0110, "Aztec Code", UsageTypes.DF),
-            (0x0111, "BC412", UsageTypes.DF),
-            (0x0112, "Channel Code", UsageTypes.DF),
-            (0x0113, "Code 16", UsageTypes.DF),
-            (0x0114, "Code 32", UsageTypes.DF),
-            (0x0115, "Code 49", UsageTypes.DF),
-            (0x0116, "Code One", UsageTypes.DF),
-            (0x0117, "Colorcode", UsageTypes.DF),
-            (0x0118, "Data Matrix", UsageTypes.DF),
-            (0x0119, "MaxiCode", UsageTypes.DF),
-            (0x011a, "MicroPDF", UsageTypes.DF),
-            (0x011b, "PDF-417", UsageTypes.DF),
-            (0x011c, "PosiCode", UsageTypes.DF),
-            (0x011d, "QR Code", UsageTypes.DF),
-            (0x011e, "SuperCode", UsageTypes.DF),
-            (0x011f, "UltraCode", UsageTypes.DF),
-            (0x0120, "USD-5 (Slug Code)", UsageTypes.DF),
-            (0x0121, "VeriCode", UsageTypes.DF))
+        private BarCodeScannerUsagePage() : base(0x008c, "BarCodeScanner")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "Bar Code Badge Reader", UsageTypes.CA);
+                case 0x0002: return new Usage(this, id, "Bar Code Scanner", UsageTypes.CA);
+                case 0x0003: return new Usage(this, id, "Dumb Bar Code Scanner", UsageTypes.CA);
+                case 0x0004: return new Usage(this, id, "Cordless Scanner Base", UsageTypes.CA);
+                case 0x0005: return new Usage(this, id, "Bar Code Scanner Cradle", UsageTypes.CA);
+                case 0x0010: return new Usage(this, id, "Attribute Report", UsageTypes.CL);
+                case 0x0011: return new Usage(this, id, "Settings Report", UsageTypes.CL);
+                case 0x0012: return new Usage(this, id, "Scanned Data Report", UsageTypes.CL);
+                case 0x0013: return new Usage(this, id, "Raw Scanned Data Report", UsageTypes.CL);
+                case 0x0014: return new Usage(this, id, "Trigger Report", UsageTypes.CL);
+                case 0x0015: return new Usage(this, id, "Status Report", UsageTypes.CL);
+                case 0x0016: return new Usage(this, id, "UPC/EAN Control Report", UsageTypes.CL);
+                case 0x0017: return new Usage(this, id, "EAN 2/3 Label Control Report", UsageTypes.CL);
+                case 0x0018: return new Usage(this, id, "Code 39 Control Report", UsageTypes.CL);
+                case 0x0019: return new Usage(this, id, "Interleaved 2 of 5 Control Report", UsageTypes.CL);
+                case 0x001a: return new Usage(this, id, "Standard 2 of 5 Control Report", UsageTypes.CL);
+                case 0x001b: return new Usage(this, id, "MSI Plessey Control Report", UsageTypes.CL);
+                case 0x001c: return new Usage(this, id, "Codabar Control Report", UsageTypes.CL);
+                case 0x001d: return new Usage(this, id, "Code 128 Control Report", UsageTypes.CL);
+                case 0x001e: return new Usage(this, id, "Misc 1D Control Report", UsageTypes.CL);
+                case 0x001f: return new Usage(this, id, "2D Control Report", UsageTypes.CL);
+                case 0x0030: return new Usage(this, id, "Aiming/Pointer Mode", UsageTypes.SF);
+                case 0x0031: return new Usage(this, id, "Bar Code Present Sensor", UsageTypes.SF);
+                case 0x0032: return new Usage(this, id, "Class 1A Laser", UsageTypes.SF);
+                case 0x0033: return new Usage(this, id, "Class 2 Laser", UsageTypes.SF);
+                case 0x0034: return new Usage(this, id, "Heater Present", UsageTypes.SF);
+                case 0x0035: return new Usage(this, id, "Contact Scanner", UsageTypes.SF);
+                case 0x0036: return new Usage(this, id, "Electronic Article Surveillance Notification", UsageTypes.SF);
+                case 0x0037: return new Usage(this, id, "Constant Electronic Article Surveillance", UsageTypes.SF);
+                case 0x0038: return new Usage(this, id, "Error Indication", UsageTypes.SF);
+                case 0x0039: return new Usage(this, id, "Fixed Beeper", UsageTypes.SF);
+                case 0x003a: return new Usage(this, id, "Good Decode Indication", UsageTypes.SF);
+                case 0x003b: return new Usage(this, id, "Hands Free Scanning", UsageTypes.SF);
+                case 0x003c: return new Usage(this, id, "Intrinsically Safe", UsageTypes.SF);
+                case 0x003d: return new Usage(this, id, "Class 1 Laser", UsageTypes.SF);
+                case 0x003e: return new Usage(this, id, "Long Range Scanner", UsageTypes.SF);
+                case 0x003f: return new Usage(this, id, "Mirror Speed Control", UsageTypes.SF);
+                case 0x0040: return new Usage(this, id, "Not On File Indication", UsageTypes.SF);
+                case 0x0041: return new Usage(this, id, "Programmable Beeper", UsageTypes.SF);
+                case 0x0042: return new Usage(this, id, "Triggerless", UsageTypes.SF);
+                case 0x0043: return new Usage(this, id, "Wand", UsageTypes.SF);
+                case 0x0044: return new Usage(this, id, "Water Resistant", UsageTypes.SF);
+                case 0x0045: return new Usage(this, id, "Multi-Range Scanner", UsageTypes.SF);
+                case 0x0046: return new Usage(this, id, "Proximity Sensor", UsageTypes.SF);
+                case 0x004d: return new Usage(this, id, "Fragment Decoding", UsageTypes.DF);
+                case 0x004e: return new Usage(this, id, "Scanner Read Confidence", UsageTypes.DV);
+                case 0x004f: return new Usage(this, id, "Data Prefix", UsageTypes.NAry);
+                case 0x0050: return new Usage(this, id, "Prefix AIMI", UsageTypes.Sel);
+                case 0x0051: return new Usage(this, id, "Prefix None", UsageTypes.Sel);
+                case 0x0052: return new Usage(this, id, "Prefix Proprietary", UsageTypes.Sel);
+                case 0x0055: return new Usage(this, id, "Active Time", UsageTypes.DV);
+                case 0x0056: return new Usage(this, id, "Aiming Laser Pattern", UsageTypes.DF);
+                case 0x0057: return new Usage(this, id, "Bar Code Present", UsageTypes.OOC);
+                case 0x0058: return new Usage(this, id, "Beeper State", UsageTypes.OOC);
+                case 0x0059: return new Usage(this, id, "Laser On Time", UsageTypes.DV);
+                case 0x005a: return new Usage(this, id, "Laser State", UsageTypes.OOC);
+                case 0x005b: return new Usage(this, id, "Lockout Time", UsageTypes.DV);
+                case 0x005c: return new Usage(this, id, "Motor State", UsageTypes.OOC);
+                case 0x005d: return new Usage(this, id, "Motor Timeout", UsageTypes.DV);
+                case 0x005e: return new Usage(this, id, "Power On Reset Scanner", UsageTypes.DF);
+                case 0x005f: return new Usage(this, id, "Prevent Read of Barcodes", UsageTypes.DF);
+                case 0x0060: return new Usage(this, id, "Initiate Barcode Read", UsageTypes.DF);
+                case 0x0061: return new Usage(this, id, "Trigger State", UsageTypes.OOC);
+                case 0x0062: return new Usage(this, id, "Trigger Mode", UsageTypes.NAry);
+                case 0x0063: return new Usage(this, id, "Trigger Mode Blinking Laser On", UsageTypes.Sel);
+                case 0x0064: return new Usage(this, id, "Trigger Mode Continuous Laser On", UsageTypes.Sel);
+                case 0x0065: return new Usage(this, id, "Trigger Mode Laser on while Pulled", UsageTypes.Sel);
+                case 0x0066: return new Usage(this, id, "Trigger Mode Laser stays on after Trigger release", UsageTypes.Sel);
+                case 0x006d: return new Usage(this, id, "Commit Parameters to NVM", UsageTypes.DF);
+                case 0x006e: return new Usage(this, id, "Parameter Scanning", UsageTypes.DF);
+                case 0x006f: return new Usage(this, id, "Parameters Changed", UsageTypes.OOC);
+                case 0x0070: return new Usage(this, id, "Set parameter default values", UsageTypes.DF);
+                case 0x0075: return new Usage(this, id, "Scanner In Cradle", UsageTypes.OOC);
+                case 0x0076: return new Usage(this, id, "Scanner In Range", UsageTypes.OOC);
+                case 0x007a: return new Usage(this, id, "Aim Duration", UsageTypes.DV);
+                case 0x007b: return new Usage(this, id, "Good Read Lamp Duration", UsageTypes.DV);
+                case 0x007c: return new Usage(this, id, "Good Read Lamp Intensity", UsageTypes.DV);
+                case 0x007d: return new Usage(this, id, "Good Read LED", UsageTypes.DF);
+                case 0x007e: return new Usage(this, id, "Good Read Tone Frequency", UsageTypes.DV);
+                case 0x007f: return new Usage(this, id, "Good Read Tone Length", UsageTypes.DV);
+                case 0x0080: return new Usage(this, id, "Good Read Tone Volume", UsageTypes.DV);
+                case 0x0082: return new Usage(this, id, "No Read Message", UsageTypes.DF);
+                case 0x0083: return new Usage(this, id, "Not on File Volume", UsageTypes.DV);
+                case 0x0084: return new Usage(this, id, "Powerup Beep", UsageTypes.DF);
+                case 0x0085: return new Usage(this, id, "Sound Error Beep", UsageTypes.DF);
+                case 0x0086: return new Usage(this, id, "Sound Good Read Beep", UsageTypes.DF);
+                case 0x0087: return new Usage(this, id, "Sound Not On File Beep", UsageTypes.DF);
+                case 0x0088: return new Usage(this, id, "Good Read When to Write", UsageTypes.NAry);
+                case 0x0089: return new Usage(this, id, "GRWTI After Decode", UsageTypes.Sel);
+                case 0x008a: return new Usage(this, id, "GRWTI Beep/Lamp after transmit", UsageTypes.Sel);
+                case 0x008b: return new Usage(this, id, "GRWTI No Beep/Lamp use at all", UsageTypes.Sel);
+                case 0x0091: return new Usage(this, id, "Bookland EAN", UsageTypes.DF);
+                case 0x0092: return new Usage(this, id, "Convert EAN 8 to 13 Type", UsageTypes.DF);
+                case 0x0093: return new Usage(this, id, "Convert UPC A to EAN-13", UsageTypes.DF);
+                case 0x0094: return new Usage(this, id, "Convert UPC-E to A", UsageTypes.DF);
+                case 0x0095: return new Usage(this, id, "EAN-13", UsageTypes.DF);
+                case 0x0096: return new Usage(this, id, "EAN-8", UsageTypes.DF);
+                case 0x0097: return new Usage(this, id, "EAN-99 128_Mandatory", UsageTypes.DF);
+                case 0x0098: return new Usage(this, id, "EAN-99 P5/128_Optional", UsageTypes.DF);
+                case 0x009a: return new Usage(this, id, "UPC/EAN", UsageTypes.DF);
+                case 0x009b: return new Usage(this, id, "UPC/EAN Coupon Code", UsageTypes.DF);
+                case 0x009c: return new Usage(this, id, "UPC/EAN Periodicals", UsageTypes.DV);
+                case 0x009d: return new Usage(this, id, "UPC-A", UsageTypes.DF);
+                case 0x009e: return new Usage(this, id, "UPC-A with 128 Mandatory", UsageTypes.DF);
+                case 0x009f: return new Usage(this, id, "UPC-A with 128 Optional", UsageTypes.DF);
+                case 0x00a0: return new Usage(this, id, "UPC-A with P5 Optional", UsageTypes.DF);
+                case 0x00a1: return new Usage(this, id, "UPC-E", UsageTypes.DF);
+                case 0x00a2: return new Usage(this, id, "UPC-E1", UsageTypes.DF);
+                case 0x00a9: return new Usage(this, id, "Periodical", UsageTypes.NAry);
+                case 0x00aa: return new Usage(this, id, "Periodical Auto-Discriminate + 2", UsageTypes.Sel);
+                case 0x00ab: return new Usage(this, id, "Periodical Only Decode with + 2", UsageTypes.Sel);
+                case 0x00ac: return new Usage(this, id, "Periodical Ignore + 2", UsageTypes.Sel);
+                case 0x00ad: return new Usage(this, id, "Periodical Auto-Discriminate + 5", UsageTypes.Sel);
+                case 0x00ae: return new Usage(this, id, "Periodical Only Decode with + 5", UsageTypes.Sel);
+                case 0x00af: return new Usage(this, id, "Periodical Ignore + 5", UsageTypes.Sel);
+                case 0x00b0: return new Usage(this, id, "Check", UsageTypes.NAry);
+                case 0x00b1: return new Usage(this, id, "Check Disable Price", UsageTypes.Sel);
+                case 0x00b2: return new Usage(this, id, "Check Enable 4 digit Price", UsageTypes.Sel);
+                case 0x00b3: return new Usage(this, id, "Check Enable 5 digit Price", UsageTypes.Sel);
+                case 0x00b4: return new Usage(this, id, "Check Enable European 4 digit Price", UsageTypes.Sel);
+                case 0x00b5: return new Usage(this, id, "Check Enable European 5 digit Price", UsageTypes.Sel);
+                case 0x00b7: return new Usage(this, id, "EAN Two Label", UsageTypes.DF);
+                case 0x00b8: return new Usage(this, id, "EAN Three Label", UsageTypes.DF);
+                case 0x00b9: return new Usage(this, id, "EAN 8 Flag Digit 1", UsageTypes.DV);
+                case 0x00ba: return new Usage(this, id, "EAN 8 Flag Digit 2", UsageTypes.DV);
+                case 0x00bb: return new Usage(this, id, "EAN 8 Flag Digit 3", UsageTypes.DV);
+                case 0x00bc: return new Usage(this, id, "EAN 13 Flag Digit 1", UsageTypes.DV);
+                case 0x00bd: return new Usage(this, id, "EAN 13 Flag Digit 2", UsageTypes.DV);
+                case 0x00be: return new Usage(this, id, "EAN 13 Flag Digit 3", UsageTypes.DV);
+                case 0x00bf: return new Usage(this, id, "Add EAN 2/3 Label Definition", UsageTypes.DF);
+                case 0x00c0: return new Usage(this, id, "Clear all EAN 2/3 Label Definitions", UsageTypes.DF);
+                case 0x00c3: return new Usage(this, id, "Codabar", UsageTypes.DF);
+                case 0x00c4: return new Usage(this, id, "Code 128", UsageTypes.DF);
+                case 0x00c7: return new Usage(this, id, "Code 39", UsageTypes.DF);
+                case 0x00c8: return new Usage(this, id, "Code 93", UsageTypes.DF);
+                case 0x00c9: return new Usage(this, id, "Full ASCII Conversion", UsageTypes.DF);
+                case 0x00ca: return new Usage(this, id, "Interleaved 2 of 5", UsageTypes.DF);
+                case 0x00cb: return new Usage(this, id, "Italian Pharmacy Code", UsageTypes.DF);
+                case 0x00cc: return new Usage(this, id, "MSI/Plessey", UsageTypes.DF);
+                case 0x00cd: return new Usage(this, id, "Standard 2 of 5 IATA", UsageTypes.DF);
+                case 0x00ce: return new Usage(this, id, "Standard 2 of 5", UsageTypes.DF);
+                case 0x00d3: return new Usage(this, id, "Transmit Start/Stop", UsageTypes.DF);
+                case 0x00d4: return new Usage(this, id, "Tri-Optic", UsageTypes.DF);
+                case 0x00d5: return new Usage(this, id, "UCC/EAN-128", UsageTypes.DF);
+                case 0x00d6: return new Usage(this, id, "Check Digit", UsageTypes.NAry);
+                case 0x00d7: return new Usage(this, id, "Check Digit Disable", UsageTypes.Sel);
+                case 0x00d8: return new Usage(this, id, "Check Digit Enable Interleaved 2 of 5 OPCC", UsageTypes.Sel);
+                case 0x00d9: return new Usage(this, id, "Check Digit Enable Interleaved 2 of 5 USS", UsageTypes.Sel);
+                case 0x00da: return new Usage(this, id, "Check Digit Enable Standard 2 of 5 OPCC", UsageTypes.Sel);
+                case 0x00db: return new Usage(this, id, "Check Digit Enable Standard 2 of 5 USS", UsageTypes.Sel);
+                case 0x00dc: return new Usage(this, id, "Check Digit Enable One MSI Plessey", UsageTypes.Sel);
+                case 0x00dd: return new Usage(this, id, "Check Digit Enable Two MSI Plessey", UsageTypes.Sel);
+                case 0x00de: return new Usage(this, id, "Check Digit Codabar Enable", UsageTypes.Sel);
+                case 0x00df: return new Usage(this, id, "Check Digit Code 39 Enable", UsageTypes.Sel);
+                case 0x00f0: return new Usage(this, id, "Transmit Check Digit", UsageTypes.NAry);
+                case 0x00f1: return new Usage(this, id, "Disable Check Digit Transmit", UsageTypes.Sel);
+                case 0x00f2: return new Usage(this, id, "Enable Check Digit Transmit", UsageTypes.Sel);
+                case 0x00fb: return new Usage(this, id, "Symbology Identifier", UsageTypes.DV);
+                case 0x00fc: return new Usage(this, id, "Symbology Identifier", UsageTypes.DV);
+                case 0x00fd: return new Usage(this, id, "Symbology Identifier", UsageTypes.DV);
+                case 0x00fe: return new Usage(this, id, "Decoded Data", UsageTypes.DV);
+                case 0x00ff: return new Usage(this, id, "Decode Data Continued", UsageTypes.DF);
+                case 0x0100: return new Usage(this, id, "Bar Space Data", UsageTypes.DV);
+                case 0x0101: return new Usage(this, id, "Scanner Data Accuracy", UsageTypes.DV);
+                case 0x0102: return new Usage(this, id, "Raw Data Polarity", UsageTypes.NAry);
+                case 0x0103: return new Usage(this, id, "Polarity Inverted Bar Code", UsageTypes.Sel);
+                case 0x0104: return new Usage(this, id, "Polarity Normal Bar Code", UsageTypes.Sel);
+                case 0x0106: return new Usage(this, id, "Minimum Length to Decode", UsageTypes.DV);
+                case 0x0107: return new Usage(this, id, "Maximum Length to Decode", UsageTypes.DV);
+                case 0x0108: return new Usage(this, id, "First Discrete Length to Decode", UsageTypes.DV);
+                case 0x0109: return new Usage(this, id, "Second Discrete Length to Decode", UsageTypes.DV);
+                case 0x010a: return new Usage(this, id, "Data Length Method", UsageTypes.NAry);
+                case 0x010b: return new Usage(this, id, "DL Method Read any", UsageTypes.Sel);
+                case 0x010c: return new Usage(this, id, "DL Method Check in Range", UsageTypes.Sel);
+                case 0x010d: return new Usage(this, id, "DL Method Check for Discrete", UsageTypes.Sel);
+                case 0x0110: return new Usage(this, id, "Aztec Code", UsageTypes.DF);
+                case 0x0111: return new Usage(this, id, "BC412", UsageTypes.DF);
+                case 0x0112: return new Usage(this, id, "Channel Code", UsageTypes.DF);
+                case 0x0113: return new Usage(this, id, "Code 16", UsageTypes.DF);
+                case 0x0114: return new Usage(this, id, "Code 32", UsageTypes.DF);
+                case 0x0115: return new Usage(this, id, "Code 49", UsageTypes.DF);
+                case 0x0116: return new Usage(this, id, "Code One", UsageTypes.DF);
+                case 0x0117: return new Usage(this, id, "Colorcode", UsageTypes.DF);
+                case 0x0118: return new Usage(this, id, "Data Matrix", UsageTypes.DF);
+                case 0x0119: return new Usage(this, id, "MaxiCode", UsageTypes.DF);
+                case 0x011a: return new Usage(this, id, "MicroPDF", UsageTypes.DF);
+                case 0x011b: return new Usage(this, id, "PDF-417", UsageTypes.DF);
+                case 0x011c: return new Usage(this, id, "PosiCode", UsageTypes.DF);
+                case 0x011d: return new Usage(this, id, "QR Code", UsageTypes.DF);
+                case 0x011e: return new Usage(this, id, "SuperCode", UsageTypes.DF);
+                case 0x011f: return new Usage(this, id, "UltraCode", UsageTypes.DF);
+                case 0x0120: return new Usage(this, id, "USD-5 (Slug Code)", UsageTypes.DF);
+                case 0x0121: return new Usage(this, id, "VeriCode", UsageTypes.DF);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -21569,58 +21748,65 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly WeighingDevicesUsagePage Instance = new WeighingDevicesUsagePage();
 
-        private WeighingDevicesUsagePage()
-        : base(
-            0x008d,
-            "WeighingDevices",
-            (0x0000, "Undefined", UsageTypes.None),
-            (0x0001, "Weighing Device", UsageTypes.CA),
-            (0x0020, "Scale Device", UsageTypes.CL|UsageTypes.NAry),
-            (0x0021, "Scale Class I Metric", UsageTypes.Sel),
-            (0x0022, "Scale Class I Metric", UsageTypes.Sel),
-            (0x0023, "Scale Class II Metric", UsageTypes.Sel),
-            (0x0024, "Scale Class III Metric", UsageTypes.Sel),
-            (0x0025, "Scale Class IIIL Metric", UsageTypes.Sel),
-            (0x0026, "Scale Class IV Metric", UsageTypes.Sel),
-            (0x0027, "Scale Class III English", UsageTypes.Sel),
-            (0x0028, "Scale Class IIIL English", UsageTypes.Sel),
-            (0x0029, "Scale Class IV English", UsageTypes.Sel),
-            (0x002a, "Scale Class Generic", UsageTypes.Sel),
-            (0x0030, "Scale Attribute Report", UsageTypes.CL),
-            (0x0031, "Scale Control Report", UsageTypes.CL),
-            (0x0032, "Scale Data Report", UsageTypes.CL),
-            (0x0033, "Scale Status Report", UsageTypes.CL),
-            (0x0034, "Scale Weight Limit Report", UsageTypes.CL),
-            (0x0035, "Scale Statistics Report", UsageTypes.CL),
-            (0x0040, "Data Weight", UsageTypes.DV),
-            (0x0041, "Data Scaling", UsageTypes.DV),
-            (0x0050, "Weight Unit", UsageTypes.CL|UsageTypes.NAry),
-            (0x0051, "Weight Unit Milligram", UsageTypes.Sel),
-            (0x0052, "Weight Unit Gram", UsageTypes.Sel),
-            (0x0053, "Weight Unit Kilogram", UsageTypes.Sel),
-            (0x0054, "Weight Unit Carats", UsageTypes.Sel),
-            (0x0055, "Weight Unit Taels", UsageTypes.Sel),
-            (0x0056, "Weight Unit Grains", UsageTypes.Sel),
-            (0x0057, "Weight Unit Pennyweights", UsageTypes.Sel),
-            (0x0058, "Weight Unit Metric Ton", UsageTypes.Sel),
-            (0x0059, "Weight Unit Avoir Ton", UsageTypes.Sel),
-            (0x005a, "Weight Unit Troy Ounce", UsageTypes.Sel),
-            (0x005b, "Weight Unit Ounce", UsageTypes.Sel),
-            (0x005c, "Weight Unit Pound", UsageTypes.Sel),
-            (0x0060, "Calibration Count", UsageTypes.DV),
-            (0x0061, "Re-Zero Count", UsageTypes.DV),
-            (0x0070, "Scale Status", UsageTypes.CL|UsageTypes.NAry),
-            (0x0071, "Scale Status Fault", UsageTypes.Sel),
-            (0x0072, "Scale Status Stable at Center of Zero", UsageTypes.Sel),
-            (0x0073, "Scale Status In Motion", UsageTypes.Sel),
-            (0x0074, "Scale Status Weight Stable", UsageTypes.Sel),
-            (0x0075, "Scale Status Under Zero", UsageTypes.Sel),
-            (0x0076, "Scale Status Over Weight Limit", UsageTypes.Sel),
-            (0x0077, "Scale Status Requires Calibration", UsageTypes.Sel),
-            (0x0078, "Scale Status Requires Rezeroing", UsageTypes.Sel),
-            (0x0080, "Zero Scale", UsageTypes.OOC),
-            (0x0081, "Enforced Zero Return", UsageTypes.OOC))
+        private WeighingDevicesUsagePage() : base(0x008d, "WeighingDevices")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "Weighing Device", UsageTypes.CA);
+                case 0x0020: return new Usage(this, id, "Scale Device", UsageTypes.CL|UsageTypes.NAry);
+                case 0x0021: return new Usage(this, id, "Scale Class I Metric", UsageTypes.Sel);
+                case 0x0022: return new Usage(this, id, "Scale Class I Metric", UsageTypes.Sel);
+                case 0x0023: return new Usage(this, id, "Scale Class II Metric", UsageTypes.Sel);
+                case 0x0024: return new Usage(this, id, "Scale Class III Metric", UsageTypes.Sel);
+                case 0x0025: return new Usage(this, id, "Scale Class IIIL Metric", UsageTypes.Sel);
+                case 0x0026: return new Usage(this, id, "Scale Class IV Metric", UsageTypes.Sel);
+                case 0x0027: return new Usage(this, id, "Scale Class III English", UsageTypes.Sel);
+                case 0x0028: return new Usage(this, id, "Scale Class IIIL English", UsageTypes.Sel);
+                case 0x0029: return new Usage(this, id, "Scale Class IV English", UsageTypes.Sel);
+                case 0x002a: return new Usage(this, id, "Scale Class Generic", UsageTypes.Sel);
+                case 0x0030: return new Usage(this, id, "Scale Attribute Report", UsageTypes.CL);
+                case 0x0031: return new Usage(this, id, "Scale Control Report", UsageTypes.CL);
+                case 0x0032: return new Usage(this, id, "Scale Data Report", UsageTypes.CL);
+                case 0x0033: return new Usage(this, id, "Scale Status Report", UsageTypes.CL);
+                case 0x0034: return new Usage(this, id, "Scale Weight Limit Report", UsageTypes.CL);
+                case 0x0035: return new Usage(this, id, "Scale Statistics Report", UsageTypes.CL);
+                case 0x0040: return new Usage(this, id, "Data Weight", UsageTypes.DV);
+                case 0x0041: return new Usage(this, id, "Data Scaling", UsageTypes.DV);
+                case 0x0050: return new Usage(this, id, "Weight Unit", UsageTypes.CL|UsageTypes.NAry);
+                case 0x0051: return new Usage(this, id, "Weight Unit Milligram", UsageTypes.Sel);
+                case 0x0052: return new Usage(this, id, "Weight Unit Gram", UsageTypes.Sel);
+                case 0x0053: return new Usage(this, id, "Weight Unit Kilogram", UsageTypes.Sel);
+                case 0x0054: return new Usage(this, id, "Weight Unit Carats", UsageTypes.Sel);
+                case 0x0055: return new Usage(this, id, "Weight Unit Taels", UsageTypes.Sel);
+                case 0x0056: return new Usage(this, id, "Weight Unit Grains", UsageTypes.Sel);
+                case 0x0057: return new Usage(this, id, "Weight Unit Pennyweights", UsageTypes.Sel);
+                case 0x0058: return new Usage(this, id, "Weight Unit Metric Ton", UsageTypes.Sel);
+                case 0x0059: return new Usage(this, id, "Weight Unit Avoir Ton", UsageTypes.Sel);
+                case 0x005a: return new Usage(this, id, "Weight Unit Troy Ounce", UsageTypes.Sel);
+                case 0x005b: return new Usage(this, id, "Weight Unit Ounce", UsageTypes.Sel);
+                case 0x005c: return new Usage(this, id, "Weight Unit Pound", UsageTypes.Sel);
+                case 0x0060: return new Usage(this, id, "Calibration Count", UsageTypes.DV);
+                case 0x0061: return new Usage(this, id, "Re-Zero Count", UsageTypes.DV);
+                case 0x0070: return new Usage(this, id, "Scale Status", UsageTypes.CL|UsageTypes.NAry);
+                case 0x0071: return new Usage(this, id, "Scale Status Fault", UsageTypes.Sel);
+                case 0x0072: return new Usage(this, id, "Scale Status Stable at Center of Zero", UsageTypes.Sel);
+                case 0x0073: return new Usage(this, id, "Scale Status In Motion", UsageTypes.Sel);
+                case 0x0074: return new Usage(this, id, "Scale Status Weight Stable", UsageTypes.Sel);
+                case 0x0075: return new Usage(this, id, "Scale Status Under Zero", UsageTypes.Sel);
+                case 0x0076: return new Usage(this, id, "Scale Status Over Weight Limit", UsageTypes.Sel);
+                case 0x0077: return new Usage(this, id, "Scale Status Requires Calibration", UsageTypes.Sel);
+                case 0x0078: return new Usage(this, id, "Scale Status Requires Rezeroing", UsageTypes.Sel);
+                case 0x0080: return new Usage(this, id, "Zero Scale", UsageTypes.OOC);
+                case 0x0081: return new Usage(this, id, "Enforced Zero Return", UsageTypes.OOC);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -21634,22 +21820,29 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly MagneticStripeReadingMSRDevicesUsagePage Instance = new MagneticStripeReadingMSRDevicesUsagePage();
 
-        private MagneticStripeReadingMSRDevicesUsagePage()
-        : base(
-            0x008e,
-            "MagneticStripeReadingMSRDevices",
-            (0x0000, "Undefined", UsageTypes.None),
-            (0x0001, "MSR Device Read-Only", UsageTypes.CA),
-            (0x0011, "Track 1 Length", UsageTypes.SF|UsageTypes.DF|UsageTypes.Sel),
-            (0x0012, "Track 2 Length", UsageTypes.SF|UsageTypes.DF|UsageTypes.Sel),
-            (0x0013, "Track 3 Length", UsageTypes.SF|UsageTypes.DF|UsageTypes.Sel),
-            (0x0014, "Track JIS Length", UsageTypes.SF|UsageTypes.DF|UsageTypes.Sel),
-            (0x0020, "Track Data", UsageTypes.SF|UsageTypes.DF|UsageTypes.Sel),
-            (0x0021, "Track 1 Data", UsageTypes.SF|UsageTypes.DF|UsageTypes.Sel),
-            (0x0022, "Track 2 Data", UsageTypes.SF|UsageTypes.DF|UsageTypes.Sel),
-            (0x0023, "Track 3 Data", UsageTypes.SF|UsageTypes.DF|UsageTypes.Sel),
-            (0x0024, "Track JIS Data", UsageTypes.SF|UsageTypes.DF|UsageTypes.Sel))
+        private MagneticStripeReadingMSRDevicesUsagePage() : base(0x008e, "MagneticStripeReadingMSRDevices")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "MSR Device Read-Only", UsageTypes.CA);
+                case 0x0011: return new Usage(this, id, "Track 1 Length", UsageTypes.SF|UsageTypes.DF|UsageTypes.Sel);
+                case 0x0012: return new Usage(this, id, "Track 2 Length", UsageTypes.SF|UsageTypes.DF|UsageTypes.Sel);
+                case 0x0013: return new Usage(this, id, "Track 3 Length", UsageTypes.SF|UsageTypes.DF|UsageTypes.Sel);
+                case 0x0014: return new Usage(this, id, "Track JIS Length", UsageTypes.SF|UsageTypes.DF|UsageTypes.Sel);
+                case 0x0020: return new Usage(this, id, "Track Data", UsageTypes.SF|UsageTypes.DF|UsageTypes.Sel);
+                case 0x0021: return new Usage(this, id, "Track 1 Data", UsageTypes.SF|UsageTypes.DF|UsageTypes.Sel);
+                case 0x0022: return new Usage(this, id, "Track 2 Data", UsageTypes.SF|UsageTypes.DF|UsageTypes.Sel);
+                case 0x0023: return new Usage(this, id, "Track 3 Data", UsageTypes.SF|UsageTypes.DF|UsageTypes.Sel);
+                case 0x0024: return new Usage(this, id, "Track JIS Data", UsageTypes.SF|UsageTypes.DF|UsageTypes.Sel);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -21663,12 +21856,19 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly ReservedPointOfSaleUsagePage Instance = new ReservedPointOfSaleUsagePage();
 
-        private ReservedPointOfSaleUsagePage()
-        : base(
-            0x008f,
-            "ReservedPointOfSale",
-            (0x0000, "Undefined", UsageTypes.None))
+        private ReservedPointOfSaleUsagePage() : base(0x008f, "ReservedPointOfSale")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -21682,14 +21882,21 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly CameraControlUsagePage Instance = new CameraControlUsagePage();
 
-        private CameraControlUsagePage()
-        : base(
-            0x0090,
-            "CameraControl",
-            (0x0000, "Undefined", UsageTypes.None),
-            (0x0020, "Camera Auto-focus", UsageTypes.OSC),
-            (0x0021, "Camera Shutter", UsageTypes.OSC))
+        private CameraControlUsagePage() : base(0x0090, "CameraControl")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0020: return new Usage(this, id, "Camera Auto-focus", UsageTypes.OSC);
+                case 0x0021: return new Usage(this, id, "Camera Shutter", UsageTypes.OSC);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -21703,39 +21910,46 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly ArcadeUsagePage Instance = new ArcadeUsagePage();
 
-        private ArcadeUsagePage()
-        : base(
-            0x0091,
-            "Arcade",
-            (0x0000, "Undefined", UsageTypes.None),
-            (0x0001, "General Purpose IO Card", UsageTypes.CA),
-            (0x0002, "Coin Door", UsageTypes.CA),
-            (0x0003, "Watchdog Timer", UsageTypes.CA),
-            (0x0030, "General Purpose Analog Input State", UsageTypes.DV),
-            (0x0031, "General Purpose Digital Input State", UsageTypes.DV),
-            (0x0032, "General Purpose Optical Input State", UsageTypes.DV),
-            (0x0033, "General Purpose Digital Output State", UsageTypes.DV),
-            (0x0034, "Number of Coin Doors", UsageTypes.DV),
-            (0x0035, "Coin Drawer Drop Count", UsageTypes.DV),
-            (0x0036, "Coin Drawer Start", UsageTypes.OOC),
-            (0x0037, "Coin Drawer Service", UsageTypes.OOC),
-            (0x0038, "Coin Drawer Tilt", UsageTypes.OOC),
-            (0x0039, "Coin Door Test", UsageTypes.OOC),
-            (0x0040, "Coin Door Lockout", UsageTypes.OOC),
-            (0x0041, "Watchdog Timeout", UsageTypes.DV),
-            (0x0042, "Watchdog Action", UsageTypes.NAry),
-            (0x0043, "Watchdog Reboot", UsageTypes.Sel),
-            (0x0044, "Watchdog Restart", UsageTypes.Sel),
-            (0x0045, "Alarm Input", UsageTypes.DV),
-            (0x0046, "Coin Door Counter", UsageTypes.OOC),
-            (0x0047, "I/O Direction Mapping", UsageTypes.DV),
-            (0x0048, "Set I/O Direction", UsageTypes.OOC),
-            (0x0049, "Extended Optical Input State", UsageTypes.DV),
-            (0x004a, "Pin Pad Input State", UsageTypes.DV),
-            (0x004b, "Pin Pad Status", UsageTypes.DV),
-            (0x004c, "Pin Pad Output", UsageTypes.OOC),
-            (0x004d, "Pin Pad Command", UsageTypes.DV))
+        private ArcadeUsagePage() : base(0x0091, "Arcade")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "General Purpose IO Card", UsageTypes.CA);
+                case 0x0002: return new Usage(this, id, "Coin Door", UsageTypes.CA);
+                case 0x0003: return new Usage(this, id, "Watchdog Timer", UsageTypes.CA);
+                case 0x0030: return new Usage(this, id, "General Purpose Analog Input State", UsageTypes.DV);
+                case 0x0031: return new Usage(this, id, "General Purpose Digital Input State", UsageTypes.DV);
+                case 0x0032: return new Usage(this, id, "General Purpose Optical Input State", UsageTypes.DV);
+                case 0x0033: return new Usage(this, id, "General Purpose Digital Output State", UsageTypes.DV);
+                case 0x0034: return new Usage(this, id, "Number of Coin Doors", UsageTypes.DV);
+                case 0x0035: return new Usage(this, id, "Coin Drawer Drop Count", UsageTypes.DV);
+                case 0x0036: return new Usage(this, id, "Coin Drawer Start", UsageTypes.OOC);
+                case 0x0037: return new Usage(this, id, "Coin Drawer Service", UsageTypes.OOC);
+                case 0x0038: return new Usage(this, id, "Coin Drawer Tilt", UsageTypes.OOC);
+                case 0x0039: return new Usage(this, id, "Coin Door Test", UsageTypes.OOC);
+                case 0x0040: return new Usage(this, id, "Coin Door Lockout", UsageTypes.OOC);
+                case 0x0041: return new Usage(this, id, "Watchdog Timeout", UsageTypes.DV);
+                case 0x0042: return new Usage(this, id, "Watchdog Action", UsageTypes.NAry);
+                case 0x0043: return new Usage(this, id, "Watchdog Reboot", UsageTypes.Sel);
+                case 0x0044: return new Usage(this, id, "Watchdog Restart", UsageTypes.Sel);
+                case 0x0045: return new Usage(this, id, "Alarm Input", UsageTypes.DV);
+                case 0x0046: return new Usage(this, id, "Coin Door Counter", UsageTypes.OOC);
+                case 0x0047: return new Usage(this, id, "I/O Direction Mapping", UsageTypes.DV);
+                case 0x0048: return new Usage(this, id, "Set I/O Direction", UsageTypes.OOC);
+                case 0x0049: return new Usage(this, id, "Extended Optical Input State", UsageTypes.DV);
+                case 0x004a: return new Usage(this, id, "Pin Pad Input State", UsageTypes.DV);
+                case 0x004b: return new Usage(this, id, "Pin Pad Status", UsageTypes.DV);
+                case 0x004c: return new Usage(this, id, "Pin Pad Output", UsageTypes.OOC);
+                case 0x004d: return new Usage(this, id, "Pin Pad Command", UsageTypes.DV);
+            }
+
+            return base.GetUsage(id);
         }
     }
 
@@ -21749,15 +21963,22 @@ namespace HIDDevices.Pages
         /// </summary>
         public static readonly FastIDentityOnlineAllianceUsagePage Instance = new FastIDentityOnlineAllianceUsagePage();
 
-        private FastIDentityOnlineAllianceUsagePage()
-        : base(
-            0xf1d0,
-            "FastIDentityOnlineAlliance",
-            (0x0000, "Undefined", UsageTypes.None),
-            (0x0001, "U2F Authenticator Device", UsageTypes.CA),
-            (0x0020, "Input Report Data", UsageTypes.DV),
-            (0x0021, "Output Report Data", UsageTypes.DV))
+        private FastIDentityOnlineAllianceUsagePage() : base(0xf1d0, "FastIDentityOnlineAlliance")
         {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "U2F Authenticator Device", UsageTypes.CA);
+                case 0x0020: return new Usage(this, id, "Input Report Data", UsageTypes.DV);
+                case 0x0021: return new Usage(this, id, "Output Report Data", UsageTypes.DV);
+            }
+
+            return base.GetUsage(id);
         }
     }
 }

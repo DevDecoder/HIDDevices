@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,15 +20,12 @@ namespace HIDDevices
     /// <see href="https://www.usb.org/document-library/hid-usage-tables-112" />
     public partial class UsagePage : IEnumerable<Usage>, IEquatable<UsagePage>
     {
-        protected readonly IReadOnlyDictionary<ushort, Usage> Usages;
+        protected readonly ConcurrentDictionary<ushort, Usage> Usages = new ConcurrentDictionary<ushort, Usage>();
 
-        protected UsagePage(ushort id, string name, params (ushort id, string name, UsageTypes types)[] usages)
+        protected UsagePage(ushort id, string name)
         {
             Id = id;
             Name = name;
-            Usages = usages.ToDictionary(
-                tuple => tuple.id,
-                tuple => new Usage(this, tuple.id, tuple.name, tuple.types));
         }
 
         /// <summary>
@@ -57,11 +55,9 @@ namespace HIDDevices
         /// <param name="id">The identifier.</param>
         /// <returns>UsagePage.</returns>
         public static UsagePage Get(ushort id)
-            => s_pages.TryGetValue(id, out var page)
-                ? page
-                : id < 0xFF00
-                    ? new UsagePage(id, $"Reserved (0x{id:X2})")
-                    : new UsagePage(id, $"Vendor-defined (0x{id:X2})");
+            => s_pages.GetOrAdd(id, i => i < 0xFF00
+                ? new UsagePage(i, $"Reserved (0x{id:X2})")
+                : new UsagePage(i, $"Vendor-defined (0x{id:X2})"));
 
         /// <summary>
         ///     Gets the usage with the <see cref="usage">specified usage enum</see>.
@@ -82,10 +78,16 @@ namespace HIDDevices
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>Usage.</returns>
-        public virtual Usage GetUsage(ushort id) =>
-            Usages.TryGetValue(id, out var usage)
-                ? usage
-                : new Usage(this, id, $"Undefined (0x{id:X2})", UsageTypes.None);
+        public Usage GetUsage(ushort id) =>
+            Usages.GetOrAdd(id, CreateUsage);
+
+        /// <summary>
+        /// Creates the usage with the <see cref="id">specified id</see>.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>Usage.</returns>
+        protected virtual Usage CreateUsage(ushort id) =>
+            new Usage(this, id, $"Undefined (0x{id:X2})", UsageTypes.None);
 
         /// <inheritdoc />
         public override bool Equals(object? obj) =>

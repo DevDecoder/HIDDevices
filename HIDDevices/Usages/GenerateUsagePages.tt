@@ -10,6 +10,7 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".generated.cs" #>
 <#
+{
 	var relativePath = @"hid-usage-tables\pages";
 	// Maximum number of static properties to output for a range.
 	var maxRange = 16;
@@ -19,7 +20,7 @@
 	var output = new StringBuilder();
 	try
 	{
-        var directoryPath = Host.ResolvePath(relativePath);
+		var directoryPath = Host.ResolvePath(relativePath);
 
 		/*
 		 * Parse all files
@@ -48,6 +49,7 @@
 #pragma warning disable CS0108 // Member hides inherited member; missing new keyword
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;");
 
@@ -145,8 +147,8 @@ namespace HIDDevices
 {ind}{ind}/// <summary>
 {ind}{ind}///     Dictionary of all defined usage pages.
 {ind}{ind}/// </summary>
-{ind}{ind}private static IReadOnlyDictionary<ushort, UsagePage> s_pages =
-{ind}{ind}{ind}{ind}new Dictionary<ushort, UsagePage>
+{ind}{ind}private static ConcurrentDictionary<ushort, UsagePage> s_pages =
+{ind}{ind}{ind}{ind}new ConcurrentDictionary<ushort, UsagePage>
 {ind}{ind}{ind}{ind}{{
 ");
 
@@ -186,7 +188,7 @@ namespace HIDDevices.Pages
 
 		foreach (var page in pages)
 		{
-			output.Append($@"
+			output.AppendLine($@"
 {ind}/// <summary>
 {ind}///     Base class for all usage pages.
 {ind}/// </summary>
@@ -196,57 +198,62 @@ namespace HIDDevices.Pages
 {ind}{ind}///     Singleton instance of {page.Name} Usage Page.
 {ind}{ind}/// </summary>
 {ind}{ind}public static readonly {page.Name}UsagePage Instance = new {page.Name}UsagePage();
+");
 
-{ind}{ind}private {page.Name}UsagePage()
-{ind}{ind}: base(
-{ind}{ind}{ind}0x{page.Id:x4},
-{ind}{ind}{ind}");
-			Page.AppendQuoted(output, page.Name);
-
-            var seenIds = new HashSet<ushort>();
-			foreach (var usage in page.Usages)
+			if (page.Usages.Any() || page.Dynamic.Any())
 			{
-                if (!seenIds.Add(usage.Id)) continue;
-				output.Append($@",
-{ind}{ind}{ind}(0x{usage.Id:x4}, ");
-				Page.AppendQuoted(output, usage.Description);
-				output.Append($", {usage.Types})");
-			}
-
-			output.AppendLine($@")
+				output.Append($"{ind}{ind}private {page.Name}UsagePage() : base(0x{page.Id:x4}, ");
+				Page.AppendQuoted(output, page.Name);
+				output.AppendLine($@")
 {ind}{ind}{{
 {ind}{ind}}}");
 
-			if (page.Dynamic.Any())
-			{
 				output.AppendLine($@"
 {ind}{ind}/// <inheritdoc />
-{ind}{ind}public override Usage GetUsage(ushort id) 
-{ind}{ind}{{
-{ind}{ind}{ind}if (Usages.TryGetValue(id, out var usage)) return usage;
+{ind}{ind}protected override Usage CreateUsage(ushort id) 
+{ind}{ind}{{");
 
-{ind}{ind}{ind}// Create dynamic usages on demand");
-
-				var nVar = false;
-				foreach (var group in page.Dynamic)
+				if (page.Usages.Any())
 				{
-					if (group.Template?.UsesN == true)
+					output.AppendLine($@"{ind}{ind}{ind}switch (id)
+{ind}{ind}{ind}{{");
+					var seenIds = new HashSet<ushort>();
+					foreach (var usage in page.Usages)
 					{
-						// Create the n variable.
-						output.Append($"{ind}{ind}{ind}");
-						if (!nVar)
-						{
-							output.Append("var ");
-							nVar = true;
-						}
-						output.AppendLine($"n = (ushort)(id-0x{group.StartId:x4});");
+						if (!seenIds.Add(usage.Id)) continue;
+						output.Append($@"{ind}{ind}{ind}{ind}case 0x{usage.Id:x4}: return new Usage(this, id, ");
+						Page.AppendQuoted(output, usage.Description);
+						output.AppendLine($", {usage.Types});");
 					}
-
-					output.Append($"{ind}{ind}{ind}if (id >= 0x{group.StartId:x4} || id < 0x{group.EndId:x4}) return new Usage(this, id, ");
-					Page.AppendQuoted(output, group.Description);
-					output.AppendLine($", {group.Types});");
-
+					output.AppendLine($@"{ind}{ind}{ind}}}");
 				}
+
+				if (page.Dynamic.Any())
+				{
+					output.AppendLine($@"
+{ind}{ind}{ind}// Create dynamic usages from ranges");
+					var nVar = false;
+					foreach (var group in page.Dynamic)
+					{
+						if (group.Template?.UsesN == true)
+						{
+							// Create the n variable.
+							output.Append($"{ind}{ind}{ind}");
+							if (!nVar)
+							{
+								output.Append("var ");
+								nVar = true;
+							}
+							output.AppendLine($"n = (ushort)(id-0x{group.StartId:x4});");
+						}
+
+						output.Append($"{ind}{ind}{ind}if (id >= 0x{group.StartId:x4} || id < 0x{group.EndId:x4}) return new Usage(this, id, $");
+						Page.AppendQuoted(output, group.Description);
+						output.AppendLine($", {group.Types});");
+
+					}
+				}
+
 				output.AppendLine($@"
 {ind}{ind}{ind}return base.GetUsage(id);
 {ind}{ind}}}");
@@ -255,7 +262,6 @@ namespace HIDDevices.Pages
 			output.AppendLine($"{ind}}}");
 		}
 
-
 		output.AppendLine("}");
 	}
 	catch (Exception ex)
@@ -263,7 +269,10 @@ namespace HIDDevices.Pages
 		output.Clear();
 		output.AppendLine(ex.Message);
 	}
-#><#=output.ToString()#><#+
+
+	Write(output.ToString());
+}
+//#><#+
 public class Page : IReadOnlyList<UsageGroup>
 {
 	private static Regex _pageRegex = new Regex(@"^(?<id>[0-9a-f]{1,4})\s""(?<description>[^""]+)""", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -682,4 +691,4 @@ public class Template
 		return expressions.Length > 0 ? new Template(group, description, expressions, usesn) : null;
 	}
 }
-#>
+//#>
