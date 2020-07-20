@@ -1,6 +1,8 @@
 ﻿// Licensed under the Apache License, Version 2.0 (the "License").
 // See the LICENSE file in the project root for more information.
 
+using System;
+
 namespace HIDDevices.Converters
 {
     /// <summary>
@@ -17,7 +19,7 @@ namespace HIDDevices.Converters
         /// </summary>
         public static readonly LeftTriggerConverter Instance = new LeftTriggerConverter();
 
-        private LeftTriggerConverter() : base(0D, 1D, 0.5D, 1D)
+        private LeftTriggerConverter() : base(0D, 1D, 0.5D)
         {
         }
     }

@@ -5,7 +5,6 @@ using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace HIDDevices
 {
@@ -82,7 +81,7 @@ namespace HIDDevices
             Usages.GetOrAdd(id, CreateUsage);
 
         /// <summary>
-        /// Creates the usage with the <see cref="id">specified id</see>.
+        ///     Creates the usage with the <see cref="id">specified id</see>.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>Usage.</returns>

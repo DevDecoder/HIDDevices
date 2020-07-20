@@ -4,6 +4,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
+using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
 using DynamicData;
@@ -22,14 +25,12 @@ namespace HIDDevices
     /// <seealso cref="IObservableCache{T, TKey}" />
     public sealed class Devices : IObservableCache<Device, string>
     {
-        private readonly TaskCompletionSource<bool> _loadedTaskCompletionSource =
-            new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-
         private readonly AsyncAutoResetEvent _triggerRefresh = new AsyncAutoResetEvent(true);
 
         internal readonly ILogger<Devices>? Logger;
         private SourceCache<Device, string>? _controllers;
         private CancellationTokenSource? _refreshCancellationTokenSource;
+        private BehaviorSubject<bool>? _refreshingBehaviorSubject;
 
         /// <summary>
         ///     Initialises a new instance of the <see cref="Devices" /> class.
@@ -39,13 +40,17 @@ namespace HIDDevices
         {
             Logger = logger;
             _controllers = new SourceCache<Device, string>(c => c.DevicePath);
+            _refreshingBehaviorSubject = new BehaviorSubject<bool>(false);
 
-            DeviceList.Local.Changed += (sender, args) => Refresh();
+            DeviceList.Local.Changed += (sender, args) => _triggerRefresh.Set();
             _refreshCancellationTokenSource = new CancellationTokenSource();
             var cancellationToken = _refreshCancellationTokenSource.Token;
-            Task.Run(() => RefreshAsync(cancellationToken), cancellationToken)
-                .ConfigureAwait(false); // Launch in background thread
-            Refresh();
+            // Launch in background thread
+            Task.Run(() => DoRefreshAsync(cancellationToken), cancellationToken)
+                .ConfigureAwait(false);
+
+            // Trigger refresh
+            _triggerRefresh.Set();
         }
 
         /// <summary>
@@ -55,6 +60,24 @@ namespace HIDDevices
         /// <exception cref="ObjectDisposedException">This collection is disposed.</exception>
         public IEnumerable<Device> All =>
             _controllers?.Items ?? throw new ObjectDisposedException(nameof(Devices));
+
+        /// <summary>
+        ///     Gets an observable that indicates when the current collection of devices is refreshing.
+        /// </summary>
+        /// <value>
+        ///     The refreshing observable returns a <see langword="true" /> when it starts refreshing; otherwise
+        ///     <see langword="false" />.
+        /// </value>
+        public IObservable<bool> Refreshing
+            => _refreshingBehaviorSubject ??
+               throw new ObjectDisposedException(nameof(Devices));
+
+        /// <summary>
+        ///     Gets a value indicating whether the collection of devices is currently <see cref="Refreshing">refreshing</see>.
+        /// </summary>
+        /// <value><see langword="true" /> if this instance is refreshing; otherwise, <see langword="false" />.</value>
+        /// <seealso cref="Refreshing" />
+        public bool IsRefreshing => Refreshing.LastAsync().Wait();
 
         /// <inheritdoc />
         public IObservable<Change<Device, string>> Watch(string key) =>
@@ -76,6 +99,13 @@ namespace HIDDevices
         public void Dispose()
         {
             Interlocked.Exchange(ref _refreshCancellationTokenSource, null)?.Dispose();
+            var refreshingBehaviorSubject = Interlocked.Exchange(ref _refreshingBehaviorSubject, null);
+            if (refreshingBehaviorSubject != null)
+            {
+                refreshingBehaviorSubject.OnCompleted();
+                refreshingBehaviorSubject.Dispose();
+            }
+
             var controllers = Interlocked.Exchange(ref _controllers, null);
             if (controllers is null)
             {
@@ -113,12 +143,6 @@ namespace HIDDevices
         public int Count => _controllers?.Count ?? throw new ObjectDisposedException(nameof(Devices));
 
         /// <summary>
-        ///     Trigger a refresh of controllers.  The refresh will occur asynchronously.
-        /// </summary>
-        /// TODO Consider adding an async version that awaits next refresh completion.
-        public void Refresh() => _triggerRefresh.Set();
-
-        /// <summary>
         ///     Background task that continuously waits for device changes, or refresh triggers.
         /// </summary>
         /// <param name="cancellationToken">
@@ -126,7 +150,7 @@ namespace HIDDevices
         ///     of cancellation.
         /// </param>
         /// <exception cref="ObjectDisposedException">This collection is disposed.</exception>
-        private async Task RefreshAsync(CancellationToken cancellationToken)
+        private async Task DoRefreshAsync(CancellationToken cancellationToken)
         {
             // Create dictionary to hold disconnected controllers, allowing for resurrection.
             var zombieControllers = new Dictionary<string, Device>();
@@ -141,7 +165,15 @@ namespace HIDDevices
                     }
 
                     // Get all existing values
-                    var controllers = _controllers ?? throw new ObjectDisposedException(nameof(Devices));
+                    var controllers = _controllers;
+                    if (controllers is null)
+                    {
+                        return;
+                    }
+
+                    // Indicate we're in the process of refreshing.
+                    _refreshingBehaviorSubject?.OnNext(true);
+
                     var existing = controllers.KeyValues.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
                     var added = new List<Device>();
@@ -213,6 +245,9 @@ namespace HIDDevices
 #pragma warning restore CA1031 // Do not catch general exception types
                     }
 
+                    // Indicate refresh completed
+                    _refreshingBehaviorSubject?.OnNext(false);
+
                     // Remove existing controllers that weren't found or updated
                     if (existing.Count > 0 || added.Count > 0 || updated.Count > 0)
                     {
@@ -246,9 +281,6 @@ namespace HIDDevices
                             }
                         });
                     }
-
-                    // Indicate we have loaded.
-                    _loadedTaskCompletionSource.TrySetResult(true);
                 }
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (OperationCanceledException)
@@ -261,7 +293,6 @@ namespace HIDDevices
                     Logger?.Log(Event.RefreshFailure, exception);
                 }
 #pragma warning restore CA1031 // Do not catch general exception types
-                //_loadedCompletionSource?.TrySetResult(true);
             } while (!cancellationToken.IsCancellationRequested);
         }
 
@@ -273,7 +304,8 @@ namespace HIDDevices
         ///     of cancellation.
         /// </param>
         /// <returns>An awaitable task that completes when the first load of devices has completed.</returns>
-        public Task LoadAsync(CancellationToken cancellationToken = default)
-            => _loadedTaskCompletionSource.Task.WithCancellation(cancellationToken);
+        public Task<IChangeSet<Device, string>> LoadAsync(CancellationToken cancellationToken = default)
+            => _controllers?.Connect().FirstAsync().ToTask(cancellationToken) ??
+               throw new ObjectDisposedException(nameof(Devices));
     }
 }

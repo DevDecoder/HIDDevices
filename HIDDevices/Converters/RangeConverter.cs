@@ -22,8 +22,8 @@ namespace HIDDevices.Converters
         /// <param name="inputMaximum">The input maximum.</param>
         /// <exception cref="ArgumentOutOfRangeException">outputMaximum</exception>
         public RangeConverter(
-            double outputMinimum, 
-            double outputMaximum, 
+            double outputMinimum,
+            double outputMaximum,
             double inputMinimum = 0D,
             double inputMaximum = 1D)
         {

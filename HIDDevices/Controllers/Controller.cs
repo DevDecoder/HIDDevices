@@ -74,6 +74,15 @@ namespace HIDDevices.Controllers
         public string Name => Device.Name;
 
         /// <summary>
+        ///     Gets an observable of the device's connection state.
+        /// </summary>
+        /// <value>
+        ///     An observable of the device's connection state, which returns <see langword="true" /> when connecting and
+        ///     <see langword="false" /> when disconnecting.
+        /// </value>
+        public IObservable<bool> ConnectionState => Device.ConnectionState;
+
+        /// <summary>
         ///     Gets a value indicating whether this controller is connected.
         /// </summary>
         /// <value><see langword="true" /> if this controller is connected; otherwise, <see langword="false" />.</value>

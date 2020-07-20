@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Threading;
 using HidSharp;
 using HidSharp.Reports;
@@ -30,7 +31,7 @@ namespace HIDDevices
 
         private readonly HashSet<Usage> _usages;
         private CancellationTokenSource? _cancellationTokenSource;
-        private int _openStreamCount;
+        private BehaviorSubject<bool>? _connectedSubject;
 
         internal Device(Devices devices, HidDevice device, byte[] rawReportDescriptor)
         {
@@ -42,6 +43,7 @@ namespace HIDDevices
             _device = device;
             var cancellationTokenSource = new CancellationTokenSource();
             _cancellationTokenSource = cancellationTokenSource;
+            _connectedSubject = new BehaviorSubject<bool>(false);
 
             RawReportDescriptor = rawReportDescriptor;
             var reportDescriptor = new ReportDescriptor(RawReportDescriptor);
@@ -73,7 +75,13 @@ namespace HIDDevices
                         // The observable token is only cancelled when all subscribers stop listening, and only
                         // 'best-efforts' are used.  We supplement with explicit disposal, which is triggered when
                         // a disconnect is detected.
-                        using var cancellationToken = token.CombineWith(cancellationTokenSource.Token);
+                        using var combinedToken = token.CombineWith(cancellationTokenSource.Token);
+                        var cancellationToken = combinedToken.Token;
+                        if (cancellationToken.IsCancellationRequested)
+                        {
+                            observer.OnCompleted();
+                            return;
+                        }
 
                         // Try to open the stream
                         HidStream stream;
@@ -87,6 +95,7 @@ namespace HIDDevices
                         catch (OperationCanceledException)
                         {
                             // Ignore, just complete
+                            observer.OnCompleted();
                             return;
                         }
                         catch (Exception ex)
@@ -97,7 +106,7 @@ namespace HIDDevices
                             return;
                         }
 
-                        Interlocked.Increment(ref _openStreamCount);
+                        _connectedSubject?.OnNext(true);
 
                         try
                         {
@@ -111,7 +120,7 @@ namespace HIDDevices
 
                             // Some devices spam changes, so we collect only the last value as quickly as possible.
                             var batch = new Dictionary<(DataItem, int), (DataValue, long timestamp)>(_controls.Count);
-                            while (!cancellationToken.Token.IsCancellationRequested)
+                            while (!cancellationToken.IsCancellationRequested)
                             {
                                 await inputReceiver.WaitHandle;
 
@@ -199,7 +208,7 @@ namespace HIDDevices
                         }
                         finally
                         {
-                            Interlocked.Decrement(ref _openStreamCount);
+                            _connectedSubject?.OnNext(false);
                             await stream.DisposeAsync().ConfigureAwait(false);
                         }
 
@@ -255,10 +264,21 @@ namespace HIDDevices
         public Version ReleaseNumber => _device.ReleaseNumber;
 
         /// <summary>
-        ///     Gets a value indicating whether the device is connected.
+        ///     Gets an observable of the device's connection state.
         /// </summary>
-        /// <value>Whether the device is connected.</value>
-        public bool IsConnected => _openStreamCount > 0;
+        /// <value>
+        ///     An observable of the device's connection state, which returns <see langword="true" /> when connecting and
+        ///     <see langword="false" /> when disconnecting.
+        /// </value>
+        public IObservable<bool> ConnectionState
+            => _connectedSubject ?? throw new ObjectDisposedException(nameof(Device));
+
+        /// <summary>
+        ///     Gets the current <see cref="ConnectionState">connection state</see>.
+        /// </summary>
+        /// <value>The is connected.</value>
+        /// <seealso cref="ConnectionState" />
+        public bool IsConnected => _connectedSubject.FirstAsync().Wait();
 
         internal byte[] RawReportDescriptor { get; }
 
@@ -340,7 +360,18 @@ namespace HIDDevices
         ///     any time it is plugged back in.  As such, this is not a public method, and we don't implement
         ///     <seealso cref="IDisposable" />.
         /// </summary>
-        internal void Dispose() => Interlocked.Exchange(ref _cancellationTokenSource, null)?.Dispose();
+        internal void Dispose()
+        {
+            Interlocked.Exchange(ref _cancellationTokenSource, null)?.Dispose();
+            var connectedSubject = Interlocked.Exchange(ref _connectedSubject, null);
+            if (connectedSubject is null)
+            {
+                return;
+            }
+
+            connectedSubject.OnCompleted();
+            connectedSubject.Dispose();
+        }
 
         /// <summary>
         ///     Gets the friendly name for the device.
