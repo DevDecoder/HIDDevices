@@ -22,6 +22,6 @@ namespace HIDDevices.Converters
         }
 
         /// <inheritdoc />
-        protected override bool Convert(CultureInfo culture, double value) => !double.IsNaN(value) && value > 0.5D;
+        public override bool Convert(CultureInfo culture, double value) => !double.IsNaN(value) && value > 0.5D;
     }
 }

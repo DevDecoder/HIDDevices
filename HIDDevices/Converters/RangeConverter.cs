@@ -103,7 +103,7 @@ namespace HIDDevices.Converters
         public double OutputRange { get; }
 
         /// <inheritdoc />
-        protected override double Convert(CultureInfo culture, double value)
+        public override double Convert(CultureInfo culture, double value)
         {
             if (double.IsNaN(value))
             {

@@ -24,7 +24,7 @@ namespace HIDDevices.Converters
         }
 
         /// <inheritdoc />
-        protected override Direction Convert(CultureInfo culture, double value) => double.IsNaN(value)
+        public override Direction Convert(CultureInfo culture, double value) => double.IsNaN(value)
             ? Direction.NotPressed
             : (Direction)Math.Clamp((int)Math.Round(value * 7.0), 0, 7);
     }

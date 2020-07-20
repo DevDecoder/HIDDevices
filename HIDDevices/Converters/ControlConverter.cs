@@ -34,7 +34,7 @@ namespace HIDDevices.Converters
         /// <param name="value">The value.</param>
         /// <returns>The value.</returns>
         [return: MaybeNull]
-        protected virtual T Convert(CultureInfo culture, double value) =>
+        public virtual T Convert(CultureInfo culture, double value) =>
             base.ConvertFrom(null, culture, value) is T v ? v : default;
     }
 }
