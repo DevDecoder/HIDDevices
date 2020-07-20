@@ -27,13 +27,13 @@ namespace HIDDevices
         ///     Initializes a new instance of the <see cref="DeviceAttribute" /> class.
         /// </summary>
         /// <param name="usages">The usages, all of which must match.</param>
-        public DeviceAttribute(params uint[] usages) => Usages = usages;
+        public DeviceAttribute(params object[] usages) => Usages = usages.OfType<Enum>().Select(Usage.Get).ToArray();
 
         /// <summary>
         ///     Gets a list of valid usages, of which the device must match all.
         /// </summary>
         /// <remarks>If alternative usages are to be supported, then multiple attributes can be added.</remarks>
-        public IReadOnlyList<uint> Usages { get; }
+        public IReadOnlyList<Usage> Usages { get; }
 
         /// <summary>
         ///     Gets or sets an optional Product ID; 0 if any ID is valid.
@@ -48,7 +48,7 @@ namespace HIDDevices
         internal bool Matches(Device device)
         {
             if ((ProductId > 0 && device.ProductId != ProductId) ||
-                !Usages.All(usage => device.Usages.Contains((Usage)usage)))
+                !Usages.All(usage => device.Usages.Contains(usage)))
             {
                 return false;
             }

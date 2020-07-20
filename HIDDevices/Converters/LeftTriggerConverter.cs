@@ -7,12 +7,11 @@ namespace HIDDevices.Converters
 {
     /// <summary>
     ///     Class LeftTriggerConverter converts control values for trigger properties. This class cannot be inherited.
-    ///     Implements the <see cref="IControlConverter{T}" /> interface.
+    ///     Implements the <see cref="ControlConverter{T}" />.
     /// </summary>
-    /// <seealso cref="IControlConverter{T}" />
-    /// .
+    /// <seealso cref="ControlConverter{T}" />
     /// <seealso cref="RangeConverter" />
-    public class LeftTriggerConverter : RangeConverter
+    public sealed class LeftTriggerConverter : RangeConverter
     {
         /// <summary>
         ///     The singleton instance of the converter.

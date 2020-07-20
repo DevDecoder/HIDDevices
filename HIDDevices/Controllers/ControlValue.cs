@@ -2,8 +2,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
-using HIDDevices.Converters;
 
 namespace HIDDevices.Controllers
 {
@@ -59,7 +59,7 @@ namespace HIDDevices.Controllers
         ///     Gets the converter.
         /// </summary>
         /// <value>The converter.</value>
-        public IControlConverter? Converter => Info.Converter;
+        public TypeConverter? Converter => Info.Converter;
 
         /// <summary>
         ///     Gets the change.

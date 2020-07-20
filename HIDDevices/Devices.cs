@@ -4,6 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
@@ -13,7 +15,6 @@ using DynamicData;
 using DynamicData.Kernel;
 using HidSharp;
 using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.Threading;
 
 namespace HIDDevices
 {
@@ -25,11 +26,10 @@ namespace HIDDevices
     /// <seealso cref="IObservableCache{T, TKey}" />
     public sealed class Devices : IObservableCache<Device, string>
     {
-        private readonly AsyncAutoResetEvent _triggerRefresh = new AsyncAutoResetEvent(true);
-
+        private readonly Dictionary<string, Device> _zombieControllers;
         internal readonly ILogger<Devices>? Logger;
         private SourceCache<Device, string>? _controllers;
-        private CancellationTokenSource? _refreshCancellationTokenSource;
+        private IDisposable? _eventSubscription;
         private BehaviorSubject<bool>? _refreshingBehaviorSubject;
 
         /// <summary>
@@ -42,15 +42,20 @@ namespace HIDDevices
             _controllers = new SourceCache<Device, string>(c => c.DevicePath);
             _refreshingBehaviorSubject = new BehaviorSubject<bool>(false);
 
-            DeviceList.Local.Changed += (sender, args) => _triggerRefresh.Set();
-            _refreshCancellationTokenSource = new CancellationTokenSource();
-            var cancellationToken = _refreshCancellationTokenSource.Token;
-            // Launch in background thread
-            Task.Run(() => DoRefreshAsync(cancellationToken), cancellationToken)
-                .ConfigureAwait(false);
+            // Create dictionary to hold disconnected controllers, allowing for resurrection.
+            _zombieControllers = new Dictionary<string, Device>();
 
-            // Trigger refresh
-            _triggerRefresh.Set();
+            _eventSubscription = Observable
+                .FromEventPattern<EventHandler<DeviceListChangedEventArgs>, DeviceListChangedEventArgs>(
+                    h => DeviceList.Local.Changed += h,
+                    h => DeviceList.Local.Changed -= h)
+                // We don't care about args, so discard
+                .Select(_ => Unit.Default)
+                // We need an initial load so add a unit to trigger first load.
+                .StartWith(Unit.Default)
+                // Run as background task
+                .ObserveOn(TaskPoolScheduler.Default)
+                .Subscribe(_ => UpdateDevices());
         }
 
         /// <summary>
@@ -98,7 +103,7 @@ namespace HIDDevices
         /// <inheritdoc />
         public void Dispose()
         {
-            Interlocked.Exchange(ref _refreshCancellationTokenSource, null)?.Dispose();
+            Interlocked.Exchange(ref _eventSubscription, null)?.Dispose();
             var refreshingBehaviorSubject = Interlocked.Exchange(ref _refreshingBehaviorSubject, null);
             if (refreshingBehaviorSubject != null)
             {
@@ -112,9 +117,10 @@ namespace HIDDevices
                 return;
             }
 
-            var toDispose = controllers.Items.ToArray();
+            var toDispose = controllers.Items.Concat(_zombieControllers.Values).ToArray();
             controllers.Clear();
             controllers?.Dispose();
+            _zombieControllers.Clear();
             foreach (var device in toDispose)
             {
                 // Note we only dispose controllers when we're disposed,
@@ -143,157 +149,132 @@ namespace HIDDevices
         public int Count => _controllers?.Count ?? throw new ObjectDisposedException(nameof(Devices));
 
         /// <summary>
-        ///     Background task that continuously waits for device changes, or refresh triggers.
+        ///     Update the list of current HID devices.
         /// </summary>
-        /// <param name="cancellationToken">
-        ///     The cancellation token that can be used by other objects or threads to receive notice
-        ///     of cancellation.
-        /// </param>
         /// <exception cref="ObjectDisposedException">This collection is disposed.</exception>
-        private async Task DoRefreshAsync(CancellationToken cancellationToken)
+        private void UpdateDevices()
         {
-            // Create dictionary to hold disconnected controllers, allowing for resurrection.
-            var zombieControllers = new Dictionary<string, Device>();
-            do
+            try
             {
-                try
+                // Get all existing values
+                var controllers = _controllers;
+                if (controllers is null)
                 {
-                    await _triggerRefresh.WaitAsync(cancellationToken).ConfigureAwait(false);
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        return;
-                    }
-
-                    // Get all existing values
-                    var controllers = _controllers;
-                    if (controllers is null)
-                    {
-                        return;
-                    }
-
-                    // Indicate we're in the process of refreshing.
-                    _refreshingBehaviorSubject?.OnNext(true);
-
-                    var existing = controllers.KeyValues.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-
-                    var added = new List<Device>();
-                    var updated = new List<(Device existing, Device updated)>();
-
-                    var list = DeviceList.Local;
-                    foreach (var hidDevice in list.GetHidDevices())
-                    {
-                        if (cancellationToken.IsCancellationRequested)
-                        {
-                            return;
-                        }
-
-                        try
-                        {
-                            var rawReportDescriptor = hidDevice.GetRawReportDescriptor();
-#pragma warning disable IDE0018 // Inline variable declaration - required to coerce to nullable type.
-                            // ReSharper disable once InlineOutVariableDeclaration
-                            Device? existingController;
-#pragma warning restore IDE0018 // Inline variable declaration
-                            // Check to see if device already exists and is unchanged.
-                            if (existing.TryGetValue(hidDevice.DevicePath, out existingController))
-                            {
-                                if (rawReportDescriptor.SequenceEqual(existingController.RawReportDescriptor))
-                                {
-                                    // We found this device, so remove from the existing list.
-                                    existing.Remove(existingController.DevicePath);
-                                    continue;
-                                }
-                            }
-                            else if (zombieControllers.TryGetValue(hidDevice.DevicePath, out existingController))
-                            {
-                                // Resurrect the zombie.
-                                zombieControllers.Remove(existingController.DevicePath);
-
-                                if (rawReportDescriptor.SequenceEqual(existingController.RawReportDescriptor))
-                                {
-                                    continue;
-                                }
-
-                                // The definition of the device has changed, so we can dispose the zombie
-                                // so it can be replaced by a new device.
-                                existingController.Dispose();
-                                existingController = null;
-                            }
-                            else
-                            {
-                                existingController = null;
-                            }
-
-                            var device = new Device(this, hidDevice, rawReportDescriptor);
-
-                            // Update collection with new device info
-                            if (existingController is null)
-                            {
-                                added.Add(device);
-                            }
-                            else
-                            {
-                                existing.Remove(device.DevicePath);
-                                updated.Add((existingController, device));
-                            }
-                        }
-#pragma warning disable CA1031 // Do not catch general exception types
-                        catch (Exception exception)
-                        {
-                            Logger?.Log(Event.DeviceCreationFailure, exception, hidDevice);
-                        }
-#pragma warning restore CA1031 // Do not catch general exception types
-                    }
-
-                    // Indicate refresh completed
-                    _refreshingBehaviorSubject?.OnNext(false);
-
-                    // Remove existing controllers that weren't found or updated
-                    if (existing.Count > 0 || added.Count > 0 || updated.Count > 0)
-                    {
-                        // Batch changes
-                        controllers.Edit(cache =>
-                        {
-                            foreach (var kvp in existing)
-                            {
-                                // Move device to zombie storage, as it's definition is
-                                // still valid, but is no longer connected, if it is reconnected
-                                // it can be safely resurrected.
-                                cache.RemoveKey(kvp.Key);
-                                zombieControllers.Add(kvp.Value.DevicePath, kvp.Value);
-                                Logger?.Log(Event.DeviceRemove, kvp.Value.Name);
-                            }
-
-                            foreach (var c in added)
-                            {
-                                cache.AddOrUpdate(c);
-                                Logger?.Log(Event.DeviceAdd, c.Name);
-                            }
-
-                            foreach (var t in updated)
-                            {
-                                cache.AddOrUpdate(t.updated);
-                                // As the device definition has fundamentally changed,
-                                // we will dispose the existing device now, as it will not
-                                // be resurrected.
-                                t.existing.Dispose();
-                                Logger?.Log(Event.DeviceUpdate, t.updated.Name);
-                            }
-                        });
-                    }
-                }
-#pragma warning disable CA1031 // Do not catch general exception types
-                catch (OperationCanceledException)
-                {
-                    // If we get a cancellation exception we must be disposing, so abort.
                     return;
                 }
-                catch (Exception exception)
+
+                // Indicate we're in the process of refreshing.
+                _refreshingBehaviorSubject?.OnNext(true);
+
+                var existing = controllers.KeyValues.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+                var added = new List<Device>();
+                var updated = new List<(Device existing, Device updated)>();
+
+                var list = DeviceList.Local;
+                foreach (var hidDevice in list.GetHidDevices())
                 {
-                    Logger?.Log(Event.RefreshFailure, exception);
-                }
+                    try
+                    {
+                        var rawReportDescriptor = hidDevice.GetRawReportDescriptor();
+#pragma warning disable IDE0018 // Inline variable declaration - required to coerce to nullable type.
+                        // ReSharper disable once InlineOutVariableDeclaration
+                        Device? existingController;
+#pragma warning restore IDE0018 // Inline variable declaration
+                        // Check to see if device already exists and is unchanged.
+                        if (existing.TryGetValue(hidDevice.DevicePath, out existingController))
+                        {
+                            if (rawReportDescriptor.SequenceEqual(existingController.RawReportDescriptor))
+                            {
+                                // We found this device, so remove from the existing list.
+                                existing.Remove(existingController.DevicePath);
+                                continue;
+                            }
+                        }
+                        else if (_zombieControllers.TryGetValue(hidDevice.DevicePath, out existingController))
+                        {
+                            // Resurrect the zombie.
+                            _zombieControllers.Remove(existingController.DevicePath);
+
+                            if (rawReportDescriptor.SequenceEqual(existingController.RawReportDescriptor))
+                            {
+                                continue;
+                            }
+
+                            // The definition of the device has changed, so we can dispose the zombie
+                            // so it can be replaced by a new device.
+                            existingController.Dispose();
+                            existingController = null;
+                        }
+                        else
+                        {
+                            existingController = null;
+                        }
+
+                        var device = new Device(this, hidDevice, rawReportDescriptor);
+
+                        // Update collection with new device info
+                        if (existingController is null)
+                        {
+                            added.Add(device);
+                        }
+                        else
+                        {
+                            existing.Remove(device.DevicePath);
+                            updated.Add((existingController, device));
+                        }
+                    }
+#pragma warning disable CA1031 // Do not catch general exception types
+                    catch (Exception exception)
+                    {
+                        Logger?.Log(Event.DeviceCreationFailure, exception, hidDevice);
+                    }
 #pragma warning restore CA1031 // Do not catch general exception types
-            } while (!cancellationToken.IsCancellationRequested);
+                }
+
+                // Indicate refresh completed
+                _refreshingBehaviorSubject?.OnNext(false);
+
+                // Remove existing controllers that weren't found or updated
+                if (existing.Count > 0 || added.Count > 0 || updated.Count > 0)
+                {
+                    // Batch changes
+                    controllers.Edit(cache =>
+                    {
+                        foreach (var kvp in existing)
+                        {
+                            // Move device to zombie storage, as it's definition is
+                            // still valid, but is no longer connected, if it is reconnected
+                            // it can be safely resurrected.
+                            cache.RemoveKey(kvp.Key);
+                            _zombieControllers.Add(kvp.Value.DevicePath, kvp.Value);
+                            Logger?.Log(Event.DeviceRemove, kvp.Value.Name);
+                        }
+
+                        foreach (var c in added)
+                        {
+                            cache.AddOrUpdate(c);
+                            Logger?.Log(Event.DeviceAdd, c.Name);
+                        }
+
+                        foreach (var t in updated)
+                        {
+                            cache.AddOrUpdate(t.updated);
+                            // As the device definition has fundamentally changed,
+                            // we will dispose the existing device now, as it will not
+                            // be resurrected.
+                            t.existing.Dispose();
+                            Logger?.Log(Event.DeviceUpdate, t.updated.Name);
+                        }
+                    });
+                }
+            }
+#pragma warning disable CA1031 // Do not catch general exception types
+            catch (Exception exception)
+            {
+                Logger?.Log(Event.RefreshFailure, exception);
+            }
+#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         /// <summary>

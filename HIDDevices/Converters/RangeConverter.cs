@@ -2,16 +2,16 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Globalization;
 
 namespace HIDDevices.Converters
 {
     /// <summary>
     ///     Class RangeConverter converts control values to a range. This class cannot be inherited.
-    ///     Implements the <see cref="IControlConverter{T}" /> interface.
+    ///     Implements the <see cref="ControlConverter{T}" />.
     /// </summary>
-    /// <seealso cref="IControlConverter{T}" />
-    /// .
-    public class RangeConverter : IControlConverter<double>
+    /// <seealso cref="ControlConverter{T}" />
+    public class RangeConverter : ControlConverter<double>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="RangeConverter" /> class.
@@ -103,7 +103,7 @@ namespace HIDDevices.Converters
         public double OutputRange { get; }
 
         /// <inheritdoc />
-        public double Convert(double value)
+        protected override double Convert(CultureInfo culture, double value)
         {
             if (double.IsNaN(value))
             {

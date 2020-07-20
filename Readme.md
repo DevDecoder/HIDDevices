@@ -4,10 +4,10 @@
 # Description
 This library provides a cross-platform service for asynchronously accessing HID devices, such as Gamepads, Joysticks and Multi-axis controllers and programmable button pads.  It support Plug & Play, correctly identifying when controllers are added and removed, and Reactive frameworks.  It also allows the creation of custom Controller implementations which are matched automatically against devices for easy use.
 
-**NOTE**: This project is currently based on [HIDSharp](https://www.zer7.com/software/hidsharp), but deliberately does not expose any of its library explicitly as it may well be replaced in future.
+**NOTE**: The project is currently based on [HIDSharp](https://www.zer7.com/software/hidsharp), but deliberately does not expose any of its library explicitly as it may well be replaced in future.
 
 # Installation
-The library is delivered via NuGet Package Manager:
+The library is [available via NuGet](https://www.nuget.org/packages?q=HIDDevices) and is delivered via NuGet Package Manager:
 
 ```
 Install-Package HIDDevices
@@ -49,7 +49,7 @@ The `Devices` constructor accepts an [`ILogger<Devices>`](https://docs.microsoft
 
 
 ### Detecting changes in devices
-The Devices service implements a `IObservableCache<Device, string>` property which can be subscribed to detect add/update/remove events for devices.  For more information on `IObservableCache<,>`, and how to consume them, see [DynamicData](https://github.com/reactiveui/DynamicData). e.g.
+The Devices service implements a `IObservableCache<Device, string>` property which can be subscribed to, to detect add/update/remove events for devices.  For more information on `IObservableCache<,>`, and how to consume them, see [DynamicData](https://github.com/reactiveui/DynamicData). e.g.
 
 ```csharp
 using var subscription = controllers.Connect().Subscribe(changeSet => { ... });
@@ -69,14 +69,56 @@ using var subscription2 =controllers
 ```
 
 ## Controllers
-The library contains a `Controller` concept which is effectively a device definition.  These are easy to define using attributes (see [Gamepad](HIDDevices/Controllers/Gamepad.cs) for a complete example).  Once matched they expose the latest values of the controller via easily accessed properties.  They can also be observed.  To listen for specific controllers from `Devices` use the `Controllers<TController>` extension method, e.g.
+The library contains a `Controller` concept which is effectively a device definition.  These are easy to define using attributes (see [Gamepad](HIDDevices/Controllers/Gamepad.cs) for a complete example).
+
+To create a new Controller definition, extend the `Controller` class, and, optionally add zero or more `DeviceAttribute` attributes.  The specified `DeviceAttribute`s must be satisfied for a `Device` to match the controller.  `DeviceAttribute`s can specify multiple `Usage`s, all of which must match, or multiple `DeviceAttribute`s can be used to provide alternatives.  They can also filter by Product ID, or Version.
+
+```csharp
+// For example, the following controller will match devices that have either the GamePad
+// or Joystick Usage.
+[Device(GenericDesktopPage.GamePad)]
+[Device(GenericDesktopPage.Joystick)]
+public class Joystick : Controller { ... }
+```
+
+In a similar way, you can then indicate properties that you wish to bind to a `Device`'s `Control`, using the `ControlAttribute`.  Again, multiple usages on the same attribute must _all_ match, but multiple attributes can be specified per property.  Where multiple attributes are specified, a weighting can be given to indicate a preference during the matching process (see example below).
+
+If a `RequiredAttribute` is placed on a Control Property, then a device that does not supply such a property will not be matched to the controller.
+
+Finally, properties can be converted using `TypeConverter`s by specifying a `TypeConverterAttribute`.
+
+```csharp
+// The following example indicates a required control, that must match the 'GenericDesktopPage.X'.
+// It also converts the normal 0->1 range of values to -1->1 using the 'SignedConverter'.
+[Control(GenericDesktopPage.X)]
+[Required]
+[TypeConverter(typeof(SignedConverter))]
+public double X => GetValue<double>();
+
+// The following example matches controls with the 'GenericDesktopPage.Select' in preference
+// to those with 'ButtonPage.Button7', a match is not required.
+// A default converter is registered for booleans already which returns false for values < 0.5.
+[Control(GenericDesktopPage.Select, Weight = 2)]
+[Control(ButtonPage.Button7)]
+public bool Select => GetValue<bool>();
+```
+
+To register a default type converter for control properties, use `Controller.RegisterDefaultTypeConverter`, e.g.
+```csharp
+// Note this registration occurs by default, but can be overriden with your own default converter.
+Controller.RegisterDefaultTypeConverter(typeof(bool), BooleanConverter.Instance);
+```
+
+  Once matched they expose the latest values of the controller via easily accessed properties.  Changes can also be observed via the `Changes` property.  To listen for specific controllers from `Devices` use the `Controllers<TController>` extension method, e.g.
 
 ```csharp
 using var subscription = devices.Controller<Gamepad>().Subscribe(gamepd => {...});            {
 ```
 
 ## Usages
-The full HID Usage tables are exposed via the `Usages`, `UsagePages` and `UsageTypes` classes.  These take up ~20MB of memory on first reference, and take a short amount of time to fully initialise.  However, once initialised they are extremely quick and convenient to use.
+For convenience, the full HID Usage tables are exposed and described via the `Usages`, `UsagePages` and `UsageTypes` classes.  These can be retrieved either directly using the `uint` identifier, or using the convenience enums, all of which have the `Page` suffix.
+
+Enums are not valid a
 
 # TODO
 
@@ -89,7 +131,7 @@ The full HID Usage tables are exposed via the `Usages`, `UsagePages` and `UsageT
 The following controllers have been tested:
 * Saitek X-52 Pro Flight Control System,
 * Razer Sabertooth Elite
-* Microsoft XBox One for Windows Controller (_**Note** that it appears XInput-compatible HID device driver only transmits events from the HID device whilst the current process has a focussed window, so console applications/background services don't appear to work!  This is not a bug in this library (after too many hours of investigation)._)
+* Microsoft XBox One for Windows Controller (_**Note** that it appears XInput-compatible HID device driver only transmits events from the HID device whilst the current process has a focussed window, so console applications/background services don't appear to work!  This is not a bug in this library._)
 
 The following OS's have been tested:
 * Windows 10 Pro 2004 (19041.330)

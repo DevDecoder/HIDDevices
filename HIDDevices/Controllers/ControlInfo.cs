@@ -2,7 +2,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using HIDDevices.Converters;
+using System.ComponentModel;
 
 namespace HIDDevices.Controllers
 {
@@ -22,7 +22,7 @@ namespace HIDDevices.Controllers
         /// <param name="propertyName">Name of the property.</param>
         /// <param name="control">The control.</param>
         /// <param name="converter">The converter.</param>
-        public ControlInfo(Type type, string propertyName, Control control, IControlConverter? converter)
+        public ControlInfo(Type type, string propertyName, Control control, TypeConverter? converter)
         {
             Type = type;
             PropertyName = propertyName;
@@ -52,7 +52,7 @@ namespace HIDDevices.Controllers
         ///     Gets the converter.
         /// </summary>
         /// <value>The converter.</value>
-        public IControlConverter? Converter { get; }
+        public TypeConverter? Converter { get; }
     }
 
     /// <summary>
@@ -69,7 +69,7 @@ namespace HIDDevices.Controllers
         /// <param name="propertyName">Name of the property.</param>
         /// <param name="control">The control.</param>
         /// <param name="converter">The converter.</param>
-        public ControlInfo(string propertyName, Control control, IControlConverter? converter)
+        public ControlInfo(string propertyName, Control control, TypeConverter? converter)
             : base(typeof(T), propertyName, control, converter)
         {
         }

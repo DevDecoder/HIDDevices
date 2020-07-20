@@ -47,7 +47,8 @@ namespace HIDDevices.Test
             using var _ = devices.Refreshing
                 .Do(r => Logger.LogInformation($"Refreshing is {r}"))
                 .Where(r => !r)
-                .Subscribe(r => Interlocked.Increment(ref refreshCount));
+                // ReSharper disable once VariableHidesOuterVariable
+                .Subscribe(_ => Interlocked.Increment(ref refreshCount));
 
             Assert.Equal(0, refreshCount);
             var initial = await devices.LoadAsync().ConfigureAwait(false);

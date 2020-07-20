@@ -14,7 +14,7 @@ namespace HIDDevices
             s_usageTypes = new ConcurrentDictionary<UsageTypes, IReadOnlyCollection<UsageType>>();
 
         /// <summary>
-        ///     The Linear Control Control usage type.
+        ///     The Linear Control usage type.
         /// </summary>
         public static readonly UsageType LC = new UsageType(UsageTypes.LC, UsageTypeGroup.Controls, "LC",
             "Linear Control");
@@ -139,7 +139,7 @@ namespace HIDDevices
 
         /// <inheritdoc />
         public bool Equals(UsageType? other) =>
-            !ReferenceEquals(null, other) &&
+            !(other is null) &&
             (ReferenceEquals(this, other) || UsageTypes == other.UsageTypes);
 
         /// <inheritdoc />
@@ -176,7 +176,7 @@ namespace HIDDevices
                     usageTypes,
                     u =>
                         Enum.GetValues(typeof(UsageTypes)).Cast<UsageTypes>()
-                            .Where(flag => flag != 0 && u.HasFlag(flag))
+                            .Where(flag => flag != 0 && (u & flag) != 0)
                             .Select(ut =>
                                 s_usageTypes.TryGetValue(ut, out var usageType) ? usageType.SingleOrDefault() : null!)
                             .Where(ut => ut != null)

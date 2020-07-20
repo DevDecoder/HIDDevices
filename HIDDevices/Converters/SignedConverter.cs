@@ -8,9 +8,9 @@ namespace HIDDevices.Converters
     /// <summary>
     ///     Class SignedConverter converts control values to a property value between -1 and 1, centred on 0. This class cannot
     ///     be inherited.
-    ///     Implements the <see cref="IControlConverter{T}" /> interface.
+    ///     Implements the <see cref="ControlConverter{T}" />.
     /// </summary>
-    /// <seealso cref="IControlConverter{T}" />
+    /// <seealso cref="ControlConverter{T}" />
     /// <seealso cref="RangeConverter" />
     public sealed class SignedConverter : RangeConverter
     {

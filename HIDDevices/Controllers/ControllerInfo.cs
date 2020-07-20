@@ -4,9 +4,10 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
-using HIDDevices.Converters;
 
 namespace HIDDevices.Controllers
 {
@@ -72,15 +73,10 @@ namespace HIDDevices.Controllers
                         string.Format(Resources.ControllerInvalidConstructor, type));
                 }
 
-                var deviceAttributes = (IReadOnlyList<DeviceAttribute>)(
-                    // Only get device attributes if they're marked as required
-                    type.GetCustomAttributes(typeof(RequiredAttribute), true)
-                        .OfType<RequiredAttribute>()
-                        .Any()
-                        ? type.GetCustomAttributes(typeof(DeviceAttribute), true)
-                            .OfType<DeviceAttribute>()
-                            .ToArray()
-                        : Array.Empty<DeviceAttribute>());
+                var deviceAttributes = (IReadOnlyList<DeviceAttribute>)type
+                    .GetCustomAttributes(typeof(DeviceAttribute), true)
+                    .OfType<DeviceAttribute>()
+                    .ToArray();
 
                 // Grab all attributes on control properties
                 var propertyData = (IReadOnlyDictionary<string, PropertyData>)type
@@ -145,8 +141,11 @@ namespace HIDDevices.Controllers
 
             private class PropertyData
             {
+                private static readonly ConcurrentDictionary<Type, TypeConverter?> s_converterCache =
+                    new ConcurrentDictionary<Type, TypeConverter?>();
+
                 public readonly IReadOnlyList<ControlAttribute> Controls;
-                public readonly IControlConverter? Converter;
+                public readonly TypeConverter? Converter;
                 public readonly bool IsRequired;
                 public readonly Type ReturnType;
 
@@ -154,10 +153,47 @@ namespace HIDDevices.Controllers
                 {
                     ReturnType = propertyInfo.PropertyType;
 
-                    Converter = propertyInfo.GetCustomAttributes(typeof(ConverterAttribute), true)
-                        .OfType<ConverterAttribute>()
-                        .FirstOrDefault()
-                        ?.GetInstance(ReturnType);
+                    var converterType = propertyInfo.GetCustomAttributes(typeof(TypeConverterAttribute), true)
+                        .OfType<TypeConverterAttribute>()
+                        .Select(attribute => Type.GetType(attribute.ConverterTypeName))
+                        .FirstOrDefault();
+
+                    if (converterType != null)
+                    {
+                        Converter = s_converterCache.GetOrAdd(converterType, t =>
+                        {
+                            // Optimisation, look for a static field called 'Instance' that returns an IControlConverter.
+                            var instanceFieldInfo =
+                                t.GetField("Instance", BindingFlags.Public | BindingFlags.Static);
+                            TypeConverter? typeConverter = null;
+                            if (instanceFieldInfo != null &&
+                                typeof(TypeConverter).IsAssignableFrom(instanceFieldInfo.FieldType))
+                            {
+                                // Try to get the converter from the static instance
+                                typeConverter = instanceFieldInfo.GetValue(null) as TypeConverter;
+                            }
+
+                            // Otherwise, try to create a new instance of the type.
+                            typeConverter ??= Activator.CreateInstance(t, true) as TypeConverter;
+                            return typeConverter;
+                        });
+
+                        if (Converter?.CanConvertFrom(typeof(double)) != true)
+                        {
+                            Converter = null;
+                        }
+                    }
+
+                    // If we don't have a converter get the default from type converter.
+                    if (Converter is null)
+                    {
+                        Converter = TypeDescriptor.GetConverter(ReturnType);
+                        if (Converter?.CanConvertFrom(typeof(double)) != true)
+                        {
+                            Converter = null;
+                        }
+                    }
+
                     Controls = propertyInfo.GetCustomAttributes(typeof(ControlAttribute), true)
                         .OfType<ControlAttribute>()
                         .Where(a => a.Weight > 0)

@@ -5,12 +5,13 @@ using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reactive.Subjects;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using HIDDevices.Converters;
+using BooleanConverter = HIDDevices.Converters.BooleanConverter;
 
 namespace HIDDevices.Controllers
 {
@@ -23,8 +24,8 @@ namespace HIDDevices.Controllers
     /// <seealso cref="IDisposable" />
     public partial class Controller : IReadOnlyCollection<ControlValue>, IDisposable
     {
-        private static readonly ConcurrentDictionary<Type, IControlConverter> s_defaultConverters =
-            new ConcurrentDictionary<Type, IControlConverter>();
+        private static readonly ConcurrentDictionary<Type, TypeConverter> s_defaultConverters =
+            new ConcurrentDictionary<Type, TypeConverter>();
 
         private readonly ConcurrentDictionary<string, ControlValue> _values =
             new ConcurrentDictionary<string, ControlValue>();
@@ -186,10 +187,24 @@ namespace HIDDevices.Controllers
                 {
                     object? value;
                     // Find converter, or get default converter
-                    var converter = controlInfo.Converter;
-                    if (converter is null && !s_defaultConverters.TryGetValue(controlInfo.Type, out converter))
+                    var converter = controlInfo.Converter ??
+                                    (s_defaultConverters.TryGetValue(controlInfo.Type, out var defaultConverter)
+                                        ? defaultConverter
+                                        : null);
+
+                    if (converter is null)
                     {
-                        if (controlInfo.Type != typeof(double))
+                        // Attempt to get valid TypeConverter
+                        converter = TypeDescriptor.GetConverter(controlInfo.Type);
+                        if (!converter.CanConvertFrom(typeof(double)))
+                        {
+                            converter = null;
+                        }
+                    }
+
+                    if (converter is null)
+                    {
+                        if (!controlInfo.Type.IsAssignableFrom(typeof(double)))
                         {
                             throw new InvalidOperationException(
                                 string.Format(
@@ -202,7 +217,7 @@ namespace HIDDevices.Controllers
                     }
                     else
                     {
-                        value = converter.Convert(change.Value);
+                        value = converter.ConvertFrom(change.Value);
                     }
 
                     var controlValue = new ControlValue(change, controlInfo, value);
@@ -296,21 +311,10 @@ namespace HIDDevices.Controllers
         /// <summary>
         ///     Registers a default type converter used for converting control values to property values.
         /// </summary>
+        /// <param name="type">The type.</param>
         /// <param name="converter">The converter.</param>
         /// <exception cref="ArgumentOutOfRangeException">The supplied converter must implement IControlConverter&lt;&gt;</exception>
-        public static void RegisterDefaultTypeConverter(IControlConverter converter)
-        {
-            var type = Array.Find(
-                    converter.GetType().GetInterfaces(),
-                    i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IControlConverter<>))
-                ?.GetGenericArguments()
-                ?.First();
-            if (type is null)
-            {
-                throw new ArgumentOutOfRangeException(nameof(converter), Resources.ControllerInvalidConverter);
-            }
-
+        public static void RegisterDefaultTypeConverter(Type type, TypeConverter converter) =>
             s_defaultConverters[type] = converter;
-        }
     }
 }
