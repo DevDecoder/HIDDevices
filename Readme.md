@@ -1,5 +1,5 @@
-![Publish](https://github.com/DevDecoder/HIDDevices/workflows/Build%20and%20Publish/badge.svg)
-![Nuget](https://img.shields.io/nuget/v/HIDDevices)
+[![Publish](https://github.com/DevDecoder/HIDDevices/workflows/Build%20and%20Publish/badge.svg)](https://github.com/DevDecoder/HIDDevices/actions?query=workflow%3A%22Build+and+Publish%22)
+[![Nuget](https://img.shields.io/nuget/v/HIDDevices)](https://www.nuget.org/packages/HIDDevices/)
 
 # Description
 This library provides a cross-platform service for asynchronously accessing HID devices, such as Gamepads, Joysticks and Multi-axis controllers and programmable button pads.  It support Plug & Play, correctly identifying when controllers are added and removed, and Reactive frameworks.  It also allows the creation of custom Controller implementations which are matched automatically against devices for easy use.
