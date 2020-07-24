@@ -278,7 +278,7 @@ namespace HIDDevices
         /// </summary>
         /// <value>The is connected.</value>
         /// <seealso cref="ConnectionState" />
-        public bool IsConnected => _connectedSubject.FirstAsync().Wait();
+        public bool IsConnected => _connectedSubject?.Value ?? throw new ObjectDisposedException(nameof(Device));
 
         internal byte[] RawReportDescriptor { get; }
 
