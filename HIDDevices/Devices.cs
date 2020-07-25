@@ -26,7 +26,6 @@ namespace HIDDevices
     /// <seealso cref="IObservableCache{T, TKey}" />
     public sealed class Devices : IObservableCache<Device, string>
     {
-        private readonly Dictionary<string, Device> _zombieControllers;
         internal readonly ILogger<Devices>? Logger;
         private SourceCache<Device, string>? _controllers;
         private IDisposable? _eventSubscription;
@@ -41,9 +40,6 @@ namespace HIDDevices
             Logger = logger;
             _controllers = new SourceCache<Device, string>(c => c.DevicePath);
             _refreshingBehaviorSubject = new BehaviorSubject<bool>(false);
-
-            // Create dictionary to hold disconnected controllers, allowing for resurrection.
-            _zombieControllers = new Dictionary<string, Device>();
 
             _eventSubscription = Observable
                 .FromEventPattern<EventHandler<DeviceListChangedEventArgs>, DeviceListChangedEventArgs>(
@@ -118,10 +114,9 @@ namespace HIDDevices
                 return;
             }
 
-            var toDispose = controllers.Items.Concat(_zombieControllers.Values).ToArray();
+            var toDispose = controllers.Items.ToArray();
             controllers.Clear();
             controllers?.Dispose();
-            _zombieControllers.Clear();
             foreach (var device in toDispose)
             {
                 // Note we only dispose controllers when we're disposed,
@@ -192,21 +187,6 @@ namespace HIDDevices
                                 continue;
                             }
                         }
-                        else if (_zombieControllers.TryGetValue(hidDevice.DevicePath, out existingController))
-                        {
-                            // Resurrect the zombie.
-                            _zombieControllers.Remove(existingController.DevicePath);
-
-                            if (rawReportDescriptor.SequenceEqual(existingController.RawReportDescriptor))
-                            {
-                                continue;
-                            }
-
-                            // The definition of the device has changed, so we can dispose the zombie
-                            // so it can be replaced by a new device.
-                            existingController.Dispose();
-                            existingController = null;
-                        }
                         else
                         {
                             existingController = null;
@@ -244,11 +224,7 @@ namespace HIDDevices
                     {
                         foreach (var kvp in existing)
                         {
-                            // Move device to zombie storage, as it's definition is
-                            // still valid, but is no longer connected, if it is reconnected
-                            // it can be safely resurrected.
                             cache.RemoveKey(kvp.Key);
-                            _zombieControllers.Add(kvp.Value.DevicePath, kvp.Value);
                             Logger?.Log(Event.DeviceRemove, kvp.Value.Name);
                         }
 
