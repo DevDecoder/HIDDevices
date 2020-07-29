@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading;
@@ -264,14 +265,23 @@ namespace HIDDevices
         public Version ReleaseNumber => _device.ReleaseNumber;
 
         /// <summary>
-        ///     Gets an observable of the device's connection state.
+        ///     Gets an observable of the device's connection state, and initiates a connection attempt if there isn't already one.
         /// </summary>
         /// <value>
         ///     An observable of the device's connection state, which returns <see langword="true" /> when connecting and
         ///     <see langword="false" /> when disconnecting.
         /// </value>
         public IObservable<bool> ConnectionState
-            => _connectedSubject ?? throw new ObjectDisposedException(nameof(Device));
+            => Observable.Create<bool>(observer =>
+            {
+                // Subscribing to the connectionState subject itself doesn't initiate an attempt to connect, so will never produce results,
+                // unless there is a subscription to the _changes observable (exposed by this).  Therefore we subscribe to both.
+                var connectionState =
+                    (_connectedSubject ?? throw new ObjectDisposedException(nameof(Device))).Subscribe(cs =>
+                        observer.OnNext(cs));
+                var changes = this.Subscribe();
+                return new CompositeDisposable(connectionState, changes);
+            });
 
         /// <summary>
         ///     Gets the current <see cref="ConnectionState">connection state</see>.

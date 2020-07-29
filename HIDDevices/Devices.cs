@@ -79,7 +79,7 @@ namespace HIDDevices
         /// <value><see langword="true" /> if this instance is refreshing; otherwise, <see langword="false" />.</value>
         /// <seealso cref="Refreshing" />
         public bool IsRefreshing => _refreshingBehaviorSubject?.Value ??
-               throw new ObjectDisposedException(nameof(Devices));
+                                    throw new ObjectDisposedException(nameof(Devices));
 
         /// <inheritdoc />
         public IObservable<Change<Device, string>> Watch(string key) =>

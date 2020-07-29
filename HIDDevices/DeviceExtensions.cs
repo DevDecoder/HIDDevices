@@ -23,7 +23,8 @@ namespace HIDDevices
         /// <param name="devices">The devices collection.</param>
         /// <param name="predicate">The optional predicate to filter controllers.</param>
         /// <returns>An observable of controllers.</returns>
-        public static IObservable<T> Controllers<T>(this Devices devices, Func<T, bool>? predicate = null)
+        public static IObservable<T> Controllers<T>(this IObservableCache<Device, string> devices,
+            Func<T, bool>? predicate = null)
             where T : Controller
             => devices.Connect()
                 .Flatten()
@@ -39,13 +40,13 @@ namespace HIDDevices
         /// <param name="controllerType">Type of the controller.</param>
         /// <param name="predicate">The optional predicate to filter controllers.</param>
         /// <returns>An observable of controllers.</returns>
-        public static IObservable<Controller> Controllers(this Devices devices, Type controllerType,
+        public static IObservable<Controller> Controllers(this IObservableCache<Device, string> devices,
+            Type controllerType,
             Func<Controller, bool>? predicate = null)
             => devices.Connect()
                 .Flatten()
                 .Where(change => change.Reason == ChangeReason.Add)
-                .Select(change => change.Current)
-                .Select(device => HIDDevices.Controllers.Controller.Create(device, controllerType)!)
+                .Select(change => HIDDevices.Controllers.Controller.Create(change.Current, controllerType)!)
                 .Where(controller => controller != null && (predicate is null || predicate(controller)));
 
         /// <summary>
@@ -58,17 +59,41 @@ namespace HIDDevices
         /// </param>
         /// <returns>A filtered observable of control changes.</returns>
         public static IObservable<IList<ControlChange>> ControlChanges(
-            this Devices devices,
+            this IObservableCache<Device, string> devices,
             Func<Control, bool>? predicate = null)
             => devices
                 .Connect()
-                .SelectMany(cs => cs)
-                .Where(c => c.Reason != ChangeReason.Remove && (predicate is null || c.Current.Keys.Any(predicate)))
-                .Select(c => c.Current)
-                .SelectMany(c => c.Watch(predicate)
+                .Flatten()
+                .Where(change =>
+                    change.Reason != ChangeReason.Remove && (predicate is null || change.Current.Keys.Any(predicate)))
+                .SelectMany(change => change.Current.Watch(predicate)
                     // Suppress errors so we don't stop listening on valid controllers - error will already have been logged.
                     .Catch((Exception _) => Observable.Empty<IList<ControlChange>>()))
                 .Where(l => l.Count > 0);
+
+        public static IObservable<IChangeSet<Device, string>> Connected(this IObservableCache<Device, string> devices,
+            Func<Device, bool>? predicate = null)
+            => ObservableChangeSet.Create<Device, string>(sourceCache
+                        => devices.Connect(predicate)
+                            .Flatten()
+                            .SelectMany(change => change.Reason == ChangeReason.Remove
+                                ? new[] {(device: change.Current, isConnected: false)}.ToObservable()
+                                : change.Current.ConnectionState.Select(isConnected =>
+                                    (device: change.Current, isConnected)))
+                            .Subscribe(tuple =>
+                            {
+                                if (tuple.isConnected)
+                                {
+                                    sourceCache.AddOrUpdate(tuple.device);
+                                }
+                                else
+                                {
+                                    sourceCache.Remove(tuple.device);
+                                }
+                            }),
+                    device => device.DevicePath)
+                .AsObservableCache()
+                .Connect();
 
         /// <summary>
         ///     Filters devices, such that the device must implement all supplied <see cref="usages" />.
@@ -77,9 +102,9 @@ namespace HIDDevices
         /// <param name="usages">The required device usages.</param>
         /// <returns>A filtered observable of device change sets.</returns>
         public static IObservable<IChangeSet<Device, string>> DeviceUsagesAll(
-            this Devices devices,
+            this IObservableCache<Device, string> devices,
             params Usage[] usages)
-            => devices.Connect(device => device.Usages.ContainsAll(usages));
+            => devices.Connect(device => device.UsagesAll(usages));
 
         /// <summary>
         ///     Filters devices, such that the device must implement at least one of the supplied <see cref="usages" />.
@@ -88,9 +113,9 @@ namespace HIDDevices
         /// <param name="usages">The required device usages.</param>
         /// <returns>A filtered observable of device change sets.</returns>
         public static IObservable<IChangeSet<Device, string>> DeviceUsagesAny(
-            this Devices devices,
+            this IObservableCache<Device, string> devices,
             params Usage[] usages)
-            => devices.Connect(device => usages.Any(usage => device.Usages.Contains(usage)));
+            => devices.Connect(device => device.UsagesAny(usages));
 
         /// <summary>
         ///     Filters devices, such that the device must have controls that implement all supplied <see cref="usages" />.
@@ -99,10 +124,9 @@ namespace HIDDevices
         /// <param name="usages">The required device usages.</param>
         /// <returns>A filtered observable of device change sets.</returns>
         public static IObservable<IChangeSet<Device, string>> ControlUsagesAll(
-            this Devices devices,
+            this IObservableCache<Device, string> devices,
             params Usage[] usages)
-            => devices.Connect(device =>
-                usages.All(usage => device.Controls.Any(control => control.Usages.Contains(usage))));
+            => devices.Connect(device => device.ControlUsagesAll(usages));
 
         /// <summary>
         ///     Filters devices, such that the device must have controls that implement at least one of the supplied
@@ -112,10 +136,54 @@ namespace HIDDevices
         /// <param name="usages">The required device usages.</param>
         /// <returns>A filtered observable of device change sets.</returns>
         public static IObservable<IChangeSet<Device, string>> ControlUsagesAny(
-            this Devices devices,
+            this IObservableCache<Device, string> devices,
             params Usage[] usages)
-            => devices.Connect(device =>
-                usages.Any(usage => device.Controls.Any(control => control.Usages.Contains(usage))));
+            => devices.Connect(device => device.ControlUsagesAny(usages));
+
+        /// <summary>
+        ///     Checks that the device implements all supplied <see cref="usages" />.
+        /// </summary>
+        /// <param name="device">The device.</param>
+        /// <param name="usages">The required device usages.</param>
+        /// <returns><see langword="true"/> if the specified device implements all the supplied usages; otherwise <see langword="false"/>.</returns>
+        public static bool UsagesAll(
+            this Device device,
+            params Usage[] usages)
+            => device.Usages.ContainsAll(usages);
+
+        /// <summary>
+        ///     Checks that the device implements at least one of the supplied <see cref="usages" />.
+        /// </summary>
+        /// <param name="device">The device.</param>
+        /// <param name="usages">The required device usages.</param>
+        /// <returns><see langword="true"/> if the specified device implements at least one of the supplied usages; otherwise <see langword="false"/>.</returns>
+        public static bool UsagesAny(
+            this Device device,
+            params Usage[] usages)
+            => usages.Any(usage => device.Usages.Contains(usage));
+
+        /// <summary>
+        ///     Checks that the device has controls that implement all the supplied <see cref="usages" />.
+        /// </summary>
+        /// <param name="device">The device.</param>
+        /// <param name="usages">The required device usages.</param>
+        /// <returns><see langword="true"/> if the specified device has controls that implement all the supplied usages; otherwise <see langword="false"/>.</returns>
+        public static bool ControlUsagesAll(
+            this Device device,
+            params Usage[] usages)
+            => usages.All(usage => device.Controls.Any(control => control.Usages.Contains(usage)));
+
+        /// <summary>
+        ///     Checks that the device has controls that implement at least one of the supplied
+        ///     <see cref="usages" />.
+        /// </summary>
+        /// <param name="device">The device.</param>
+        /// <param name="usages">The required device usages.</param>
+        /// <returns><see langword="true"/> if the specified device has controls that implement at least one of the supplied usages; otherwise <see langword="false"/>.</returns>
+        public static bool ControlUsagesAny(
+            this Device device,
+            params Usage[] usages)
+            => usages.Any(usage => device.Controls.Any(control => control.Usages.Contains(usage)));
 
         /// <summary>
         ///     Creates a controller of the <see cref="T">specified type</see> from the <see cref="device">specified device</see>,
