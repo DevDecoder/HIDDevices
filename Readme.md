@@ -39,7 +39,7 @@ Alternatively, the library is fully compatible with Dependency injection framewo
 ```csharp
 services.AddSingleton<Devices>();
 ...
-var controllers = serviceProvider.GetService<Devices>();
+var devices = serviceProvider.GetService<Devices>();
 ```
 
 Modern DI frameworks should correctly handle instantiation and disposal automatically, as well as suppplying a logger if registered.
@@ -52,14 +52,35 @@ The `Devices` constructor accepts an [`ILogger<Devices>`](https://docs.microsoft
 The Devices service implements a `IObservableCache<Device, string>` property which can be subscribed to, to detect add/update/remove events for devices.  For more information on `IObservableCache<,>`, and how to consume them, see [DynamicData](https://github.com/reactiveui/DynamicData). e.g.
 
 ```csharp
-using var subscription = controllers.Connect().Subscribe(changeSet => { ... });
+using var subscription = devices.Connect().Subscribe(changeSet => { ... });
 ```
 
-### Detecting changes in controls
-Each `Device` classs implements  `IObservable<IList<ControlChange>>` which can be used to obserbe changes in control values.  They also implement `IReadOnlyDictionary<Control, ControlChange>`, which can be used to find the last observed state of the Device's controls. A control's value is always mapped to a value between 0 and 1, or `double.NaN` to indicate null.  For convenience you can look for control changes across all devices using the `ControlChanges` extension method.  e.g.
+The standard `Connect()` method retrieves an observable collection of all devices, but does not actually attempt to connect to them; which is useful when you only want to see what is known to the Operating System.  However, you can also use the `Connected()` extension method, which _does_ attempt to establish a working connection to the devices, and only includes devices that are _currently_ connected (_whilst_ they remain connected).  As such it is a subset of the observable collection returned by `Connect()`.  A disconnected device is one that is still connected to the system, but to which a connection can not be established by the library.  For example, Windows prevents access to Keyboard and Mouse devices, but they are still listed.  Devices that are physically disconnected (and hence not seen by the Operating System) will be removed from both collections.
+
+Both methods accept a `predicate` that can be used to efficiently filter devices to only include those you are interested in, for example:
 
 ```csharp
-using var subscription2 =controllers
+using var subscription = 
+    devices.Connected(
+      device => device.UsagesAll(GenericDesktopPage.GamePad &&
+                device.ControlUsagesAll(GenericDesktopPage.X, GenericDesktopPage.Y))
+    .Subscribe()
+```
+
+This uses the `UsagesAll` extension method to filter devices that don't implement the `GamePad` usage, and the `ControlUsagesAll` extension method to only select devices that have controls that implement all the specified usages (i.e. must have an `X` and `Y` axis - which, according to the HID specs, all GamePads are supposed to expose, but there's no guarantee).  There are also `UsagesAny` and `ControlUsagesAny` extension methods; and `DeviceUsages*` and `ControlUsages*` extension methods that can be applied to `Devices` directly (and are equaivalent to calling `Connect(...)` with the appropriate delegate).  
+
+Supplying a delegate to filter the `Connected()` extension method is particularly recommended as it prevents unneccessary connection attempts to devices which you are not interested in.
+
+### Connecting to a device
+
+Each `Device` classs implements `IObservable<IList<ControlChange>>` which can be used to obserbe changes in control values.  A connection to the device is not established unless there is at least one subscriber to this interface.  There is also an `IObservable<bool> ConnectionState` property that changes value when the device connects/disconnects; subscribing to the `ConnectionState` will also ensure that there is a subscription to the main observable - attempting a connection.  To see the current connection state, you can use the `IsConnected` property, which returns the instantaneous value, but doesn't attempt a connection itself.  Using the `Connected()` extension method on the `Devices` collection will also ensure there is a subscription, and hence connection attempt.
+
+### Detecting changes in controls
+
+  As mentioned above the `Device` object implements `IObservable<IList<ControlChange>>` which returns batches of changes reported by a device when subscribed to.  `Device` also implements `IReadOnlyDictionary<Control, ControlChange>`, which can be used to find the last observed state of the Device's controls - however this doesn't establish a connection itself, so you should first connect by subscribing to the `Device`. A control's value is always mapped to a value between 0 and 1, or `double.NaN` to indicate null.  For convenience you can look for control changes across all devices using the `ControlChanges` extension method.  e.g.
+
+```csharp
+using var subscription2 = devices
     // Watch for control changes only
     .ControlChanges()
     .Subscribe(changes =>
@@ -68,16 +89,20 @@ using var subscription2 =controllers
     });
 ```
 
-## Controllers
-The library contains a `Controller` concept which is effectively a device definition.  These are easy to define using attributes (see [Gamepad](HIDDevices/Controllers/Gamepad.cs) for a complete example).
+A `ControlChange` indicates the changed `Control`, the `PreviousValue` and the new `Value`.  It also indicates how stale the change is by having `Timestamp` and, the derived `Elapsed` properties.
 
-To create a new Controller definition, extend the `Controller` class, and, optionally add zero or more `DeviceAttribute` attributes.  The specified `DeviceAttribute`s must be satisfied for a `Device` to match the controller.  `DeviceAttribute`s can specify multiple `Usage`s, all of which must match, or multiple `DeviceAttribute`s can be used to provide alternatives.  They can also filter by Product ID, or Version.
+**Note**: HID devices are not required to report their initial state on connection, and frequently do not.  It is common for the device to only report it's entire state the first time it communicate (e.g. on a button press); as such the `ControlChange` retrieved for a given `Control` may by a default struct until such a time as an update is received.  In such a cash the `Timestamp` property will be `0` (and so the `Elapsed` will be `Timeout.InfiniteTimeSpan`).
+
+# Controllers
+To make devices easier to consume, the library contains a `Controller` concept which is effectively a device definition.  These are easy to define using attributes (see [Gamepad](HIDDevices/Controllers/Gamepad.cs) for a complete example).
+
+To create a new Controller definition, extend the `Controller` class, and, optionally add zero or more `DeviceAttribute` attributes.  The specified `DeviceAttribute`s must be satisfied for a `Device` to match the controller.  `DeviceAttribute`s can specify multiple `Usage`s, all of which must match, or multiple `DeviceAttribute`s can be used to provide alternatives.  They can also filter by Product ID, or Version, for example:
 
 ```csharp
-// For example, the following controller will match devices that have either the GamePad
-// or Joystick Usage.
+// The following controller will match devices that have either the GamePad
+// or the Joystick Usage (if the Joystick has a ReleaseNumber starting with '1.').
 [Device(GenericDesktopPage.GamePad)]
-[Device(GenericDesktopPage.Joystick)]
+[Device(GenericDesktopPage.Joystick, ReleaseNumberRegex = "1\\..*")]
 public class Joystick : Controller { ... }
 ```
 
@@ -109,22 +134,46 @@ To register a default type converter for control properties, use `Controller.Reg
 Controller.RegisterDefaultTypeConverter(typeof(bool), BooleanConverter.Instance);
 ```
 
-  Once matched they expose the latest values of the controller via easily accessed properties.  Changes can also be observed via the `Changes` property.  To listen for specific controllers from `Devices` use the `Controllers<TController>` extension method, e.g.
+  Once a device is matched to a controller it exposes the latest values of the controller via easily accessed properties.  Changes can also be observed via the `Changes` property.  To listen for specific controllers from `Devices` use the `Controllers<TController>` extension method, e.g.
 
 ```csharp
-using var subscription = devices.Controller<Gamepad>().Subscribe(gamepd => {...});            {
+// Holds a reference to the current gamepad, which is set asynchronously as they are detected.
+Gamepad? gamepad = null;
+var batch = 0;
+
+// Controller to any gamepads as they are found
+using var subscription = devices.Controllers<Gamepad>().Subscribe(g =>
+{
+    // If we already have a connected gamepad ignore any more.
+    // ReSharper disable once AccessToDisposedClosure
+    if (gamepad?.IsConnected == true)
+    {
+        return;
+    }
+
+    // Assign this gamepad and connect to it.
+    gamepad = g;
+    g.Connect();
+});
 ```
 
-## Usages
-For convenience, the full HID Usage tables are exposed and described via the `Usages`, `UsagePages` and `UsageTypes` classes.  These can be retrieved either directly using the `uint` identifier, or using the convenience enums, all of which have the `Page` suffix.
+As demonstrated, a `Controller` doesn't start listening for changes until you call the `Connect()` method on it.
 
-Enums are not valid a
+# Usages
+For convenience, the full HID Usage tables are exposed and described via the `Usages`, `UsagePages` and `UsageTypes` classes.  These can be retrieved either directly using the `uint` identifier, or using the convenience enums, all of which have the `Page` suffix, for which implicit casts are available.
+
+```csharp
+// The enums can be cast to a Usage to retrieve full information about the Usage and it's page.
+Usage usage = ButtonPage.Button1;
+Console.WriteLine($"Usage: {usage.Name}; Page: {usage.Page.Name}");
+```
 
 # TODO
 
 * More documentation, examples
 * Support Output to devices
 * More Tests!
+* Automate NuGet Release notes
 
 ### Testing status
 
@@ -137,7 +186,7 @@ The following OS's have been tested:
 * Windows 10 Pro 2004 (19041.330)
 * Ubuntu (limited testing so far)
 
-Please let me know if you've confirmed it as working with other devices/OS's.
+Please let me know if you've confirmed it as working with other devices/OS's by raising an issue.
 
 # Acknowledgements
 
