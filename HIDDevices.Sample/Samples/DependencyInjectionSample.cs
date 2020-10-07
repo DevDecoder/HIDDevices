@@ -37,7 +37,7 @@ namespace HIDDevices.Sample.Samples
             var logger = serviceProvider.GetService<ILogger<DependencyInjectionSample>>();
 
             // Grab the controllers service
-            var controllers = serviceProvider.GetService<Devices>();
+            var controllers = serviceProvider.GetService<Devices>()!;
 
             // Subscribe to changes in controllers
             using var subscription1 = controllers
