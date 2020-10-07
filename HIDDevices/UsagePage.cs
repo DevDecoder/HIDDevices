@@ -40,10 +40,10 @@ namespace HIDDevices
         public string Name { get; }
 
         /// <inheritdoc />
-        IEnumerator<Usage> IEnumerable<Usage>.GetEnumerator() => Usages.Values.GetEnumerator();
+        public IEnumerator<Usage> GetEnumerator() => Usages.Values.GetEnumerator();
 
         /// <inheritdoc />
-        public IEnumerator GetEnumerator() => ((IEnumerable)Usages.Values).GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         /// <inheritdoc />
         public bool Equals(UsagePage? other) => !(other is null) && (ReferenceEquals(this, other) || Id == other.Id);
@@ -71,6 +71,12 @@ namespace HIDDevices
         /// <param name="fullId">The full identifier.</param>
         /// <returns>UsagePage.</returns>
         public static UsagePage Get(uint fullId) => Get((ushort)(fullId >> 16));
+
+        /// <summary>
+        ///     Gets all currently available usage pages.
+        /// </summary>
+        /// <returns>A collection of usage pages.</returns>
+        public static ICollection<UsagePage> All => s_pages.Values;
 
         /// <summary>
         ///     Gets the usage from this page with the <see cref="id">specified identifier</see>.

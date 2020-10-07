@@ -255,7 +255,7 @@ namespace HIDDevices.Pages
 				}
 
 				output.AppendLine($@"
-{ind}{ind}{ind}return base.GetUsage(id);
+{ind}{ind}{ind}return base.CreateUsage(id);
 {ind}{ind}}}");
 			}
 

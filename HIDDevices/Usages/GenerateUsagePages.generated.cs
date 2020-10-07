@@ -1,7 +1,7 @@
 ﻿// Licensed under the Apache License, Version 2.0 (the "License").
 // See the LICENSE file in the project root for more information.
 //
-// Auto Generated 2581 usages in 36 pages on 20/07/2020 12:02:31.
+// Auto Generated 2581 usages in 36 pages on 07/10/2020 22:18:37.
 
 #pragma warning disable CS0108 // Member hides inherited member; missing new keyword
 
@@ -18162,7 +18162,7 @@ namespace HIDDevices.Pages
                 case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -18297,7 +18297,7 @@ namespace HIDDevices.Pages
                 case 0x00d6: return new Usage(this, id, "Dockable Device Object Type", UsageTypes.DV);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -18374,7 +18374,7 @@ namespace HIDDevices.Pages
                 case 0x00d0: return new Usage(this, id, "Rear Brake", UsageTypes.DV);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -18412,7 +18412,7 @@ namespace HIDDevices.Pages
                 case 0x0021: return new Usage(this, id, "Display Enable", UsageTypes.OOC);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -18472,7 +18472,7 @@ namespace HIDDevices.Pages
                 case 0x0063: return new Usage(this, id, "9 Wood", UsageTypes.Sel);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -18527,7 +18527,7 @@ namespace HIDDevices.Pages
                 case 0x003a: return new Usage(this, id, "Form-fitting Gamepad", UsageTypes.SF);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -18577,7 +18577,7 @@ namespace HIDDevices.Pages
                 case 0x0041: return new Usage(this, id, "Pointer Pose Offset", UsageTypes.CP);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -18821,7 +18821,7 @@ namespace HIDDevices.Pages
                 case 0x00e7: return new Usage(this, id, "RightGUI", UsageTypes.DF);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -18942,7 +18942,7 @@ namespace HIDDevices.Pages
                 case 0x0068: return new Usage(this, id, "Player 8", UsageTypes.Sel);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -18988,7 +18988,7 @@ namespace HIDDevices.Pages
             var n = (ushort)(id-0x0001);
             if (id >= 0x0001 || id < 0xffff) return new Usage(this, id, $"Button {n+1}", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -19034,7 +19034,7 @@ namespace HIDDevices.Pages
             var n = (ushort)(id-0x0001);
             if (id >= 0x0001 || id < 0xffff) return new Usage(this, id, $"Instance {n+1}", UsageTypes.UM);
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -19158,7 +19158,7 @@ namespace HIDDevices.Pages
                 case 0x014b: return new Usage(this, id, "Dual Mode Phone", UsageTypes.CA);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -19606,7 +19606,7 @@ namespace HIDDevices.Pages
                 case 0x02d4: return new Usage(this, id, "Privacy Screen Level Maximum", UsageTypes.OSC);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -19719,7 +19719,7 @@ namespace HIDDevices.Pages
                 case 0x00a5: return new Usage(this, id, "Transducer Switches", UsageTypes.CL);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -19764,7 +19764,7 @@ namespace HIDDevices.Pages
                 case 0x1007: return new Usage(this, id, "WAVEFORM_RELEASE", UsageTypes.Sel);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -19895,7 +19895,7 @@ namespace HIDDevices.Pages
                 case 0x00ac: return new Usage(this, id, "RAM Pool Available", UsageTypes.DV);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -19921,7 +19921,7 @@ namespace HIDDevices.Pages
                 case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -19981,7 +19981,7 @@ namespace HIDDevices.Pages
                 case 0x0400: return new Usage(this, id, "Device Mode Request", UsageTypes.DV);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -20076,7 +20076,7 @@ namespace HIDDevices.Pages
                 case 0x0095: return new Usage(this, id, "Soft Button Report", UsageTypes.SV);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -20930,7 +20930,7 @@ namespace HIDDevices.Pages
             if (id >= 0xd000 || id < 0xdfff) return new Usage(this, id, $"Change Sensitivity Percent of Range", UsageTypes.US);
             if (id >= 0xe000 || id < 0xefff) return new Usage(this, id, $"Change Sensitivity Percent Relative", UsageTypes.US);
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -20985,7 +20985,7 @@ namespace HIDDevices.Pages
                 case 0x00a1: return new Usage(this, id, "Soft Control Adjust", UsageTypes.LC);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -21052,7 +21052,7 @@ namespace HIDDevices.Pages
                 case 0x021e: return new Usage(this, id, "Braille Rocker Press", UsageTypes.Sel);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -21127,7 +21127,7 @@ namespace HIDDevices.Pages
                 case 0x0206: return new Usage(this, id, "Lamp Purpose Presentation", UsageTypes.Sel);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -21154,7 +21154,7 @@ namespace HIDDevices.Pages
                 case 0x0001: return new Usage(this, id, "Monitor Control", UsageTypes.CA);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -21199,7 +21199,7 @@ namespace HIDDevices.Pages
             var n = (ushort)(id-0x0000);
             if (id >= 0x0000 || id < 0xffff) return new Usage(this, id, $"ENUM_{id}", UsageTypes.Sel);
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -21270,7 +21270,7 @@ namespace HIDDevices.Pages
                 case 0x00d4: return new Usage(this, id, "", UsageTypes.None);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -21296,7 +21296,7 @@ namespace HIDDevices.Pages
                 case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -21398,7 +21398,7 @@ namespace HIDDevices.Pages
                 case 0x00ff: return new Usage(this, id, "iSerialNumber", UsageTypes.SV);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -21515,7 +21515,7 @@ namespace HIDDevices.Pages
                 case 0x00f3: return new Usage(this, id, "Level 3", UsageTypes.SF);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -21734,7 +21734,7 @@ namespace HIDDevices.Pages
                 case 0x0121: return new Usage(this, id, "VeriCode", UsageTypes.DF);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -21806,7 +21806,7 @@ namespace HIDDevices.Pages
                 case 0x0081: return new Usage(this, id, "Enforced Zero Return", UsageTypes.OOC);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -21842,7 +21842,7 @@ namespace HIDDevices.Pages
                 case 0x0024: return new Usage(this, id, "Track JIS Data", UsageTypes.SF|UsageTypes.DF|UsageTypes.Sel);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -21868,7 +21868,7 @@ namespace HIDDevices.Pages
                 case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -21896,7 +21896,7 @@ namespace HIDDevices.Pages
                 case 0x0021: return new Usage(this, id, "Camera Shutter", UsageTypes.OSC);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -21949,7 +21949,7 @@ namespace HIDDevices.Pages
                 case 0x004d: return new Usage(this, id, "Pin Pad Command", UsageTypes.DV);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 
@@ -21978,7 +21978,7 @@ namespace HIDDevices.Pages
                 case 0x0021: return new Usage(this, id, "Output Report Data", UsageTypes.DV);
             }
 
-            return base.GetUsage(id);
+            return base.CreateUsage(id);
         }
     }
 }

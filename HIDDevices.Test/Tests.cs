@@ -6,6 +6,10 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using HIDDevices.Pages;
+using HIDDevices.Usages;
+using HidSharp;
+using HidSharp.Reports;
 using Microsoft.Extensions.Logging;
 using Xunit;
 using Xunit.Abstractions;
@@ -60,6 +64,13 @@ namespace HIDDevices.Test
             var repeat = await devices.LoadAsync().ConfigureAwait(false);
             Assert.Equal(initial, repeat);
             Assert.Equal(1, refreshCount);
+        }
+
+        [Fact]
+        public void TestUndefinedUsage()
+        {
+            var usage = Usage.Get(0xffff);
+            Assert.Equal("Undefined - Undefined (0xFFFF)", usage.ToString());
         }
     }
 }
