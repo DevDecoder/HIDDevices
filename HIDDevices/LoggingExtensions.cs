@@ -5,7 +5,7 @@ using System;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 
-namespace HIDDevices
+namespace DevDecoder.HIDDevices
 {
     internal static class LoggingExtensions
     {

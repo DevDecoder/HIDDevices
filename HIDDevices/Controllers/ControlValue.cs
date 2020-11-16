@@ -5,7 +5,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 
-namespace HIDDevices.Controllers
+namespace DevDecoder.HIDDevices.Controllers
 {
     /// <summary>
     ///     Struct ControlValue holds the latest value of a <see cref="HIDDevices.Control" /> for a

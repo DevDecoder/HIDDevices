@@ -4,7 +4,7 @@
 using System;
 using System.Globalization;
 
-namespace HIDDevices.Converters
+namespace DevDecoder.HIDDevices.Converters
 {
     /// <summary>
     ///     Class DirectionConverter converts control values to a <see cref="Direction" />. This class cannot be inherited.

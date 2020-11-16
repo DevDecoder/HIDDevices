@@ -6,7 +6,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace HIDDevices
+namespace DevDecoder.HIDDevices
 {
     public sealed class UsageType : IEquatable<UsageType>
     {

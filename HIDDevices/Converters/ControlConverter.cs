@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
-namespace HIDDevices.Converters
+namespace DevDecoder.HIDDevices.Converters
 {
     /// <summary>
     ///     Class ControlConverter.

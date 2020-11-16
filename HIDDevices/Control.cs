@@ -8,7 +8,7 @@ using HidSharp.Reports;
 
 #pragma warning disable 618
 
-namespace HIDDevices
+namespace DevDecoder.HIDDevices
 {
     /// <summary>
     ///     Class Control represents a single control (e.g. Button, slider, joystick axis) on a <see cref="Device" />.

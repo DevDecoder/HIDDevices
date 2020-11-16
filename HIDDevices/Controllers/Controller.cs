@@ -11,9 +11,9 @@ using System.Linq;
 using System.Reactive.Subjects;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using BooleanConverter = HIDDevices.Converters.BooleanConverter;
+using BooleanConverter = DevDecoder.HIDDevices.Converters.BooleanConverter;
 
-namespace HIDDevices.Controllers
+namespace DevDecoder.HIDDevices.Controllers
 {
     /// <summary>
     ///     Class Controller is a collection of controls mapped to properties.

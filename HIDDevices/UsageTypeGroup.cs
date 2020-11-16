@@ -3,7 +3,7 @@
 
 using System;
 
-namespace HIDDevices
+namespace DevDecoder.HIDDevices
 {
     /// <summary>
     ///     Enum UsageTypeGroup groups <seealso cref="UsageTypes" />.

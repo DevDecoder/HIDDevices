@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 
-namespace HIDDevices.Controllers
+namespace DevDecoder.HIDDevices.Controllers
 {
     public partial class Controller
     {

@@ -4,7 +4,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace HIDDevices.Controllers
+namespace DevDecoder.HIDDevices.Controllers
 {
     /// <summary>
     ///     Delegate CreateControllerDelegate used to define a method for creating a new <seealso cref="Controller" /> from a

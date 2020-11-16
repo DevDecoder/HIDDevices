@@ -4,7 +4,7 @@
 using System;
 using System.Globalization;
 
-namespace HIDDevices.Converters
+namespace DevDecoder.HIDDevices.Converters
 {
     /// <summary>
     ///     Class RangeConverter converts control values to a range. This class cannot be inherited.

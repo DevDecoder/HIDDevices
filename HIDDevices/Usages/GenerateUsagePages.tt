@@ -9,7 +9,7 @@
 <#@ import namespace="System.Collections" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".generated.cs" #>
-<#
+<# 
 {
 	var relativePath = @"hid-usage-tables\pages";
 	// Maximum number of static properties to output for a range.
@@ -76,9 +76,9 @@ using System.ComponentModel;");
 		}
 
 		output.AppendLine();
-		output.AppendLine($@"namespace HIDDevices.Usages
+		output.AppendLine($@"namespace DevDecoder.HIDDevices.Usages
 {{
-{ind}using HIDDevices.Pages;
+{ind}using DevDecoder.HIDDevices.Pages;
 ");
 
 		/*
@@ -131,9 +131,9 @@ using System.ComponentModel;");
  * END OF ENUM DEFINITIONS
  */
 
-namespace HIDDevices
+namespace DevDecoder.HIDDevices
 {{
-{ind}using HIDDevices.Pages;");
+{ind}using DevDecoder.HIDDevices.Pages;");
 
 		/*
 		 * Create dictionary of usage pages
@@ -177,9 +177,9 @@ namespace HIDDevices
 {ind}}}
 }}
 
-namespace HIDDevices.Pages
+namespace DevDecoder.HIDDevices.Pages
 {{
-{ind}using HIDDevices.Usages;");
+{ind}using DevDecoder.HIDDevices.Usages;");
 
 
 		/*

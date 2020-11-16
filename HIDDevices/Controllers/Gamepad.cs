@@ -4,10 +4,10 @@
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using HIDDevices.Converters;
-using HIDDevices.Usages;
+using DevDecoder.HIDDevices.Converters;
+using DevDecoder.HIDDevices.Usages;
 
-namespace HIDDevices.Controllers
+namespace DevDecoder.HIDDevices.Controllers
 {
     /// <summary>
     ///     Class Gamepad defines a GamePad <seealso cref="Controller" />.

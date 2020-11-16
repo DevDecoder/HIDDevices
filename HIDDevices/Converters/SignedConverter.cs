@@ -3,7 +3,7 @@
 
 using System;
 
-namespace HIDDevices.Converters
+namespace DevDecoder.HIDDevices.Converters
 {
     /// <summary>
     ///     Class SignedConverter converts control values to a property value between -1 and 1, centred on 0. This class cannot

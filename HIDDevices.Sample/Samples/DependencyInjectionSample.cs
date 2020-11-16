@@ -7,9 +7,10 @@ using System.Reactive.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using DevDecoder.HIDDevices;
+using DevDecoder.HIDDevices.Controllers;
+using DevDecoder.HIDDevices.Usages;
 using DynamicData;
-using HIDDevices.Controllers;
-using HIDDevices.Usages;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 

@@ -4,7 +4,7 @@
 using System;
 using System.ComponentModel;
 
-namespace HIDDevices.Controllers
+namespace DevDecoder.HIDDevices.Controllers
 {
     /// <summary>
     ///     Class ControlInfo is used to indicate the relationship between a <seealso cref="HIDDevices.Control" /> and a

@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace HIDDevices
+namespace DevDecoder.HIDDevices
 {
     /// <summary>
     ///     Class Usage. This class cannot be inherited.

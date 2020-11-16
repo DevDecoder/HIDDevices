@@ -16,7 +16,7 @@ using DynamicData.Kernel;
 using HidSharp;
 using Microsoft.Extensions.Logging;
 
-namespace HIDDevices
+namespace DevDecoder.HIDDevices
 {
     /// <summary>
     ///     Class Devices. This class cannot be inherited.

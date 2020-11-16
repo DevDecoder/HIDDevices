@@ -3,7 +3,7 @@
 
 using System;
 
-namespace HIDDevices.Converters
+namespace DevDecoder.HIDDevices.Converters
 {
     /// <summary>
     ///     Enum Direction indicates the possible directions of a Hat control.

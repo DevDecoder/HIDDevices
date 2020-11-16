@@ -4,7 +4,7 @@
 using System;
 using System.Globalization;
 
-namespace HIDDevices.Converters
+namespace DevDecoder.HIDDevices.Converters
 {
     /// <summary>
     ///     Class BooleanConverter converts control values to a boolean. This class cannot be inherited.

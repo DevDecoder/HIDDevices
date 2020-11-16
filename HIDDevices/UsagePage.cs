@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace HIDDevices
+namespace DevDecoder.HIDDevices
 {
     /// <summary>
     ///     Class UsagePage. This class cannot be inherited.

@@ -5,7 +5,8 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using HIDDevices.Controllers;
+using DevDecoder.HIDDevices;
+using DevDecoder.HIDDevices.Controllers;
 using Microsoft.Extensions.Logging;
 
 namespace HIDDevices.Sample.Samples

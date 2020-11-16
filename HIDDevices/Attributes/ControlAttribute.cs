@@ -4,9 +4,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using HIDDevices.Controllers;
+using DevDecoder.HIDDevices.Controllers;
 
-namespace HIDDevices
+namespace DevDecoder.HIDDevices
 {
     /// <summary>
     ///     Class ControlAttribute. This class cannot be inherited.

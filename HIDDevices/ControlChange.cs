@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Threading;
 using HidSharp.Reports;
 
-namespace HIDDevices
+namespace DevDecoder.HIDDevices
 {
     /// <summary>
     ///     Struct ControlChange

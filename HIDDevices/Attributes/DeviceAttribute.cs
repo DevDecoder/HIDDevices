@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using HIDDevices.Controllers;
+using DevDecoder.HIDDevices.Controllers;
 
-namespace HIDDevices
+namespace DevDecoder.HIDDevices
 {
     /// <summary>
     ///     Class DeviceAttribute. This class cannot be inherited.

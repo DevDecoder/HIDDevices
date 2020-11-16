@@ -6,10 +6,10 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reactive.Linq;
+using DevDecoder.HIDDevices.Controllers;
 using DynamicData;
-using HIDDevices.Controllers;
 
-namespace HIDDevices
+namespace DevDecoder.HIDDevices
 {
     /// <summary>
     ///     Class DeviceExtensions implements various extension methods.
@@ -30,7 +30,9 @@ namespace HIDDevices
                 .Flatten()
                 .Where(change => change.Reason == ChangeReason.Add)
                 .Select(change => change.Current)
+#pragma warning disable CS8621 // Nullability of reference types in return type doesn't match the target delegate (possibly because of nullability attributes).
                 .Select(HIDDevices.Controllers.Controller.Create<T>)
+#pragma warning restore CS8621 // Nullability of reference types in return type doesn't match the target delegate (possibly because of nullability attributes).
                 .Where(controller => controller != null && (predicate is null || predicate(controller)));
 
         /// <summary>
@@ -46,7 +48,7 @@ namespace HIDDevices
             => devices.Connect()
                 .Flatten()
                 .Where(change => change.Reason == ChangeReason.Add)
-                .Select(change => HIDDevices.Controllers.Controller.Create(change.Current, controllerType)!)
+                .Select(change => global::DevDecoder.HIDDevices.Controllers.Controller.Create(change.Current, controllerType)!)
                 .Where(controller => controller != null && (predicate is null || predicate(controller)));
 
         /// <summary>
@@ -197,7 +199,7 @@ namespace HIDDevices
         /// </returns>
         [return: MaybeNull]
         public static T Controller<T>(this Device device) where T : Controller =>
-            HIDDevices.Controllers.Controller.Create<T>(device);
+            global::DevDecoder.HIDDevices.Controllers.Controller.Create<T>(device);
 
         /// <summary>
         ///     Creates a controller of the <see cref="controllerType">specified type</see> from the
@@ -210,7 +212,7 @@ namespace HIDDevices
         ///     <see cref="device">specified device</see> does not support the specified controller.
         /// </returns>
         public static Controller? Controller(this Device device, Type controllerType) =>
-            HIDDevices.Controllers.Controller.Create(device, controllerType);
+            global::DevDecoder.HIDDevices.Controllers.Controller.Create(device, controllerType);
 
         /// <summary>
         ///     Determines whether the <see cref="enumerable" /> contains all the <see cref="items">specified items</see>.

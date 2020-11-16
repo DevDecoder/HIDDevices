@@ -4,7 +4,7 @@
 using System;
 using System.ComponentModel;
 
-namespace HIDDevices
+namespace DevDecoder.HIDDevices
 {
     /// <summary>
     ///     Enum UsageTypes defines usage types.

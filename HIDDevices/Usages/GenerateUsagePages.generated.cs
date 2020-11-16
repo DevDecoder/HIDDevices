@@ -1,7 +1,7 @@
 ﻿// Licensed under the Apache License, Version 2.0 (the "License").
 // See the LICENSE file in the project root for more information.
 //
-// Auto Generated 2581 usages in 36 pages on 07/10/2020 22:18:37.
+// Auto Generated 2581 usages in 36 pages on 16/11/2020 17:41:36.
 
 #pragma warning disable CS0108 // Member hides inherited member; missing new keyword
 
@@ -10,9 +10,9 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace HIDDevices.Usages
+namespace DevDecoder.HIDDevices.Usages
 {
-    using HIDDevices.Pages;
+    using DevDecoder.HIDDevices.Pages;
 
     /// <summary>
     ///     Undefined Usage Page.
@@ -17900,9 +17900,9 @@ namespace HIDDevices.Usages
  * END OF ENUM DEFINITIONS
  */
 
-namespace HIDDevices
+namespace DevDecoder.HIDDevices
 {
-    using HIDDevices.Pages;
+    using DevDecoder.HIDDevices.Pages;
 
     /// <summary>
     ///     Base class for all usage pages.
@@ -18136,9 +18136,9 @@ namespace HIDDevices
     }
 }
 
-namespace HIDDevices.Pages
+namespace DevDecoder.HIDDevices.Pages
 {
-    using HIDDevices.Usages;
+    using DevDecoder.HIDDevices.Usages;
 
     /// <summary>
     ///     Base class for all usage pages.

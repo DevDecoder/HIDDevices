@@ -3,7 +3,7 @@
 
 using System;
 
-namespace HIDDevices.Converters
+namespace DevDecoder.HIDDevices.Converters
 {
     /// <summary>
     ///     Class RightTriggerConverter converts control values for trigger properties. This class cannot be inherited.

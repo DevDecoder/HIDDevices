@@ -14,7 +14,7 @@ using HidSharp;
 using HidSharp.Reports;
 using Microsoft.VisualStudio.Threading;
 
-namespace HIDDevices
+namespace DevDecoder.HIDDevices
 {
     /// <summary>
     ///     Class Device.
