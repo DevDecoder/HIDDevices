@@ -16,7 +16,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>Gamepad, Joystick, HID, HIDSharp, .NET, Cross-platform</PackageTags>
     <PackageIcon>DevDecoder Icon.png</PackageIcon>
-    <PackageReleaseNotes>Initial working release.</PackageReleaseNotes>
+    <PackageReleaseNotes>Stable release.</PackageReleaseNotes>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <SignAssembly>false</SignAssembly>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
@@ -24,6 +24,7 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <AssemblyName>DevDecoder.HIDDevices</AssemblyName>
     <RootNamespace>DevDecoder.HIDDevices</RootNamespace>
+    <PackageReadmeFile>Readme.md</PackageReadmeFile>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\Readme.md" Pack="true" PackagePath="\" />
