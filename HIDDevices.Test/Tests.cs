@@ -67,7 +67,7 @@ namespace HIDDevices.Test
         public void TestUndefinedUsage()
         {
             var usage = Usage.Get(0xffff);
-            Assert.Equal("Undefined - Undefined (0xFFFF)", usage.ToString());
+            Assert.Equal("Reserved (0x00) - Undefined (0xFFFF)", usage.ToString());
         }
     }
 }

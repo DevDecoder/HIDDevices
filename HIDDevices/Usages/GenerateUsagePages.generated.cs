@@ -1,7 +1,7 @@
 ﻿// Licensed under the Apache License, Version 2.0 (the "License").
 // See the LICENSE file in the project root for more information.
 //
-// Auto Generated 2581 usages in 36 pages on 16/11/2020 17:41:36.
+// Auto Generated 2614 usages in 35 pages on 13/10/2021 23:28:44.
 
 #pragma warning disable CS0108 // Member hides inherited member; missing new keyword
 
@@ -13,19 +13,6 @@ using System.ComponentModel;
 namespace DevDecoder.HIDDevices.Usages
 {
     using DevDecoder.HIDDevices.Pages;
-
-    /// <summary>
-    ///     Undefined Usage Page.
-    /// </summary>
-    [Description("Undefined Usage Page")]
-    public enum UndefinedPage : uint
-    {
-        /// <summary>
-        ///     Undefined Usage.
-        /// </summary>
-        [Description("Undefined")]
-        Undefined = 0x00000000
-    }
 
     /// <summary>
     ///     Generic Desktop Controls Usage Page.
@@ -1676,10 +1663,10 @@ namespace DevDecoder.HIDDevices.Usages
     public enum KeyboardKeypadPage : uint
     {
         /// <summary>
-        ///     None Usage.
+        ///     Undefined Usage.
         /// </summary>
-        [Description("None")]
-        None = 0x00070000,
+        [Description("Undefined")]
+        Undefined = 0x00070000,
 
         /// <summary>
         ///     ErrorRollOver Usage.
@@ -1994,9 +1981,9 @@ namespace DevDecoder.HIDDevices.Usages
         KeyboardKeypad_15 = 0x00070034,
 
         /// <summary>
-        ///     ` ´ Usage.
+        ///     ` � Usage.
         /// </summary>
-        [Description("` ´")]
+        [Description("` �")]
         KeyboardKeypad_16 = 0x00070035,
 
         /// <summary>
@@ -3595,111 +3582,111 @@ namespace DevDecoder.HIDDevices.Usages
     public enum ButtonPage : uint
     {
         /// <summary>
-        ///     No button pressed Usage.
+        ///     Undefined Usage.
         /// </summary>
-        [Description("No button pressed")]
-        NoButtonPressed = 0x00090000,
+        [Description("Undefined")]
+        Undefined = 0x00090000,
 
         /*
          * Range: 0x0001 -> 0xffff
-         * Button {n+1}
+         * Button {n}
          */
+
+        /// <summary>
+        ///     Button 0 Usage.
+        /// </summary>
+        [Description("Button 0")]
+        Button0 = 0x00090001,
 
         /// <summary>
         ///     Button 1 Usage.
         /// </summary>
         [Description("Button 1")]
-        Button1 = 0x00090001,
+        Button1 = 0x00090002,
 
         /// <summary>
         ///     Button 2 Usage.
         /// </summary>
         [Description("Button 2")]
-        Button2 = 0x00090002,
+        Button2 = 0x00090003,
 
         /// <summary>
         ///     Button 3 Usage.
         /// </summary>
         [Description("Button 3")]
-        Button3 = 0x00090003,
+        Button3 = 0x00090004,
 
         /// <summary>
         ///     Button 4 Usage.
         /// </summary>
         [Description("Button 4")]
-        Button4 = 0x00090004,
+        Button4 = 0x00090005,
 
         /// <summary>
         ///     Button 5 Usage.
         /// </summary>
         [Description("Button 5")]
-        Button5 = 0x00090005,
+        Button5 = 0x00090006,
 
         /// <summary>
         ///     Button 6 Usage.
         /// </summary>
         [Description("Button 6")]
-        Button6 = 0x00090006,
+        Button6 = 0x00090007,
 
         /// <summary>
         ///     Button 7 Usage.
         /// </summary>
         [Description("Button 7")]
-        Button7 = 0x00090007,
+        Button7 = 0x00090008,
 
         /// <summary>
         ///     Button 8 Usage.
         /// </summary>
         [Description("Button 8")]
-        Button8 = 0x00090008,
+        Button8 = 0x00090009,
 
         /// <summary>
         ///     Button 9 Usage.
         /// </summary>
         [Description("Button 9")]
-        Button9 = 0x00090009,
+        Button9 = 0x0009000a,
 
         /// <summary>
         ///     Button 10 Usage.
         /// </summary>
         [Description("Button 10")]
-        Button10 = 0x0009000a,
+        Button10 = 0x0009000b,
 
         /// <summary>
         ///     Button 11 Usage.
         /// </summary>
         [Description("Button 11")]
-        Button11 = 0x0009000b,
+        Button11 = 0x0009000c,
 
         /// <summary>
         ///     Button 12 Usage.
         /// </summary>
         [Description("Button 12")]
-        Button12 = 0x0009000c,
+        Button12 = 0x0009000d,
 
         /// <summary>
         ///     Button 13 Usage.
         /// </summary>
         [Description("Button 13")]
-        Button13 = 0x0009000d,
+        Button13 = 0x0009000e,
 
         /// <summary>
         ///     Button 14 Usage.
         /// </summary>
         [Description("Button 14")]
-        Button14 = 0x0009000e,
+        Button14 = 0x0009000f,
 
         /// <summary>
         ///     Button 15 Usage.
         /// </summary>
         [Description("Button 15")]
-        Button15 = 0x0009000f,
-
-        /// <summary>
-        ///     Button 16 Usage.
-        /// </summary>
-        [Description("Button 16")]
-        Button16 = 0x00090010
+        Button15 = 0x00090010
     }
 
     /// <summary>
@@ -3716,104 +3703,104 @@ namespace DevDecoder.HIDDevices.Usages
 
         /*
          * Range: 0x0001 -> 0xffff
-         * Instance {n+1}
+         * Instance {n}
          */
+
+        /// <summary>
+        ///     Instance 0 Usage.
+        /// </summary>
+        [Description("Instance 0")]
+        Instance0 = 0x000a0001,
 
         /// <summary>
         ///     Instance 1 Usage.
         /// </summary>
         [Description("Instance 1")]
-        Instance1 = 0x000a0001,
+        Instance1 = 0x000a0002,
 
         /// <summary>
         ///     Instance 2 Usage.
         /// </summary>
         [Description("Instance 2")]
-        Instance2 = 0x000a0002,
+        Instance2 = 0x000a0003,
 
         /// <summary>
         ///     Instance 3 Usage.
         /// </summary>
         [Description("Instance 3")]
-        Instance3 = 0x000a0003,
+        Instance3 = 0x000a0004,
 
         /// <summary>
         ///     Instance 4 Usage.
         /// </summary>
         [Description("Instance 4")]
-        Instance4 = 0x000a0004,
+        Instance4 = 0x000a0005,
 
         /// <summary>
         ///     Instance 5 Usage.
         /// </summary>
         [Description("Instance 5")]
-        Instance5 = 0x000a0005,
+        Instance5 = 0x000a0006,
 
         /// <summary>
         ///     Instance 6 Usage.
         /// </summary>
         [Description("Instance 6")]
-        Instance6 = 0x000a0006,
+        Instance6 = 0x000a0007,
 
         /// <summary>
         ///     Instance 7 Usage.
         /// </summary>
         [Description("Instance 7")]
-        Instance7 = 0x000a0007,
+        Instance7 = 0x000a0008,
 
         /// <summary>
         ///     Instance 8 Usage.
         /// </summary>
         [Description("Instance 8")]
-        Instance8 = 0x000a0008,
+        Instance8 = 0x000a0009,
 
         /// <summary>
         ///     Instance 9 Usage.
         /// </summary>
         [Description("Instance 9")]
-        Instance9 = 0x000a0009,
+        Instance9 = 0x000a000a,
 
         /// <summary>
         ///     Instance 10 Usage.
         /// </summary>
         [Description("Instance 10")]
-        Instance10 = 0x000a000a,
+        Instance10 = 0x000a000b,
 
         /// <summary>
         ///     Instance 11 Usage.
         /// </summary>
         [Description("Instance 11")]
-        Instance11 = 0x000a000b,
+        Instance11 = 0x000a000c,
 
         /// <summary>
         ///     Instance 12 Usage.
         /// </summary>
         [Description("Instance 12")]
-        Instance12 = 0x000a000c,
+        Instance12 = 0x000a000d,
 
         /// <summary>
         ///     Instance 13 Usage.
         /// </summary>
         [Description("Instance 13")]
-        Instance13 = 0x000a000d,
+        Instance13 = 0x000a000e,
 
         /// <summary>
         ///     Instance 14 Usage.
         /// </summary>
         [Description("Instance 14")]
-        Instance14 = 0x000a000e,
+        Instance14 = 0x000a000f,
 
         /// <summary>
         ///     Instance 15 Usage.
         /// </summary>
         [Description("Instance 15")]
-        Instance15 = 0x000a000f,
-
-        /// <summary>
-        ///     Instance 16 Usage.
-        /// </summary>
-        [Description("Instance 16")]
-        Instance16 = 0x000a0010
+        Instance15 = 0x000a0010
     }
 
     /// <summary>
@@ -5191,10 +5178,10 @@ namespace DevDecoder.HIDDevices.Usages
         InvokeCaptureInterface = 0x000c00d0,
 
         /// <summary>
-        ///     Start/Stop Game Recording Usage.
+        ///     Start or Stop Game Recording Usage.
         /// </summary>
-        [Description("Start/Stop Game Recording")]
-        StartStopGameRecording = 0x000c00d1,
+        [Description("Start or Stop Game Recording")]
+        StartOrStopGameRecording = 0x000c00d1,
 
         /// <summary>
         ///     Historical Game Capture Usage.
@@ -5209,16 +5196,16 @@ namespace DevDecoder.HIDDevices.Usages
         CaptureGameScreenshot = 0x000c00d3,
 
         /// <summary>
-        ///     Show/Hide Recording Indicator Usage.
+        ///     Show or Hide Recording Indicator Usage.
         /// </summary>
-        [Description("Show/Hide Recording Indicator")]
-        ShowHideRecordingIndicator = 0x000c00d4,
+        [Description("Show or Hide Recording Indicator")]
+        ShowOrHideRecordingIndicator = 0x000c00d4,
 
         /// <summary>
-        ///     Start/Stop Microphone Capture Usage.
+        ///     Start or Stop Microphone Capture Usage.
         /// </summary>
-        [Description("Start/Stop Microphone Capture")]
-        StartStopMicrophoneCapture = 0x000c00d5,
+        [Description("Start or Stop Microphone Capture")]
+        StartOrStopMicrophoneCapture = 0x000c00d5,
 
         /// <summary>
         ///     Start or Stop Camera Capture Usage.
@@ -5227,10 +5214,16 @@ namespace DevDecoder.HIDDevices.Usages
         StartOrStopCameraCapture = 0x000c00d6,
 
         /// <summary>
-        ///     Start/Stop Game Broadcast Usage.
+        ///     Start or Stop Game Broadcast Usage.
         /// </summary>
-        [Description("Start/Stop Game Broadcast")]
-        StartStopGameBroadcast = 0x000c00d7,
+        [Description("Start or Stop Game Broadcast")]
+        StartOrStopGameBroadcast = 0x000c00d7,
+
+        /// <summary>
+        ///     Start or Stop Voice Dictation Session Usage.
+        /// </summary>
+        [Description("Start or Stop Voice Dictation Session")]
+        StartOrStopVoiceDictationSession = 0x000c00d8,
 
         /// <summary>
         ///     Volume Usage.
@@ -5977,10 +5970,22 @@ namespace DevDecoder.HIDDevices.Usages
         ALAudioPlayer = 0x000c01c7,
 
         /// <summary>
+        ///     AL Message Status Usage.
+        /// </summary>
+        [Description("AL Message Status")]
+        ALMessageStatus = 0x000c01c8,
+
+        /// <summary>
+        ///     AL Contact Sync Usage.
+        /// </summary>
+        [Description("AL Contact Sync")]
+        ALContactSync = 0x000c01c9,
+
+        /// <summary>
         ///     AL Navigation Usage.
         /// </summary>
         [Description("AL Navigation")]
-        ALNavigation = 0x000c01c8,
+        ALNavigation = 0x000c01ca,
 
         /// <summary>
         ///     AL Context-aware desktop assistant Usage.
@@ -6853,10 +6858,28 @@ namespace DevDecoder.HIDDevices.Usages
         ACDesktopShowAllWindows = 0x000c029f,
 
         /// <summary>
+        ///     AC Soft Key Left Usage.
+        /// </summary>
+        [Description("AC Soft Key Left")]
+        ACSoftKeyLeft = 0x000c02a0,
+
+        /// <summary>
+        ///     AC Soft Key Right Usage.
+        /// </summary>
+        [Description("AC Soft Key Right")]
+        ACSoftKeyRight = 0x000c02a1,
+
+        /// <summary>
         ///     AC Desktop Show All Applications Usage.
         /// </summary>
         [Description("AC Desktop Show All Applications")]
-        ACDesktopShowAllApplications = 0x000c02a0,
+        ACDesktopShowAllApplications = 0x000c02a2,
+
+        /// <summary>
+        ///     AC Idle Keep Alive Usage.
+        /// </summary>
+        [Description("AC Idle Keep Alive")]
+        ACIdleKeepAlive = 0x000c02b0,
 
         /// <summary>
         ///     Extended Keyboard Attributes Collection Usage.
@@ -6964,7 +6987,133 @@ namespace DevDecoder.HIDDevices.Usages
         ///     Privacy Screen Level Maximum Usage.
         /// </summary>
         [Description("Privacy Screen Level Maximum")]
-        PrivacyScreenLevelMaximum = 0x000c02d4
+        PrivacyScreenLevelMaximum = 0x000c02d4,
+
+        /// <summary>
+        ///     Contact Edited Usage.
+        /// </summary>
+        [Description("Contact Edited")]
+        ContactEdited = 0x000c0500,
+
+        /// <summary>
+        ///     Contact Added Usage.
+        /// </summary>
+        [Description("Contact Added")]
+        ContactAdded = 0x000c0501,
+
+        /// <summary>
+        ///     Contact Record Active Usage.
+        /// </summary>
+        [Description("Contact Record Active")]
+        ContactRecordActive = 0x000c0502,
+
+        /// <summary>
+        ///     Contact Index Usage.
+        /// </summary>
+        [Description("Contact Index")]
+        ContactIndex = 0x000c0503,
+
+        /// <summary>
+        ///     Contact Nickname Usage.
+        /// </summary>
+        [Description("Contact Nickname")]
+        ContactNickname = 0x000c0504,
+
+        /// <summary>
+        ///     Contact First Name Usage.
+        /// </summary>
+        [Description("Contact First Name")]
+        ContactFirstName = 0x000c0505,
+
+        /// <summary>
+        ///     Contact Last Name Usage.
+        /// </summary>
+        [Description("Contact Last Name")]
+        ContactLastName = 0x000c0506,
+
+        /// <summary>
+        ///     Contact Full Name Usage.
+        /// </summary>
+        [Description("Contact Full Name")]
+        ContactFullName = 0x000c0507,
+
+        /// <summary>
+        ///     Contact Phone Number Personal Usage.
+        /// </summary>
+        [Description("Contact Phone Number Personal")]
+        ContactPhoneNumberPersonal = 0x000c0508,
+
+        /// <summary>
+        ///     Contact Phone Number Business Usage.
+        /// </summary>
+        [Description("Contact Phone Number Business")]
+        ContactPhoneNumberBusiness = 0x000c0509,
+
+        /// <summary>
+        ///     Contact Phone Number Mobile Usage.
+        /// </summary>
+        [Description("Contact Phone Number Mobile")]
+        ContactPhoneNumberMobile = 0x000c050a,
+
+        /// <summary>
+        ///     Contact Phone Number Pager Usage.
+        /// </summary>
+        [Description("Contact Phone Number Pager")]
+        ContactPhoneNumberPager = 0x000c050b,
+
+        /// <summary>
+        ///     Contact Phone Number Fax Usage.
+        /// </summary>
+        [Description("Contact Phone Number Fax")]
+        ContactPhoneNumberFax = 0x000c050c,
+
+        /// <summary>
+        ///     Contact Phone Number Other Usage.
+        /// </summary>
+        [Description("Contact Phone Number Other")]
+        ContactPhoneNumberOther = 0x000c050d,
+
+        /// <summary>
+        ///     Contact Email Personal Usage.
+        /// </summary>
+        [Description("Contact Email Personal")]
+        ContactEmailPersonal = 0x000c050e,
+
+        /// <summary>
+        ///     Contact Email Business Usage.
+        /// </summary>
+        [Description("Contact Email Business")]
+        ContactEmailBusiness = 0x000c050f,
+
+        /// <summary>
+        ///     Contact Email Other Usage.
+        /// </summary>
+        [Description("Contact Email Other")]
+        ContactEmailOther = 0x000c0510,
+
+        /// <summary>
+        ///     Contact Email Main Usage.
+        /// </summary>
+        [Description("Contact Email Main")]
+        ContactEmailMain = 0x000c0511,
+
+        /// <summary>
+        ///     Contact Speed Dial Number Usage.
+        /// </summary>
+        [Description("Contact Speed Dial Number")]
+        ContactSpeedDialNumber = 0x000c0512,
+
+        /// <summary>
+        ///     Contact Status Flag Usage.
+        /// </summary>
+        [Description("Contact Status Flag")]
+        ContactStatusFlag = 0x000c0513,
+
+        /// <summary>
+        ///     Contact Misc. Usage.
+        /// </summary>
+        [Description("Contact Misc.")]
+        ContactMisc = 0x000c0514
     }
 
     /// <summary>
@@ -7590,43 +7739,43 @@ namespace DevDecoder.HIDDevices.Usages
         ///     WAVEFORM_NONE Usage.
         /// </summary>
         [Description("WAVEFORM_NONE")]
-        WAVEFORM_NONE = 0x000e1001,
+        WAVEFORM_NONE = 0x000e1000,
 
         /// <summary>
         ///     WAVEFORM_STOP Usage.
         /// </summary>
         [Description("WAVEFORM_STOP")]
-        WAVEFORM_STOP = 0x000e1002,
+        WAVEFORM_STOP = 0x000e1000,
 
         /// <summary>
         ///     WAVEFORM_CLICK Usage.
         /// </summary>
         [Description("WAVEFORM_CLICK")]
-        WAVEFORM_CLICK = 0x000e1003,
+        WAVEFORM_CLICK = 0x000e1000,
 
         /// <summary>
         ///     WAVEFORM_BUZZ_CONTINUOUS Usage.
         /// </summary>
         [Description("WAVEFORM_BUZZ_CONTINUOUS")]
-        WAVEFORM_BUZZ_CONTINUOUS = 0x000e1004,
+        WAVEFORM_BUZZ_CONTINUOUS = 0x000e1000,
 
         /// <summary>
         ///     WAVEFORM_RUMBLE_CONTINUOUS Usage.
         /// </summary>
         [Description("WAVEFORM_RUMBLE_CONTINUOUS")]
-        WAVEFORM_RUMBLE_CONTINUOUS = 0x000e1005,
+        WAVEFORM_RUMBLE_CONTINUOUS = 0x000e1000,
 
         /// <summary>
         ///     WAVEFORM_PRESS Usage.
         /// </summary>
         [Description("WAVEFORM_PRESS")]
-        WAVEFORM_PRESS = 0x000e1006,
+        WAVEFORM_PRESS = 0x000e1000,
 
         /// <summary>
         ///     WAVEFORM_RELEASE Usage.
         /// </summary>
         [Description("WAVEFORM_RELEASE")]
-        WAVEFORM_RELEASE = 0x000e1007
+        WAVEFORM_RELEASE = 0x000e1000
     }
 
     /// <summary>
@@ -8926,7 +9075,43 @@ namespace DevDecoder.HIDDevices.Usages
         ///     Soft Button Report Usage.
         /// </summary>
         [Description("Soft Button Report")]
-        SoftButtonReport = 0x00140095
+        SoftButtonReport = 0x00140095,
+
+        /// <summary>
+        ///     Soft Keys Usage.
+        /// </summary>
+        [Description("Soft Keys")]
+        SoftKeys = 0x001400c2,
+
+        /// <summary>
+        ///     Display Data Extensions Usage.
+        /// </summary>
+        [Description("Display Data Extensions")]
+        DisplayDataExtensions = 0x001400cc,
+
+        /// <summary>
+        ///     Character Mapping Usage.
+        /// </summary>
+        [Description("Character Mapping")]
+        CharacterMapping = 0x001400cf,
+
+        /// <summary>
+        ///     Unicode Equivalent Usage.
+        /// </summary>
+        [Description("Unicode Equivalent")]
+        UnicodeEquivalent = 0x001400dd,
+
+        /// <summary>
+        ///     Character Page Mapping Usage.
+        /// </summary>
+        [Description("Character Page Mapping")]
+        CharacterPageMapping = 0x001400df,
+
+        /// <summary>
+        ///     Request Report Usage.
+        /// </summary>
+        [Description("Request Report")]
+        RequestReport = 0x001400ff
     }
 
     /// <summary>
@@ -14508,10 +14693,10 @@ namespace DevDecoder.HIDDevices.Usages
         IntensityUpdateChannel = 0x00590054,
 
         /// <summary>
-        ///     Lamp Update Complete Usage.
+        ///     Lamp Update Flags Usage.
         /// </summary>
-        [Description("Lamp Update Complete")]
-        LampUpdateComplete = 0x00590055,
+        [Description("Lamp Update Flags")]
+        LampUpdateFlags = 0x00590055,
 
         /// <summary>
         ///     Lamp Range Update Report Usage.
@@ -14547,97 +14732,97 @@ namespace DevDecoder.HIDDevices.Usages
         ///     Lamp Array Kind Keyboard Usage.
         /// </summary>
         [Description("Lamp Array Kind Keyboard")]
-        LampArrayKindKeyboard = 0x00590101,
+        LampArrayKindKeyboard = 0x00591000,
 
         /// <summary>
         ///     Lamp Array Kind Mouse Usage.
         /// </summary>
         [Description("Lamp Array Kind Mouse")]
-        LampArrayKindMouse = 0x00590102,
+        LampArrayKindMouse = 0x00591000,
 
         /// <summary>
         ///     Lamp Array Kind Game Controller Usage.
         /// </summary>
         [Description("Lamp Array Kind Game Controller")]
-        LampArrayKindGameController = 0x00590103,
+        LampArrayKindGameController = 0x00591000,
 
         /// <summary>
         ///     Lamp Array Kind Peripheral Usage.
         /// </summary>
         [Description("Lamp Array Kind Peripheral")]
-        LampArrayKindPeripheral = 0x00590104,
+        LampArrayKindPeripheral = 0x00591000,
 
         /// <summary>
         ///     Lamp Array Kind Scene Usage.
         /// </summary>
         [Description("Lamp Array Kind Scene")]
-        LampArrayKindScene = 0x00590105,
+        LampArrayKindScene = 0x00591000,
 
         /// <summary>
         ///     Lamp Array Kind Notification Usage.
         /// </summary>
         [Description("Lamp Array Kind Notification")]
-        LampArrayKindNotification = 0x00590106,
+        LampArrayKindNotification = 0x00591000,
 
         /// <summary>
         ///     Lamp Array Kind Chassis Usage.
         /// </summary>
         [Description("Lamp Array Kind Chassis")]
-        LampArrayKindChassis = 0x00590107,
+        LampArrayKindChassis = 0x00591000,
 
         /// <summary>
         ///     Lamp Array Kind Wearable Usage.
         /// </summary>
         [Description("Lamp Array Kind Wearable")]
-        LampArrayKindWearable = 0x00590108,
+        LampArrayKindWearable = 0x00591000,
 
         /// <summary>
         ///     Lamp Array Kind Furniture Usage.
         /// </summary>
         [Description("Lamp Array Kind Furniture")]
-        LampArrayKindFurniture = 0x00590109,
+        LampArrayKindFurniture = 0x00591000,
 
         /// <summary>
         ///     Lamp Array Kind Art Usage.
         /// </summary>
         [Description("Lamp Array Kind Art")]
-        LampArrayKindArt = 0x0059010a,
+        LampArrayKindArt = 0x00591000,
 
         /// <summary>
         ///     Lamp Purpose Control Usage.
         /// </summary>
         [Description("Lamp Purpose Control")]
-        LampPurposeControl = 0x00590201,
+        LampPurposeControl = 0x00592000,
 
         /// <summary>
         ///     Lamp Purpose Accent Usage.
         /// </summary>
         [Description("Lamp Purpose Accent")]
-        LampPurposeAccent = 0x00590202,
+        LampPurposeAccent = 0x00592000,
 
         /// <summary>
         ///     Lamp Purpose Branding Usage.
         /// </summary>
         [Description("Lamp Purpose Branding")]
-        LampPurposeBranding = 0x00590203,
+        LampPurposeBranding = 0x00592000,
 
         /// <summary>
         ///     Lamp Purpose Status Usage.
         /// </summary>
         [Description("Lamp Purpose Status")]
-        LampPurposeStatus = 0x00590204,
+        LampPurposeStatus = 0x00592000,
 
         /// <summary>
         ///     Lamp Purpose Illumination Usage.
         /// </summary>
         [Description("Lamp Purpose Illumination")]
-        LampPurposeIllumination = 0x00590205,
+        LampPurposeIllumination = 0x00592000,
 
         /// <summary>
         ///     Lamp Purpose Presentation Usage.
         /// </summary>
         [Description("Lamp Purpose Presentation")]
-        LampPurposePresentation = 0x00590206
+        LampPurposePresentation = 0x00592000
     }
 
     /// <summary>
@@ -14665,106 +14850,112 @@ namespace DevDecoder.HIDDevices.Usages
     [Description("Monitor Enumerated Values Usage Page")]
     public enum MonitorEnumeratedValuesPage : uint
     {
+        /// <summary>
+        ///     Undefined Usage.
+        /// </summary>
+        [Description("Undefined")]
+        Undefined = 0x00810000,
+
         /*
-         * Range: 0x0000 -> 0xffff
-         * ENUM_{id}
+         * Range: 0x0001 -> 0xffff
+         * ENUM_{n}
          */
 
         /// <summary>
         ///     ENUM_0 Usage.
         /// </summary>
         [Description("ENUM_0")]
-        ENUM_0 = 0x00810000,
+        ENUM_0 = 0x00810001,
 
         /// <summary>
         ///     ENUM_1 Usage.
         /// </summary>
         [Description("ENUM_1")]
-        ENUM_1 = 0x00810001,
+        ENUM_1 = 0x00810002,
 
         /// <summary>
         ///     ENUM_2 Usage.
         /// </summary>
         [Description("ENUM_2")]
-        ENUM_2 = 0x00810002,
+        ENUM_2 = 0x00810003,
 
         /// <summary>
         ///     ENUM_3 Usage.
         /// </summary>
         [Description("ENUM_3")]
-        ENUM_3 = 0x00810003,
+        ENUM_3 = 0x00810004,
 
         /// <summary>
         ///     ENUM_4 Usage.
         /// </summary>
         [Description("ENUM_4")]
-        ENUM_4 = 0x00810004,
+        ENUM_4 = 0x00810005,
 
         /// <summary>
         ///     ENUM_5 Usage.
         /// </summary>
         [Description("ENUM_5")]
-        ENUM_5 = 0x00810005,
+        ENUM_5 = 0x00810006,
 
         /// <summary>
         ///     ENUM_6 Usage.
         /// </summary>
         [Description("ENUM_6")]
-        ENUM_6 = 0x00810006,
+        ENUM_6 = 0x00810007,
 
         /// <summary>
         ///     ENUM_7 Usage.
         /// </summary>
         [Description("ENUM_7")]
-        ENUM_7 = 0x00810007,
+        ENUM_7 = 0x00810008,
 
         /// <summary>
         ///     ENUM_8 Usage.
         /// </summary>
         [Description("ENUM_8")]
-        ENUM_8 = 0x00810008,
+        ENUM_8 = 0x00810009,
 
         /// <summary>
         ///     ENUM_9 Usage.
         /// </summary>
         [Description("ENUM_9")]
-        ENUM_9 = 0x00810009,
+        ENUM_9 = 0x0081000a,
 
         /// <summary>
         ///     ENUM_10 Usage.
         /// </summary>
         [Description("ENUM_10")]
-        ENUM_10 = 0x0081000a,
+        ENUM_10 = 0x0081000b,
 
         /// <summary>
         ///     ENUM_11 Usage.
         /// </summary>
         [Description("ENUM_11")]
-        ENUM_11 = 0x0081000b,
+        ENUM_11 = 0x0081000c,
 
         /// <summary>
         ///     ENUM_12 Usage.
         /// </summary>
         [Description("ENUM_12")]
-        ENUM_12 = 0x0081000c,
+        ENUM_12 = 0x0081000d,
 
         /// <summary>
         ///     ENUM_13 Usage.
         /// </summary>
         [Description("ENUM_13")]
-        ENUM_13 = 0x0081000d,
+        ENUM_13 = 0x0081000e,
 
         /// <summary>
         ///     ENUM_14 Usage.
         /// </summary>
         [Description("ENUM_14")]
-        ENUM_14 = 0x0081000e,
+        ENUM_14 = 0x0081000f,
 
         /// <summary>
         ///     ENUM_15 Usage.
         /// </summary>
         [Description("ENUM_15")]
-        ENUM_15 = 0x0081000f
+        ENUM_15 = 0x00810010
     }
 
     /// <summary>
@@ -14780,274 +14971,274 @@ namespace DevDecoder.HIDDevices.Usages
         Undefined = 0x00820000,
 
         /// <summary>
-        ///      Usage.
+        ///     Degauss Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_ = 0x00820001,
+        [Description("Degauss")]
+        Degauss = 0x00820001,
 
         /// <summary>
-        ///      Usage.
+        ///     Brightness Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_2 = 0x00820010,
+        [Description("Brightness")]
+        Brightness = 0x00820010,
 
         /// <summary>
-        ///      Usage.
+        ///     Contrast Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_3 = 0x00820012,
+        [Description("Contrast")]
+        Contrast = 0x00820012,
 
         /// <summary>
-        ///      Usage.
+        ///     Red Video Gain Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_4 = 0x00820016,
+        [Description("Red Video Gain")]
+        RedVideoGain = 0x00820016,
 
         /// <summary>
-        ///      Usage.
+        ///     Green Video Gain Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_5 = 0x00820018,
+        [Description("Green Video Gain")]
+        GreenVideoGain = 0x00820018,
 
         /// <summary>
-        ///      Usage.
+        ///     Blue Video Gain Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_6 = 0x0082001a,
+        [Description("Blue Video Gain")]
+        BlueVideoGain = 0x0082001a,
 
         /// <summary>
-        ///      Usage.
+        ///     Focus Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_7 = 0x0082001c,
+        [Description("Focus")]
+        Focus = 0x0082001c,
 
         /// <summary>
-        ///      Usage.
+        ///     Horizontal Position Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_8 = 0x00820020,
+        [Description("Horizontal Position")]
+        HorizontalPosition = 0x00820020,
 
         /// <summary>
-        ///      Usage.
+        ///     Horizontal Size Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_9 = 0x00820022,
+        [Description("Horizontal Size")]
+        HorizontalSize = 0x00820022,
 
         /// <summary>
-        ///      Usage.
+        ///     Horizontal Pincushion Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_10 = 0x00820024,
+        [Description("Horizontal Pincushion")]
+        HorizontalPincushion = 0x00820024,
 
         /// <summary>
-        ///      Usage.
+        ///     Horizontal Pincushion Balance Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_11 = 0x00820026,
+        [Description("Horizontal Pincushion Balance")]
+        HorizontalPincushionBalance = 0x00820026,
 
         /// <summary>
-        ///      Usage.
+        ///     Horizontal Misconvergence Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_12 = 0x00820028,
+        [Description("Horizontal Misconvergence")]
+        HorizontalMisconvergence = 0x00820028,
 
         /// <summary>
-        ///      Usage.
+        ///     Horizontal Linearity Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_13 = 0x0082002a,
+        [Description("Horizontal Linearity")]
+        HorizontalLinearity = 0x0082002a,
 
         /// <summary>
-        ///      Usage.
+        ///     Horizontal Linearity Balance Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_14 = 0x0082002c,
+        [Description("Horizontal Linearity Balance")]
+        HorizontalLinearityBalance = 0x0082002c,
 
         /// <summary>
-        ///      Usage.
+        ///     Vertical Position Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_15 = 0x00820030,
+        [Description("Vertical Position")]
+        VerticalPosition = 0x00820030,
 
         /// <summary>
-        ///      Usage.
+        ///     Vertical Size Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_16 = 0x00820032,
+        [Description("Vertical Size")]
+        VerticalSize = 0x00820032,
 
         /// <summary>
-        ///      Usage.
+        ///     Vertical Pincushion Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_17 = 0x00820034,
+        [Description("Vertical Pincushion")]
+        VerticalPincushion = 0x00820034,
 
         /// <summary>
-        ///      Usage.
+        ///     Vertical Pincushion Balance Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_18 = 0x00820036,
+        [Description("Vertical Pincushion Balance")]
+        VerticalPincushionBalance = 0x00820036,
 
         /// <summary>
-        ///      Usage.
+        ///     Vertical Misconvergence Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_19 = 0x00820038,
+        [Description("Vertical Misconvergence")]
+        VerticalMisconvergence = 0x00820038,
 
         /// <summary>
-        ///      Usage.
+        ///     Vertical Linearity Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_20 = 0x0082003a,
+        [Description("Vertical Linearity")]
+        VerticalLinearity = 0x0082003a,
 
         /// <summary>
-        ///      Usage.
+        ///     Vertical Linearity Balance Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_21 = 0x0082003c,
+        [Description("Vertical Linearity Balance")]
+        VerticalLinearityBalance = 0x0082003c,
 
         /// <summary>
-        ///      Usage.
+        ///     Parallelogram Distortion (Key Balance) Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_22 = 0x00820040,
+        [Description("Parallelogram Distortion (Key Balance)")]
+        ParallelogramDistortionKeyBalance = 0x00820040,
 
         /// <summary>
-        ///      Usage.
+        ///     Trapezoidal Distortion (Key) Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_23 = 0x00820042,
+        [Description("Trapezoidal Distortion (Key)")]
+        TrapezoidalDistortionKey = 0x00820042,
 
         /// <summary>
-        ///      Usage.
+        ///     Tilt (Rotation) Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_24 = 0x00820044,
+        [Description("Tilt (Rotation)")]
+        TiltRotation = 0x00820044,
 
         /// <summary>
-        ///      Usage.
+        ///     Top Corner Distortion Control Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_25 = 0x00820046,
+        [Description("Top Corner Distortion Control")]
+        TopCornerDistortionControl = 0x00820046,
 
         /// <summary>
-        ///      Usage.
+        ///     Top Corner Distortion Balance Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_26 = 0x00820048,
+        [Description("Top Corner Distortion Balance")]
+        TopCornerDistortionBalance = 0x00820048,
 
         /// <summary>
-        ///      Usage.
+        ///     Bottom Corner Distortion Control Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_27 = 0x0082004a,
+        [Description("Bottom Corner Distortion Control")]
+        BottomCornerDistortionControl = 0x0082004a,
 
         /// <summary>
-        ///      Usage.
+        ///     Bottom Corner Distortion Balance Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_28 = 0x0082004c,
+        [Description("Bottom Corner Distortion Balance")]
+        BottomCornerDistortionBalance = 0x0082004c,
 
         /// <summary>
-        ///      Usage.
+        ///     Horizontal Moire Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_29 = 0x00820056,
+        [Description("Horizontal Moire")]
+        HorizontalMoire = 0x00820056,
 
         /// <summary>
-        ///      Usage.
+        ///     Vertical Moire Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_30 = 0x00820058,
+        [Description("Vertical Moire")]
+        VerticalMoire = 0x00820058,
 
         /// <summary>
-        ///      Usage.
+        ///     Input Level Select Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_31 = 0x0082005e,
+        [Description("Input Level Select")]
+        InputLevelSelect = 0x0082005e,
 
         /// <summary>
-        ///      Usage.
+        ///     Input Source Select Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_32 = 0x00820060,
+        [Description("Input Source Select")]
+        InputSourceSelect = 0x00820060,
 
         /// <summary>
-        ///      Usage.
+        ///     Red Video Black Level Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_33 = 0x0082006c,
+        [Description("Red Video Black Level")]
+        RedVideoBlackLevel = 0x0082006c,
 
         /// <summary>
-        ///      Usage.
+        ///     Green Video Black Level Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_34 = 0x0082006e,
+        [Description("Green Video Black Level")]
+        GreenVideoBlackLevel = 0x0082006e,
 
         /// <summary>
-        ///      Usage.
+        ///     Blue Video Black Level Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_35 = 0x00820070,
+        [Description("Blue Video Black Level")]
+        BlueVideoBlackLevel = 0x00820070,
 
         /// <summary>
-        ///      Usage.
+        ///     Auto Size Center Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_36 = 0x008200a2,
+        [Description("Auto Size Center")]
+        AutoSizeCenter = 0x008200a2,
 
         /// <summary>
-        ///      Usage.
+        ///     Polarity Horizontal Synchronization Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_37 = 0x008200a4,
+        [Description("Polarity Horizontal Synchronization")]
+        PolarityHorizontalSynchronization = 0x008200a4,
 
         /// <summary>
-        ///      Usage.
+        ///     Polarity Vertical Synchronization Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_38 = 0x008200a6,
+        [Description("Polarity Vertical Synchronization")]
+        PolarityVerticalSynchronization = 0x008200a6,
 
         /// <summary>
-        ///      Usage.
+        ///     Synchronization Type Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_39 = 0x008200a8,
+        [Description("Synchronization Type")]
+        SynchronizationType = 0x008200a8,
 
         /// <summary>
-        ///      Usage.
+        ///     Screen Orientation Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_40 = 0x008200aa,
+        [Description("Screen Orientation")]
+        ScreenOrientation = 0x008200aa,
 
         /// <summary>
-        ///      Usage.
+        ///     Horizontal Frequency Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_41 = 0x008200ac,
+        [Description("Horizontal Frequency")]
+        HorizontalFrequency = 0x008200ac,
 
         /// <summary>
-        ///      Usage.
+        ///     Vertical Frequency Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_42 = 0x008200ae,
+        [Description("Vertical Frequency")]
+        VerticalFrequency = 0x008200ae,
 
         /// <summary>
-        ///      Usage.
+        ///     Settings Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_43 = 0x008200b0,
+        [Description("Settings")]
+        Settings = 0x008200b0,
 
         /// <summary>
-        ///      Usage.
+        ///     On Screen Display Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_44 = 0x008200ca,
+        [Description("On Screen Display")]
+        OnScreenDisplay = 0x008200ca,
 
         /// <summary>
-        ///      Usage.
+        ///     StereoMode Usage.
         /// </summary>
-        [Description("")]
-        VESAVirtual_45 = 0x008200d4
+        [Description("StereoMode")]
+        StereoMode = 0x008200d4
     }
 
     /// <summary>
@@ -17915,7 +18106,6 @@ namespace DevDecoder.HIDDevices
         private static ConcurrentDictionary<ushort, UsagePage> s_pages =
                 new ConcurrentDictionary<ushort, UsagePage>
                 {
-                    [0x0000] = UndefinedUsagePage.Instance,
                     [0x0001] = GenericDesktopUsagePage.Instance,
                     [0x0002] = SimulationUsagePage.Instance,
                     [0x0003] = VRUsagePage.Instance,
@@ -17952,11 +18142,6 @@ namespace DevDecoder.HIDDevices
                     [0x0091] = ArcadeUsagePage.Instance,
                     [0xf1d0] = FastIDentityOnlineAllianceUsagePage.Instance
                 };
-
-        /// <summary>
-        ///     Undefined Usage Page.
-        /// </summary>
-        public static readonly UndefinedUsagePage Undefined = UndefinedUsagePage.Instance;
 
         /// <summary>
         ///     Generic Desktop Controls Usage Page.
@@ -18139,32 +18324,6 @@ namespace DevDecoder.HIDDevices
 namespace DevDecoder.HIDDevices.Pages
 {
     using DevDecoder.HIDDevices.Usages;
-
-    /// <summary>
-    ///     Base class for all usage pages.
-    /// </summary>
-    public sealed class UndefinedUsagePage : UsagePage
-    {
-        /// <summary>
-        ///     Singleton instance of Undefined Usage Page.
-        /// </summary>
-        public static readonly UndefinedUsagePage Instance = new UndefinedUsagePage();
-
-        private UndefinedUsagePage() : base(0x0000, "Undefined")
-        {
-        }
-
-        /// <inheritdoc />
-        protected override Usage CreateUsage(ushort id) 
-        {
-            switch (id)
-            {
-                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
-            }
-
-            return base.CreateUsage(id);
-        }
-    }
 
     /// <summary>
     ///     Base class for all usage pages.
@@ -18600,7 +18759,7 @@ namespace DevDecoder.HIDDevices.Pages
         {
             switch (id)
             {
-                case 0x0000: return new Usage(this, id, "None", UsageTypes.Sel);
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
                 case 0x0001: return new Usage(this, id, "ErrorRollOver", UsageTypes.Sel);
                 case 0x0002: return new Usage(this, id, "POSTFail", UsageTypes.Sel);
                 case 0x0003: return new Usage(this, id, "ErrorUndefined", UsageTypes.Sel);
@@ -18653,7 +18812,7 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x0032: return new Usage(this, id, "# ~", UsageTypes.Sel);
                 case 0x0033: return new Usage(this, id, "; :", UsageTypes.Sel);
                 case 0x0034: return new Usage(this, id, "' \"", UsageTypes.Sel);
-                case 0x0035: return new Usage(this, id, "` ´", UsageTypes.Sel);
+                case 0x0035: return new Usage(this, id, "` �", UsageTypes.Sel);
                 case 0x0036: return new Usage(this, id, ", <", UsageTypes.Sel);
                 case 0x0037: return new Usage(this, id, ". >", UsageTypes.Sel);
                 case 0x0038: return new Usage(this, id, "/ ?", UsageTypes.Sel);
@@ -18965,28 +19124,28 @@ namespace DevDecoder.HIDDevices.Pages
         {
             switch (id)
             {
-                case 0x0000: return new Usage(this, id, "No button pressed", UsageTypes.Sel);
-                case 0x0001: return new Usage(this, id, "Button 1", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
-                case 0x0002: return new Usage(this, id, "Button 2", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
-                case 0x0003: return new Usage(this, id, "Button 3", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
-                case 0x0004: return new Usage(this, id, "Button 4", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
-                case 0x0005: return new Usage(this, id, "Button 5", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
-                case 0x0006: return new Usage(this, id, "Button 6", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
-                case 0x0007: return new Usage(this, id, "Button 7", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
-                case 0x0008: return new Usage(this, id, "Button 8", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
-                case 0x0009: return new Usage(this, id, "Button 9", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
-                case 0x000a: return new Usage(this, id, "Button 10", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
-                case 0x000b: return new Usage(this, id, "Button 11", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
-                case 0x000c: return new Usage(this, id, "Button 12", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
-                case 0x000d: return new Usage(this, id, "Button 13", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
-                case 0x000e: return new Usage(this, id, "Button 14", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
-                case 0x000f: return new Usage(this, id, "Button 15", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
-                case 0x0010: return new Usage(this, id, "Button 16", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "Button 0", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x0002: return new Usage(this, id, "Button 1", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x0003: return new Usage(this, id, "Button 2", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x0004: return new Usage(this, id, "Button 3", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x0005: return new Usage(this, id, "Button 4", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x0006: return new Usage(this, id, "Button 5", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x0007: return new Usage(this, id, "Button 6", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x0008: return new Usage(this, id, "Button 7", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x0009: return new Usage(this, id, "Button 8", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x000a: return new Usage(this, id, "Button 9", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x000b: return new Usage(this, id, "Button 10", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x000c: return new Usage(this, id, "Button 11", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x000d: return new Usage(this, id, "Button 12", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x000e: return new Usage(this, id, "Button 13", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x000f: return new Usage(this, id, "Button 14", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+                case 0x0010: return new Usage(this, id, "Button 15", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
             }
 
             // Create dynamic usages from ranges
             var n = (ushort)(id-0x0001);
-            if (id >= 0x0001 || id < 0xffff) return new Usage(this, id, $"Button {n+1}", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
+            if (id >= 0x0001 || id < 0xffff) return new Usage(this, id, $"Button {n}", UsageTypes.Sel|UsageTypes.OOC|UsageTypes.MC|UsageTypes.OSC);
 
             return base.CreateUsage(id);
         }
@@ -19012,27 +19171,27 @@ namespace DevDecoder.HIDDevices.Pages
             switch (id)
             {
                 case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
-                case 0x0001: return new Usage(this, id, "Instance 1", UsageTypes.UM);
-                case 0x0002: return new Usage(this, id, "Instance 2", UsageTypes.UM);
-                case 0x0003: return new Usage(this, id, "Instance 3", UsageTypes.UM);
-                case 0x0004: return new Usage(this, id, "Instance 4", UsageTypes.UM);
-                case 0x0005: return new Usage(this, id, "Instance 5", UsageTypes.UM);
-                case 0x0006: return new Usage(this, id, "Instance 6", UsageTypes.UM);
-                case 0x0007: return new Usage(this, id, "Instance 7", UsageTypes.UM);
-                case 0x0008: return new Usage(this, id, "Instance 8", UsageTypes.UM);
-                case 0x0009: return new Usage(this, id, "Instance 9", UsageTypes.UM);
-                case 0x000a: return new Usage(this, id, "Instance 10", UsageTypes.UM);
-                case 0x000b: return new Usage(this, id, "Instance 11", UsageTypes.UM);
-                case 0x000c: return new Usage(this, id, "Instance 12", UsageTypes.UM);
-                case 0x000d: return new Usage(this, id, "Instance 13", UsageTypes.UM);
-                case 0x000e: return new Usage(this, id, "Instance 14", UsageTypes.UM);
-                case 0x000f: return new Usage(this, id, "Instance 15", UsageTypes.UM);
-                case 0x0010: return new Usage(this, id, "Instance 16", UsageTypes.UM);
+                case 0x0001: return new Usage(this, id, "Instance 0", UsageTypes.UM);
+                case 0x0002: return new Usage(this, id, "Instance 1", UsageTypes.UM);
+                case 0x0003: return new Usage(this, id, "Instance 2", UsageTypes.UM);
+                case 0x0004: return new Usage(this, id, "Instance 3", UsageTypes.UM);
+                case 0x0005: return new Usage(this, id, "Instance 4", UsageTypes.UM);
+                case 0x0006: return new Usage(this, id, "Instance 5", UsageTypes.UM);
+                case 0x0007: return new Usage(this, id, "Instance 6", UsageTypes.UM);
+                case 0x0008: return new Usage(this, id, "Instance 7", UsageTypes.UM);
+                case 0x0009: return new Usage(this, id, "Instance 8", UsageTypes.UM);
+                case 0x000a: return new Usage(this, id, "Instance 9", UsageTypes.UM);
+                case 0x000b: return new Usage(this, id, "Instance 10", UsageTypes.UM);
+                case 0x000c: return new Usage(this, id, "Instance 11", UsageTypes.UM);
+                case 0x000d: return new Usage(this, id, "Instance 12", UsageTypes.UM);
+                case 0x000e: return new Usage(this, id, "Instance 13", UsageTypes.UM);
+                case 0x000f: return new Usage(this, id, "Instance 14", UsageTypes.UM);
+                case 0x0010: return new Usage(this, id, "Instance 15", UsageTypes.UM);
             }
 
             // Create dynamic usages from ranges
             var n = (ushort)(id-0x0001);
-            if (id >= 0x0001 || id < 0xffff) return new Usage(this, id, $"Instance {n+1}", UsageTypes.UM);
+            if (id >= 0x0001 || id < 0xffff) return new Usage(this, id, $"Instance {n}", UsageTypes.UM);
 
             return base.CreateUsage(id);
         }
@@ -19308,13 +19467,14 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x00ce: return new Usage(this, id, "Play/Skip", UsageTypes.OSC);
                 case 0x00cf: return new Usage(this, id, "Voice Command", UsageTypes.OSC);
                 case 0x00d0: return new Usage(this, id, "Invoke Capture Interface", UsageTypes.OSC);
-                case 0x00d1: return new Usage(this, id, "Start/Stop Game Recording", UsageTypes.OSC);
+                case 0x00d1: return new Usage(this, id, "Start or Stop Game Recording", UsageTypes.OSC);
                 case 0x00d2: return new Usage(this, id, "Historical Game Capture", UsageTypes.OSC);
                 case 0x00d3: return new Usage(this, id, "Capture Game Screenshot", UsageTypes.OSC);
-                case 0x00d4: return new Usage(this, id, "Show/Hide Recording Indicator", UsageTypes.OSC);
-                case 0x00d5: return new Usage(this, id, "Start/Stop Microphone Capture", UsageTypes.OSC);
+                case 0x00d4: return new Usage(this, id, "Show or Hide Recording Indicator", UsageTypes.OSC);
+                case 0x00d5: return new Usage(this, id, "Start or Stop Microphone Capture", UsageTypes.OSC);
                 case 0x00d6: return new Usage(this, id, "Start or Stop Camera Capture", UsageTypes.OSC);
-                case 0x00d7: return new Usage(this, id, "Start/Stop Game Broadcast", UsageTypes.OSC);
+                case 0x00d7: return new Usage(this, id, "Start or Stop Game Broadcast", UsageTypes.OSC);
+                case 0x00d8: return new Usage(this, id, "Start or Stop Voice Dictation Session", UsageTypes.OOC);
                 case 0x00e0: return new Usage(this, id, "Volume", UsageTypes.LC);
                 case 0x00e1: return new Usage(this, id, "Balance", UsageTypes.LC);
                 case 0x00e2: return new Usage(this, id, "Mute", UsageTypes.OOC);
@@ -19439,7 +19599,9 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x01c5: return new Usage(this, id, "AL Online Activity Browser", UsageTypes.Sel);
                 case 0x01c6: return new Usage(this, id, "AL Research/Search Browser", UsageTypes.Sel);
                 case 0x01c7: return new Usage(this, id, "AL Audio Player", UsageTypes.Sel);
-                case 0x01c8: return new Usage(this, id, "AL Navigation", UsageTypes.Sel);
+                case 0x01c8: return new Usage(this, id, "AL Message Status", UsageTypes.Sel);
+                case 0x01c9: return new Usage(this, id, "AL Contact Sync", UsageTypes.Sel);
+                case 0x01ca: return new Usage(this, id, "AL Navigation", UsageTypes.Sel);
                 case 0x01cb: return new Usage(this, id, "AL Context-aware desktop assistant", UsageTypes.Sel);
                 case 0x0200: return new Usage(this, id, "Generic GUI Application Controls", UsageTypes.NAry);
                 case 0x0201: return new Usage(this, id, "AC New", UsageTypes.Sel);
@@ -19585,7 +19747,10 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x029d: return new Usage(this, id, "AC Next Keyboard Layout Select", UsageTypes.Sel);
                 case 0x029e: return new Usage(this, id, "AC Navigation Guidance", UsageTypes.Sel);
                 case 0x029f: return new Usage(this, id, "AC Desktop Show All Windows", UsageTypes.Sel);
-                case 0x02a0: return new Usage(this, id, "AC Desktop Show All Applications", UsageTypes.Sel);
+                case 0x02a0: return new Usage(this, id, "AC Soft Key Left", UsageTypes.Sel);
+                case 0x02a1: return new Usage(this, id, "AC Soft Key Right", UsageTypes.Sel);
+                case 0x02a2: return new Usage(this, id, "AC Desktop Show All Applications", UsageTypes.Sel);
+                case 0x02b0: return new Usage(this, id, "AC Idle Keep Alive", UsageTypes.Sel);
                 case 0x02c0: return new Usage(this, id, "Extended Keyboard Attributes Collection", UsageTypes.CL);
                 case 0x02c1: return new Usage(this, id, "Keyboard Form Factor", UsageTypes.SV);
                 case 0x02c2: return new Usage(this, id, "Keyboard Key Type", UsageTypes.SV);
@@ -19604,6 +19769,27 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x02d2: return new Usage(this, id, "Privacy Screen Level Increment", UsageTypes.RTC);
                 case 0x02d3: return new Usage(this, id, "Privacy Screen Level Minimum", UsageTypes.OSC);
                 case 0x02d4: return new Usage(this, id, "Privacy Screen Level Maximum", UsageTypes.OSC);
+                case 0x0500: return new Usage(this, id, "Contact Edited", UsageTypes.OOC);
+                case 0x0501: return new Usage(this, id, "Contact Added", UsageTypes.OOC);
+                case 0x0502: return new Usage(this, id, "Contact Record Active", UsageTypes.OOC);
+                case 0x0503: return new Usage(this, id, "Contact Index", UsageTypes.DV);
+                case 0x0504: return new Usage(this, id, "Contact Nickname", UsageTypes.DV);
+                case 0x0505: return new Usage(this, id, "Contact First Name", UsageTypes.DV);
+                case 0x0506: return new Usage(this, id, "Contact Last Name", UsageTypes.DV);
+                case 0x0507: return new Usage(this, id, "Contact Full Name", UsageTypes.DV);
+                case 0x0508: return new Usage(this, id, "Contact Phone Number Personal", UsageTypes.DV);
+                case 0x0509: return new Usage(this, id, "Contact Phone Number Business", UsageTypes.DV);
+                case 0x050a: return new Usage(this, id, "Contact Phone Number Mobile", UsageTypes.DV);
+                case 0x050b: return new Usage(this, id, "Contact Phone Number Pager", UsageTypes.DV);
+                case 0x050c: return new Usage(this, id, "Contact Phone Number Fax", UsageTypes.DV);
+                case 0x050d: return new Usage(this, id, "Contact Phone Number Other", UsageTypes.DV);
+                case 0x050e: return new Usage(this, id, "Contact Email Personal", UsageTypes.DV);
+                case 0x050f: return new Usage(this, id, "Contact Email Business", UsageTypes.DV);
+                case 0x0510: return new Usage(this, id, "Contact Email Other", UsageTypes.DV);
+                case 0x0511: return new Usage(this, id, "Contact Email Main", UsageTypes.DV);
+                case 0x0512: return new Usage(this, id, "Contact Speed Dial Number", UsageTypes.DV);
+                case 0x0513: return new Usage(this, id, "Contact Status Flag", UsageTypes.DV);
+                case 0x0514: return new Usage(this, id, "Contact Misc.", UsageTypes.DV);
             }
 
             return base.CreateUsage(id);
@@ -19755,13 +19941,7 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x0026: return new Usage(this, id, "Waveform Vendor Page", UsageTypes.SV);
                 case 0x0027: return new Usage(this, id, "Waveform Vendor ID", UsageTypes.SV);
                 case 0x0028: return new Usage(this, id, "Waveform Cutoff Time", UsageTypes.SV);
-                case 0x1001: return new Usage(this, id, "WAVEFORM_NONE", UsageTypes.Sel);
-                case 0x1002: return new Usage(this, id, "WAVEFORM_STOP", UsageTypes.Sel);
-                case 0x1003: return new Usage(this, id, "WAVEFORM_CLICK", UsageTypes.Sel);
-                case 0x1004: return new Usage(this, id, "WAVEFORM_BUZZ_CONTINUOUS", UsageTypes.Sel);
-                case 0x1005: return new Usage(this, id, "WAVEFORM_RUMBLE_CONTINUOUS", UsageTypes.Sel);
-                case 0x1006: return new Usage(this, id, "WAVEFORM_PRESS", UsageTypes.Sel);
-                case 0x1007: return new Usage(this, id, "WAVEFORM_RELEASE", UsageTypes.Sel);
+                case 0x1000: return new Usage(this, id, "WAVEFORM_NONE", UsageTypes.Sel);
             }
 
             return base.CreateUsage(id);
@@ -19869,7 +20049,7 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x008c: return new Usage(this, id, "Block Load Success", UsageTypes.Sel);
                 case 0x008d: return new Usage(this, id, "Block Load Full", UsageTypes.Sel);
                 case 0x008e: return new Usage(this, id, "Block Load Error", UsageTypes.Sel);
-                case 0x008f: return new Usage(this, id, "Block Handle", UsageTypes.None);
+                case 0x008f: return new Usage(this, id, "Block Handle", UsageTypes.DV);
                 case 0x0090: return new Usage(this, id, "PID Block Free Report", UsageTypes.CL);
                 case 0x0091: return new Usage(this, id, "Type Specific Block Handle", UsageTypes.CL);
                 case 0x0092: return new Usage(this, id, "PID State Report", UsageTypes.CL);
@@ -20074,6 +20254,12 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x0093: return new Usage(this, id, "Soft Button Offset 1", UsageTypes.SV);
                 case 0x0094: return new Usage(this, id, "Soft Button Offset 2", UsageTypes.SV);
                 case 0x0095: return new Usage(this, id, "Soft Button Report", UsageTypes.SV);
+                case 0x00c2: return new Usage(this, id, "Soft Keys", UsageTypes.SV);
+                case 0x00cc: return new Usage(this, id, "Display Data Extensions", UsageTypes.SF);
+                case 0x00cf: return new Usage(this, id, "Character Mapping", UsageTypes.SV);
+                case 0x00dd: return new Usage(this, id, "Unicode Equivalent", UsageTypes.SV);
+                case 0x00df: return new Usage(this, id, "Character Page Mapping", UsageTypes.SV);
+                case 0x00ff: return new Usage(this, id, "Request Report", UsageTypes.DV);
             }
 
             return base.CreateUsage(id);
@@ -21103,28 +21289,14 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x0052: return new Usage(this, id, "Green Update Channel", UsageTypes.DV);
                 case 0x0053: return new Usage(this, id, "Blue Update Channel", UsageTypes.DV);
                 case 0x0054: return new Usage(this, id, "Intensity Update Channel", UsageTypes.DV);
-                case 0x0055: return new Usage(this, id, "Lamp Update Complete", UsageTypes.DF);
+                case 0x0055: return new Usage(this, id, "Lamp Update Flags", UsageTypes.DV);
                 case 0x0060: return new Usage(this, id, "Lamp Range Update Report", UsageTypes.CL);
                 case 0x0061: return new Usage(this, id, "Lamp ID Start", UsageTypes.DV);
                 case 0x0062: return new Usage(this, id, "Lamp ID End", UsageTypes.DV);
                 case 0x0070: return new Usage(this, id, "Lamp Array Control Report", UsageTypes.CL);
                 case 0x0071: return new Usage(this, id, "Autonomous Mode", UsageTypes.DF);
-                case 0x0101: return new Usage(this, id, "Lamp Array Kind Keyboard", UsageTypes.Sel);
-                case 0x0102: return new Usage(this, id, "Lamp Array Kind Mouse", UsageTypes.Sel);
-                case 0x0103: return new Usage(this, id, "Lamp Array Kind Game Controller", UsageTypes.Sel);
-                case 0x0104: return new Usage(this, id, "Lamp Array Kind Peripheral", UsageTypes.Sel);
-                case 0x0105: return new Usage(this, id, "Lamp Array Kind Scene", UsageTypes.Sel);
-                case 0x0106: return new Usage(this, id, "Lamp Array Kind Notification", UsageTypes.Sel);
-                case 0x0107: return new Usage(this, id, "Lamp Array Kind Chassis", UsageTypes.Sel);
-                case 0x0108: return new Usage(this, id, "Lamp Array Kind Wearable", UsageTypes.Sel);
-                case 0x0109: return new Usage(this, id, "Lamp Array Kind Furniture", UsageTypes.Sel);
-                case 0x010a: return new Usage(this, id, "Lamp Array Kind Art", UsageTypes.Sel);
-                case 0x0201: return new Usage(this, id, "Lamp Purpose Control", UsageTypes.Sel);
-                case 0x0202: return new Usage(this, id, "Lamp Purpose Accent", UsageTypes.Sel);
-                case 0x0203: return new Usage(this, id, "Lamp Purpose Branding", UsageTypes.Sel);
-                case 0x0204: return new Usage(this, id, "Lamp Purpose Status", UsageTypes.Sel);
-                case 0x0205: return new Usage(this, id, "Lamp Purpose Illumination", UsageTypes.Sel);
-                case 0x0206: return new Usage(this, id, "Lamp Purpose Presentation", UsageTypes.Sel);
+                case 0x1000: return new Usage(this, id, "Lamp Array Kind Keyboard", UsageTypes.Sel);
+                case 0x2000: return new Usage(this, id, "Lamp Purpose Control", UsageTypes.Sel);
             }
 
             return base.CreateUsage(id);
@@ -21177,27 +21349,28 @@ namespace DevDecoder.HIDDevices.Pages
         {
             switch (id)
             {
-                case 0x0000: return new Usage(this, id, "ENUM_0", UsageTypes.Sel);
-                case 0x0001: return new Usage(this, id, "ENUM_1", UsageTypes.Sel);
-                case 0x0002: return new Usage(this, id, "ENUM_2", UsageTypes.Sel);
-                case 0x0003: return new Usage(this, id, "ENUM_3", UsageTypes.Sel);
-                case 0x0004: return new Usage(this, id, "ENUM_4", UsageTypes.Sel);
-                case 0x0005: return new Usage(this, id, "ENUM_5", UsageTypes.Sel);
-                case 0x0006: return new Usage(this, id, "ENUM_6", UsageTypes.Sel);
-                case 0x0007: return new Usage(this, id, "ENUM_7", UsageTypes.Sel);
-                case 0x0008: return new Usage(this, id, "ENUM_8", UsageTypes.Sel);
-                case 0x0009: return new Usage(this, id, "ENUM_9", UsageTypes.Sel);
-                case 0x000a: return new Usage(this, id, "ENUM_10", UsageTypes.Sel);
-                case 0x000b: return new Usage(this, id, "ENUM_11", UsageTypes.Sel);
-                case 0x000c: return new Usage(this, id, "ENUM_12", UsageTypes.Sel);
-                case 0x000d: return new Usage(this, id, "ENUM_13", UsageTypes.Sel);
-                case 0x000e: return new Usage(this, id, "ENUM_14", UsageTypes.Sel);
-                case 0x000f: return new Usage(this, id, "ENUM_15", UsageTypes.Sel);
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "ENUM_0", UsageTypes.Sel);
+                case 0x0002: return new Usage(this, id, "ENUM_1", UsageTypes.Sel);
+                case 0x0003: return new Usage(this, id, "ENUM_2", UsageTypes.Sel);
+                case 0x0004: return new Usage(this, id, "ENUM_3", UsageTypes.Sel);
+                case 0x0005: return new Usage(this, id, "ENUM_4", UsageTypes.Sel);
+                case 0x0006: return new Usage(this, id, "ENUM_5", UsageTypes.Sel);
+                case 0x0007: return new Usage(this, id, "ENUM_6", UsageTypes.Sel);
+                case 0x0008: return new Usage(this, id, "ENUM_7", UsageTypes.Sel);
+                case 0x0009: return new Usage(this, id, "ENUM_8", UsageTypes.Sel);
+                case 0x000a: return new Usage(this, id, "ENUM_9", UsageTypes.Sel);
+                case 0x000b: return new Usage(this, id, "ENUM_10", UsageTypes.Sel);
+                case 0x000c: return new Usage(this, id, "ENUM_11", UsageTypes.Sel);
+                case 0x000d: return new Usage(this, id, "ENUM_12", UsageTypes.Sel);
+                case 0x000e: return new Usage(this, id, "ENUM_13", UsageTypes.Sel);
+                case 0x000f: return new Usage(this, id, "ENUM_14", UsageTypes.Sel);
+                case 0x0010: return new Usage(this, id, "ENUM_15", UsageTypes.Sel);
             }
 
             // Create dynamic usages from ranges
-            var n = (ushort)(id-0x0000);
-            if (id >= 0x0000 || id < 0xffff) return new Usage(this, id, $"ENUM_{id}", UsageTypes.Sel);
+            var n = (ushort)(id-0x0001);
+            if (id >= 0x0001 || id < 0xffff) return new Usage(this, id, $"ENUM_{n}", UsageTypes.Sel);
 
             return base.CreateUsage(id);
         }
@@ -21223,51 +21396,51 @@ namespace DevDecoder.HIDDevices.Pages
             switch (id)
             {
                 case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
-                case 0x0001: return new Usage(this, id, "", UsageTypes.None);
-                case 0x0010: return new Usage(this, id, "", UsageTypes.None);
-                case 0x0012: return new Usage(this, id, "", UsageTypes.None);
-                case 0x0016: return new Usage(this, id, "", UsageTypes.None);
-                case 0x0018: return new Usage(this, id, "", UsageTypes.None);
-                case 0x001a: return new Usage(this, id, "", UsageTypes.None);
-                case 0x001c: return new Usage(this, id, "", UsageTypes.None);
-                case 0x0020: return new Usage(this, id, "", UsageTypes.None);
-                case 0x0022: return new Usage(this, id, "", UsageTypes.None);
-                case 0x0024: return new Usage(this, id, "", UsageTypes.None);
-                case 0x0026: return new Usage(this, id, "", UsageTypes.None);
-                case 0x0028: return new Usage(this, id, "", UsageTypes.None);
-                case 0x002a: return new Usage(this, id, "", UsageTypes.None);
-                case 0x002c: return new Usage(this, id, "", UsageTypes.None);
-                case 0x0030: return new Usage(this, id, "", UsageTypes.None);
-                case 0x0032: return new Usage(this, id, "", UsageTypes.None);
-                case 0x0034: return new Usage(this, id, "", UsageTypes.None);
-                case 0x0036: return new Usage(this, id, "", UsageTypes.None);
-                case 0x0038: return new Usage(this, id, "", UsageTypes.None);
-                case 0x003a: return new Usage(this, id, "", UsageTypes.None);
-                case 0x003c: return new Usage(this, id, "", UsageTypes.None);
-                case 0x0040: return new Usage(this, id, "", UsageTypes.None);
-                case 0x0042: return new Usage(this, id, "", UsageTypes.None);
-                case 0x0044: return new Usage(this, id, "", UsageTypes.None);
-                case 0x0046: return new Usage(this, id, "", UsageTypes.None);
-                case 0x0048: return new Usage(this, id, "", UsageTypes.None);
-                case 0x004a: return new Usage(this, id, "", UsageTypes.None);
-                case 0x004c: return new Usage(this, id, "", UsageTypes.None);
-                case 0x0056: return new Usage(this, id, "", UsageTypes.None);
-                case 0x0058: return new Usage(this, id, "", UsageTypes.None);
-                case 0x005e: return new Usage(this, id, "", UsageTypes.None);
-                case 0x0060: return new Usage(this, id, "", UsageTypes.None);
-                case 0x006c: return new Usage(this, id, "", UsageTypes.None);
-                case 0x006e: return new Usage(this, id, "", UsageTypes.None);
-                case 0x0070: return new Usage(this, id, "", UsageTypes.None);
-                case 0x00a2: return new Usage(this, id, "", UsageTypes.None);
-                case 0x00a4: return new Usage(this, id, "", UsageTypes.None);
-                case 0x00a6: return new Usage(this, id, "", UsageTypes.None);
-                case 0x00a8: return new Usage(this, id, "", UsageTypes.None);
-                case 0x00aa: return new Usage(this, id, "", UsageTypes.None);
-                case 0x00ac: return new Usage(this, id, "", UsageTypes.None);
-                case 0x00ae: return new Usage(this, id, "", UsageTypes.None);
-                case 0x00b0: return new Usage(this, id, "", UsageTypes.None);
-                case 0x00ca: return new Usage(this, id, "", UsageTypes.None);
-                case 0x00d4: return new Usage(this, id, "", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "Degauss", UsageTypes.DF);
+                case 0x0010: return new Usage(this, id, "Brightness", UsageTypes.DV);
+                case 0x0012: return new Usage(this, id, "Contrast", UsageTypes.DV);
+                case 0x0016: return new Usage(this, id, "Red Video Gain", UsageTypes.DV);
+                case 0x0018: return new Usage(this, id, "Green Video Gain", UsageTypes.DV);
+                case 0x001a: return new Usage(this, id, "Blue Video Gain", UsageTypes.DV);
+                case 0x001c: return new Usage(this, id, "Focus", UsageTypes.DV);
+                case 0x0020: return new Usage(this, id, "Horizontal Position", UsageTypes.DV);
+                case 0x0022: return new Usage(this, id, "Horizontal Size", UsageTypes.DV);
+                case 0x0024: return new Usage(this, id, "Horizontal Pincushion", UsageTypes.DV);
+                case 0x0026: return new Usage(this, id, "Horizontal Pincushion Balance", UsageTypes.DV);
+                case 0x0028: return new Usage(this, id, "Horizontal Misconvergence", UsageTypes.DV);
+                case 0x002a: return new Usage(this, id, "Horizontal Linearity", UsageTypes.DV);
+                case 0x002c: return new Usage(this, id, "Horizontal Linearity Balance", UsageTypes.DV);
+                case 0x0030: return new Usage(this, id, "Vertical Position", UsageTypes.DV);
+                case 0x0032: return new Usage(this, id, "Vertical Size", UsageTypes.DV);
+                case 0x0034: return new Usage(this, id, "Vertical Pincushion", UsageTypes.DV);
+                case 0x0036: return new Usage(this, id, "Vertical Pincushion Balance", UsageTypes.DV);
+                case 0x0038: return new Usage(this, id, "Vertical Misconvergence", UsageTypes.DV);
+                case 0x003a: return new Usage(this, id, "Vertical Linearity", UsageTypes.DV);
+                case 0x003c: return new Usage(this, id, "Vertical Linearity Balance", UsageTypes.DV);
+                case 0x0040: return new Usage(this, id, "Parallelogram Distortion (Key Balance)", UsageTypes.DV);
+                case 0x0042: return new Usage(this, id, "Trapezoidal Distortion (Key)", UsageTypes.DV);
+                case 0x0044: return new Usage(this, id, "Tilt (Rotation)", UsageTypes.DV);
+                case 0x0046: return new Usage(this, id, "Top Corner Distortion Control", UsageTypes.DV);
+                case 0x0048: return new Usage(this, id, "Top Corner Distortion Balance", UsageTypes.DV);
+                case 0x004a: return new Usage(this, id, "Bottom Corner Distortion Control", UsageTypes.DV);
+                case 0x004c: return new Usage(this, id, "Bottom Corner Distortion Balance", UsageTypes.DV);
+                case 0x0056: return new Usage(this, id, "Horizontal Moire", UsageTypes.DV);
+                case 0x0058: return new Usage(this, id, "Vertical Moire", UsageTypes.DV);
+                case 0x005e: return new Usage(this, id, "Input Level Select", UsageTypes.NAry);
+                case 0x0060: return new Usage(this, id, "Input Source Select", UsageTypes.NAry);
+                case 0x006c: return new Usage(this, id, "Red Video Black Level", UsageTypes.DV);
+                case 0x006e: return new Usage(this, id, "Green Video Black Level", UsageTypes.DV);
+                case 0x0070: return new Usage(this, id, "Blue Video Black Level", UsageTypes.DV);
+                case 0x00a2: return new Usage(this, id, "Auto Size Center", UsageTypes.NAry);
+                case 0x00a4: return new Usage(this, id, "Polarity Horizontal Synchronization", UsageTypes.NAry);
+                case 0x00a6: return new Usage(this, id, "Polarity Vertical Synchronization", UsageTypes.NAry);
+                case 0x00a8: return new Usage(this, id, "Synchronization Type", UsageTypes.NAry);
+                case 0x00aa: return new Usage(this, id, "Screen Orientation", UsageTypes.NAry);
+                case 0x00ac: return new Usage(this, id, "Horizontal Frequency", UsageTypes.SV);
+                case 0x00ae: return new Usage(this, id, "Vertical Frequency", UsageTypes.SV);
+                case 0x00b0: return new Usage(this, id, "Settings", UsageTypes.NAry);
+                case 0x00ca: return new Usage(this, id, "On Screen Display", UsageTypes.NAry);
+                case 0x00d4: return new Usage(this, id, "StereoMode", UsageTypes.NAry);
             }
 
             return base.CreateUsage(id);

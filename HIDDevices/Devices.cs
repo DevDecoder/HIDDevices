@@ -86,8 +86,10 @@ namespace DevDecoder.HIDDevices
             _controllers?.Watch(key) ?? throw new ObjectDisposedException(nameof(Devices));
 
         /// <inheritdoc />
-        public IObservable<IChangeSet<Device, string>> Connect(Func<Device, bool>? predicate = null)
-            => _controllers?.Connect(predicate) ?? throw new ObjectDisposedException(nameof(Devices));
+        public IObservable<IChangeSet<Device, string>> Connect(Func<Device, bool>? predicate = null,
+            bool suppressEmptyChangeSets = true)
+            => _controllers?.Connect(predicate, suppressEmptyChangeSets) ??
+               throw new ObjectDisposedException(nameof(Devices));
 
         /// <inheritdoc />
         public IObservable<IChangeSet<Device, string>> Preview(Func<Device, bool>? predicate = null)
@@ -263,7 +265,9 @@ namespace DevDecoder.HIDDevices
         /// </param>
         /// <returns>An awaitable task that completes when the first load of devices has completed.</returns>
         public Task<IChangeSet<Device, string>> LoadAsync(CancellationToken cancellationToken = default)
-            => _controllers?.Connect().FirstAsync().ToTask(cancellationToken) ??
-               throw new ObjectDisposedException(nameof(Devices));
+            => (_controllers ?? throw new ObjectDisposedException(nameof(Devices)))
+                .Connect()
+                .FirstAsync()
+                .ToTask(cancellationToken);
     }
 }

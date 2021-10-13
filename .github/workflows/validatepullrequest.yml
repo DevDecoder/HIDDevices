@@ -15,7 +15,7 @@ jobs:
         fetch-depth: 0 # Avoid shallow clone so NBGV can do its work.
       # Use Nerdbank.GitVersioning to set version variables: https://github.com/AArnott/nbgv
     - name: Set version
-      uses: dotnet/nbgv@v0.3.1
+      uses: dotnet/nbgv@v0.4.0
       with:
         setAllVars: true
     - name: Setup .NET Core

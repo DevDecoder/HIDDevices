@@ -65,7 +65,7 @@ namespace DevDecoder.HIDDevices.Controllers
         /// </summary>
         /// <value><see langword="true" /> if start is pressed; otherwise, <see langword="false" />.</value>
         [Control(GenericDesktopPage.Start, Weight = 2)]
-        [Control(ButtonPage.Button8)]
+        [Control(ButtonPage.Button7)]
         public bool Start => GetValue<bool>();
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace DevDecoder.HIDDevices.Controllers
         /// </summary>
         /// <value><see langword="true" /> if select is pressed; otherwise, <see langword="false" />.</value>
         [Control(GenericDesktopPage.Select, Weight = 2)]
-        [Control(ButtonPage.Button7)]
+        [Control(ButtonPage.Button6)]
         public bool Select => GetValue<bool>();
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace DevDecoder.HIDDevices.Controllers
         ///     Gets a value indicating whether the A Button is pressed.
         /// </summary>
         /// <value><see langword="true" /> if A Button is pressed; otherwise, <see langword="false" />.</value>
-        [Control(ButtonPage.Button1)]
+        [Control(ButtonPage.Button0)]
         [Required]
         public bool AButton => GetValue<bool>();
 
@@ -106,49 +106,49 @@ namespace DevDecoder.HIDDevices.Controllers
         ///     Gets a value indicating whether the B Button is pressed.
         /// </summary>
         /// <value><see langword="true" /> if B Button is pressed; otherwise, <see langword="false" />.</value>
-        [Control(ButtonPage.Button2)]
+        [Control(ButtonPage.Button1)]
         public bool BButton => GetValue<bool>();
 
         /// <summary>
         ///     Gets a value indicating whether the X Button is pressed.
         /// </summary>
         /// <value><see langword="true" /> if X Button is pressed; otherwise, <see langword="false" />.</value>
-        [Control(ButtonPage.Button3)]
+        [Control(ButtonPage.Button2)]
         public bool XButton => GetValue<bool>();
 
         /// <summary>
         ///     Gets a value indicating whether the Y Button is pressed.
         /// </summary>
         /// <value><see langword="true" /> if Y Button is pressed; otherwise, <see langword="false" />.</value>
-        [Control(ButtonPage.Button4)]
+        [Control(ButtonPage.Button3)]
         public bool YButton => GetValue<bool>();
 
         /// <summary>
         ///     Gets a value indicating whether the Left Bumper is pressed.
         /// </summary>
         /// <value><see langword="true" /> if Left Bumper is pressed; otherwise, <see langword="false" />.</value>
-        [Control(ButtonPage.Button5)]
+        [Control(ButtonPage.Button4)]
         public bool LeftBumper => GetValue<bool>();
 
         /// <summary>
         ///     Gets a value indicating whether the Right Bumper is pressed.
         /// </summary>
         /// <value><see langword="true" /> if Right Bumper is pressed; otherwise, <see langword="false" />.</value>
-        [Control(ButtonPage.Button6)]
+        [Control(ButtonPage.Button5)]
         public bool RightBumper => GetValue<bool>();
 
         /// <summary>
         ///     Gets a value indicating whether the Left Stick is pressed.
         /// </summary>
         /// <value><see langword="true" /> if Left Stick is pressed; otherwise, <see langword="false" />.</value>
-        [Control(ButtonPage.Button9)]
+        [Control(ButtonPage.Button8)]
         public bool LeftStick => GetValue<bool>();
 
         /// <summary>
         ///     Gets a value indicating whether the Right Stick is pressed.
         /// </summary>
         /// <value><see langword="true" /> if Right Stick is pressed; otherwise, <see langword="false" />.</value>
-        [Control(ButtonPage.Button10)]
+        [Control(ButtonPage.Button9)]
         public bool RightStick => GetValue<bool>();
 
         /// <summary>

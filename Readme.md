@@ -4,7 +4,14 @@
 # Description
 This library provides a cross-platform service for asynchronously accessing HID devices, such as Gamepads, Joysticks and Multi-axis controllers and programmable button pads.  It support Plug & Play, correctly identifying when controllers are added and removed, and Reactive frameworks.  It also allows the creation of custom Controller implementations which are matched automatically against devices for easy use.
 
-**NOTE**: The project is currently based on [HIDSharp](https://www.zer7.com/software/hidsharp), but deliberately does not expose any of its library explicitly as it may well be replaced in future.
+## Important Notes
+* The project is currently based on [HIDSharp](https://www.zer7.com/software/hidsharp), but deliberately does not expose any of its library explicitly as it may well be replaced in future.
+* Although the project isn't actively maintained, I do occassionaly refresh the usage tables, and will respond to issues if raised in the issue tracker.
+* As the `Usage`s and `UsagePage`s are auto-generated they can change between versions whenever [Integrated Circuits](https://github.com/IntergatedCircuits/hid-usage-tables) update their
+code-readable tables.  This can cause breaking changes in your own code, so be careful when updating versions of the NuGet.  In particular, any time the HID tables are updated, I will update
+the minor version number (at least).  One notable change was from 2.0-2.1, when many of 1-indexed usages were changed to 0-indexed, e.g. `ButtonPage.Button1` became `ButtonPage.Button0`.
+* It appears that the XInput-compatible HID device driver only transmits events from the HID device whilst the current process has a focussed window, so console applications/background services don't appear to work!  This is not a bug in this library, although
+I have been unable to find where this 'feature' is documented.  This affects the "Microsoft XBox One for Windows Controller".
 
 # Installation
 The library is [available via NuGet](https://www.nuget.org/packages?q=HIDDevices) and is delivered via NuGet Package Manager:
@@ -121,10 +128,10 @@ Finally, properties can be converted using `TypeConverter`s by specifying a `Typ
 public double X => GetValue<double>();
 
 // The following example matches controls with the 'GenericDesktopPage.Select' in preference
-// to those with 'ButtonPage.Button7', a match is not required.
+// to those with 'ButtonPage.Button6', a match is not required.
 // A default converter is registered for booleans already which returns false for values < 0.5.
 [Control(GenericDesktopPage.Select, Weight = 2)]
-[Control(ButtonPage.Button7)]
+[Control(ButtonPage.Button6)]
 public bool Select => GetValue<bool>();
 ```
 
@@ -164,7 +171,7 @@ For convenience, the full HID Usage tables are exposed and described via the `Us
 
 ```csharp
 // The enums can be cast to a Usage to retrieve full information about the Usage and it's page.
-Usage usage = ButtonPage.Button1;
+Usage usage = ButtonPage.Button0;
 Console.WriteLine($"Usage: {usage.Name}; Page: {usage.Page.Name}");
 ```
 
@@ -184,6 +191,7 @@ The following controllers have been tested:
 
 The following OS's have been tested:
 * Windows 10 Pro 2004 (19041.330)
+* Windows 11 Pro 21H2 (10.0.22000.194)
 * Ubuntu (limited testing so far)
 
 Please let me know if you've confirmed it as working with other devices/OS's by raising an issue.
@@ -195,3 +203,4 @@ Please let me know if you've confirmed it as working with other devices/OS's by 
 * It makes extensive use of [HIDSharp](https://www.zer7.com/software/hidsharp) (© Copyright 2012, James F. Bellinger, licensed under Apache License 2.0) _although this may be replaced in future versions_
 * [Reactive Extensions](https://github.com/dotnet/reactive)
 * [Dynamic Data](https://github.com/reactiveui/DynamicData).
+

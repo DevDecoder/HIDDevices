@@ -42,7 +42,7 @@ namespace HIDDevices.Sample.Samples
 
             // Subscribe to changes in controllers
             using var subscription1 = controllers
-                .ControlUsagesAll(GenericDesktopPage.X, ButtonPage.Button10)
+                .ControlUsagesAll(GenericDesktopPage.X, ButtonPage.Button9)
                 //.Connect()
                 .Subscribe(changeSet =>
                 {
@@ -123,16 +123,16 @@ namespace HIDDevices.Sample.Samples
                 });
 
             // Subscribe to just button 1 change events, and trigger a task completion source when any are pressed.
-            var button1PressedTcs = new TaskCompletionSource<bool>();
+            var button0PressedTcs = new TaskCompletionSource<bool>();
             using var subscription3 = controllers
                 // Watch for button one changes only
-                .ControlChanges(c => c.ButtonNumber == 1)
+                .ControlChanges(c => c.ButtonNumber == 0)
                 //&& !c.Device.Usages.Contains(65538u))
                 .Subscribe(changes =>
                 {
                     if (changes.Any(c => c.Value > 0.5))
                     {
-                        button1PressedTcs.TrySetResult(true);
+                        button0PressedTcs.TrySetResult(true);
                     }
                 });
 
@@ -188,7 +188,7 @@ namespace HIDDevices.Sample.Samples
             logger.LogInformation("Press Button 1 on any device to exit!");
 
             // Wait on signal that Button 1 has been pressed
-            await button1PressedTcs.Task.ConfigureAwait(false);
+            await button0PressedTcs.Task.ConfigureAwait(false);
 
             logger.LogInformation("Finished");
         }

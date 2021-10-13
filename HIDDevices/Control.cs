@@ -43,7 +43,14 @@ namespace DevDecoder.HIDDevices
             FullName = string.Join(", ", _usages.Select(u => u.FullName));
 
             // Calculate button number (if any)
-            ButtonNumber = _usages.FirstOrDefault(u => u.Page == UsagePage.Button)?.Id ?? 0;
+            var b = _usages.FirstOrDefault(u => u.Page == UsagePage.Button)?.Id;
+            if (b.HasValue)
+            {
+                if (b.Value > 0)
+                    b = (ushort)(b.Value - 1);
+            }
+
+            ButtonNumber = b;
         }
 
         /// <summary>
@@ -173,10 +180,10 @@ namespace DevDecoder.HIDDevices
         public bool IsUpDown => DataItem.ExpectedUsageType == ExpectedUsageType.OneShot;
 
         /// <summary>
-        ///     Gets the button number, if a button; otherwise 0.
+        ///     Gets the button number, if a button; otherwise <see langword="null" />.
         /// </summary>
         /// <value>The button number.</value>
-        public ushort ButtonNumber { get; }
+        public ushort? ButtonNumber { get; }
 
         /// <summary>
         ///     Gets the usages.
