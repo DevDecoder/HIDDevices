@@ -8,8 +8,7 @@
     <PackageDescription>Cross-platform .NET Standard library for asynchronous access to HID Devices (e.g. gamepads, joysticks, etc.)</PackageDescription>
     <RepositoryUrl>https://github.com/DevDecoder/HIDDevices</RepositoryUrl>
     <Description>Cross-platform .NET Standard library for asynchronous access to HID Devices (e.g. gamepads, joysticks, etc.)</Description>
-    <Copyright>2020 Craig Dean</Copyright>
-    <PackageLicenseFile>..\License.txt</PackageLicenseFile>
+    <Copyright>2020-2021 Craig Dean</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/DevDecoder/HIDDevices</PackageProjectUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
