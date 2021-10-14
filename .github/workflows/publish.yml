@@ -30,6 +30,6 @@ jobs:
     - name: Test
       run: dotnet test --configuration Release --no-build --verbosity normal -p:ContinuousIntegrationBuild=true -p:DeterministicSourcePaths=true
     - name: Publish Package
-      run: dotnet nuget push HIDDevices/bin/Release/HIDDevices.*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://nuget.org
+      run: dotnet nuget push **/bin/Release/*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://nuget.org
     - name: Publish Symbol Package
-      run: dotnet nuget push HIDDevices/bin/Release/HIDDevices.*.snupkg -k ${{secrets.NUGET_API_KEY}} -s https://nuget.org
+      run: dotnet nuget push **/bin/Release/*.snupkg -k ${{secrets.NUGET_API_KEY}} -s https://nuget.org
