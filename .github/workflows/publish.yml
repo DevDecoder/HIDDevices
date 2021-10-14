@@ -13,7 +13,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0 # Avoid shallow clone so NBGV can do its work.
-      # Use Nerdbank.GitVersioning to set version variables: https://github.com/dotnet/nbgv
+        submodules: 'recursive'
     - name: Set version
       uses: dotnet/nbgv@v0.4.0
       with:
