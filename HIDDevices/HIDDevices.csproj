@@ -24,10 +24,9 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <AssemblyName>DevDecoder.HIDDevices</AssemblyName>
     <RootNamespace>DevDecoder.HIDDevices</RootNamespace>
-    <PackageReadmeFile>Readme.md</PackageReadmeFile>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="..\Readme.md" Pack="true" PackagePath="\" />
     <Compile Remove="Usages\hid-usage-tables\**" />
     <EmbeddedResource Remove="Usages\hid-usage-tables\**" />
     <None Remove="Usages\hid-usage-tables\**" />
@@ -48,7 +47,11 @@
   <ItemGroup>
     <None Include="..\DevDecoder Icon.png">
       <Pack>True</Pack>
-      <PackagePath></PackagePath>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -21,17 +21,14 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.x
+        dotnet-version: 5.0.401
     - name: Install dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build --configuration Release --no-restore -p:ContinuousIntegrationBuild=true -p:DeterministicSourcePaths=true
     - name: Test
-      run: dotnet test --no-restore --verbosity normal
-    - name: Publish  
-      uses: brandedoutcast/publish-nuget@v2.5.5 
-      with:   
-        PROJECT_FILE_PATH: HIDDevices/HIDDevices.csproj  
-        NUGET_KEY: ${{secrets.NUGET_API_KEY}} 
-        INCLUDE_SYMBOLS: true
-        VERSION_STATIC: ${{env.NBGV_Version}}
+      run: dotnet test --no-build --verbosity normal -p:ContinuousIntegrationBuild=true -p:DeterministicSourcePaths=true
+    - name: Publish Package
+      run: dotnet nuget push HIDDevices/bin/Release/HIDDevices.*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://nuget.org
+    - name: Publish Symbol Package
+      run: dotnet nuget push HIDDevices/bin/Release/HIDDevices.*.snupkg -k ${{secrets.NUGET_API_KEY}} -s https://nuget.org
