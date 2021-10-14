@@ -28,7 +28,7 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore -p:ContinuousIntegrationBuild=true -p:DeterministicSourcePaths=true
     - name: Test
-      run: dotnet test --no-build --verbosity normal -p:ContinuousIntegrationBuild=true -p:DeterministicSourcePaths=true
+      run: dotnet test --configuration Release --no-build --verbosity normal -p:ContinuousIntegrationBuild=true -p:DeterministicSourcePaths=true
     - name: Publish Package
       run: dotnet nuget push HIDDevices/bin/Release/HIDDevices.*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://nuget.org
     - name: Publish Symbol Package
