@@ -18,7 +18,7 @@ jobs:
       uses: dotnet/nbgv@v0.4.0
       with:
         setAllVars: true
-    - name: Setup .NET Core
+    - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '6.0.x'
@@ -29,9 +29,10 @@ jobs:
       run: dotnet build --configuration Release --no-restore -p:ContinuousIntegrationBuild=true -p:DeterministicSourcePaths=true
     - name: Test
       run: dotnet test --configuration Release --no-build --verbosity normal -p:ContinuousIntegrationBuild=true -p:DeterministicSourcePaths=true 
-    - name: Publish Package
-      run: dotnet nuget push **/bin/Release/*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://nuget.org --skip-duplicate
-    - name: Tag Release
-      run: git tag -a "v$env:GitBuildVersion" -m "Tag for NuGet Version $env:GitBuildVersion"
-    - name: Push Tag
-      run: git push origin "v$env:GitBuildVersion"
+    - name: Publish
+      uses: brandedoutcast/publish-nuget@v2.5.5
+      with:
+        PROJECT_FILE_PATH: HIDDevices/HIDDevices.csproj
+        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+        INCLUDE_SYMBOLS: true
+        VERSION_STATIC: ${{env.NBGV_Version}}
