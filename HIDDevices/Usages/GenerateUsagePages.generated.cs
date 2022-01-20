@@ -1,7 +1,7 @@
 ﻿// Licensed under the Apache License, Version 2.0 (the "License").
 // See the LICENSE file in the project root for more information.
 //
-// Auto Generated 2614 usages in 35 pages on 13/10/2021 23:28:44.
+// Auto Generated 2651 usages in 35 pages on 20/01/2022 13:01:03.
 
 #pragma warning disable CS0108 // Member hides inherited member; missing new keyword
 
@@ -127,6 +127,12 @@ namespace DevDecoder.HIDDevices.Usages
         /// </summary>
         [Description("Dockable Device")]
         DockableDevice = 0x00010012,
+
+        /// <summary>
+        ///     Call State Management Control Usage.
+        /// </summary>
+        [Description("Call State Management Control")]
+        CallStateManagementControl = 0x00010013,
 
         /// <summary>
         ///     X Usage.
@@ -678,7 +684,25 @@ namespace DevDecoder.HIDDevices.Usages
         ///     Dockable Device Object Type Usage.
         /// </summary>
         [Description("Dockable Device Object Type")]
-        DockableDeviceObjectType = 0x000100d6
+        DockableDeviceObjectType = 0x000100d6,
+
+        /// <summary>
+        ///     Call Active LED Usage.
+        /// </summary>
+        [Description("Call Active LED")]
+        CallActiveLED = 0x000100e0,
+
+        /// <summary>
+        ///     Call Mute Toggle Usage.
+        /// </summary>
+        [Description("Call Mute Toggle")]
+        CallMuteToggle = 0x000100e1,
+
+        /// <summary>
+        ///     Call Mute LED Usage.
+        /// </summary>
+        [Description("Call Mute LED")]
+        CallMuteLED = 0x000100e2
     }
 
     /// <summary>
@@ -1981,9 +2005,9 @@ namespace DevDecoder.HIDDevices.Usages
         KeyboardKeypad_15 = 0x00070034,
 
         /// <summary>
-        ///     ` � Usage.
+        ///     ` ´ Usage.
         /// </summary>
-        [Description("` �")]
+        [Description("` ´")]
         KeyboardKeypad_16 = 0x00070035,
 
         /// <summary>
@@ -2263,10 +2287,10 @@ namespace DevDecoder.HIDDevices.Usages
         Keypad10 = 0x00070063,
 
         /// <summary>
-        ///     \ | Usage.
+        ///     Non-US \| Usage.
         /// </summary>
-        [Description("\\ |")]
-        KeyboardKeypad_20 = 0x00070064,
+        [Description("Non-US \\|")]
+        NonUS = 0x00070064,
 
         /// <summary>
         ///     Application Usage.
@@ -5226,6 +5250,12 @@ namespace DevDecoder.HIDDevices.Usages
         StartOrStopVoiceDictationSession = 0x000c00d8,
 
         /// <summary>
+        ///     Invoke/Dismiss Emoji Picker Usage.
+        /// </summary>
+        [Description("Invoke/Dismiss Emoji Picker")]
+        InvokeDismissEmojiPicker = 0x000c00d9,
+
+        /// <summary>
         ///     Volume Usage.
         /// </summary>
         [Description("Volume")]
@@ -7561,6 +7591,18 @@ namespace DevDecoder.HIDDevices.Usages
         GestureCharacterEnable = 0x000d006d,
 
         /// <summary>
+        ///     Transducer Serial Number Part 2 Usage.
+        /// </summary>
+        [Description("Transducer Serial Number Part 2")]
+        TransducerSerialNumberPart2 = 0x000d006e,
+
+        /// <summary>
+        ///     No Preferred Color Usage.
+        /// </summary>
+        [Description("No Preferred Color")]
+        NoPreferredColor = 0x000d006f,
+
+        /// <summary>
         ///     Transducer Software Info Usage.
         /// </summary>
         [Description("Transducer Software Info")]
@@ -7736,46 +7778,106 @@ namespace DevDecoder.HIDDevices.Usages
         WaveformCutoffTime = 0x000e0028,
 
         /// <summary>
-        ///     WAVEFORM_NONE Usage.
+        ///     Waveform None Usage.
         /// </summary>
-        [Description("WAVEFORM_NONE")]
-        WAVEFORM_NONE = 0x000e1000,
+        [Description("Waveform None")]
+        WaveformNone = 0x000e1001,
 
         /// <summary>
-        ///     WAVEFORM_STOP Usage.
+        ///     Waveform Stop Usage.
         /// </summary>
-        [Description("WAVEFORM_STOP")]
-        WAVEFORM_STOP = 0x000e1000,
+        [Description("Waveform Stop")]
+        WaveformStop = 0x000e1002,
 
         /// <summary>
-        ///     WAVEFORM_CLICK Usage.
+        ///     Waveform Click Usage.
         /// </summary>
-        [Description("WAVEFORM_CLICK")]
-        WAVEFORM_CLICK = 0x000e1000,
+        [Description("Waveform Click")]
+        WaveformClick = 0x000e1003,
 
         /// <summary>
-        ///     WAVEFORM_BUZZ_CONTINUOUS Usage.
+        ///     Waveform Buzz Continuous Usage.
         /// </summary>
-        [Description("WAVEFORM_BUZZ_CONTINUOUS")]
-        WAVEFORM_BUZZ_CONTINUOUS = 0x000e1000,
+        [Description("Waveform Buzz Continuous")]
+        WaveformBuzzContinuous = 0x000e1004,
 
         /// <summary>
-        ///     WAVEFORM_RUMBLE_CONTINUOUS Usage.
+        ///     Waveform Rumble Continuous Usage.
         /// </summary>
-        [Description("WAVEFORM_RUMBLE_CONTINUOUS")]
-        WAVEFORM_RUMBLE_CONTINUOUS = 0x000e1000,
+        [Description("Waveform Rumble Continuous")]
+        WaveformRumbleContinuous = 0x000e1005,
 
         /// <summary>
-        ///     WAVEFORM_PRESS Usage.
+        ///     Waveform Press Usage.
         /// </summary>
-        [Description("WAVEFORM_PRESS")]
-        WAVEFORM_PRESS = 0x000e1000,
+        [Description("Waveform Press")]
+        WaveformPress = 0x000e1006,
 
         /// <summary>
-        ///     WAVEFORM_RELEASE Usage.
+        ///     Waveform Release Usage.
         /// </summary>
-        [Description("WAVEFORM_RELEASE")]
-        WAVEFORM_RELEASE = 0x000e1000
+        [Description("Waveform Release")]
+        WaveformRelease = 0x000e1007,
+
+        /// <summary>
+        ///     Waveform Hover Usage.
+        /// </summary>
+        [Description("Waveform Hover")]
+        WaveformHover = 0x000e1008,
+
+        /// <summary>
+        ///     Waveform Success Usage.
+        /// </summary>
+        [Description("Waveform Success")]
+        WaveformSuccess = 0x000e1009,
+
+        /// <summary>
+        ///     Waveform Error Usage.
+        /// </summary>
+        [Description("Waveform Error")]
+        WaveformError = 0x000e100a,
+
+        /// <summary>
+        ///     Waveform Ink Continuous Usage.
+        /// </summary>
+        [Description("Waveform Ink Continuous")]
+        WaveformInkContinuous = 0x000e100b,
+
+        /// <summary>
+        ///     Waveform Pencil Continuous Usage.
+        /// </summary>
+        [Description("Waveform Pencil Continuous")]
+        WaveformPencilContinuous = 0x000e100c,
+
+        /// <summary>
+        ///     Waveform Marker Continuous Usage.
+        /// </summary>
+        [Description("Waveform Marker Continuous")]
+        WaveformMarkerContinuous = 0x000e100d,
+
+        /// <summary>
+        ///     Waveform Chisel Marker Continuous Usage.
+        /// </summary>
+        [Description("Waveform Chisel Marker Continuous")]
+        WaveformChiselMarkerContinuous = 0x000e100e,
+
+        /// <summary>
+        ///     Waveform Brush Continuous Usage.
+        /// </summary>
+        [Description("Waveform Brush Continuous")]
+        WaveformBrushContinuous = 0x000e100f,
+
+        /// <summary>
+        ///     Waveform Eraser Continuous Usage.
+        /// </summary>
+        [Description("Waveform Eraser Continuous")]
+        WaveformEraserContinuous = 0x000e1010,
+
+        /// <summary>
+        ///     Waveform Sparkle Continuous Usage.
+        /// </summary>
+        [Description("Waveform Sparkle Continuous")]
+        WaveformSparkleContinuous = 0x000e1011
     }
 
     /// <summary>
@@ -9313,6 +9415,18 @@ namespace DevDecoder.HIDDevices.Usages
         EnvironmentalVolatileOrganicCompounds = 0x00200039,
 
         /// <summary>
+        ///     Environmental: Object Presence Usage.
+        /// </summary>
+        [Description("Environmental: Object Presence")]
+        EnvironmentalObjectPresence = 0x0020003a,
+
+        /// <summary>
+        ///     Environmental: Object Proximity Usage.
+        /// </summary>
+        [Description("Environmental: Object Proximity")]
+        EnvironmentalObjectProximity = 0x0020003b,
+
+        /// <summary>
         ///     Light Usage.
         /// </summary>
         [Description("Light")]
@@ -9768,6 +9882,107 @@ namespace DevDecoder.HIDDevices.Usages
         [Description("Other: Hinge Angle")]
         OtherHingeAngle = 0x002000e4,
 
+        /*
+         * Range: 0x00f0 -> 0x00ff
+         * Vendor Reserved {n+1}
+         */
+
+        /// <summary>
+        ///     Vendor Reserved 1 Usage.
+        /// </summary>
+        [Description("Vendor Reserved 1")]
+        VendorReserved1 = 0x002000f0,
+
+        /// <summary>
+        ///     Vendor Reserved 2 Usage.
+        /// </summary>
+        [Description("Vendor Reserved 2")]
+        VendorReserved2 = 0x002000f1,
+
+        /// <summary>
+        ///     Vendor Reserved 3 Usage.
+        /// </summary>
+        [Description("Vendor Reserved 3")]
+        VendorReserved3 = 0x002000f2,
+
+        /// <summary>
+        ///     Vendor Reserved 4 Usage.
+        /// </summary>
+        [Description("Vendor Reserved 4")]
+        VendorReserved4 = 0x002000f3,
+
+        /// <summary>
+        ///     Vendor Reserved 5 Usage.
+        /// </summary>
+        [Description("Vendor Reserved 5")]
+        VendorReserved5 = 0x002000f4,
+
+        /// <summary>
+        ///     Vendor Reserved 6 Usage.
+        /// </summary>
+        [Description("Vendor Reserved 6")]
+        VendorReserved6 = 0x002000f5,
+
+        /// <summary>
+        ///     Vendor Reserved 7 Usage.
+        /// </summary>
+        [Description("Vendor Reserved 7")]
+        VendorReserved7 = 0x002000f6,
+
+        /// <summary>
+        ///     Vendor Reserved 8 Usage.
+        /// </summary>
+        [Description("Vendor Reserved 8")]
+        VendorReserved8 = 0x002000f7,
+
+        /// <summary>
+        ///     Vendor Reserved 9 Usage.
+        /// </summary>
+        [Description("Vendor Reserved 9")]
+        VendorReserved9 = 0x002000f8,
+
+        /// <summary>
+        ///     Vendor Reserved 10 Usage.
+        /// </summary>
+        [Description("Vendor Reserved 10")]
+        VendorReserved10 = 0x002000f9,
+
+        /// <summary>
+        ///     Vendor Reserved 11 Usage.
+        /// </summary>
+        [Description("Vendor Reserved 11")]
+        VendorReserved11 = 0x002000fa,
+
+        /// <summary>
+        ///     Vendor Reserved 12 Usage.
+        /// </summary>
+        [Description("Vendor Reserved 12")]
+        VendorReserved12 = 0x002000fb,
+
+        /// <summary>
+        ///     Vendor Reserved 13 Usage.
+        /// </summary>
+        [Description("Vendor Reserved 13")]
+        VendorReserved13 = 0x002000fc,
+
+        /// <summary>
+        ///     Vendor Reserved 14 Usage.
+        /// </summary>
+        [Description("Vendor Reserved 14")]
+        VendorReserved14 = 0x002000fd,
+
+        /// <summary>
+        ///     Vendor Reserved 15 Usage.
+        /// </summary>
+        [Description("Vendor Reserved 15")]
+        VendorReserved15 = 0x002000fe,
+
+        /// <summary>
+        ///     Vendor Reserved 16 Usage.
+        /// </summary>
+        [Description("Vendor Reserved 16")]
+        VendorReserved16 = 0x002000ff,
+
         /// <summary>
         ///     Event: Sensor State Usage.
         /// </summary>
@@ -9779,6 +9994,12 @@ namespace DevDecoder.HIDDevices.Usages
         /// </summary>
         [Description("Event: Sensor Event")]
         EventSensorEvent = 0x00200202,
+
+        /// <summary>
+        ///     Property Usage.
+        /// </summary>
+        [Description("Property")]
+        Property = 0x00200300,
 
         /// <summary>
         ///     Property: Friendly Name Usage.
@@ -9953,6 +10174,18 @@ namespace DevDecoder.HIDDevices.Usages
         /// </summary>
         [Description("Property: Maximum Power Consumption")]
         PropertyMaximumPowerConsumption = 0x0020031d,
+
+        /// <summary>
+        ///     Property: Is Primary Usage.
+        /// </summary>
+        [Description("Property: Is Primary")]
+        PropertyIsPrimary = 0x0020031e,
+
+        /// <summary>
+        ///     Property: Human Presence Detection Type Usage.
+        /// </summary>
+        [Description("Property: Human Presence Detection Type")]
+        PropertyHumanPresenceDetectionType = 0x0020031f,
 
         /// <summary>
         ///     Data Field: Location Usage.
@@ -10247,6 +10480,24 @@ namespace DevDecoder.HIDDevices.Usages
         /// </summary>
         [Description("Data Field: Volatile Organic Compound Concentration")]
         DataFieldVolatileOrganicCompoundConcentration = 0x00200439,
+
+        /// <summary>
+        ///     Data Field: Object Presence Usage.
+        /// </summary>
+        [Description("Data Field: Object Presence")]
+        DataFieldObjectPresence = 0x0020043a,
+
+        /// <summary>
+        ///     Data Field: Object Proximity Range Usage.
+        /// </summary>
+        [Description("Data Field: Object Proximity Range")]
+        DataFieldObjectProximityRange = 0x0020043b,
+
+        /// <summary>
+        ///     Data Field: Object Proximity Out of Range Usage.
+        /// </summary>
+        [Description("Data Field: Object Proximity Out of Range")]
+        DataFieldObjectProximityOutOfRange = 0x0020043c,
 
         /// <summary>
         ///     Property: Environmental Usage.
@@ -10669,6 +10920,12 @@ namespace DevDecoder.HIDDevices.Usages
         DataFieldSpO2Percent = 0x002004bc,
 
         /// <summary>
+        ///     Data Field: Human Attention Detected Usage.
+        /// </summary>
+        [Description("Data Field: Human Attention Detected")]
+        DataFieldHumanAttentionDetected = 0x002004bd,
+
+        /// <summary>
         ///     Data Field: Light Usage.
         /// </summary>
         [Description("Data Field: Light")]
@@ -10753,6 +11010,12 @@ namespace DevDecoder.HIDDevices.Usages
         DataFieldUltravioletIndex = 0x002004dd,
 
         /// <summary>
+        ///     Data Field: Near Infrared Light Usage.
+        /// </summary>
+        [Description("Data Field: Near Infrared Light")]
+        DataFieldNearInfraredLight = 0x002004de,
+
+        /// <summary>
         ///     Property: Light Usage.
         /// </summary>
         [Description("Property: Light")]
@@ -10763,6 +11026,18 @@ namespace DevDecoder.HIDDevices.Usages
         /// </summary>
         [Description("Property: Consumer IR Sentence Send")]
         PropertyConsumerIRSentenceSend = 0x002004e1,
+
+        /// <summary>
+        ///     Property: Auto Brightness Preferred Usage.
+        /// </summary>
+        [Description("Property: Auto Brightness Preferred")]
+        PropertyAutoBrightnessPreferred = 0x002004e2,
+
+        /// <summary>
+        ///     Property: Auto Color Preferred Usage.
+        /// </summary>
+        [Description("Property: Auto Color Preferred")]
+        PropertyAutoColorPreferred = 0x002004e3,
 
         /// <summary>
         ///     Data Field: Scanner Usage.
@@ -11326,6 +11601,208 @@ namespace DevDecoder.HIDDevices.Usages
         /// </summary>
         [Description("Data Field: Custom Type ID")]
         DataFieldCustomTypeID = 0x002005b0,
+
+        /// <summary>
+        ///     Property: Custom Usage.
+        /// </summary>
+        [Description("Property: Custom")]
+        PropertyCustom = 0x002005c0,
+
+        /*
+         * Range: 0x05c1 -> 0x05d0
+         * Property: Custom Value {n+1}
+         */
+
+        /// <summary>
+        ///     Property: Custom Value 1 Usage.
+        /// </summary>
+        [Description("Property: Custom Value 1")]
+        PropertyCustomValue1 = 0x002005c1,
+
+        /// <summary>
+        ///     Property: Custom Value 2 Usage.
+        /// </summary>
+        [Description("Property: Custom Value 2")]
+        PropertyCustomValue2 = 0x002005c2,
+
+        /// <summary>
+        ///     Property: Custom Value 3 Usage.
+        /// </summary>
+        [Description("Property: Custom Value 3")]
+        PropertyCustomValue3 = 0x002005c3,
+
+        /// <summary>
+        ///     Property: Custom Value 4 Usage.
+        /// </summary>
+        [Description("Property: Custom Value 4")]
+        PropertyCustomValue4 = 0x002005c4,
+
+        /// <summary>
+        ///     Property: Custom Value 5 Usage.
+        /// </summary>
+        [Description("Property: Custom Value 5")]
+        PropertyCustomValue5 = 0x002005c5,
+
+        /// <summary>
+        ///     Property: Custom Value 6 Usage.
+        /// </summary>
+        [Description("Property: Custom Value 6")]
+        PropertyCustomValue6 = 0x002005c6,
+
+        /// <summary>
+        ///     Property: Custom Value 7 Usage.
+        /// </summary>
+        [Description("Property: Custom Value 7")]
+        PropertyCustomValue7 = 0x002005c7,
+
+        /// <summary>
+        ///     Property: Custom Value 8 Usage.
+        /// </summary>
+        [Description("Property: Custom Value 8")]
+        PropertyCustomValue8 = 0x002005c8,
+
+        /// <summary>
+        ///     Property: Custom Value 9 Usage.
+        /// </summary>
+        [Description("Property: Custom Value 9")]
+        PropertyCustomValue9 = 0x002005c9,
+
+        /// <summary>
+        ///     Property: Custom Value 10 Usage.
+        /// </summary>
+        [Description("Property: Custom Value 10")]
+        PropertyCustomValue10 = 0x002005ca,
+
+        /// <summary>
+        ///     Property: Custom Value 11 Usage.
+        /// </summary>
+        [Description("Property: Custom Value 11")]
+        PropertyCustomValue11 = 0x002005cb,
+
+        /// <summary>
+        ///     Property: Custom Value 12 Usage.
+        /// </summary>
+        [Description("Property: Custom Value 12")]
+        PropertyCustomValue12 = 0x002005cc,
+
+        /// <summary>
+        ///     Property: Custom Value 13 Usage.
+        /// </summary>
+        [Description("Property: Custom Value 13")]
+        PropertyCustomValue13 = 0x002005cd,
+
+        /// <summary>
+        ///     Property: Custom Value 14 Usage.
+        /// </summary>
+        [Description("Property: Custom Value 14")]
+        PropertyCustomValue14 = 0x002005ce,
+
+        /// <summary>
+        ///     Property: Custom Value 15 Usage.
+        /// </summary>
+        [Description("Property: Custom Value 15")]
+        PropertyCustomValue15 = 0x002005cf,
+
+        /// <summary>
+        ///     Property: Custom Value 16 Usage.
+        /// </summary>
+        [Description("Property: Custom Value 16")]
+        PropertyCustomValue16 = 0x002005d0,
+
+        /*
+         * Range: 0x05d1 -> 0x05df
+         * Property: Custom Reserved {n+1}
+         */
+
+        /// <summary>
+        ///     Property: Custom Reserved 1 Usage.
+        /// </summary>
+        [Description("Property: Custom Reserved 1")]
+        PropertyCustomReserved1 = 0x002005d1,
+
+        /// <summary>
+        ///     Property: Custom Reserved 2 Usage.
+        /// </summary>
+        [Description("Property: Custom Reserved 2")]
+        PropertyCustomReserved2 = 0x002005d2,
+
+        /// <summary>
+        ///     Property: Custom Reserved 3 Usage.
+        /// </summary>
+        [Description("Property: Custom Reserved 3")]
+        PropertyCustomReserved3 = 0x002005d3,
+
+        /// <summary>
+        ///     Property: Custom Reserved 4 Usage.
+        /// </summary>
+        [Description("Property: Custom Reserved 4")]
+        PropertyCustomReserved4 = 0x002005d4,
+
+        /// <summary>
+        ///     Property: Custom Reserved 5 Usage.
+        /// </summary>
+        [Description("Property: Custom Reserved 5")]
+        PropertyCustomReserved5 = 0x002005d5,
+
+        /// <summary>
+        ///     Property: Custom Reserved 6 Usage.
+        /// </summary>
+        [Description("Property: Custom Reserved 6")]
+        PropertyCustomReserved6 = 0x002005d6,
+
+        /// <summary>
+        ///     Property: Custom Reserved 7 Usage.
+        /// </summary>
+        [Description("Property: Custom Reserved 7")]
+        PropertyCustomReserved7 = 0x002005d7,
+
+        /// <summary>
+        ///     Property: Custom Reserved 8 Usage.
+        /// </summary>
+        [Description("Property: Custom Reserved 8")]
+        PropertyCustomReserved8 = 0x002005d8,
+
+        /// <summary>
+        ///     Property: Custom Reserved 9 Usage.
+        /// </summary>
+        [Description("Property: Custom Reserved 9")]
+        PropertyCustomReserved9 = 0x002005d9,
+
+        /// <summary>
+        ///     Property: Custom Reserved 10 Usage.
+        /// </summary>
+        [Description("Property: Custom Reserved 10")]
+        PropertyCustomReserved10 = 0x002005da,
+
+        /// <summary>
+        ///     Property: Custom Reserved 11 Usage.
+        /// </summary>
+        [Description("Property: Custom Reserved 11")]
+        PropertyCustomReserved11 = 0x002005db,
+
+        /// <summary>
+        ///     Property: Custom Reserved 12 Usage.
+        /// </summary>
+        [Description("Property: Custom Reserved 12")]
+        PropertyCustomReserved12 = 0x002005dc,
+
+        /// <summary>
+        ///     Property: Custom Reserved 13 Usage.
+        /// </summary>
+        [Description("Property: Custom Reserved 13")]
+        PropertyCustomReserved13 = 0x002005dd,
+
+        /// <summary>
+        ///     Property: Custom Reserved 14 Usage.
+        /// </summary>
+        [Description("Property: Custom Reserved 14")]
+        PropertyCustomReserved14 = 0x002005de,
+
+        /// <summary>
+        ///     Property: Custom Reserved 15 Usage.
+        /// </summary>
+        [Description("Property: Custom Reserved 15")]
+        PropertyCustomReserved15 = 0x002005df,
 
         /// <summary>
         ///     Data Field: Hinge Usage.
@@ -12646,6 +13123,30 @@ namespace DevDecoder.HIDDevices.Usages
         /// </summary>
         [Description("Fold Type: Decreasing")]
         FoldTypeDecreasing = 0x002009b6,
+
+        /// <summary>
+        ///     Human Presence Detection Type: Vendor-Defined Non-Biometric Usage.
+        /// </summary>
+        [Description("Human Presence Detection Type: Vendor-Defined Non-Biometric")]
+        HumanPresenceDetectionTypeVendorDefinedNonBiometric = 0x002009c0,
+
+        /// <summary>
+        ///     Human Presence Detection Type: Vendor-Defined Biometric Usage.
+        /// </summary>
+        [Description("Human Presence Detection Type: Vendor-Defined Biometric")]
+        HumanPresenceDetectionTypeVendorDefinedBiometric = 0x002009c1,
+
+        /// <summary>
+        ///     Human Presence Detection Type: Facial Biometric Usage.
+        /// </summary>
+        [Description("Human Presence Detection Type: Facial Biometric")]
+        HumanPresenceDetectionTypeFacialBiometric = 0x002009c2,
+
+        /// <summary>
+        ///     Human Presence Detection Type: Audio Biometric Usage.
+        /// </summary>
+        [Description("Human Presence Detection Type: Audio Biometric")]
+        HumanPresenceDetectionTypeAudioBiometric = 0x002009c3,
 
         /*
          * Range: 0x1000 -> 0x1fff
@@ -18362,6 +18863,7 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x0010: return new Usage(this, id, "Assistive Control", UsageTypes.CA);
                 case 0x0011: return new Usage(this, id, "Device Dock", UsageTypes.CA);
                 case 0x0012: return new Usage(this, id, "Dockable Device", UsageTypes.CA);
+                case 0x0013: return new Usage(this, id, "Call State Management Control", UsageTypes.CA);
                 case 0x0030: return new Usage(this, id, "X", UsageTypes.DV);
                 case 0x0031: return new Usage(this, id, "Y", UsageTypes.DV);
                 case 0x0032: return new Usage(this, id, "Z", UsageTypes.DV);
@@ -18454,6 +18956,9 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x00d4: return new Usage(this, id, "Dockable Device Docking State", UsageTypes.DF);
                 case 0x00d5: return new Usage(this, id, "Dockable Device Display Occlusion", UsageTypes.CL);
                 case 0x00d6: return new Usage(this, id, "Dockable Device Object Type", UsageTypes.DV);
+                case 0x00e0: return new Usage(this, id, "Call Active LED", UsageTypes.OOC);
+                case 0x00e1: return new Usage(this, id, "Call Mute Toggle", UsageTypes.OSC);
+                case 0x00e2: return new Usage(this, id, "Call Mute LED", UsageTypes.OOC);
             }
 
             return base.CreateUsage(id);
@@ -18812,7 +19317,7 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x0032: return new Usage(this, id, "# ~", UsageTypes.Sel);
                 case 0x0033: return new Usage(this, id, "; :", UsageTypes.Sel);
                 case 0x0034: return new Usage(this, id, "' \"", UsageTypes.Sel);
-                case 0x0035: return new Usage(this, id, "` �", UsageTypes.Sel);
+                case 0x0035: return new Usage(this, id, "` ´", UsageTypes.Sel);
                 case 0x0036: return new Usage(this, id, ", <", UsageTypes.Sel);
                 case 0x0037: return new Usage(this, id, ". >", UsageTypes.Sel);
                 case 0x0038: return new Usage(this, id, "/ ?", UsageTypes.Sel);
@@ -18859,7 +19364,7 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x0061: return new Usage(this, id, "Keypad 9", UsageTypes.Sel);
                 case 0x0062: return new Usage(this, id, "Keypad 0", UsageTypes.Sel);
                 case 0x0063: return new Usage(this, id, "Keypad .", UsageTypes.Sel);
-                case 0x0064: return new Usage(this, id, "\\ |", UsageTypes.Sel);
+                case 0x0064: return new Usage(this, id, "Non-US \\|", UsageTypes.Sel);
                 case 0x0065: return new Usage(this, id, "Application", UsageTypes.Sel);
                 case 0x0066: return new Usage(this, id, "Power", UsageTypes.Sel);
                 case 0x0067: return new Usage(this, id, "Keypad =", UsageTypes.Sel);
@@ -19475,6 +19980,7 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x00d6: return new Usage(this, id, "Start or Stop Camera Capture", UsageTypes.OSC);
                 case 0x00d7: return new Usage(this, id, "Start or Stop Game Broadcast", UsageTypes.OSC);
                 case 0x00d8: return new Usage(this, id, "Start or Stop Voice Dictation Session", UsageTypes.OOC);
+                case 0x00d9: return new Usage(this, id, "Invoke/Dismiss Emoji Picker", UsageTypes.OOC);
                 case 0x00e0: return new Usage(this, id, "Volume", UsageTypes.LC);
                 case 0x00e1: return new Usage(this, id, "Balance", UsageTypes.LC);
                 case 0x00e2: return new Usage(this, id, "Mute", UsageTypes.OOC);
@@ -19888,6 +20394,8 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x006b: return new Usage(this, id, "Capacitive Heat Map Protocol Version", UsageTypes.SV);
                 case 0x006c: return new Usage(this, id, "Capacitive Heat Map Frame Data", UsageTypes.DV);
                 case 0x006d: return new Usage(this, id, "Gesture Character Enable", UsageTypes.DF);
+                case 0x006e: return new Usage(this, id, "Transducer Serial Number Part 2", UsageTypes.SV);
+                case 0x006f: return new Usage(this, id, "No Preferred Color", UsageTypes.DF);
                 case 0x0090: return new Usage(this, id, "Transducer Software Info", UsageTypes.CL);
                 case 0x0091: return new Usage(this, id, "Transducer Vendor ID", UsageTypes.SV);
                 case 0x0092: return new Usage(this, id, "Transducer Product ID", UsageTypes.SV);
@@ -19941,7 +20449,23 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x0026: return new Usage(this, id, "Waveform Vendor Page", UsageTypes.SV);
                 case 0x0027: return new Usage(this, id, "Waveform Vendor ID", UsageTypes.SV);
                 case 0x0028: return new Usage(this, id, "Waveform Cutoff Time", UsageTypes.SV);
-                case 0x1000: return new Usage(this, id, "WAVEFORM_NONE", UsageTypes.Sel);
+                case 0x1001: return new Usage(this, id, "Waveform None", UsageTypes.SV);
+                case 0x1002: return new Usage(this, id, "Waveform Stop", UsageTypes.SV);
+                case 0x1003: return new Usage(this, id, "Waveform Click", UsageTypes.SV);
+                case 0x1004: return new Usage(this, id, "Waveform Buzz Continuous", UsageTypes.SV);
+                case 0x1005: return new Usage(this, id, "Waveform Rumble Continuous", UsageTypes.SV);
+                case 0x1006: return new Usage(this, id, "Waveform Press", UsageTypes.SV);
+                case 0x1007: return new Usage(this, id, "Waveform Release", UsageTypes.SV);
+                case 0x1008: return new Usage(this, id, "Waveform Hover", UsageTypes.SV);
+                case 0x1009: return new Usage(this, id, "Waveform Success", UsageTypes.SV);
+                case 0x100a: return new Usage(this, id, "Waveform Error", UsageTypes.SV);
+                case 0x100b: return new Usage(this, id, "Waveform Ink Continuous", UsageTypes.SV);
+                case 0x100c: return new Usage(this, id, "Waveform Pencil Continuous", UsageTypes.SV);
+                case 0x100d: return new Usage(this, id, "Waveform Marker Continuous", UsageTypes.SV);
+                case 0x100e: return new Usage(this, id, "Waveform Chisel Marker Continuous", UsageTypes.SV);
+                case 0x100f: return new Usage(this, id, "Waveform Brush Continuous", UsageTypes.SV);
+                case 0x1010: return new Usage(this, id, "Waveform Eraser Continuous", UsageTypes.SV);
+                case 0x1011: return new Usage(this, id, "Waveform Sparkle Continuous", UsageTypes.SV);
             }
 
             return base.CreateUsage(id);
@@ -20317,6 +20841,8 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x0037: return new Usage(this, id, "Environmental: Heat Index", UsageTypes.CA|UsageTypes.CP);
                 case 0x0038: return new Usage(this, id, "Environmental: Surface Temperature", UsageTypes.CA|UsageTypes.CP);
                 case 0x0039: return new Usage(this, id, "Environmental: Volatile Organic Compounds", UsageTypes.CA|UsageTypes.CP);
+                case 0x003a: return new Usage(this, id, "Environmental: Object Presence", UsageTypes.CA|UsageTypes.CP);
+                case 0x003b: return new Usage(this, id, "Environmental: Object Proximity", UsageTypes.CA|UsageTypes.CP);
                 case 0x0040: return new Usage(this, id, "Light", UsageTypes.CA|UsageTypes.CP);
                 case 0x0041: return new Usage(this, id, "Light: Ambient Light", UsageTypes.CA|UsageTypes.CP);
                 case 0x0042: return new Usage(this, id, "Light: Consumer Infrared", UsageTypes.CA|UsageTypes.CP);
@@ -20393,8 +20919,25 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x00e2: return new Usage(this, id, "Other: Generic", UsageTypes.CA|UsageTypes.CP);
                 case 0x00e3: return new Usage(this, id, "Other: Generic Enumerator", UsageTypes.CA|UsageTypes.CP);
                 case 0x00e4: return new Usage(this, id, "Other: Hinge Angle", UsageTypes.CA|UsageTypes.CP);
+                case 0x00f0: return new Usage(this, id, "Vendor Reserved 1", UsageTypes.CA|UsageTypes.CP);
+                case 0x00f1: return new Usage(this, id, "Vendor Reserved 2", UsageTypes.CA|UsageTypes.CP);
+                case 0x00f2: return new Usage(this, id, "Vendor Reserved 3", UsageTypes.CA|UsageTypes.CP);
+                case 0x00f3: return new Usage(this, id, "Vendor Reserved 4", UsageTypes.CA|UsageTypes.CP);
+                case 0x00f4: return new Usage(this, id, "Vendor Reserved 5", UsageTypes.CA|UsageTypes.CP);
+                case 0x00f5: return new Usage(this, id, "Vendor Reserved 6", UsageTypes.CA|UsageTypes.CP);
+                case 0x00f6: return new Usage(this, id, "Vendor Reserved 7", UsageTypes.CA|UsageTypes.CP);
+                case 0x00f7: return new Usage(this, id, "Vendor Reserved 8", UsageTypes.CA|UsageTypes.CP);
+                case 0x00f8: return new Usage(this, id, "Vendor Reserved 9", UsageTypes.CA|UsageTypes.CP);
+                case 0x00f9: return new Usage(this, id, "Vendor Reserved 10", UsageTypes.CA|UsageTypes.CP);
+                case 0x00fa: return new Usage(this, id, "Vendor Reserved 11", UsageTypes.CA|UsageTypes.CP);
+                case 0x00fb: return new Usage(this, id, "Vendor Reserved 12", UsageTypes.CA|UsageTypes.CP);
+                case 0x00fc: return new Usage(this, id, "Vendor Reserved 13", UsageTypes.CA|UsageTypes.CP);
+                case 0x00fd: return new Usage(this, id, "Vendor Reserved 14", UsageTypes.CA|UsageTypes.CP);
+                case 0x00fe: return new Usage(this, id, "Vendor Reserved 15", UsageTypes.CA|UsageTypes.CP);
+                case 0x00ff: return new Usage(this, id, "Vendor Reserved 16", UsageTypes.CA|UsageTypes.CP);
                 case 0x0201: return new Usage(this, id, "Event: Sensor State", UsageTypes.NAry);
                 case 0x0202: return new Usage(this, id, "Event: Sensor Event", UsageTypes.NAry);
+                case 0x0300: return new Usage(this, id, "Property", UsageTypes.DV);
                 case 0x0301: return new Usage(this, id, "Property: Friendly Name", UsageTypes.SV);
                 case 0x0302: return new Usage(this, id, "Property: Persistent Unique ID", UsageTypes.DV);
                 case 0x0303: return new Usage(this, id, "Property: Sensor Status", UsageTypes.DV);
@@ -20424,6 +20967,8 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x031b: return new Usage(this, id, "Property: Report Latency", UsageTypes.DV);
                 case 0x031c: return new Usage(this, id, "Property: Flush FIFO Events", UsageTypes.DF);
                 case 0x031d: return new Usage(this, id, "Property: Maximum Power Consumption", UsageTypes.DV);
+                case 0x031e: return new Usage(this, id, "Property: Is Primary", UsageTypes.DF);
+                case 0x031f: return new Usage(this, id, "Property: Human Presence Detection Type", UsageTypes.NAry);
                 case 0x0400: return new Usage(this, id, "Data Field: Location", UsageTypes.SV);
                 case 0x0402: return new Usage(this, id, "Data Field: Altitude Antenna Sea Level", UsageTypes.SV);
                 case 0x0403: return new Usage(this, id, "Data Field: Differential Reference Station ID", UsageTypes.SV);
@@ -20473,6 +21018,9 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x0437: return new Usage(this, id, "Data Field: Air Quality Index", UsageTypes.SV);
                 case 0x0438: return new Usage(this, id, "Data Field: Equivalent CO2", UsageTypes.SV);
                 case 0x0439: return new Usage(this, id, "Data Field: Volatile Organic Compound Concentration", UsageTypes.SV);
+                case 0x043a: return new Usage(this, id, "Data Field: Object Presence", UsageTypes.SF);
+                case 0x043b: return new Usage(this, id, "Data Field: Object Proximity Range", UsageTypes.SV);
+                case 0x043c: return new Usage(this, id, "Data Field: Object Proximity Out of Range", UsageTypes.SF);
                 case 0x0440: return new Usage(this, id, "Property: Environmental", UsageTypes.SV);
                 case 0x0441: return new Usage(this, id, "Property: Reference Pressure (default Sel \"Unit: bars)", UsageTypes.SV);
                 case 0x0450: return new Usage(this, id, "Data Field: Motion", UsageTypes.SV);
@@ -20543,6 +21091,7 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x04ba: return new Usage(this, id, "Data Field: Heartbeat Interval", UsageTypes.SV);
                 case 0x04bb: return new Usage(this, id, "Data Field: Respiratory Rate", UsageTypes.SV);
                 case 0x04bc: return new Usage(this, id, "Data Field: SpO2 (percent)", UsageTypes.SV);
+                case 0x04bd: return new Usage(this, id, "Data Field: Human Attention Detected", UsageTypes.MC);
                 case 0x04d0: return new Usage(this, id, "Data Field: Light", UsageTypes.SV);
                 case 0x04d1: return new Usage(this, id, "Data Field: Illuminance", UsageTypes.SV);
                 case 0x04d2: return new Usage(this, id, "Data Field: Color Temperature", UsageTypes.SV);
@@ -20557,8 +21106,11 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x04db: return new Usage(this, id, "Data Field: Ultraviolet A Light", UsageTypes.SV);
                 case 0x04dc: return new Usage(this, id, "Data Field: Ultraviolet B Light", UsageTypes.SV);
                 case 0x04dd: return new Usage(this, id, "Data Field: Ultraviolet Index", UsageTypes.SV);
+                case 0x04de: return new Usage(this, id, "Data Field: Near Infrared Light", UsageTypes.SV);
                 case 0x04e0: return new Usage(this, id, "Property: Light", UsageTypes.DV);
                 case 0x04e1: return new Usage(this, id, "Property: Consumer IR Sentence Send", UsageTypes.DV);
+                case 0x04e2: return new Usage(this, id, "Property: Auto Brightness Preferred", UsageTypes.DF);
+                case 0x04e3: return new Usage(this, id, "Property: Auto Color Preferred", UsageTypes.DF);
                 case 0x04f0: return new Usage(this, id, "Data Field: Scanner", UsageTypes.SV);
                 case 0x04f1: return new Usage(this, id, "Data Field: RFID Tag 40 Bit", UsageTypes.SV);
                 case 0x04f2: return new Usage(this, id, "Data Field: NFC Sentence Receive", UsageTypes.SV);
@@ -20652,6 +21204,38 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x05a4: return new Usage(this, id, "Property: Subscribed Step Types", UsageTypes.NAry);
                 case 0x05a5: return new Usage(this, id, "Property: Floor Height", UsageTypes.DV);
                 case 0x05b0: return new Usage(this, id, "Data Field: Custom Type ID", UsageTypes.SV);
+                case 0x05c0: return new Usage(this, id, "Property: Custom", UsageTypes.DF|UsageTypes.DV);
+                case 0x05c1: return new Usage(this, id, "Property: Custom Value 1", UsageTypes.DF|UsageTypes.DV);
+                case 0x05c2: return new Usage(this, id, "Property: Custom Value 2", UsageTypes.DF|UsageTypes.DV);
+                case 0x05c3: return new Usage(this, id, "Property: Custom Value 3", UsageTypes.DF|UsageTypes.DV);
+                case 0x05c4: return new Usage(this, id, "Property: Custom Value 4", UsageTypes.DF|UsageTypes.DV);
+                case 0x05c5: return new Usage(this, id, "Property: Custom Value 5", UsageTypes.DF|UsageTypes.DV);
+                case 0x05c6: return new Usage(this, id, "Property: Custom Value 6", UsageTypes.DF|UsageTypes.DV);
+                case 0x05c7: return new Usage(this, id, "Property: Custom Value 7", UsageTypes.DF|UsageTypes.DV);
+                case 0x05c8: return new Usage(this, id, "Property: Custom Value 8", UsageTypes.DF|UsageTypes.DV);
+                case 0x05c9: return new Usage(this, id, "Property: Custom Value 9", UsageTypes.DF|UsageTypes.DV);
+                case 0x05ca: return new Usage(this, id, "Property: Custom Value 10", UsageTypes.DF|UsageTypes.DV);
+                case 0x05cb: return new Usage(this, id, "Property: Custom Value 11", UsageTypes.DF|UsageTypes.DV);
+                case 0x05cc: return new Usage(this, id, "Property: Custom Value 12", UsageTypes.DF|UsageTypes.DV);
+                case 0x05cd: return new Usage(this, id, "Property: Custom Value 13", UsageTypes.DF|UsageTypes.DV);
+                case 0x05ce: return new Usage(this, id, "Property: Custom Value 14", UsageTypes.DF|UsageTypes.DV);
+                case 0x05cf: return new Usage(this, id, "Property: Custom Value 15", UsageTypes.DF|UsageTypes.DV);
+                case 0x05d0: return new Usage(this, id, "Property: Custom Value 16", UsageTypes.DF|UsageTypes.DV);
+                case 0x05d1: return new Usage(this, id, "Property: Custom Reserved 1", UsageTypes.DF|UsageTypes.DV);
+                case 0x05d2: return new Usage(this, id, "Property: Custom Reserved 2", UsageTypes.DF|UsageTypes.DV);
+                case 0x05d3: return new Usage(this, id, "Property: Custom Reserved 3", UsageTypes.DF|UsageTypes.DV);
+                case 0x05d4: return new Usage(this, id, "Property: Custom Reserved 4", UsageTypes.DF|UsageTypes.DV);
+                case 0x05d5: return new Usage(this, id, "Property: Custom Reserved 5", UsageTypes.DF|UsageTypes.DV);
+                case 0x05d6: return new Usage(this, id, "Property: Custom Reserved 6", UsageTypes.DF|UsageTypes.DV);
+                case 0x05d7: return new Usage(this, id, "Property: Custom Reserved 7", UsageTypes.DF|UsageTypes.DV);
+                case 0x05d8: return new Usage(this, id, "Property: Custom Reserved 8", UsageTypes.DF|UsageTypes.DV);
+                case 0x05d9: return new Usage(this, id, "Property: Custom Reserved 9", UsageTypes.DF|UsageTypes.DV);
+                case 0x05da: return new Usage(this, id, "Property: Custom Reserved 10", UsageTypes.DF|UsageTypes.DV);
+                case 0x05db: return new Usage(this, id, "Property: Custom Reserved 11", UsageTypes.DF|UsageTypes.DV);
+                case 0x05dc: return new Usage(this, id, "Property: Custom Reserved 12", UsageTypes.DF|UsageTypes.DV);
+                case 0x05dd: return new Usage(this, id, "Property: Custom Reserved 13", UsageTypes.DF|UsageTypes.DV);
+                case 0x05de: return new Usage(this, id, "Property: Custom Reserved 14", UsageTypes.DF|UsageTypes.DV);
+                case 0x05df: return new Usage(this, id, "Property: Custom Reserved 15", UsageTypes.DF|UsageTypes.DV);
                 case 0x05e0: return new Usage(this, id, "Data Field: Hinge", UsageTypes.SV|UsageTypes.DV);
                 case 0x05e1: return new Usage(this, id, "Data Field: Hinge Angle", UsageTypes.SV|UsageTypes.DV);
                 case 0x05f0: return new Usage(this, id, "Data Field: Gesture Sensor", UsageTypes.SV);
@@ -20872,6 +21456,10 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x09b4: return new Usage(this, id, "Fold Type: Unknown", UsageTypes.Sel);
                 case 0x09b5: return new Usage(this, id, "Fold Type: Increasing", UsageTypes.Sel);
                 case 0x09b6: return new Usage(this, id, "Fold Type: Decreasing", UsageTypes.Sel);
+                case 0x09c0: return new Usage(this, id, "Human Presence Detection Type: Vendor-Defined Non-Biometric", UsageTypes.Sel);
+                case 0x09c1: return new Usage(this, id, "Human Presence Detection Type: Vendor-Defined Biometric", UsageTypes.Sel);
+                case 0x09c2: return new Usage(this, id, "Human Presence Detection Type: Facial Biometric", UsageTypes.Sel);
+                case 0x09c3: return new Usage(this, id, "Human Presence Detection Type: Audio Biometric", UsageTypes.Sel);
                 case 0x1000: return new Usage(this, id, "Change Sensitivity Absolute", UsageTypes.US);
                 case 0x1001: return new Usage(this, id, "Change Sensitivity Absolute", UsageTypes.US);
                 case 0x1002: return new Usage(this, id, "Change Sensitivity Absolute", UsageTypes.US);
@@ -21099,8 +21687,12 @@ namespace DevDecoder.HIDDevices.Pages
             }
 
             // Create dynamic usages from ranges
-            var n = (ushort)(id-0x0544);
+            var n = (ushort)(id-0x00f0);
+            if (id >= 0x00f0 || id < 0x00ff) return new Usage(this, id, $"Vendor Reserved {n+1}", UsageTypes.CA|UsageTypes.CP);
+            n = (ushort)(id-0x0544);
             if (id >= 0x0544 || id < 0x055f) return new Usage(this, id, $"Data Field: Custom Value {n+1}", UsageTypes.SV);
+            n = (ushort)(id-0x05c1);
+            if (id >= 0x05c1 || id < 0x05d0) return new Usage(this, id, $"Property: Custom Value {n+1}", UsageTypes.DF|UsageTypes.DV);
             if (id >= 0x1000 || id < 0x1fff) return new Usage(this, id, $"Change Sensitivity Absolute", UsageTypes.US);
             if (id >= 0x2000 || id < 0x2fff) return new Usage(this, id, $"Maximum", UsageTypes.US);
             if (id >= 0x3000 || id < 0x3fff) return new Usage(this, id, $"Minimum", UsageTypes.US);

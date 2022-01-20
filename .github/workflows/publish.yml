@@ -30,7 +30,7 @@ jobs:
     - name: Test
       run: dotnet test --configuration Release --no-build --verbosity normal -p:ContinuousIntegrationBuild=true -p:DeterministicSourcePaths=true 
     - name: Publish
-      uses: brandedoutcast/publish-nuget@v2.5.5
+      uses: alirezanet/publish-nuget@v3.0.0
       with:
         PROJECT_FILE_PATH: HIDDevices/HIDDevices.csproj
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
