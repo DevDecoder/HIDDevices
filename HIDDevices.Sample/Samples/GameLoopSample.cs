@@ -40,6 +40,12 @@ namespace HIDDevices.Sample.Samples
                     return;
                 }
 
+                if (g.Name.ToLowerInvariant().Contains("xbox "))
+                {
+                    Logger.LogWarning($"{g.Name} found!  Unfortunately, it appears XInput-compatible HID device driver only transmits events from the HID device whilst the current process has a focussed window, so console applications/background services cannot detect button presses. Please try a different controller.");
+                    return;
+                }
+
                 // Assign this gamepad and connect to it.
                 gamepad = g;
                 g.Connect();

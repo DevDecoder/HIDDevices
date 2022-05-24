@@ -187,7 +187,7 @@ Console.WriteLine($"Usage: {usage.Name}; Page: {usage.Page.Name}");
 The following controllers have been tested:
 * Saitek X-52 Pro Flight Control System,
 * Razer Sabertooth Elite
-* Microsoft XBox One for Windows Controller (_**Note** that it appears XInput-compatible HID device driver only transmits events from the HID device whilst the current process has a focussed window, so console applications/background services don't appear to work!  This is not a bug in this library._)
+* Microsoft XBox One for Windows Controller (_**Note** that it appears XInput-compatible HID device driver only transmits events from the HID device whilst the current process has a focussed window, so console applications/background services don't appear to work!  That is not usually an issue for games, which have a focussed window, but does affect the sample application.  This is not a bug in this library._)
 
 The following OS's have been tested:
 * Windows 10 Pro 2004 (19041.330)
