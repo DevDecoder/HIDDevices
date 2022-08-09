@@ -13,6 +13,11 @@ namespace DevDecoder.HIDDevices
     ///     Attribute that should be added to properties on a <seealso cref="Controller" /> to indicate
     ///     that they should be bound to a <seealso cref="Control" />.
     /// </summary>
+    /// <remarks>
+    ///     Note that multiple usages can be supplied, any value that can be converted to a <see langref="uint"/>
+    ///     is supported, which includes the Usage enums. Further, the value must be the full ID, and encode
+    ///     the page and ID of the usage.
+    /// </remarks>
     /// <seealso cref="Controller" />
     /// <seealso cref="Control" />
     /// <seealso cref="Attribute" />
@@ -23,7 +28,9 @@ namespace DevDecoder.HIDDevices
         ///     Initializes a new instance of the <see cref="ControlAttribute" /> class.
         /// </summary>
         /// <param name="usages">The usages.</param>
-        public ControlAttribute(params object[] usages) => Usages = usages.OfType<Enum>().Select(Usage.Get).ToArray();
+        public ControlAttribute(params object[] usages) => Usages = usages
+            .Select(o => Usage.Get(Convert.ToUInt32(o)))
+            .ToArray();
 
         /// <summary>
         ///     Gets or sets the weight, a higher weight will increase the scoring of controls matching this attribute,

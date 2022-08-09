@@ -7,6 +7,8 @@ using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DevDecoder.HIDDevices;
+using DevDecoder.HIDDevices.Pages;
+using DevDecoder.HIDDevices.Usages;
 using Microsoft.Extensions.Logging;
 using Xunit;
 using Xunit.Abstractions;
@@ -68,6 +70,25 @@ namespace HIDDevices.Test
         {
             var usage = Usage.Get(0xffff);
             Assert.Equal("Reserved (0x00) - Undefined (0xFFFF)", usage.ToString());
+        }
+
+        [Fact]
+        public void TestControlAttribute()
+        {
+            // Confirm that the enum and raw value are identical.
+            var attr1 = new ControlAttribute(ButtonPage.Button15);
+            var attr2 = new ControlAttribute(0x00090010);
+            Assert.Equal(1, attr1.Usages.Count);
+            Assert.Equal(1, attr2.Usages.Count);
+            Assert.Equal(attr1.Usages[0], attr2.Usages[0]);
+
+            // Confirm that a user defined ID is accepted.
+            var attr3 = new ControlAttribute(0x00090011);
+            var usage = attr3.Usages[0];
+            Assert.Equal(UsagePage.Button, usage.Page);
+            Assert.Equal(17, usage.Id);
+
+            Logger.LogInformation($"User defined usage: {usage}");
         }
     }
 }

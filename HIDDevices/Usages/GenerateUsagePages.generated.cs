@@ -1,7 +1,7 @@
 ﻿// Licensed under the Apache License, Version 2.0 (the "License").
 // See the LICENSE file in the project root for more information.
 //
-// Auto Generated 2651 usages in 35 pages on 20/01/2022 13:01:03.
+// Auto Generated 2663 usages in 36 pages on 09/08/2022 14:11:21.
 
 #pragma warning disable CS0108 // Member hides inherited member; missing new keyword
 
@@ -7690,7 +7690,13 @@ namespace DevDecoder.HIDDevices.Usages
         ///     Transducer Switches Usage.
         /// </summary>
         [Description("Transducer Switches")]
-        TransducerSwitches = 0x000d00a5
+        TransducerSwitches = 0x000d00a5,
+
+        /// <summary>
+        ///     Transducer Index Selector Usage.
+        /// </summary>
+        [Description("Transducer Index Selector")]
+        TransducerIndexSelector = 0x000d00a6
     }
 
     /// <summary>
@@ -7881,10 +7887,10 @@ namespace DevDecoder.HIDDevices.Usages
     }
 
     /// <summary>
-    ///     Physical Interface Device Usage Page.
+    ///     Physical Interput Device Usage Page.
     /// </summary>
-    [Description("Physical Interface Device Usage Page")]
-    public enum PhysicalInterfaceDevicePage : uint
+    [Description("Physical Interput Device Usage Page")]
+    public enum PhysicalInterputDevicePage : uint
     {
         /// <summary>
         ///     Undefined Usage.
@@ -7893,10 +7899,10 @@ namespace DevDecoder.HIDDevices.Usages
         Undefined = 0x000f0000,
 
         /// <summary>
-        ///     Physical Interface Device Usage.
+        ///     Physical Input Device Usage.
         /// </summary>
-        [Description("Physical Interface Device")]
-        PhysicalInterfaceDevice = 0x000f0001,
+        [Description("Physical Input Device")]
+        PhysicalInputDevice = 0x000f0001,
 
         /// <summary>
         ///     Normal Usage.
@@ -8534,6 +8540,79 @@ namespace DevDecoder.HIDDevices.Usages
         /// </summary>
         [Description("Undefined")]
         Undefined = 0x00100000
+    }
+
+    /// <summary>
+    ///     SoC Usage Page.
+    /// </summary>
+    [Description("SoC Usage Page")]
+    public enum SoCPage : uint
+    {
+        /// <summary>
+        ///     Undefined Usage.
+        /// </summary>
+        [Description("Undefined")]
+        Undefined = 0x00110000,
+
+        /// <summary>
+        ///     SoC Control Usage.
+        /// </summary>
+        [Description("SoC Control")]
+        SoCControl = 0x00110001,
+
+        /// <summary>
+        ///     Firmware Transfer Usage.
+        /// </summary>
+        [Description("Firmware Transfer")]
+        FirmwareTransfer = 0x00110002,
+
+        /// <summary>
+        ///     Firmware File Id Usage.
+        /// </summary>
+        [Description("Firmware File Id")]
+        FirmwareFileId = 0x00110003,
+
+        /// <summary>
+        ///     File Offset In Bytes Usage.
+        /// </summary>
+        [Description("File Offset In Bytes")]
+        FileOffsetInBytes = 0x00110004,
+
+        /// <summary>
+        ///     File Transfer Size Max In Bytes Usage.
+        /// </summary>
+        [Description("File Transfer Size Max In Bytes")]
+        FileTransferSizeMaxInBytes = 0x00110005,
+
+        /// <summary>
+        ///     File Payload Usage.
+        /// </summary>
+        [Description("File Payload")]
+        FilePayload = 0x00110006,
+
+        /// <summary>
+        ///     File Payload Size In Bytes Usage.
+        /// </summary>
+        [Description("File Payload Size In Bytes")]
+        FilePayloadSizeInBytes = 0x00110007,
+
+        /// <summary>
+        ///     File Payload Contains Last Bytes Usage.
+        /// </summary>
+        [Description("File Payload Contains Last Bytes")]
+        FilePayloadContainsLastBytes = 0x00110008,
+
+        /// <summary>
+        ///     File Transfer Stop Usage.
+        /// </summary>
+        [Description("File Transfer Stop")]
+        FileTransferStop = 0x00110009,
+
+        /// <summary>
+        ///     File Transfer Till End Usage.
+        /// </summary>
+        [Description("File Transfer Till End")]
+        FileTransferTillEnd = 0x0011000a
     }
 
     /// <summary>
@@ -18621,8 +18700,9 @@ namespace DevDecoder.HIDDevices
                     [0x000c] = ConsumerUsagePage.Instance,
                     [0x000d] = DigitizerUsagePage.Instance,
                     [0x000e] = HapticsUsagePage.Instance,
-                    [0x000f] = PhysicalInterfaceDeviceUsagePage.Instance,
+                    [0x000f] = PhysicalInterputDeviceUsagePage.Instance,
                     [0x0010] = UnicodeUsagePage.Instance,
+                    [0x0011] = SoCUsagePage.Instance,
                     [0x0012] = EyeAndHeadTrackersUsagePage.Instance,
                     [0x0014] = AuxiliaryDisplayUsagePage.Instance,
                     [0x0020] = SensorUsagePage.Instance,
@@ -18715,14 +18795,19 @@ namespace DevDecoder.HIDDevices
         public static readonly HapticsUsagePage Haptics = HapticsUsagePage.Instance;
 
         /// <summary>
-        ///     Physical Interface Device Usage Page.
+        ///     Physical Interput Device Usage Page.
         /// </summary>
-        public static readonly PhysicalInterfaceDeviceUsagePage PhysicalInterfaceDevice = PhysicalInterfaceDeviceUsagePage.Instance;
+        public static readonly PhysicalInterputDeviceUsagePage PhysicalInterputDevice = PhysicalInterputDeviceUsagePage.Instance;
 
         /// <summary>
         ///     Unicode Usage Page.
         /// </summary>
         public static readonly UnicodeUsagePage Unicode = UnicodeUsagePage.Instance;
+
+        /// <summary>
+        ///     SoC Usage Page.
+        /// </summary>
+        public static readonly SoCUsagePage SoC = SoCUsagePage.Instance;
 
         /// <summary>
         ///     Eye and Head Trackers Usage Page.
@@ -20411,6 +20496,7 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x00a3: return new Usage(this, id, "Switch Disabled", UsageTypes.Sel);
                 case 0x00a4: return new Usage(this, id, "Switch Unimplemented", UsageTypes.Sel);
                 case 0x00a5: return new Usage(this, id, "Transducer Switches", UsageTypes.CL);
+                case 0x00a6: return new Usage(this, id, "Transducer Index Selector", UsageTypes.DV);
             }
 
             return base.CreateUsage(id);
@@ -20475,14 +20561,14 @@ namespace DevDecoder.HIDDevices.Pages
     /// <summary>
     ///     Base class for all usage pages.
     /// </summary>
-    public sealed class PhysicalInterfaceDeviceUsagePage : UsagePage
+    public sealed class PhysicalInterputDeviceUsagePage : UsagePage
     {
         /// <summary>
-        ///     Singleton instance of PhysicalInterfaceDevice Usage Page.
+        ///     Singleton instance of PhysicalInterputDevice Usage Page.
         /// </summary>
-        public static readonly PhysicalInterfaceDeviceUsagePage Instance = new PhysicalInterfaceDeviceUsagePage();
+        public static readonly PhysicalInterputDeviceUsagePage Instance = new PhysicalInterputDeviceUsagePage();
 
-        private PhysicalInterfaceDeviceUsagePage() : base(0x000f, "PhysicalInterfaceDevice")
+        private PhysicalInterputDeviceUsagePage() : base(0x000f, "PhysicalInterputDevice")
         {
         }
 
@@ -20492,7 +20578,7 @@ namespace DevDecoder.HIDDevices.Pages
             switch (id)
             {
                 case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
-                case 0x0001: return new Usage(this, id, "Physical Interface Device", UsageTypes.CA);
+                case 0x0001: return new Usage(this, id, "Physical Input Device", UsageTypes.CA);
                 case 0x0020: return new Usage(this, id, "Normal", UsageTypes.DV);
                 case 0x0021: return new Usage(this, id, "Set Effect Report", UsageTypes.CL);
                 case 0x0022: return new Usage(this, id, "Effect Block Index", UsageTypes.DV);
@@ -20623,6 +20709,42 @@ namespace DevDecoder.HIDDevices.Pages
             switch (id)
             {
                 case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+            }
+
+            return base.CreateUsage(id);
+        }
+    }
+
+    /// <summary>
+    ///     Base class for all usage pages.
+    /// </summary>
+    public sealed class SoCUsagePage : UsagePage
+    {
+        /// <summary>
+        ///     Singleton instance of SoC Usage Page.
+        /// </summary>
+        public static readonly SoCUsagePage Instance = new SoCUsagePage();
+
+        private SoCUsagePage() : base(0x0011, "SoC")
+        {
+        }
+
+        /// <inheritdoc />
+        protected override Usage CreateUsage(ushort id) 
+        {
+            switch (id)
+            {
+                case 0x0000: return new Usage(this, id, "Undefined", UsageTypes.None);
+                case 0x0001: return new Usage(this, id, "SoC Control", UsageTypes.CA);
+                case 0x0002: return new Usage(this, id, "Firmware Transfer", UsageTypes.CL);
+                case 0x0003: return new Usage(this, id, "Firmware File Id", UsageTypes.DV);
+                case 0x0004: return new Usage(this, id, "File Offset In Bytes", UsageTypes.DV);
+                case 0x0005: return new Usage(this, id, "File Transfer Size Max In Bytes", UsageTypes.DV);
+                case 0x0006: return new Usage(this, id, "File Payload", UsageTypes.DV);
+                case 0x0007: return new Usage(this, id, "File Payload Size In Bytes", UsageTypes.DV);
+                case 0x0008: return new Usage(this, id, "File Payload Contains Last Bytes", UsageTypes.DF);
+                case 0x0009: return new Usage(this, id, "File Transfer Stop", UsageTypes.DF);
+                case 0x000a: return new Usage(this, id, "File Transfer Till End", UsageTypes.DF);
             }
 
             return base.CreateUsage(id);

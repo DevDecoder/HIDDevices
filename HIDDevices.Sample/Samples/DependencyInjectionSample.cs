@@ -35,7 +35,7 @@ namespace HIDDevices.Sample.Samples
             await using var serviceProvider = serviceCollection.BuildServiceProvider();
 
             // Get the logger
-            var logger = serviceProvider.GetService<ILogger<DependencyInjectionSample>>();
+            var logger = serviceProvider.GetService<ILogger<DependencyInjectionSample>>()!;
 
             // Grab the controllers service
             var controllers = serviceProvider.GetService<Devices>()!;

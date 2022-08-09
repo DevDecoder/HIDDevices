@@ -15,6 +15,11 @@ namespace DevDecoder.HIDDevices
     ///     <seealso cref="Device">Devices</seealso>
     ///     that can be matched by the controller.
     /// </summary>
+    /// <remarks>
+    ///     Note that multiple usages can be supplied, any value that can be converted to a <see langref="uint"/>
+    ///     is supported, which includes the Usage enums. Further, the value must be the full ID, and encode
+    ///     the page and ID of the usage.
+    /// </remarks>
     /// <seealso cref="Controller" />
     /// <seealso cref="Device" />
     /// <seealso cref="Attribute" />
@@ -27,7 +32,9 @@ namespace DevDecoder.HIDDevices
         ///     Initializes a new instance of the <see cref="DeviceAttribute" /> class.
         /// </summary>
         /// <param name="usages">The usages, all of which must match.</param>
-        public DeviceAttribute(params object[] usages) => Usages = usages.OfType<Enum>().Select(Usage.Get).ToArray();
+        public DeviceAttribute(params object[] usages) => Usages = Usages = usages
+            .Select(o => Usage.Get(Convert.ToUInt32(o)))
+            .ToArray();
 
         /// <summary>
         ///     Gets a list of valid usages, of which the device must match all.
