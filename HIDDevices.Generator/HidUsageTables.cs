@@ -3,6 +3,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Newtonsoft.Json;
 
 // ReSharper disable UnusedMember.Global
@@ -30,6 +32,7 @@ public class HidUsageTables
     /// <param name="usageTableSubRevisionInternal">Sub-revision of the HID Usage Table.</param>
     /// <param name="lastGenerated">Date of table generation.</param>
     [JsonConstructor]
+    [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "Used during deserialization.")]
     private HidUsageTables(
         IReadOnlyList<HidUsagePage> usagePages,
         ushort usageTableVersion,
@@ -37,7 +40,7 @@ public class HidUsageTables
         ushort usageTableSubRevisionInternal,
         DateTime lastGenerated)
     {
-        UsagePages = usagePages;
+        UsagePages = usagePages.OrderBy(p => p.Id).ToArray();
 
         UsageTableVersion = usageTableVersion;
         UsageTableRevision = usageTableRevision;

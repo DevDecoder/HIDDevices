@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <PackageId>HIDDevices</PackageId>
     <Authors>Craig Dean</Authors>
@@ -43,7 +44,9 @@
     <HIDUsageTablesJSON>HidUsageTables.json</HIDUsageTablesJSON>
     <!--Where to look for JSON or PDF cache files-->
     <HIDUsageTablesCacheFolder>$(CompilerGeneratedFilesOutputPath)</HIDUsageTablesCacheFolder>
-    <!--By default, we look in the 'CompilerGeneratedFilesOutputPath' for a JSON, then a PDF, and then use the source URL, this forces us to use the source URL-->
+    <!--Maximum number of auto-generated enum values for ranges (ushort)-->
+    <HIDUsagePagesMaxGenerated>16</HIDUsagePagesMaxGenerated>
+    <!--By default, we look in the 'CompilerGeneratedFilesOutputPath' for a JSON, then a PDF, and then use the source URL, this forces us to use the source URL (bool)-->
     <GenerateUsagesFromSource Condition="'$(Configuration)' == 'GenerateFromSource'">true</GenerateUsagesFromSource>
   </PropertyGroup>
   <ItemGroup>
@@ -86,16 +89,20 @@
   <ItemGroup Condition="'$(GenerateUsages)' == 'true'">
     <ProjectReference Include="..\HIDDevices.Generator\HIDDevices.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 
+    <!--Expose configuration parameters-->
+    <CompilerVisibleProperty Include="RootNamespace" />
     <CompilerVisibleProperty Include="HIDUsageTablesPDF" />
     <CompilerVisibleProperty Include="HIDUsageTablesJSON" />
     <CompilerVisibleProperty Include="HIDUsageTablesCacheFolder" />
     <CompilerVisibleProperty Include="GenerateUsagesFromSource" />
+    <CompilerVisibleProperty Include="HIDUsagePagesMaxGenerated" />
 
     <!--Exclude the output of source generators from the compilation, this will use the 'in-memory' generated files on compilation-->
     <Compile Remove="$(CompilerGeneratedFilesOutputPath)/**/*.cs" />
     <Content Include="$(CompilerGeneratedFilesOutputPath)/**/*.cs" />
   </ItemGroup>
   <Target Name="CleanSourceGeneratedFolders" Condition="'$(GenerateUsages)' == 'true'" BeforeTargets="BeforeBuild" DependsOnTargets="$(BeforeBuildDependsOn)">
+    <!--Remove the auto-generated code prior to re-generation-->
     <RemoveDir Directories="$(CompilerGeneratedFilesOutputPath)\HIDDevices.Generator" ContinueOnError="true" />
 
     <Message Importance="High" Text="Generating Usage Tables!" />

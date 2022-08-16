@@ -11,8 +11,6 @@ namespace HIDDevices.Generator;
 ///     Usage Kinds, as described in the HID Usage Tables.
 /// </summary>
 [JsonConverter(typeof(StringEnumConverter))]
-[SuppressMessage("StyleCop.CSharp.DocumentationRules",
-    "SA1602:Enumeration items should be documented", Justification = "Items self-explanatory.")]
 public enum HidUsageKind
 {
     // Button Kinds

@@ -3,6 +3,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace HIDDevices.Generator;
@@ -23,6 +25,7 @@ public class HidUsagePage
     /// <param name="usageIds">The usage Ids.</param>
     /// <param name="usageIdGenerator">The optional generator.</param>
     [JsonConstructor]
+    [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "Used during deserialization.")]
     private HidUsagePage(ushort id, string name, HidUsagePageKind kind, IReadOnlyList<HidUsageId> usageIds,
         HidUsageGenerator? usageIdGenerator)
     {
@@ -34,8 +37,9 @@ public class HidUsagePage
         Id = id;
         Name = name;
         Kind = kind;
-        UsageIds = usageIds;
         UsageIdGenerator = usageIdGenerator;
+        UsageIds = Normalize(usageIds).ToArray();
+        SafeName = name.GetSafe();
     }
 
     /// <summary>
@@ -68,6 +72,57 @@ public class HidUsagePage
     /// </summary>
     [JsonProperty]
     public HidUsageGenerator? UsageIdGenerator { get; }
+
+    /// <summary>
+    ///     The C# safe version of the name.
+    /// </summary>
+    public string SafeName { get; internal set; }
+
+    /// <summary>
+    ///     Places ids in numerical order, and ensures there is a '0' value.
+    /// </summary>
+    /// <param name="usageIds"></param>
+    /// <returns></returns>
+    private IEnumerable<HidUsageId> Normalize(IReadOnlyList<HidUsageId> usageIds)
+    {
+        var safeNames = new HashSet<string>();
+        var first = true;
+        foreach (var id in usageIds.OrderBy(i => i.Id))
+        {
+            if (first)
+            {
+                if (id.Id != 0)
+                {
+                    safeNames.Add(HidUsageId.Undefined.SafeName);
+                    yield return HidUsageId.Undefined;
+                }
+
+                first = false;
+            }
+
+            var safeName = id.SafeName;
+            if (safeNames.Contains(safeName))
+            {
+                var suffix = 1;
+                string newName;
+                do
+                {
+                    newName = safeName + ++suffix;
+                } while (safeNames.Contains(newName));
+
+                safeName = newName;
+                id.SafeName = newName;
+            }
+
+            safeNames.Add(safeName);
+            yield return id;
+        }
+
+        if (first)
+        {
+            yield return HidUsageId.Undefined;
+        }
+    }
 
     /// <inheritdoc />
     public override string ToString() => $"{Name}[{Id:#,#}]";

@@ -1,6 +1,6 @@
 ﻿## Release 3.0
 
-## New Rules
+### New Rules
 
 Rule ID | Category | Severity | Notes
 --------|----------|----------|--------------------

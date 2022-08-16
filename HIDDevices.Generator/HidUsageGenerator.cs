@@ -25,6 +25,7 @@ public class HidUsageGenerator
         IReadOnlyCollection<HidUsageKind> kinds)
     {
         NamePrefix = namePrefix;
+        SafeNamePrefix = namePrefix.GetSafe();
         StartUsageId = startUsageId;
         EndUsageId = endUsageId;
         Kinds = kinds;
@@ -35,6 +36,11 @@ public class HidUsageGenerator
     /// </summary>
     [JsonProperty]
     public string NamePrefix { get; }
+
+    /// <summary>
+    ///     Gets the Safe Name all generated Usages shall have.
+    /// </summary>
+    public string SafeNamePrefix { get; }
 
     /// <summary>
     ///     Gets the first valid UsageId for this generator.  All IDs between <see cref="StartUsageId" /> and

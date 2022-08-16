@@ -9,131 +9,130 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
-namespace HIDDevices.Sample
+namespace HIDDevices.Sample;
+
+public abstract class Sample : ISample
 {
-    public abstract class Sample : ISample
+    private readonly SimpleConsoleLogger<Sample> _logger;
+    private readonly HashSet<string> _shortNames;
+
+    protected Sample(string? fullName = null, params string[] shortNames)
     {
-        private readonly SimpleConsoleLogger<Sample> _logger;
-        private readonly HashSet<string> _shortNames;
+        FullName = fullName ?? GetFullName(GetType().Name);
 
-        protected Sample(string? fullName = null, params string[] shortNames)
+        _shortNames = shortNames.Length > 0 ? new HashSet<string>(shortNames) : GetShortNames(FullName);
+        _logger = new SimpleConsoleLogger<Sample>(LogLevel.Information, GetType().Name);
+    }
+
+    protected ILogger Logger => _logger;
+
+    public LogLevel LogLevel { get => _logger.LogLevel; set => _logger.LogLevel = value; }
+
+    /// <inheritdoc />
+    public string FullName { get; }
+
+    /// <inheritdoc />
+    public IReadOnlyCollection<string> ShortNames => _shortNames;
+
+    /// <inheritdoc />
+    public virtual Task ExecuteAsync(CancellationToken token = default) => Task.Run(Execute, token);
+
+    /// <inheritdoc />
+    public abstract string Description { get; }
+
+    /// <summary>
+    ///     Execute the example synchronously.
+    /// </summary>
+    protected virtual void Execute() { }
+
+    public static ILogger<T> CreateLogger<T>(LogLevel logLevel = LogLevel.Information) =>
+        new SimpleConsoleLogger<T>(logLevel);
+
+    /// <summary>
+    ///     Gets a friendly full name
+    /// </summary>
+    /// <param name="typeName"></param>
+    /// <returns></returns>
+    protected static string GetFullName(string typeName)
+    {
+        var builder = new StringBuilder(typeName.Length + 5);
+        var first = true;
+        foreach (var c in typeName)
         {
-            FullName = fullName ?? GetFullName(GetType().Name);
+            if (first)
+            {
+                first = false;
+            }
+            else if (char.IsUpper(c))
+            {
+                builder.Append(' ');
+            }
 
-            _shortNames = shortNames.Length > 0 ? new HashSet<string>(shortNames) : GetShortNames(FullName);
-            _logger = new SimpleConsoleLogger<Sample>(LogLevel.Information, GetType().Name);
+            builder.Append(c);
         }
 
-        protected ILogger Logger => _logger;
-
-        public LogLevel LogLevel { get => _logger.LogLevel; set => _logger.LogLevel = value; }
-
-        /// <inheritdoc />
-        public string FullName { get; }
-
-        /// <inheritdoc />
-        public IReadOnlyCollection<string> ShortNames => _shortNames;
-
-        /// <inheritdoc />
-        public virtual Task ExecuteAsync(CancellationToken token = default) => Task.Run(Execute, token);
-
-        /// <inheritdoc />
-        public abstract string Description { get; }
-
-        /// <summary>
-        ///     Execute the example synchronously.
-        /// </summary>
-        protected virtual void Execute() { }
-
-        public static ILogger<T> CreateLogger<T>(LogLevel logLevel = LogLevel.Information) =>
-            new SimpleConsoleLogger<T>(logLevel);
-
-        /// <summary>
-        ///     Gets a friendly full name
-        /// </summary>
-        /// <param name="typeName"></param>
-        /// <returns></returns>
-        protected static string GetFullName(string typeName)
+        var fullName = builder.ToString();
+        if (fullName.EndsWith("Sample", StringComparison.InvariantCultureIgnoreCase))
         {
-            var builder = new StringBuilder(typeName.Length + 5);
-            var first = true;
-            foreach (var c in typeName)
-            {
-                if (first)
-                {
-                    first = false;
-                }
-                else if (char.IsUpper(c))
-                {
-                    builder.Append(' ');
-                }
-
-                builder.Append(c);
-            }
-
-            var fullName = builder.ToString();
-            if (fullName.EndsWith("Sample", StringComparison.InvariantCultureIgnoreCase))
-            {
-                fullName = fullName[..^6].TrimEnd();
-            }
-
-            return fullName;
+            fullName = fullName[..^6].TrimEnd();
         }
 
-        /// <summary>
-        ///     Gets some short names based on the first word and initials.
-        /// </summary>
-        /// <param name="fullName">The full name of the sample.</param>
-        /// <returns>An array of short names.</returns>
-        protected static HashSet<string> GetShortNames(string fullName)
+        return fullName;
+    }
+
+    /// <summary>
+    ///     Gets some short names based on the first word and initials.
+    /// </summary>
+    /// <param name="fullName">The full name of the sample.</param>
+    /// <returns>An array of short names.</returns>
+    protected static HashSet<string> GetShortNames(string fullName)
+    {
+        var shortNames = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase);
+        var initials = new StringBuilder();
+        var word = new StringBuilder();
+        var titleCase = new StringBuilder();
+        var afterSpace = true;
+        var firstWord = true;
+        foreach (var c in fullName)
         {
-            var shortNames = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase);
-            var initials = new StringBuilder();
-            var word = new StringBuilder();
-            var titleCase = new StringBuilder();
-            var afterSpace = true;
-            var firstWord = true;
-            foreach (var c in fullName)
+            if (char.GetUnicodeCategory(c) == UnicodeCategory.SpaceSeparator)
             {
-                if (char.GetUnicodeCategory(c) == UnicodeCategory.SpaceSeparator)
-                {
-                    afterSpace = true;
-                    firstWord = false;
-                    continue;
-                }
-
-                if (afterSpace)
-                {
-                    afterSpace = false;
-                    var ch = char.ToUpperInvariant(c);
-                    initials.Append(ch);
-                    titleCase.Append(ch);
-                }
-                else
-                {
-                    titleCase.Append(c);
-                }
-
-                if (firstWord)
-                {
-                    word.Append(c);
-                }
+                afterSpace = true;
+                firstWord = false;
+                continue;
             }
 
-            shortNames.Add(initials.ToString(0, 1));
-            if (initials.Length > 1)
+            if (afterSpace)
             {
-                shortNames.Add(initials.ToString());
+                afterSpace = false;
+                var ch = char.ToUpperInvariant(c);
+                initials.Append(ch);
+                titleCase.Append(ch);
+            }
+            else
+            {
+                titleCase.Append(c);
             }
 
-            shortNames.Add(word.ToString());
-
-            if (titleCase.Length < 10)
+            if (firstWord)
             {
-                shortNames.Add(titleCase.ToString());
+                word.Append(c);
             }
-
-            return shortNames;
         }
+
+        shortNames.Add(initials.ToString(0, 1));
+        if (initials.Length > 1)
+        {
+            shortNames.Add(initials.ToString());
+        }
+
+        shortNames.Add(word.ToString());
+
+        if (titleCase.Length < 10)
+        {
+            shortNames.Add(titleCase.ToString());
+        }
+
+        return shortNames;
     }
 }
