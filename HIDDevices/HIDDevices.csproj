@@ -41,6 +41,8 @@
     <HIDUsageTablesPDF>https://usb.org/sites/default/files/hut1_3_0.pdf</HIDUsageTablesPDF>
     <!--This is the attachment name in the PDF of the JSON file-->
     <HIDUsageTablesJSON>HidUsageTables.json</HIDUsageTablesJSON>
+    <!--Where to look for JSON or PDF cache files-->
+    <HIDUsageTablesCacheFolder>$(CompilerGeneratedFilesOutputPath)</HIDUsageTablesCacheFolder>
     <!--By default, we look in the 'CompilerGeneratedFilesOutputPath' for a JSON, then a PDF, and then use the source URL, this forces us to use the source URL-->
     <GenerateUsagesFromSource Condition="'$(Configuration)' == 'GenerateFromSource'">true</GenerateUsagesFromSource>
   </PropertyGroup>
@@ -86,6 +88,7 @@
 
     <CompilerVisibleProperty Include="HIDUsageTablesPDF" />
     <CompilerVisibleProperty Include="HIDUsageTablesJSON" />
+    <CompilerVisibleProperty Include="HIDUsageTablesCacheFolder" />
     <CompilerVisibleProperty Include="GenerateUsagesFromSource" />
 
     <!--Exclude the output of source generators from the compilation, this will use the 'in-memory' generated files on compilation-->
