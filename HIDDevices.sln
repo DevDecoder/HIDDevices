@@ -20,28 +20,46 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIDDevices.Sample", "HIDDevices.Sample\HIDDevices.Sample.csproj", "{0E520169-5E25-43C5-BFD3-53FA4D4FF190}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HIDDevices.Generator", "HIDDevices.Generator\HIDDevices.Generator.csproj", "{9C8AD226-E52C-411E-9F05-1211754EEBDC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIDDevices.Generator", "HIDDevices.Generator\HIDDevices.Generator.csproj", "{9C8AD226-E52C-411E-9F05-1211754EEBDC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		GenerateFromCache|Any CPU = GenerateFromCache|Any CPU
+		GenerateFromSource|Any CPU = GenerateFromSource|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5BE3CAC9-DB63-4A23-869E-9A97B8B5E6ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5BE3CAC9-DB63-4A23-869E-9A97B8B5E6ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BE3CAC9-DB63-4A23-869E-9A97B8B5E6ED}.GenerateFromCache|Any CPU.ActiveCfg = GenerateFromCache|Any CPU
+		{5BE3CAC9-DB63-4A23-869E-9A97B8B5E6ED}.GenerateFromCache|Any CPU.Build.0 = GenerateFromCache|Any CPU
+		{5BE3CAC9-DB63-4A23-869E-9A97B8B5E6ED}.GenerateFromSource|Any CPU.ActiveCfg = GenerateFromSource|Any CPU
+		{5BE3CAC9-DB63-4A23-869E-9A97B8B5E6ED}.GenerateFromSource|Any CPU.Build.0 = GenerateFromSource|Any CPU
 		{5BE3CAC9-DB63-4A23-869E-9A97B8B5E6ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5BE3CAC9-DB63-4A23-869E-9A97B8B5E6ED}.Release|Any CPU.Build.0 = Release|Any CPU
 		{95729392-466B-4985-8803-96AFA24F580E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{95729392-466B-4985-8803-96AFA24F580E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95729392-466B-4985-8803-96AFA24F580E}.GenerateFromCache|Any CPU.ActiveCfg = GenerateFromCache|Any CPU
+		{95729392-466B-4985-8803-96AFA24F580E}.GenerateFromCache|Any CPU.Build.0 = GenerateFromCache|Any CPU
+		{95729392-466B-4985-8803-96AFA24F580E}.GenerateFromSource|Any CPU.ActiveCfg = GenerateFromSource|Any CPU
+		{95729392-466B-4985-8803-96AFA24F580E}.GenerateFromSource|Any CPU.Build.0 = GenerateFromSource|Any CPU
 		{95729392-466B-4985-8803-96AFA24F580E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95729392-466B-4985-8803-96AFA24F580E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0E520169-5E25-43C5-BFD3-53FA4D4FF190}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0E520169-5E25-43C5-BFD3-53FA4D4FF190}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E520169-5E25-43C5-BFD3-53FA4D4FF190}.GenerateFromCache|Any CPU.ActiveCfg = GenerateFromCache|Any CPU
+		{0E520169-5E25-43C5-BFD3-53FA4D4FF190}.GenerateFromCache|Any CPU.Build.0 = GenerateFromCache|Any CPU
+		{0E520169-5E25-43C5-BFD3-53FA4D4FF190}.GenerateFromSource|Any CPU.ActiveCfg = GenerateFromSource|Any CPU
+		{0E520169-5E25-43C5-BFD3-53FA4D4FF190}.GenerateFromSource|Any CPU.Build.0 = GenerateFromSource|Any CPU
 		{0E520169-5E25-43C5-BFD3-53FA4D4FF190}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E520169-5E25-43C5-BFD3-53FA4D4FF190}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9C8AD226-E52C-411E-9F05-1211754EEBDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9C8AD226-E52C-411E-9F05-1211754EEBDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C8AD226-E52C-411E-9F05-1211754EEBDC}.GenerateFromCache|Any CPU.ActiveCfg = GenerateFromCache|Any CPU
+		{9C8AD226-E52C-411E-9F05-1211754EEBDC}.GenerateFromCache|Any CPU.Build.0 = GenerateFromCache|Any CPU
+		{9C8AD226-E52C-411E-9F05-1211754EEBDC}.GenerateFromSource|Any CPU.ActiveCfg = GenerateFromSource|Any CPU
+		{9C8AD226-E52C-411E-9F05-1211754EEBDC}.GenerateFromSource|Any CPU.Build.0 = GenerateFromSource|Any CPU
 		{9C8AD226-E52C-411E-9F05-1211754EEBDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C8AD226-E52C-411E-9F05-1211754EEBDC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

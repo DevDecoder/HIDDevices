@@ -25,18 +25,25 @@
     <AssemblyName>DevDecoder.HIDDevices</AssemblyName>
     <RootNamespace>DevDecoder.HIDDevices</RootNamespace>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <Configurations>Debug;Release;GenerateFromCache;GenerateFromSource</Configurations>
   </PropertyGroup>
   <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Usages\hid-usage-tables\**" />
-    <EmbeddedResource Remove="Usages\hid-usage-tables\**" />
-    <None Remove="Usages\hid-usage-tables\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="Usages\GenerateUsagePages.tt" />
-  </ItemGroup>
+  <!--We don't want to generate on every build, instead we have to build configurations, either build from the source URL PDF, or from a local JSON cache file/PDF-->
+  <PropertyGroup Condition="'$(Configuration)' == 'GenerateFromCache' OR '$(Configuration)' == 'GenerateFromSource'">
+    <GenerateUsages>true</GenerateUsages>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(GenerateUsages)' == 'true'">
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
+    <!--This can be a URL or local cached file-->
+    <HIDUsageTablesPDF>https://usb.org/sites/default/files/hut1_3_0.pdf</HIDUsageTablesPDF>
+    <!--This is the attachment name in the PDF of the JSON file-->
+    <HIDUsageTablesJSON>HidUsageTables.json</HIDUsageTablesJSON>
+    <!--By default, we look in the 'CompilerGeneratedFilesOutputPath' for a JSON, then a PDF, and then use the source URL, this forces us to use the source URL-->
+    <GenerateUsagesFromSource Condition="'$(Configuration)' == 'GenerateFromSource'">true</GenerateUsagesFromSource>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="DynamicData" Version="7.9.7" />
     <PackageReference Include="HidSharp" Version="2.1.0" />
@@ -61,9 +68,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Update="Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -76,4 +80,21 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <!--Source Generation-->
+  <ItemGroup Condition="'$(GenerateUsages)' == 'true'">
+    <ProjectReference Include="..\HIDDevices.Generator\HIDDevices.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+
+    <CompilerVisibleProperty Include="HIDUsageTablesPDF" />
+    <CompilerVisibleProperty Include="HIDUsageTablesJSON" />
+    <CompilerVisibleProperty Include="GenerateUsagesFromSource" />
+
+    <!--Exclude the output of source generators from the compilation, this will use the 'in-memory' generated files on compilation-->
+    <Compile Remove="$(CompilerGeneratedFilesOutputPath)/**/*.cs" />
+    <Content Include="$(CompilerGeneratedFilesOutputPath)/**/*.cs" />
+  </ItemGroup>
+  <Target Name="CleanSourceGeneratedFolders" Condition="'$(GenerateUsages)' == 'true'" BeforeTargets="BeforeBuild" DependsOnTargets="$(BeforeBuildDependsOn)">
+    <RemoveDir Directories="$(CompilerGeneratedFilesOutputPath)\HIDDevices.Generator" ContinueOnError="true" />
+
+    <Message Importance="High" Text="Generating Usage Tables!" />
+  </Target>
 </Project>

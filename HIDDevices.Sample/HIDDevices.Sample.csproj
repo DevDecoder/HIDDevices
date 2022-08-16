@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <AssemblyName>HIDCSample</AssemblyName>
     <RootNamespace>HIDDevices.Sample</RootNamespace>
+    <Configurations>Debug;Release;GenerateFromCache;GenerateFromSource</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
