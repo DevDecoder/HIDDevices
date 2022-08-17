@@ -44,6 +44,22 @@ public static class Diagnostics
         "Deserialization",
         DiagnosticSeverity.Error,
         true);
+
+    public static readonly DiagnosticDescriptor JsonAttachmentNotFound = new DiagnosticDescriptor(
+        "HUT2002",
+        "JSON attachment not found in PDF file",
+        "Could not find the JSON attachment in '{0}'",
+        "Deserialization",
+        DiagnosticSeverity.Error,
+        true);
+
+    public static readonly DiagnosticDescriptor JsonExtractionFailed = new DiagnosticDescriptor(
+        "HUT2003",
+        "Error extracting JSON attachment from PDF file",
+        "Extracting the JSON attachment from '{0}' failed: {1}",
+        "Deserialization",
+        DiagnosticSeverity.Error,
+        true);
     // ReSharper restore ArrangeObjectCreationWhenTypeEvident
 #pragma warning restore IDE0090 // Use 'new(...)'
 

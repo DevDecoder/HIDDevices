@@ -10,6 +10,9 @@ using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using Newtonsoft.Json;
+using iTextSharp.text.pdf;
+using System.Data.Common;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HIDDevices.Generator;
 
@@ -103,7 +106,7 @@ public class UsagePageGenerator : ISourceGenerator
         if (tables == HidUsageTables.Empty)
         {
             // Load from source, updating Cache if appropriate
-            throw new NotImplementedException();
+            tables = LoadFromSource(context, specificationUri, cachePdf, cacheJson, context.CancellationToken);
         }
 
         // Create file header
@@ -500,6 +503,21 @@ using System.ComponentModel;
                 ? maxGenerated
                 : (ushort)16);
 
+
+    /// <summary>
+    ///     Loads tables from a remote PDF.
+    /// </summary>
+    /// <param name="context">The execution context.</param>
+    /// <param name="specificationUri">The Uri for the specification.</param>
+    /// <param name="pdfUri">The PDF cache file URI.</param>
+    /// <param name="jsonUri">The JSON cache file URI.</param>
+    /// <param name="contextCancellationToken"></param>
+    /// <param name="cancellationToken">The <see cref="CancellationToken" />.</param>
+    private HidUsageTables LoadFromSource(GeneratorExecutionContext context, Uri specificationUri, Uri pdfUri, Uri jsonUri, CancellationToken contextCancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
     /// <summary>
     ///     Loads Json from a cached PDF (and updates the cached JSON).
     /// </summary>
@@ -508,8 +526,74 @@ using System.ComponentModel;
     /// <param name="jsonUri">The JSON cache file URI.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken" />.</param>
     private HidUsageTables LoadFromPdf(GeneratorExecutionContext context, Uri pdfUri, Uri jsonUri,
-        CancellationToken cancellationToken) =>
-        throw new NotImplementedException();
+        CancellationToken cancellationToken)
+
+    {
+        try
+        {
+            var attachmentName = Path.GetFileName(jsonUri.LocalPath);
+            var reader = new PdfReader(pdfUri);
+            var catalog = reader.Catalog;
+            if (PdfReader.GetPdfObject(catalog.Get(PdfName.NAMES)) is PdfDictionary documentNames &&
+                PdfReader.GetPdfObject(documentNames.Get(PdfName.EMBEDDEDFILES)) is PdfDictionary embeddedFiles)
+            {
+                var fileSpecs = embeddedFiles.GetAsArray(PdfName.NAMES);
+
+                for (var i = 0; i < fileSpecs.Size; i++)
+                {
+                    var fileArray = fileSpecs.GetAsDict(i);
+                    if (fileArray is null) continue;
+
+                    var file = fileArray.GetAsDict(PdfName.EF);
+                    if (file is null) continue;
+
+                    var (key, fileName) = file.Keys.Where(k => k is not null)
+                        .Select(k => (key: k, fileName: fileArray.GetAsString(k)?.ToString()!))
+                        .Where(f => !string.IsNullOrWhiteSpace(f.fileName))
+                        .OrderBy(f =>
+                            string.Equals(f.fileName, attachmentName, StringComparison.InvariantCultureIgnoreCase)
+                                ? 0
+                                : 1)
+                        .FirstOrDefault();
+
+                    if (key is null)
+                    {
+                        context.Report(Diagnostics.JsonAttachmentNotFound, Location.None, pdfUri.AbsolutePath);
+                        return HidUsageTables.Empty;
+                    }
+
+                    if (PdfReader.GetPdfObject(file.GetAsIndirectObject(key)) is not PRStream stream)
+                    {
+                        context.Report(Diagnostics.JsonAttachmentNotFound, Location.None, pdfUri.AbsolutePath);
+                        return HidUsageTables.Empty;
+                    }
+
+                    if (CheckCancelled(context)) return HidUsageTables.Empty;
+
+                    var data = PdfReader.GetStreamBytes(stream);
+
+                    // Cache JSON
+                    File.WriteAllBytes(jsonUri.AbsolutePath, data);
+
+                    if (CheckCancelled(context)) return HidUsageTables.Empty;
+
+                    // Parse
+                    return JsonConvert.DeserializeObject<HidUsageTables>(Encoding.UTF8.GetString(data)) ??
+                           throw new NullReferenceException("The deserialization of JSON returned null.");
+                }
+
+            }
+            
+            context.Report(Diagnostics.JsonAttachmentNotFound, Location.None, pdfUri.AbsolutePath);
+            return HidUsageTables.Empty;
+        }
+        catch (Exception exception)
+        {
+            // TODO
+            context.Report(Diagnostics.JsonExtractionFailed, Location.None, pdfUri.AbsolutePath, exception);
+            return HidUsageTables.Empty;
+        }
+    }
 
     /// <summary>
     ///     Loads Json from a cached file.
@@ -533,16 +617,5 @@ using System.ComponentModel;
             context.Report(Diagnostics.JsonDeserializationFailed, Location.None, exception);
             return HidUsageTables.Empty;
         }
-    }
-
-    /// <summary>
-    ///     Loads Json from a stream.
-    /// </summary>
-    /// <param name="context">The execution context.</param>
-    /// <param name="jsonStream">The JSON stream.</param>
-    /// <param name="cancellationToken">The <see cref="CancellationToken" />.</param>
-    private void Load(GeneratorExecutionContext context, Stream jsonStream,
-        CancellationToken cancellationToken)
-    {
     }
 }
