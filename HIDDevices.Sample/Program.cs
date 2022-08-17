@@ -7,10 +7,10 @@ using System.Linq;
 using System.Reflection;
 using System.Resources;
 using System.Threading.Tasks;
-using static System.Formats.Asn1.AsnWriter;
 
 [assembly: NeutralResourcesLanguage("en-GB")]
-[assembly: SuppressMessage("Usage", "CA2254:Template should be a static expression", Justification = "This is sample code")]
+[assembly:
+    SuppressMessage("Usage", "CA2254:Template should be a static expression", Justification = "This is sample code")]
 
 namespace HIDDevices.Sample;
 

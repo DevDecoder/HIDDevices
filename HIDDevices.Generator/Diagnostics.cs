@@ -12,8 +12,16 @@ public static class Diagnostics
 {
     // ReSharper disable ArrangeObjectCreationWhenTypeEvident - See https://github.com/dotnet/roslyn-analyzers/issues/5957
 #pragma warning disable IDE0090 // Use 'new(...)'
-    public static readonly DiagnosticDescriptor Cancelled = new DiagnosticDescriptor(
+    public static readonly DiagnosticDescriptor Completed = new DiagnosticDescriptor(
         "HUT0001",
+        "Generation succeeded",
+        "Generation succeeded for version {0}. {1} usages in {2} usage pages in {3:g}.",
+        "Generation",
+        DiagnosticSeverity.Info,
+        true);
+
+    public static readonly DiagnosticDescriptor Cancelled = new DiagnosticDescriptor(
+        "HUT00FF",
         "Cancelled",
         "Generation was cancelled",
         "Generation",
@@ -28,13 +36,20 @@ public static class Diagnostics
         DiagnosticSeverity.Warning,
         true);
 
-
     public static readonly DiagnosticDescriptor CachingDisabled = new DiagnosticDescriptor(
         "HUT1002",
         "Caching disabled",
         "Caching disabled as cache file locations could not be determined",
         "Caching",
         DiagnosticSeverity.Warning,
+        true);
+
+    public static readonly DiagnosticDescriptor PdfNotFound = new DiagnosticDescriptor(
+        "HUT1003",
+        "PDF Not found",
+        "Failed to find the PDF file {0}: {1}",
+        "Caching",
+        DiagnosticSeverity.Error,
         true);
 
     public static readonly DiagnosticDescriptor JsonDeserializationFailed = new DiagnosticDescriptor(

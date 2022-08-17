@@ -21,7 +21,11 @@ public class HidUsageTables
     /// </summary>
     public static HidUsageTables Empty = new();
 
-    private HidUsageTables() => UsagePages = Array.Empty<HidUsagePage>();
+    private HidUsageTables()
+    {
+        UsagePages = Array.Empty<HidUsagePage>();
+        Version = new Version();
+    }
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="HidUsageTables" /> class.
@@ -32,7 +36,8 @@ public class HidUsageTables
     /// <param name="usageTableSubRevisionInternal">Sub-revision of the HID Usage Table.</param>
     /// <param name="lastGenerated">Date of table generation.</param>
     [JsonConstructor]
-    [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "Used during deserialization.")]
+    [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members",
+        Justification = "Used during deserialization.")]
     private HidUsageTables(
         IReadOnlyList<HidUsagePage> usagePages,
         ushort usageTableVersion,
@@ -45,6 +50,7 @@ public class HidUsageTables
         UsageTableVersion = usageTableVersion;
         UsageTableRevision = usageTableRevision;
         UsageTableSubRevisionInternal = usageTableSubRevisionInternal;
+        Version = new Version(UsageTableVersion, UsageTableRevision, usageTableSubRevisionInternal);
 
         LastGenerated = lastGenerated;
     }
@@ -66,6 +72,11 @@ public class HidUsageTables
     /// </summary>
     [JsonProperty]
     public ushort UsageTableSubRevisionInternal { get; }
+
+    /// <summary>
+    ///     The specification version
+    /// </summary>
+    public Version Version { get; }
 
     /// <summary>
     ///     Gets the date the table was generated.

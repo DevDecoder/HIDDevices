@@ -13,8 +13,9 @@ using Microsoft.Extensions.Logging;
 using Xunit;
 using Xunit.Abstractions;
 
+[assembly:
+    SuppressMessage("Usage", "CA2254:Template should be a static expression", Justification = "This is sample code")]
 
-[assembly: SuppressMessage("Usage", "CA2254:Template should be a static expression", Justification = "This is sample code")]
 namespace HIDDevices.Test;
 
 public class Tests

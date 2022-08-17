@@ -25,7 +25,8 @@ public class HidUsagePage
     /// <param name="usageIds">The usage Ids.</param>
     /// <param name="usageIdGenerator">The optional generator.</param>
     [JsonConstructor]
-    [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "Used during deserialization.")]
+    [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members",
+        Justification = "Used during deserialization.")]
     private HidUsagePage(ushort id, string name, HidUsagePageKind kind, IReadOnlyList<HidUsageId> usageIds,
         HidUsageGenerator? usageIdGenerator)
     {

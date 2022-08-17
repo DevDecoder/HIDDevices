@@ -68,7 +68,7 @@ public sealed class Device : IObservable<IList<ControlChange>>, IReadOnlyDiction
 
         // Create cache of last known values.
         _cache = new Dictionary<Control, ControlChange>();
-        
+
         var listener = Observable.Create<IList<ControlChange>>(
                 async (observer, token) =>
                 {
