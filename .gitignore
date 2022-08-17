@@ -338,3 +338,7 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+# Ignore cached HID Table specifications
+/HIDDevices/Generated/*.json
+/HIDDevices/Generated/*.pdf
