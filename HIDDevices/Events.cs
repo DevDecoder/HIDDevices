@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 
@@ -102,13 +101,13 @@ public sealed class Event
     ///     Gets the message format.
     /// </summary>
     /// <value>The message format.</value>
-    public string Format => Resources.ResourceManager.GetString(_messageResource);
+    public string Format => Resources.ResourceManager.GetString(_messageResource) ?? string.Empty;
 
     /// <summary>
     ///     Gets the event's description.
     /// </summary>
     /// <value>The description.</value>
-    public string Description => Resources.ResourceManager.GetString(_descriptionResource);
+    public string Description => Resources.ResourceManager.GetString(_descriptionResource) ?? string.Empty;
 
     /// <summary>
     ///     Gets the unique identifier.
@@ -128,7 +127,7 @@ public sealed class Event
     /// <param name="id">The identifier.</param>
     /// <param name="event">The event.</param>
     /// <returns><see langword="true" /> if found, <see langword="false" /> otherwise.</returns>
-    public static bool TryGet(int id, [MaybeNullWhen(false)] out Event? @event) =>
+    public static bool TryGet(int id, out Event? @event) =>
         s_all.TryGetValue(id, out @event);
 
     /// <summary>

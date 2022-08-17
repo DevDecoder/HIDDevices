@@ -2,6 +2,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.ComponentModel;
 using System.Globalization;
 
 namespace DevDecoder.HIDDevices.Converters;
@@ -98,7 +99,7 @@ public class RangeConverter : ControlConverter<double>
     public double OutputRange { get; }
 
     /// <inheritdoc />
-    public override double Convert(CultureInfo culture, double value)
+    protected override double Convert(ITypeDescriptorContext context, CultureInfo culture, double value)
     {
         if (double.IsNaN(value))
         {

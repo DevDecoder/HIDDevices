@@ -118,7 +118,7 @@ public sealed class Devices : IObservableCache<Device, string>
 
         var toDispose = controllers.Items.ToArray();
         controllers.Clear();
-        controllers?.Dispose();
+        controllers.Dispose();
         foreach (var device in toDispose)
         {
             // Note we only dispose controllers when we're disposed,

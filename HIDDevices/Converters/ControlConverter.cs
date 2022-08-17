@@ -3,7 +3,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace DevDecoder.HIDDevices.Converters;
@@ -24,16 +23,16 @@ public abstract class ControlConverter<T> : TypeConverter
     /// <inheritdoc />
     public override object? ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         => value is double dv
-            ? Convert(culture, dv)
+            ? Convert(context, culture, dv)
             : base.ConvertFrom(context, culture, value);
 
     /// <summary>
     ///     Converts the value to the <see cref="T">specified type.</see>.
     /// </summary>
+    /// <param name="context">The context.</param>
     /// <param name="culture">The culture.</param>
     /// <param name="value">The value.</param>
     /// <returns>The value.</returns>
-    [return: MaybeNull]
-    public virtual T Convert(CultureInfo culture, double value) =>
-        base.ConvertFrom(null, culture, value) is T v ? v : default;
+    protected virtual T? Convert(ITypeDescriptorContext context, CultureInfo culture, double value) =>
+        base.ConvertFrom(context, culture, value) is T v ? v : default;
 }

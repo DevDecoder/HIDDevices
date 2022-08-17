@@ -2,6 +2,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.ComponentModel;
 using System.Globalization;
 
 namespace DevDecoder.HIDDevices.Converters;
@@ -24,7 +25,7 @@ public sealed class DirectionConverter : ControlConverter<Direction>
     }
 
     /// <inheritdoc />
-    public override Direction Convert(CultureInfo culture, double value) => double.IsNaN(value)
+    protected override Direction Convert(ITypeDescriptorContext context, CultureInfo culture, double value) => double.IsNaN(value)
         ? Direction.NotPressed
         : (Direction)Math.Clamp((int)Math.Round(value * 7.0), 0, 7);
 }

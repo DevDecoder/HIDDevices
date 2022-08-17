@@ -34,8 +34,10 @@ public class Tests
     {
         Assert.NotEmpty(Event.All);
         Assert.Equal(Event.All.Count, Event.All.Select(e => e.Id).Distinct().Count());
+        // ReSharper disable ParameterOnlyUsedForPreconditionCheck.Local
         Assert.DoesNotContain(Event.All, e => string.IsNullOrWhiteSpace(e.Format));
         Assert.DoesNotContain(Event.All, e => string.IsNullOrWhiteSpace(e.Description));
+        // ReSharper restore ParameterOnlyUsedForPreconditionCheck.Local
 
         // The library provides fully described Event IDs, with localisable resources, for easy filtering of logs.
         // The full list of events can be found in the Event.All collection.

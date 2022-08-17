@@ -44,7 +44,7 @@ public partial class Controller
             CreateControllerDelegate<Controller?> createControllerDelegate)
             => s_infos[type] = new ControllerInfo(createControllerDelegate);
 
-        public static ControllerInfo? Get<T>() where T : Controller => Get(typeof(T));
+        public static ControllerInfo Get<T>() where T : Controller => Get(typeof(T));
 
         public static ControllerInfo Get(Type type)
         {

@@ -7,9 +7,8 @@ This library provides a cross-platform service for asynchronously accessing HID 
 ## Important Notes
 * The project is currently based on [HIDSharp](https://www.zer7.com/software/hidsharp), but deliberately does not expose any of its library explicitly as it may well be replaced in future.
 * Although the project isn't actively maintained, I do occassionaly refresh the usage tables, and will respond to issues if raised in the issue tracker.
-* As the `Usage`s and `UsagePage`s are auto-generated they can change between versions whenever [Integrated Circuits](https://github.com/IntergatedCircuits/hid-usage-tables) update their
-code-readable tables.  This can cause breaking changes in your own code, so be careful when updating versions of the NuGet.  In particular, any time the HID tables are updated, I will update
-the minor version number (at least).  One notable change was from 2.0-2.1, when many of 1-indexed usages were changed to 0-indexed, e.g. `ButtonPage.Button1` became `ButtonPage.Button0`.
+* As the `Usage`s and `UsagePage`s are auto-generated they can change between versions whenever [the USB HID Usage Tables](https://usb.org/hid) are updated.  This can cause breaking changes in your own code, so be careful when updating versions of the NuGet.  In particular, any time the HID tables are updated, I will update
+the minor version number (at least).  Notable changes include from 2.0-2.1, when many of 1-indexed usages were changed to 0-indexed, e.g. `ButtonPage.Button1` became `ButtonPage.Button0`; and when moving from version 2 to version 3, when the code generation was changed and the source of truth was changed to directly reference the published PDF specification (see #6).
 * It appears that the XInput-compatible HID device driver only transmits events from the HID device whilst the current process has a focussed window, so console applications/background services don't appear to work!  This is not a bug in this library, although
 I have been unable to find where this 'feature' is documented.  This affects the "Microsoft XBox One for Windows Controller".
 
@@ -175,6 +174,11 @@ Usage usage = ButtonPage.Button0;
 Console.WriteLine($"Usage: {usage.Name}; Page: {usage.Page.Name}");
 ```
 
+# The HID Tables
+The Usage Page enums and classes are extremely convenient, but it is entirely possible to use this library with, as yet unpublished, values by using the raw ids.
+
+However, it is also relatively quick to publish an updated NuGet whenever the specification changes as the build process can download the raw PDF from https://usb.org and generate new code automatically. Unfortuantely, I do not monitor the specifications for updates, so please [create an issue](https://github.com/DevDecoder/HIDDevices/issues) if you would like to prompt me to update - I usually respond fairly quickly.
+
 # TODO
 
 * More documentation, examples
@@ -182,7 +186,7 @@ Console.WriteLine($"Usage: {usage.Name}; Page: {usage.Page.Name}");
 * More Tests!
 * Automate NuGet Release notes
 
-### Testing status
+## Testing status
 
 The following controllers have been tested:
 * Saitek X-52 Pro Flight Control System,
@@ -199,8 +203,9 @@ Please let me know if you've confirmed it as working with other devices/OS's by 
 # Acknowledgements
 
 * https://www.usb.org/documents - All USB Specifications
-* https://github.com/IntergatedCircuits/hid-usage-tables - for easily parsed HID Usage tables.
+* https://github.com/IntergatedCircuits/hid-usage-tables - for easily parsed HID Usage tables, used until version 3.
 * It makes extensive use of [HIDSharp](https://www.zer7.com/software/hidsharp) (© Copyright 2012, James F. Bellinger, licensed under Apache License 2.0) _although this may be replaced in future versions_
 * [Reactive Extensions](https://github.com/dotnet/reactive)
 * [Dynamic Data](https://github.com/reactiveui/DynamicData).
+* [iTextSharp PDF libary](https://usb.org/hid) - used to automatically extract the JSON HID table from the PDF specifcation in the version 3 generator.
 

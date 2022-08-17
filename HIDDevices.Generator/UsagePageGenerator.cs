@@ -438,11 +438,11 @@ using System.ComponentModel;
             // Add source file
             context.AddSource($"{page.SafeName}UsagePage.g.cs", SourceText.From(builder.ToString(), Encoding.UTF8));
             builder.Clear();
-
-            // Report the completion diagnostic - note, this currently doesn't appear anywhere!
-            // See https://github.com/dotnet/roslyn/issues/50208
-            context.Report(Diagnostics.Completed, Location.None, tables.Version, usages, tables.UsagePages.Count, sw);
         }
+
+        // Report the completion diagnostic - note, this currently doesn't appear anywhere!
+        // See https://github.com/dotnet/roslyn/issues/50208
+        context.Report(Diagnostics.Completed, Location.None, tables.Version, usages, tables.UsagePages.Count, sw);
     }
 
     /// <summary>
@@ -592,7 +592,7 @@ using System.ComponentModel;
                         continue;
                     }
 
-                    var (key, fileName) = file.Keys.Where(k => k is not null)
+                    var (key, _) = file.Keys.Where(k => k is not null)
                         .Select(k => (key: k, fileName: fileArray.GetAsString(k)?.ToString()!))
                         .Where(f => !string.IsNullOrWhiteSpace(f.fileName))
                         .OrderBy(f =>

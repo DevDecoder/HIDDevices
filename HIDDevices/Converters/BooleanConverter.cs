@@ -1,6 +1,7 @@
 ﻿// Licensed under the Apache License, Version 2.0 (the "License").
 // See the LICENSE file in the project root for more information.
 
+using System.ComponentModel;
 using System.Globalization;
 
 namespace DevDecoder.HIDDevices.Converters;
@@ -21,5 +22,5 @@ public sealed class BooleanConverter : ControlConverter<bool>
     }
 
     /// <inheritdoc />
-    public override bool Convert(CultureInfo culture, double value) => !double.IsNaN(value) && value > 0.5D;
+    protected override bool Convert(ITypeDescriptorContext context, CultureInfo culture, double value) => !double.IsNaN(value) && value > 0.5D;
 }

@@ -273,7 +273,7 @@ public partial class Controller : IReadOnlyCollection<ControlValue>, IDisposable
     /// <returns>A controller; or <see langword="null" />.</returns>
     [return: MaybeNull]
     public static T Create<T>(Device device) where T : Controller =>
-        ControllerInfo.Get<T>()?.CreateController(device) as T;
+        ControllerInfo.Get<T>().CreateController(device) as T;
 
     /// <summary>
     ///     Creates a controller from the <see cref="device">specified device</see>, if possible.
@@ -285,7 +285,7 @@ public partial class Controller : IReadOnlyCollection<ControlValue>, IDisposable
     /// <param name="deviceType">Type of the device.</param>
     /// <returns>A controller; or <see langword="null" />.</returns>
     public static Controller? Create(Device device, Type deviceType) =>
-        ControllerInfo.Get(deviceType)?.CreateController(device);
+        ControllerInfo.Get(deviceType).CreateController(device);
 
     /// <summary>
     ///     Registers a control creation delegate which creates controls for the <see cref="T">specified controller type</see>.
