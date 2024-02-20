@@ -179,7 +179,7 @@ public class Control
     /// </summary>
     /// <value><see langword="true" /> if this control is an up/down; otherwise, <see langword="false" />.</value>
     /// <remarks>A 0 means down and a 1 means up, otherwise the value should remain in between (0.5).</remarks>
-    public bool IsUpDown => DataItem.ExpectedUsageType == ExpectedUsageType.OneShot;
+    public bool IsUpDown => DataItem.ExpectedUsageType == ExpectedUsageType.UpDown;
 
     /// <summary>
     ///     Gets the button number, if a button; otherwise <see langword="null" />.
