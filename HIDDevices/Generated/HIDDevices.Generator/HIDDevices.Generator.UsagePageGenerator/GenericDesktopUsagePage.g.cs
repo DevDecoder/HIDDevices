@@ -1,7 +1,7 @@
 ﻿// Licensed under the Apache License, Version 2.0 (the "License").
 // See the LICENSE file in the project root for more information.
 
-// Specification revision: 1.3.0; generated at 2022-03-01 02:00:40Z.
+// Specification revision: 1.5.0; generated at 2024-01-08 23:33:15Z.
 
 #pragma warning disable CS0108 // Member hides inherited member; missing new keyword
 
@@ -120,6 +120,7 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x00a6: return new Usage(this, id, "Application Debugger Break", UsageTypes.OSC);
                 case 0x00a7: return new Usage(this, id, "System Speaker Mute", UsageTypes.OSC);
                 case 0x00a8: return new Usage(this, id, "System Hibernate", UsageTypes.OSC);
+                case 0x00a9: return new Usage(this, id, "System Microphone Mute", UsageTypes.OOC);
                 case 0x00b0: return new Usage(this, id, "System Display Invert", UsageTypes.OSC);
                 case 0x00b1: return new Usage(this, id, "System Display Internal", UsageTypes.OSC);
                 case 0x00b2: return new Usage(this, id, "System Display External", UsageTypes.OSC);

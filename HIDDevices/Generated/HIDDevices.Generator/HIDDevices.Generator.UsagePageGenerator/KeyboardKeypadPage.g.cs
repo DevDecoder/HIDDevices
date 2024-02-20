@@ -1,7 +1,7 @@
 ﻿// Licensed under the Apache License, Version 2.0 (the "License").
 // See the LICENSE file in the project root for more information.
 
-// Specification revision: 1.3.0; generated at 2022-03-01 02:00:40Z.
+// Specification revision: 1.5.0; generated at 2024-01-08 23:33:15Z.
 
 #pragma warning disable CS0108 // Member hides inherited member; missing new keyword
 
@@ -211,9 +211,9 @@ namespace DevDecoder.HIDDevices.Usages
         Keyboard2AndAt = 0x0007001f,
 
         // <summary>
-        //     Keyboard 3 And Hash Usage.
+        //     Keyboard 3 and Hash Usage.
         // </summary>
-        [Description("Keyboard 3 And Hash")]
+        [Description("Keyboard 3 and Hash")]
         Keyboard3AndHash = 0x00070020,
 
         // <summary>
@@ -313,16 +313,16 @@ namespace DevDecoder.HIDDevices.Usages
         KeyboardRightBrace = 0x00070030,
 
         // <summary>
-        //     Keyboard Pipe and Slash Usage.
+        //     Keyboard Backslash and Pipe Usage.
         // </summary>
-        [Description("Keyboard Pipe and Slash")]
-        KeyboardPipeAndSlash = 0x00070031,
+        [Description("Keyboard Backslash and Pipe")]
+        KeyboardBackslashAndPipe = 0x00070031,
 
         // <summary>
-        //     Keyboard Non-US Usage.
+        //     Keyboard Non-US Hash and Tilde Usage.
         // </summary>
-        [Description("Keyboard Non-US")]
-        KeyboardNonUS = 0x00070032,
+        [Description("Keyboard Non-US Hash and Tilde")]
+        KeyboardNonUSHashAndTilde = 0x00070032,
 
         // <summary>
         //     Keyboard SemiColon and Colon Usage.
@@ -343,22 +343,22 @@ namespace DevDecoder.HIDDevices.Usages
         KeyboardGraveAccentAndTilde = 0x00070035,
 
         // <summary>
-        //     Keyboard Comma Usage.
+        //     Keyboard Comma and LessThan Usage.
         // </summary>
-        [Description("Keyboard Comma")]
-        KeyboardComma = 0x00070036,
+        [Description("Keyboard Comma and LessThan")]
+        KeyboardCommaAndLessThan = 0x00070036,
 
         // <summary>
-        //     Keyboard Period Usage.
+        //     Keyboard Period and GreaterThan Usage.
         // </summary>
-        [Description("Keyboard Period")]
-        KeyboardPeriod = 0x00070037,
+        [Description("Keyboard Period and GreaterThan")]
+        KeyboardPeriodAndGreaterThan = 0x00070037,
 
         // <summary>
-        //     Keyboard QuestionMark Usage.
+        //     Keyboard ForwardSlash and QuestionMark Usage.
         // </summary>
-        [Description("Keyboard QuestionMark")]
-        KeyboardQuestionMark = 0x00070038,
+        [Description("Keyboard ForwardSlash and QuestionMark")]
+        KeyboardForwardSlashAndQuestionMark = 0x00070038,
 
         // <summary>
         //     Keyboard Caps Lock Usage.
@@ -523,9 +523,9 @@ namespace DevDecoder.HIDDevices.Usages
         KeypadNumLockAndClear = 0x00070053,
 
         // <summary>
-        //     Keypad Forward Slash Usage.
+        //     Keypad ForwardSlash Usage.
         // </summary>
-        [Description("Keypad Forward Slash")]
+        [Description("Keypad ForwardSlash")]
         KeypadForwardSlash = 0x00070054,
 
         // <summary>
@@ -535,10 +535,10 @@ namespace DevDecoder.HIDDevices.Usages
         KeypadStar = 0x00070055,
 
         // <summary>
-        //     Keyboard Dash Usage.
+        //     Keypad Dash Usage.
         // </summary>
-        [Description("Keyboard Dash")]
-        KeyboardDash = 0x00070056,
+        [Description("Keypad Dash")]
+        KeypadDash = 0x00070056,
 
         // <summary>
         //     Keypad Plus Usage.
@@ -613,16 +613,16 @@ namespace DevDecoder.HIDDevices.Usages
         Keypad0AndInsert = 0x00070062,
 
         // <summary>
-        //     Keypad Period Usage.
+        //     Keypad Period and Delete Usage.
         // </summary>
-        [Description("Keypad Period")]
-        KeypadPeriod = 0x00070063,
+        [Description("Keypad Period and Delete")]
+        KeypadPeriodAndDelete = 0x00070063,
 
         // <summary>
-        //     Keyboard Non-US Slash Bar Usage.
+        //     Keyboard Non-US Backslash and Pipe Usage.
         // </summary>
-        [Description("Keyboard Non-US Slash Bar")]
-        KeyboardNonUSSlashBar = 0x00070064,
+        [Description("Keyboard Non-US Backslash and Pipe")]
+        KeyboardNonUSBackslashAndPipe = 0x00070064,
 
         // <summary>
         //     Keyboard Application Usage.

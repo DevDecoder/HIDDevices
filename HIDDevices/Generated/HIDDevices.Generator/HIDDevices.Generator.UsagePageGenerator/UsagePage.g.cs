@@ -1,7 +1,7 @@
 ﻿// Licensed under the Apache License, Version 2.0 (the "License").
 // See the LICENSE file in the project root for more information.
 
-// Specification revision: 1.3.0; generated at 2022-03-01 02:00:40Z.
+// Specification revision: 1.5.0; generated at 2024-01-08 23:33:15Z.
 
 #pragma warning disable CS0108 // Member hides inherited member; missing new keyword
 
@@ -40,6 +40,7 @@ namespace DevDecoder.HIDDevices
                     [0x000d] = DigitizersUsagePage.Instance,
                     [0x000e] = HapticsUsagePage.Instance,
                     [0x000f] = PhysicalInputDeviceUsagePage.Instance,
+                    [0x0011] = SoCUsagePage.Instance,
                     [0x0012] = EyeAndHeadTrackersUsagePage.Instance,
                     [0x0014] = AuxiliaryDisplayUsagePage.Instance,
                     [0x0020] = SensorsUsagePage.Instance,
@@ -133,6 +134,11 @@ namespace DevDecoder.HIDDevices
         //     Physical Input Device Usage Page.
         // </summary>
         public static readonly PhysicalInputDeviceUsagePage PhysicalInputDevice = PhysicalInputDeviceUsagePage.Instance;
+
+        // <summary>
+        //     SoC Usage Page.
+        // </summary>
+        public static readonly SoCUsagePage SoC = SoCUsagePage.Instance;
 
         // <summary>
         //     Eye and Head Trackers Usage Page.

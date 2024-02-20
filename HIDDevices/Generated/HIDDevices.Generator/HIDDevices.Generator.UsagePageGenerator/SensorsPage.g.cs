@@ -1,7 +1,7 @@
 ﻿// Licensed under the Apache License, Version 2.0 (the "License").
 // See the LICENSE file in the project root for more information.
 
-// Specification revision: 1.3.0; generated at 2022-03-01 02:00:40Z.
+// Specification revision: 1.5.0; generated at 2024-01-08 23:33:15Z.
 
 #pragma warning disable CS0108 // Member hides inherited member; missing new keyword
 
@@ -601,16 +601,22 @@ namespace DevDecoder.HIDDevices.Usages
         PersonalActivityDevicePosition = 0x002000b2,
 
         // <summary>
+        //     Personal Activity: Floor Tracker Usage.
+        // </summary>
+        [Description("Personal Activity: Floor Tracker")]
+        PersonalActivityFloorTracker = 0x002000b3,
+
+        // <summary>
         //     Personal Activity: Pedometer Usage.
         // </summary>
         [Description("Personal Activity: Pedometer")]
-        PersonalActivityPedometer = 0x002000b3,
+        PersonalActivityPedometer = 0x002000b4,
 
         // <summary>
         //     Personal Activity: Step Detection Usage.
         // </summary>
         [Description("Personal Activity: Step Detection")]
-        PersonalActivityStepDetection = 0x002000b4,
+        PersonalActivityStepDetection = 0x002000b5,
 
         // <summary>
         //     Orientation Extended Usage.
@@ -1729,6 +1735,42 @@ namespace DevDecoder.HIDDevices.Usages
         DataFieldHumanAttentionDetected = 0x002004bd,
 
         // <summary>
+        //     Data Field: Human Head Azimuth Usage.
+        // </summary>
+        [Description("Data Field: Human Head Azimuth")]
+        DataFieldHumanHeadAzimuth = 0x002004be,
+
+        // <summary>
+        //     Data Field: Human Head Altitude Usage.
+        // </summary>
+        [Description("Data Field: Human Head Altitude")]
+        DataFieldHumanHeadAltitude = 0x002004bf,
+
+        // <summary>
+        //     Data Field: Human Head Roll Usage.
+        // </summary>
+        [Description("Data Field: Human Head Roll")]
+        DataFieldHumanHeadRoll = 0x002004c0,
+
+        // <summary>
+        //     Data Field: Human Head Pitch Usage.
+        // </summary>
+        [Description("Data Field: Human Head Pitch")]
+        DataFieldHumanHeadPitch = 0x002004c1,
+
+        // <summary>
+        //     Data Field: Human Head Yaw Usage.
+        // </summary>
+        [Description("Data Field: Human Head Yaw")]
+        DataFieldHumanHeadYaw = 0x002004c2,
+
+        // <summary>
+        //     Data Field: Human Correlation Id Usage.
+        // </summary>
+        [Description("Data Field: Human Correlation Id")]
+        DataFieldHumanCorrelationId = 0x002004c3,
+
+        // <summary>
         //     Data Field: Light Usage.
         // </summary>
         [Description("Data Field: Light")]
@@ -2827,6 +2869,12 @@ namespace DevDecoder.HIDDevices.Usages
         ReportingStateWakeOnThresholdEvents = 0x00200845,
 
         // <summary>
+        //     Reporting State: Anytime Usage.
+        // </summary>
+        [Description("Reporting State: Anytime")]
+        ReportingStateAnytime = 0x00200846,
+
+        // <summary>
         //     Power State: Undefined Usage.
         // </summary>
         [Description("Power State: Undefined")]
@@ -3823,16 +3871,16 @@ namespace DevDecoder.HIDDevices.Usages
         StepTypeUnknown = 0x00200990,
 
         // <summary>
-        //     Step Type: Running Usage.
-        // </summary>
-        [Description("Step Type: Running")]
-        StepTypeRunning = 0x00200991,
-
-        // <summary>
         //     Step Type: Walking Usage.
         // </summary>
         [Description("Step Type: Walking")]
-        StepTypeWalking = 0x00200992,
+        StepTypeWalking = 0x00200991,
+
+        // <summary>
+        //     Step Type: Running Usage.
+        // </summary>
+        [Description("Step Type: Running")]
+        StepTypeRunning = 0x00200992,
 
         // <summary>
         //     Gesture State: Unknown Usage.

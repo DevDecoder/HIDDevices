@@ -1,7 +1,7 @@
 ﻿// Licensed under the Apache License, Version 2.0 (the "License").
 // See the LICENSE file in the project root for more information.
 
-// Specification revision: 1.3.0; generated at 2022-03-01 02:00:40Z.
+// Specification revision: 1.5.0; generated at 2024-01-08 23:33:15Z.
 
 #pragma warning disable CS0108 // Member hides inherited member; missing new keyword
 
@@ -521,6 +521,12 @@ namespace DevDecoder.HIDDevices.Usages
         // </summary>
         [Description("System Hibernate")]
         SystemHibernate = 0x000100a8,
+
+        // <summary>
+        //     System Microphone Mute Usage.
+        // </summary>
+        [Description("System Microphone Mute")]
+        SystemMicrophoneMute = 0x000100a9,
 
         // <summary>
         //     System Display Invert Usage.

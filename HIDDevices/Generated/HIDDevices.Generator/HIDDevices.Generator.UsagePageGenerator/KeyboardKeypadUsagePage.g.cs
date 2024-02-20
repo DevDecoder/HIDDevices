@@ -1,7 +1,7 @@
 ﻿// Licensed under the Apache License, Version 2.0 (the "License").
 // See the LICENSE file in the project root for more information.
 
-// Specification revision: 1.3.0; generated at 2022-03-01 02:00:40Z.
+// Specification revision: 1.5.0; generated at 2024-01-08 23:33:15Z.
 
 #pragma warning disable CS0108 // Member hides inherited member; missing new keyword
 
@@ -68,7 +68,7 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x001d: return new Usage(this, id, "Keyboard Z", UsageTypes.Sel);
                 case 0x001e: return new Usage(this, id, "Keyboard 1 and Bang", UsageTypes.Sel);
                 case 0x001f: return new Usage(this, id, "Keyboard 2 and At", UsageTypes.Sel);
-                case 0x0020: return new Usage(this, id, "Keyboard 3 And Hash", UsageTypes.Sel);
+                case 0x0020: return new Usage(this, id, "Keyboard 3 and Hash", UsageTypes.Sel);
                 case 0x0021: return new Usage(this, id, "Keyboard 4 and Dollar", UsageTypes.Sel);
                 case 0x0022: return new Usage(this, id, "Keyboard 5 and Percent", UsageTypes.Sel);
                 case 0x0023: return new Usage(this, id, "Keyboard 6 and Caret", UsageTypes.Sel);
@@ -85,14 +85,14 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x002e: return new Usage(this, id, "Keyboard Equals and Plus", UsageTypes.Sel);
                 case 0x002f: return new Usage(this, id, "Keyboard Left Brace", UsageTypes.Sel);
                 case 0x0030: return new Usage(this, id, "Keyboard Right Brace", UsageTypes.Sel);
-                case 0x0031: return new Usage(this, id, "Keyboard Pipe and Slash", UsageTypes.Sel);
-                case 0x0032: return new Usage(this, id, "Keyboard Non-US", UsageTypes.Sel);
+                case 0x0031: return new Usage(this, id, "Keyboard Backslash and Pipe", UsageTypes.Sel);
+                case 0x0032: return new Usage(this, id, "Keyboard Non-US Hash and Tilde", UsageTypes.Sel);
                 case 0x0033: return new Usage(this, id, "Keyboard SemiColon and Colon", UsageTypes.Sel);
                 case 0x0034: return new Usage(this, id, "Keyboard Left Apos and Double", UsageTypes.Sel);
                 case 0x0035: return new Usage(this, id, "Keyboard Grave Accent and Tilde", UsageTypes.Sel);
-                case 0x0036: return new Usage(this, id, "Keyboard Comma", UsageTypes.Sel);
-                case 0x0037: return new Usage(this, id, "Keyboard Period", UsageTypes.Sel);
-                case 0x0038: return new Usage(this, id, "Keyboard QuestionMark", UsageTypes.Sel);
+                case 0x0036: return new Usage(this, id, "Keyboard Comma and LessThan", UsageTypes.Sel);
+                case 0x0037: return new Usage(this, id, "Keyboard Period and GreaterThan", UsageTypes.Sel);
+                case 0x0038: return new Usage(this, id, "Keyboard ForwardSlash and QuestionMark", UsageTypes.Sel);
                 case 0x0039: return new Usage(this, id, "Keyboard Caps Lock", UsageTypes.Sel);
                 case 0x003a: return new Usage(this, id, "Keyboard F1", UsageTypes.Sel);
                 case 0x003b: return new Usage(this, id, "Keyboard F2", UsageTypes.Sel);
@@ -120,9 +120,9 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x0051: return new Usage(this, id, "Keyboard DownArrow", UsageTypes.Sel);
                 case 0x0052: return new Usage(this, id, "Keyboard UpArrow", UsageTypes.Sel);
                 case 0x0053: return new Usage(this, id, "Keypad Num Lock and Clear", UsageTypes.Sel);
-                case 0x0054: return new Usage(this, id, "Keypad Forward Slash", UsageTypes.Sel);
+                case 0x0054: return new Usage(this, id, "Keypad ForwardSlash", UsageTypes.Sel);
                 case 0x0055: return new Usage(this, id, "Keypad Star", UsageTypes.Sel);
-                case 0x0056: return new Usage(this, id, "Keyboard Dash", UsageTypes.Sel);
+                case 0x0056: return new Usage(this, id, "Keypad Dash", UsageTypes.Sel);
                 case 0x0057: return new Usage(this, id, "Keypad Plus", UsageTypes.Sel);
                 case 0x0058: return new Usage(this, id, "Keypad ENTER", UsageTypes.Sel);
                 case 0x0059: return new Usage(this, id, "Keypad 1 and End", UsageTypes.Sel);
@@ -135,8 +135,8 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x0060: return new Usage(this, id, "Keypad 8 and Up Arrow", UsageTypes.Sel);
                 case 0x0061: return new Usage(this, id, "Keypad 9 and PageUp", UsageTypes.Sel);
                 case 0x0062: return new Usage(this, id, "Keypad 0 and Insert", UsageTypes.Sel);
-                case 0x0063: return new Usage(this, id, "Keypad Period", UsageTypes.Sel);
-                case 0x0064: return new Usage(this, id, "Keyboard Non-US Slash Bar", UsageTypes.Sel);
+                case 0x0063: return new Usage(this, id, "Keypad Period and Delete", UsageTypes.Sel);
+                case 0x0064: return new Usage(this, id, "Keyboard Non-US Backslash and Pipe", UsageTypes.Sel);
                 case 0x0065: return new Usage(this, id, "Keyboard Application", UsageTypes.Sel);
                 case 0x0066: return new Usage(this, id, "Keyboard Power", UsageTypes.Sel);
                 case 0x0067: return new Usage(this, id, "Keypad Equals", UsageTypes.Sel);

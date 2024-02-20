@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		DevDecoder Icon.png = DevDecoder Icon.png
 		LICENSE.txt = LICENSE.txt
+		HIDUsageTablesPDF.url = HIDUsageTablesPDF.url
 		NOTICE.txt = NOTICE.txt
 		.github\workflows\publish.yml = .github\workflows\publish.yml
 		.github\workflows\validatepullrequest.yml = .github\workflows\validatepullrequest.yml

@@ -39,7 +39,7 @@
     <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     <CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
     <!--This can be a URL or local cached file-->
-    <HIDUsageTablesPDF>https://usb.org/sites/default/files/hut1_3_0.pdf</HIDUsageTablesPDF>
+    <HIDUsageTablesPDF>$([System.IO.File]::ReadAllText("HIDUsageTablesPDF.url"))</HIDUsageTablesPDF>
     <!--This is the attachment name in the PDF of the JSON file-->
     <HIDUsageTablesJSON>HidUsageTables.json</HIDUsageTablesJSON>
     <!--Where to look for JSON or PDF cache files-->

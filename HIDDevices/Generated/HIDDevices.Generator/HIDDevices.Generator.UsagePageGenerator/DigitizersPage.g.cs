@@ -1,7 +1,7 @@
 ﻿// Licensed under the Apache License, Version 2.0 (the "License").
 // See the LICENSE file in the project root for more information.
 
-// Specification revision: 1.3.0; generated at 2022-03-01 02:00:40Z.
+// Specification revision: 1.5.0; generated at 2024-01-08 23:33:15Z.
 
 #pragma warning disable CS0108 // Member hides inherited member; missing new keyword
 
@@ -658,6 +658,18 @@ namespace DevDecoder.HIDDevices.Usages
         //     Transducer Switches Usage.
         // </summary>
         [Description("Transducer Switches")]
-        TransducerSwitches = 0x000d00a5
+        TransducerSwitches = 0x000d00a5,
+
+        // <summary>
+        //     Transducer Index Selector Usage.
+        // </summary>
+        [Description("Transducer Index Selector")]
+        TransducerIndexSelector = 0x000d00a6,
+
+        // <summary>
+        //     Button Press Threshold Usage.
+        // </summary>
+        [Description("Button Press Threshold")]
+        ButtonPressThreshold = 0x000d00b0
     }
 }

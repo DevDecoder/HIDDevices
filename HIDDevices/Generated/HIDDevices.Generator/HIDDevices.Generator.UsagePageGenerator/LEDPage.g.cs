@@ -1,7 +1,7 @@
 ﻿// Licensed under the Apache License, Version 2.0 (the "License").
 // See the LICENSE file in the project root for more information.
 
-// Specification revision: 1.3.0; generated at 2022-03-01 02:00:40Z.
+// Specification revision: 1.5.0; generated at 2024-01-08 23:33:15Z.
 
 #pragma warning disable CS0108 // Member hides inherited member; missing new keyword
 
@@ -205,10 +205,10 @@ namespace DevDecoder.HIDDevices.Usages
         Speaker = 0x0008001e,
 
         // <summary>
-        //     Head Set Usage.
+        //     Headset Usage.
         // </summary>
-        [Description("Head Set")]
-        HeadSet = 0x0008001f,
+        [Description("Headset")]
+        Headset = 0x0008001f,
 
         // <summary>
         //     Hold Usage.
@@ -539,6 +539,12 @@ namespace DevDecoder.HIDDevices.Usages
         // </summary>
         [Description("LED Intensity")]
         LEDIntensity = 0x00080056,
+
+        // <summary>
+        //     System Microphone Mute Usage.
+        // </summary>
+        [Description("System Microphone Mute")]
+        SystemMicrophoneMute = 0x00080057,
 
         // <summary>
         //     Player Indicator Usage.

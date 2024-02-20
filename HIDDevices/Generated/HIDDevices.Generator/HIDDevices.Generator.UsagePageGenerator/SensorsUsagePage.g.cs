@@ -1,7 +1,7 @@
 ﻿// Licensed under the Apache License, Version 2.0 (the "License").
 // See the LICENSE file in the project root for more information.
 
-// Specification revision: 1.3.0; generated at 2022-03-01 02:00:40Z.
+// Specification revision: 1.5.0; generated at 2024-01-08 23:33:15Z.
 
 #pragma warning disable CS0108 // Member hides inherited member; missing new keyword
 
@@ -133,8 +133,9 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x00b0: return new Usage(this, id, "Personal Activity", UsageTypes.CA|UsageTypes.CP);
                 case 0x00b1: return new Usage(this, id, "Personal Activity: Activity Detection", UsageTypes.CA|UsageTypes.CP);
                 case 0x00b2: return new Usage(this, id, "Personal Activity: Device Position", UsageTypes.CA|UsageTypes.CP);
-                case 0x00b3: return new Usage(this, id, "Personal Activity: Pedometer", UsageTypes.CA|UsageTypes.CP);
-                case 0x00b4: return new Usage(this, id, "Personal Activity: Step Detection", UsageTypes.CA|UsageTypes.CP);
+                case 0x00b3: return new Usage(this, id, "Personal Activity: Floor Tracker", UsageTypes.CA|UsageTypes.CP);
+                case 0x00b4: return new Usage(this, id, "Personal Activity: Pedometer", UsageTypes.CA|UsageTypes.CP);
+                case 0x00b5: return new Usage(this, id, "Personal Activity: Step Detection", UsageTypes.CA|UsageTypes.CP);
                 case 0x00c0: return new Usage(this, id, "Orientation Extended", UsageTypes.CA|UsageTypes.CP);
                 case 0x00c1: return new Usage(this, id, "Orientation Extended: Geomagnetic Orientation", UsageTypes.CA|UsageTypes.CP);
                 case 0x00c2: return new Usage(this, id, "Orientation Extended: Magnetometer", UsageTypes.CA|UsageTypes.CP);
@@ -321,6 +322,12 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x04bb: return new Usage(this, id, "Data Field: Respiratory Rate", UsageTypes.SV);
                 case 0x04bc: return new Usage(this, id, "Data Field: SpO2", UsageTypes.SV);
                 case 0x04bd: return new Usage(this, id, "Data Field: Human Attention Detected", UsageTypes.MC);
+                case 0x04be: return new Usage(this, id, "Data Field: Human Head Azimuth", UsageTypes.SV);
+                case 0x04bf: return new Usage(this, id, "Data Field: Human Head Altitude", UsageTypes.SV);
+                case 0x04c0: return new Usage(this, id, "Data Field: Human Head Roll", UsageTypes.SV);
+                case 0x04c1: return new Usage(this, id, "Data Field: Human Head Pitch", UsageTypes.SV);
+                case 0x04c2: return new Usage(this, id, "Data Field: Human Head Yaw", UsageTypes.SV);
+                case 0x04c3: return new Usage(this, id, "Data Field: Human Correlation Id", UsageTypes.SV);
                 case 0x04d0: return new Usage(this, id, "Data Field: Light", UsageTypes.DV);
                 case 0x04d1: return new Usage(this, id, "Data Field: Illuminance", UsageTypes.SV);
                 case 0x04d2: return new Usage(this, id, "Data Field: Color Temperature", UsageTypes.SV);
@@ -504,6 +511,7 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x0843: return new Usage(this, id, "Reporting State: Wake On No Events", UsageTypes.Sel);
                 case 0x0844: return new Usage(this, id, "Reporting State: Wake On All Events", UsageTypes.Sel);
                 case 0x0845: return new Usage(this, id, "Reporting State: Wake On Threshold Events", UsageTypes.Sel);
+                case 0x0846: return new Usage(this, id, "Reporting State: Anytime", UsageTypes.Sel);
                 case 0x0850: return new Usage(this, id, "Power State: Undefined", UsageTypes.Sel);
                 case 0x0851: return new Usage(this, id, "Power State: D0 Full Power", UsageTypes.Sel);
                 case 0x0852: return new Usage(this, id, "Power State: D1 Low Power", UsageTypes.Sel);
@@ -670,8 +678,8 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x0984: return new Usage(this, id, "Device Position: Moving in Bag", UsageTypes.Sel);
                 case 0x0985: return new Usage(this, id, "Device Position: Stationary in Bag", UsageTypes.Sel);
                 case 0x0990: return new Usage(this, id, "Step Type: Unknown", UsageTypes.Sel);
-                case 0x0991: return new Usage(this, id, "Step Type: Running", UsageTypes.Sel);
-                case 0x0992: return new Usage(this, id, "Step Type: Walking", UsageTypes.Sel);
+                case 0x0991: return new Usage(this, id, "Step Type: Walking", UsageTypes.Sel);
+                case 0x0992: return new Usage(this, id, "Step Type: Running", UsageTypes.Sel);
                 case 0x09a0: return new Usage(this, id, "Gesture State: Unknown", UsageTypes.Sel);
                 case 0x09a1: return new Usage(this, id, "Gesture State: Started", UsageTypes.Sel);
                 case 0x09a2: return new Usage(this, id, "Gesture State: Completed", UsageTypes.Sel);

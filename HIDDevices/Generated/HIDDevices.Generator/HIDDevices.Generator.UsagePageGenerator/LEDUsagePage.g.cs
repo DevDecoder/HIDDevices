@@ -1,7 +1,7 @@
 ﻿// Licensed under the Apache License, Version 2.0 (the "License").
 // See the LICENSE file in the project root for more information.
 
-// Specification revision: 1.3.0; generated at 2022-03-01 02:00:40Z.
+// Specification revision: 1.5.0; generated at 2024-01-08 23:33:15Z.
 
 #pragma warning disable CS0108 // Member hides inherited member; missing new keyword
 
@@ -67,7 +67,7 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x001c: return new Usage(this, id, "Battery OK", UsageTypes.OOC);
                 case 0x001d: return new Usage(this, id, "Battery Low", UsageTypes.OOC);
                 case 0x001e: return new Usage(this, id, "Speaker", UsageTypes.OOC);
-                case 0x001f: return new Usage(this, id, "Head Set", UsageTypes.OOC);
+                case 0x001f: return new Usage(this, id, "Headset", UsageTypes.OOC);
                 case 0x0020: return new Usage(this, id, "Hold", UsageTypes.OOC);
                 case 0x0021: return new Usage(this, id, "Microphone", UsageTypes.OOC);
                 case 0x0022: return new Usage(this, id, "Coverage", UsageTypes.OOC);
@@ -123,6 +123,7 @@ namespace DevDecoder.HIDDevices.Pages
                 case 0x0054: return new Usage(this, id, "Blue LED Channel", UsageTypes.DV);
                 case 0x0055: return new Usage(this, id, "Green LED Channel", UsageTypes.DV);
                 case 0x0056: return new Usage(this, id, "LED Intensity", UsageTypes.DV);
+                case 0x0057: return new Usage(this, id, "System Microphone Mute", UsageTypes.OOC);
                 case 0x0060: return new Usage(this, id, "Player Indicator", UsageTypes.NAry);
                 case 0x0061: return new Usage(this, id, "Player 1", UsageTypes.Sel);
                 case 0x0062: return new Usage(this, id, "Player 2", UsageTypes.Sel);
