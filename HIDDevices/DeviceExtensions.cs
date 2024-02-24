@@ -79,7 +79,7 @@ public static class DeviceExtensions
                     => devices.Connect(predicate)
                         .Flatten()
                         .SelectMany(change => change.Reason == ChangeReason.Remove
-                            ? new[] {(device: change.Current, isConnected: false)}.ToObservable()
+                            ? new[] { (device: change.Current, isConnected: false) }.ToObservable()
                             : change.Current.ConnectionState.Select(isConnected =>
                                 (device: change.Current, isConnected)))
                         .Subscribe(tuple =>

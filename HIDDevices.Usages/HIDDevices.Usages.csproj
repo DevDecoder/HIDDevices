@@ -1,0 +1,91 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <PackageId>HIDDevices.Usages</PackageId>
+    <Authors>Craig Dean</Authors>
+    <Company>DevDecoder</Company>
+    <PackageDescription>Cross-platform .NET Standard library which encodes the HID Usage Tables.</PackageDescription>
+    <RepositoryUrl>https://github.com/DevDecoder/HIDDevices</RepositoryUrl>
+    <Description>Cross-platform .NET Standard library which encodes the HID Usage Tables.</Description>
+    <Copyright>2020-2024 Craig Dean</Copyright>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/DevDecoder/HIDDevices</PackageProjectUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Gamepad, Joystick, HID, HIDSharp, .NET, Cross-platform, USB</PackageTags>
+    <PackageIcon>DevDecoder Icon.png</PackageIcon>
+    <PackageReleaseNotes>Stable release.</PackageReleaseNotes>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <SignAssembly>false</SignAssembly>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <AssemblyName>DevDecoder.HIDDevices.Usages</AssemblyName>
+    <RootNamespace>DevDecoder.HIDDevices</RootNamespace>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <Configurations>Debug;Release;GenerateFromCache;GenerateFromSource</Configurations>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+  <!--We don't want to generate on every build, instead we have to build configurations, either build from the source URL PDF, or from a local JSON cache file/PDF-->
+  <PropertyGroup Condition="'$(Configuration)' == 'GenerateFromCache' OR '$(Configuration)' == 'GenerateFromSource'">
+    <GenerateUsages>true</GenerateUsages>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(GenerateUsages)' == 'true'">
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
+    <HIDUsageTablesURL>$(MSBuildProjectDirectory)\..\HIDUsageTablesPDF.url</HIDUsageTablesURL>
+    <!--This can be a URL or local cached file-->
+    <HIDUsageTablesPDF>$([System.IO.File]::ReadAllText($(HIDUsageTablesURL)))</HIDUsageTablesPDF>
+    <HIDUsageTablesJSON>HidUsageTables.json</HIDUsageTablesJSON>
+    <!--Where to look for JSON or PDF cache files-->
+    <HIDUsageTablesCacheFolder>$(CompilerGeneratedFilesOutputPath)</HIDUsageTablesCacheFolder>
+    <!--Maximum number of auto-generated enum values for ranges (ushort)-->
+    <HIDUsagePagesMaxGenerated>16</HIDUsagePagesMaxGenerated>
+    <!--By default, we look in the 'CompilerGeneratedFilesOutputPath' for a JSON, then a PDF, and then use the source URL, this forces us to use the source URL (bool)-->
+    <GenerateUsagesFromSource Condition="'$(Configuration)' == 'GenerateFromSource'">true</GenerateUsagesFromSource>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.133">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\DevDecoder Icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+  <!--Source Generation-->
+  <ItemGroup Condition="'$(GenerateUsages)' == 'true'">
+    <ProjectReference Include="$(MSBuildProjectDirectory)\..\HIDDevices.Generator\HIDDevices.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+
+    <!--Expose configuration parameters-->
+    <CompilerVisibleProperty Include="RootNamespace"/>
+    <CompilerVisibleProperty Include="HIDUsageTablesPDF"/>
+    <CompilerVisibleProperty Include="HIDUsageTablesJSON"/>
+    <CompilerVisibleProperty Include="HIDUsageTablesCacheFolder"/>
+    <CompilerVisibleProperty Include="GenerateUsagesFromSource"/>
+    <CompilerVisibleProperty Include="HIDUsagePagesMaxGenerated"/>
+
+    <!--Exclude the output of source generators from the compilation, this will use the 'in-memory' generated files on compilation-->
+    <Compile Remove="$(CompilerGeneratedFilesOutputPath)/**/*.cs"/>
+    <Content Include="$(CompilerGeneratedFilesOutputPath)/**/*.cs"/>
+  </ItemGroup>
+  <Target Name="CleanSourceGeneratedFolders" Condition="'$(GenerateUsages)' == 'true'" BeforeTargets="BeforeBuild" DependsOnTargets="$(BeforeBuildDependsOn)">
+    <!--Remove the auto-generated code prior to re-generation-->
+    <RemoveDir Directories="$(CompilerGeneratedFilesOutputPath)\HIDDevices.Generator" ContinueOnError="true"/>
+
+    <Message Importance="High" Text="Generating Usage Tables!"/>
+  </Target>
+</Project>

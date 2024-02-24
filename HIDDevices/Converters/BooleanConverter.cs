@@ -22,5 +22,6 @@ public sealed class BooleanConverter : ControlConverter<bool>
     }
 
     /// <inheritdoc />
-    protected override bool Convert(ITypeDescriptorContext context, CultureInfo culture, double value) => !double.IsNaN(value) && value > 0.5D;
+    protected override bool Convert(ITypeDescriptorContext context, CultureInfo culture, double value) =>
+        !double.IsNaN(value) && value > 0.5D;
 }
