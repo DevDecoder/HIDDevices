@@ -3,6 +3,11 @@ name: Validate Pull Request
 on:
   pull_request:
     branches: [ master ]
+    
+    paths-ignore:
+      - '**/.md'
+      - '**/.txt'
+      - '.github/**'
 
 jobs:
   build:

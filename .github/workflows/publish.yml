@@ -3,6 +3,11 @@ name: Build and Publish
 on:
   push:
     branches: [ master ]
+    
+    paths-ignore:
+      - '**/.md'
+      - '**/.txt'
+      - '.github/**'
 
 jobs:
   publish:
