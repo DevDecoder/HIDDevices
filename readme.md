@@ -290,7 +290,7 @@ To support with migration, the following static methods have been added to the `
 
 ## Testing status
 
-I have tested the following controllers:
+The following controllers have been tested:
 
 * Saitek X-52 Pro Flight Control System,
 * Saitek Pro Flight X-56 Rhino Stick,
