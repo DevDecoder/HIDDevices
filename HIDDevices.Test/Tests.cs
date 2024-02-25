@@ -59,13 +59,13 @@ public class Tests
             .Subscribe(_ => Interlocked.Increment(ref refreshCount));
 
         Assert.Equal(0, refreshCount);
-        var initial = await devices.LoadAsync().ConfigureAwait(false);
+        var initial = await devices.LoadAsync().ConfigureAwait(true);
         OutputHelper.WriteLine($"{initial.Count} controllers");
         Assert.Equal(1, refreshCount);
 
         // Repeated calls to LoadAsync should complete immediately, giving the same result
         // (assuming there's no change in the underlying devices which triggers an auto-refresh)
-        var repeat = await devices.LoadAsync().ConfigureAwait(false);
+        var repeat = await devices.LoadAsync().ConfigureAwait(true);
         Assert.Equal(initial, repeat);
         Assert.Equal(1, refreshCount);
     }
@@ -74,7 +74,7 @@ public class Tests
     public void TestUndefinedUsage()
     {
         var usage = Usage.Get(0xffff);
-        Assert.Equal("Reserved (0x00) - Undefined (0xFFFF)", usage.ToString());
+        Assert.Equal("Reserved (0x0000) - Undefined (0xFFFF)", usage.ToString());
     }
 
     [Fact]
@@ -83,13 +83,13 @@ public class Tests
         // Confirm that the enum and raw value are identical.
         var attr1 = new ControlAttribute(ButtonPage.Button15);
         var attr2 = new ControlAttribute(0x00090010);
-        Assert.Equal(1, attr1.Usages.Count);
-        Assert.Equal(1, attr2.Usages.Count);
+        Assert.Single(attr1.Usages);
+        Assert.Single(attr2.Usages);
         Assert.Equal(attr1.Usages[0], attr2.Usages[0]);
 
         // Confirm that a user defined ID is accepted.
         var attr3 = new ControlAttribute(0x00090011);
-        var usage = attr3.Usages[0];
+        Usage usage = attr3.Usages[0];
         Assert.Equal(UsagePage.Button, usage.Page);
         Assert.Equal(17, usage.Id);
 

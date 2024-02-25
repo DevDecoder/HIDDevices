@@ -9,13 +9,13 @@
     <PackageDescription>Cross-platform .NET Standard library for asynchronous access to HID Devices (e.g. gamepads, joysticks, etc.)</PackageDescription>
     <RepositoryUrl>https://github.com/DevDecoder/HIDDevices</RepositoryUrl>
     <Description>Cross-platform .NET Standard library for asynchronous access to HID Devices (e.g. gamepads, joysticks, etc.)</Description>
-    <Copyright>2020-2022 Craig Dean</Copyright>
+    <Copyright>2020-2024 Craig Dean</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/DevDecoder/HIDDevices</PackageProjectUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>Gamepad, Joystick, HID, HIDSharp, .NET, Cross-platform</PackageTags>
+    <PackageTags>Gamepad, Joystick, HID, HIDSharp, .NET, Cross-platform, USB</PackageTags>
     <PackageIcon>DevDecoder Icon.png</PackageIcon>
     <PackageReleaseNotes>Stable release.</PackageReleaseNotes>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -31,36 +31,18 @@
   <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
-  <!--We don't want to generate on every build, instead we have to build configurations, either build from the source URL PDF, or from a local JSON cache file/PDF-->
-  <PropertyGroup Condition="'$(Configuration)' == 'GenerateFromCache' OR '$(Configuration)' == 'GenerateFromSource'">
-    <GenerateUsages>true</GenerateUsages>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(GenerateUsages)' == 'true'">
-    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-    <CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
-    <!--This can be a URL or local cached file-->
-    <HIDUsageTablesPDF>$([System.IO.File]::ReadAllText("HIDUsageTablesPDF.url"))</HIDUsageTablesPDF>
-    <!--This is the attachment name in the PDF of the JSON file-->
-    <HIDUsageTablesJSON>HidUsageTables.json</HIDUsageTablesJSON>
-    <!--Where to look for JSON or PDF cache files-->
-    <HIDUsageTablesCacheFolder>$(CompilerGeneratedFilesOutputPath)</HIDUsageTablesCacheFolder>
-    <!--Maximum number of auto-generated enum values for ranges (ushort)-->
-    <HIDUsagePagesMaxGenerated>16</HIDUsagePagesMaxGenerated>
-    <!--By default, we look in the 'CompilerGeneratedFilesOutputPath' for a JSON, then a PDF, and then use the source URL, this forces us to use the source URL (bool)-->
-    <GenerateUsagesFromSource Condition="'$(Configuration)' == 'GenerateFromSource'">true</GenerateUsagesFromSource>
-  </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DynamicData" Version="7.9.7" />
-    <PackageReference Include="HidSharp" Version="2.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
-    <PackageReference Include="Microsoft.VisualStudio.Threading" Version="17.3.44" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.5.109">
+    <PackageReference Include="DynamicData" Version="8.3.27" />
+    <PackageReference Include="HidSharp" Version="2.1.0"/>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Threading" Version="17.9.28" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.133">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Nito.AsyncEx" Version="5.1.2" />
-    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageReference Include="Nito.AsyncEx" Version="5.1.2"/>
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0"/>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\DevDecoder Icon.png">
@@ -85,26 +67,4 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <!--Source Generation-->
-  <ItemGroup Condition="'$(GenerateUsages)' == 'true'">
-    <ProjectReference Include="..\HIDDevices.Generator\HIDDevices.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-
-    <!--Expose configuration parameters-->
-    <CompilerVisibleProperty Include="RootNamespace" />
-    <CompilerVisibleProperty Include="HIDUsageTablesPDF" />
-    <CompilerVisibleProperty Include="HIDUsageTablesJSON" />
-    <CompilerVisibleProperty Include="HIDUsageTablesCacheFolder" />
-    <CompilerVisibleProperty Include="GenerateUsagesFromSource" />
-    <CompilerVisibleProperty Include="HIDUsagePagesMaxGenerated" />
-
-    <!--Exclude the output of source generators from the compilation, this will use the 'in-memory' generated files on compilation-->
-    <Compile Remove="$(CompilerGeneratedFilesOutputPath)/**/*.cs" />
-    <Content Include="$(CompilerGeneratedFilesOutputPath)/**/*.cs" />
-  </ItemGroup>
-  <Target Name="CleanSourceGeneratedFolders" Condition="'$(GenerateUsages)' == 'true'" BeforeTargets="BeforeBuild" DependsOnTargets="$(BeforeBuildDependsOn)">
-    <!--Remove the auto-generated code prior to re-generation-->
-    <RemoveDir Directories="$(CompilerGeneratedFilesOutputPath)\HIDDevices.Generator" ContinueOnError="true" />
-
-    <Message Importance="High" Text="Generating Usage Tables!" />
-  </Target>
 </Project>

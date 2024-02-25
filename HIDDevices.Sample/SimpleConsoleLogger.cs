@@ -40,5 +40,5 @@ public class SimpleConsoleLogger<T> : ILogger<T>
     public bool IsEnabled(LogLevel logLevel) => LogLevel <= logLevel;
 
     /// <inheritdoc />
-    public IDisposable BeginScope<TState>(TState state) => Disposable.Empty;
+    public IDisposable BeginScope<TState>(TState state) where TState : notnull => Disposable.Empty;
 }

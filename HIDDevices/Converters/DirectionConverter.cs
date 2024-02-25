@@ -25,7 +25,8 @@ public sealed class DirectionConverter : ControlConverter<Direction>
     }
 
     /// <inheritdoc />
-    protected override Direction Convert(ITypeDescriptorContext context, CultureInfo culture, double value) => double.IsNaN(value)
-        ? Direction.NotPressed
-        : (Direction)Math.Clamp((int)Math.Round(value * 7.0), 0, 7);
+    protected override Direction Convert(ITypeDescriptorContext context, CultureInfo culture, double value) =>
+        double.IsNaN(value)
+            ? Direction.NotPressed
+            : (Direction)Math.Clamp((int)Math.Round(value * 7.0), 0, 7);
 }

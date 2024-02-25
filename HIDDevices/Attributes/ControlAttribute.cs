@@ -29,7 +29,7 @@ public sealed class ControlAttribute : Attribute
     /// </summary>
     /// <param name="usages">The usages.</param>
     public ControlAttribute(params object[] usages) => Usages = usages
-        .Select(o => Usage.Get(Convert.ToUInt32(o)))
+        .Select(Convert.ToUInt32)
         .ToArray();
 
     /// <summary>
@@ -47,7 +47,7 @@ public sealed class ControlAttribute : Attribute
     ///     with the <see cref="Weight" /> of each attribute, it allows for fine control of <seealso cref="Control" />
     ///     matching.
     /// </remarks>
-    public IReadOnlyList<Usage> Usages { get; }
+    public IReadOnlyList<uint> Usages { get; }
 
     internal bool Matches(Control control) => Usages.All(usage => control.Usages.Contains(usage));
 }

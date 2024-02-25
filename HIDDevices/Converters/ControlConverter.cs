@@ -21,7 +21,7 @@ public abstract class ControlConverter<T> : TypeConverter
         sourceType == typeof(double) || base.CanConvertFrom(context, sourceType);
 
     /// <inheritdoc />
-    public override object? ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+    public override object? ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object? value)
         => value is double dv
             ? Convert(context, culture, dv)
             : base.ConvertFrom(context, culture, value);

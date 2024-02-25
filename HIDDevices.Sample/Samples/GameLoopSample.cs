@@ -55,7 +55,8 @@ public class GameLoopSample : Sample
             foreach (var (control, infos) in g.Mapping)
             {
                 Logger.LogInformation(
-                    $"  {control.Name} => {string.Join(", ", infos.Select(info => info.PropertyName))}");
+                    // ReSharper disable once SuspiciousTypeConversion.Global
+                    $"  {Usage.GetName(control.Usages)} => {string.Join(", ", infos.Select(info => info.PropertyName))}");
             }
         });
 
