@@ -1,4 +1,4 @@
-name: Build and Publish HIDDevices
+name: Build and Publish HIDDevices.Usages
 
 on:
   push:
@@ -8,8 +8,7 @@ on:
       - '**/.md'
       - '**/.txt'
       - '.github/**'
-      - 'HIDDevices.Generator/**'
-      - 'HIDDevices.Usages/**'
+      - 'HIDDevices/**'
       - 'HIDDevices.Sample/**'
       - 'HIDDevices.Test/**'
 
@@ -35,13 +34,13 @@ jobs:
       - name: Install dependencies
         run: dotnet restore
       - name: Build
-        run: dotnet build --configuration Release --no-restore -p:ContinuousIntegrationBuild=true -p:DeterministicSourcePaths=true
+        run: dotnet build --configuration GenerateFromSource --no-restore -p:ContinuousIntegrationBuild=true -p:DeterministicSourcePaths=true
       - name: Test
-        run: dotnet test --configuration Release --no-build --verbosity normal -p:ContinuousIntegrationBuild=true -p:DeterministicSourcePaths=true
+        run: dotnet test --configuration GenerateFromSource --no-build --verbosity normal -p:ContinuousIntegrationBuild=true -p:DeterministicSourcePaths=true
       - name: Publish
         uses: alirezanet/publish-nuget@v3.0.0
         with:
-          PROJECT_FILE_PATH: HIDDevices/HIDDevices.csproj
+          PROJECT_FILE_PATH: HIDDevices.Usages/HIDDevices.Usages.csproj
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
           INCLUDE_SYMBOLS: true
           VERSION_STATIC: ${{env.NBGV_Version}}
