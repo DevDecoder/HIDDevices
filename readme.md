@@ -293,6 +293,8 @@ To support with migration, the following static methods have been added to the `
 I have tested the following controllers:
 
 * Saitek X-52 Pro Flight Control System,
+* Saitek Pro Flight X-56 Rhino Stick,
+* Saitek Pro Flight X-56 Rhino Throttle,
 * Razer Sabertooth Elite
 * Microsoft XBox One for Windows Controller (_**Note** that XInput-compatible HID device driver only transmits events
   from the HID device whilst the current process has a focussed window, so console applications/background services
