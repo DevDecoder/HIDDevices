@@ -105,7 +105,7 @@ public static class DeviceExtensions
     /// <returns>A filtered observable of device change sets.</returns>
     public static IObservable<IChangeSet<Device, string>> DeviceUsagesAll(
         this IObservableCache<Device, string> devices,
-        params Usage[] usages)
+        params object[] usages)
         => devices.Connect(device => device.UsagesAll(usages));
 
     /// <summary>
@@ -116,7 +116,7 @@ public static class DeviceExtensions
     /// <returns>A filtered observable of device change sets.</returns>
     public static IObservable<IChangeSet<Device, string>> DeviceUsagesAny(
         this IObservableCache<Device, string> devices,
-        params Usage[] usages)
+        params object[] usages)
         => devices.Connect(device => device.UsagesAny(usages));
 
     /// <summary>
@@ -127,7 +127,7 @@ public static class DeviceExtensions
     /// <returns>A filtered observable of device change sets.</returns>
     public static IObservable<IChangeSet<Device, string>> ControlUsagesAll(
         this IObservableCache<Device, string> devices,
-        params Usage[] usages)
+        params object[] usages)
         => devices.Connect(device => device.ControlUsagesAll(usages));
 
     /// <summary>
@@ -139,7 +139,7 @@ public static class DeviceExtensions
     /// <returns>A filtered observable of device change sets.</returns>
     public static IObservable<IChangeSet<Device, string>> ControlUsagesAny(
         this IObservableCache<Device, string> devices,
-        params Usage[] usages)
+        params object[] usages)
         => devices.Connect(device => device.ControlUsagesAny(usages));
 
     /// <summary>
@@ -153,8 +153,8 @@ public static class DeviceExtensions
     /// </returns>
     public static bool UsagesAll(
         this Device device,
-        params Usage[] usages)
-        => device.Usages.ContainsAll(usages);
+        params object[] usages)
+        => device.Usages.ContainsAll(usages.Select(Convert.ToUInt32).ToArray());
 
     /// <summary>
     ///     Checks that the device implements at least one of the supplied <see cref="usages" />.
@@ -167,8 +167,8 @@ public static class DeviceExtensions
     /// </returns>
     public static bool UsagesAny(
         this Device device,
-        params Usage[] usages)
-        => usages.Any(usage => device.Usages.Contains(usage));
+        params object[] usages)
+        => usages.Any(usage => device.Usages.Contains(Convert.ToUInt32(usage)));
 
     /// <summary>
     ///     Checks that the device has controls that implement all the supplied <see cref="usages" />.
@@ -181,8 +181,8 @@ public static class DeviceExtensions
     /// </returns>
     public static bool ControlUsagesAll(
         this Device device,
-        params Usage[] usages)
-        => usages.All(usage => device.Controls.Any(control => control.Usages.Contains(usage)));
+        params object[] usages)
+        => usages.All(usage => device.Controls.Any(control => control.Usages.Contains(Convert.ToUInt32(usage))));
 
     /// <summary>
     ///     Checks that the device has controls that implement at least one of the supplied
@@ -196,8 +196,8 @@ public static class DeviceExtensions
     /// </returns>
     public static bool ControlUsagesAny(
         this Device device,
-        params Usage[] usages)
-        => usages.Any(usage => device.Controls.Any(control => control.Usages.Contains(usage)));
+        params object[] usages)
+        => usages.Any(usage => device.Controls.Any(control => control.Usages.Contains(Convert.ToUInt32(usage))));
 
     /// <summary>
     ///     Creates a controller of the <see cref="T">specified type</see> from the <see cref="device">specified device</see>,

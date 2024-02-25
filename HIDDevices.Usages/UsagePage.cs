@@ -61,8 +61,8 @@ public partial class UsagePage : IEnumerable<Usage>, IEquatable<UsagePage>
     /// <returns>UsagePage.</returns>
     public static UsagePage Get(ushort id)
         => s_pages.GetOrAdd(id, i => i < 0xFF00
-            ? new UsagePage(i, $"Reserved (0x{id:X2})")
-            : new UsagePage(i, $"Vendor-defined (0x{id:X2})"));
+            ? new UsagePage(i, $"Reserved (0x{id:X4})")
+            : new UsagePage(i, $"Vendor-defined (0x{id:X4})"));
 
     /// <summary>
     ///     Gets the usage with the <see cref="usage">specified usage enum</see>.
@@ -92,7 +92,7 @@ public partial class UsagePage : IEnumerable<Usage>, IEquatable<UsagePage>
     /// <param name="id">The identifier.</param>
     /// <returns>Usage.</returns>
     protected virtual Usage CreateUsage(ushort id) =>
-        new(this, id, $"Undefined (0x{id:X2})", UsageTypes.None);
+        new(this, id, $"Undefined (0x{id:X4})", UsageTypes.None);
 
     /// <inheritdoc />
     public override bool Equals(object? obj) =>

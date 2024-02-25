@@ -3,6 +3,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace DevDecoder.HIDDevices;
 
@@ -52,6 +54,13 @@ public sealed class Usage : IEquatable<Usage>
     /// </summary>
     /// <value>The full name.</value>
     public string FullName => $"{Page.Name}: {Name}";
+
+    /// <summary>
+    ///     Gets the equivalent button number, if a button; otherwise <see langword="null" />.
+    /// </summary>
+    /// <value>The button number.</value>
+    public ushort? ButtonNumber
+        => Page == UsagePage.Button && Id > 0 ? (ushort?)(Id - 1) : null;
 
     /// <summary>
     ///     Gets the types.
@@ -123,4 +132,107 @@ public sealed class Usage : IEquatable<Usage>
 
     /// <inheritdoc />
     public override string ToString() => $"{Page} - {Name}";
+
+    /// <summary>
+    ///     Gets the name.
+    /// </summary>
+    /// <param name="usage">The usage.</param>
+    /// <value>The name.</value>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static string GetName(uint usage)
+        => ((Usage)usage).Name;
+
+    /// <summary>
+    ///     Gets the name as a comma-separated list.
+    /// </summary>
+    /// <param name="usages">The usages.</param>
+    /// <value>The name.</value>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static string GetName(params uint[] usages)
+        => GetName((IEnumerable<uint>)usages);
+
+    /// <summary>
+    ///     Gets the name as a <paramref name="separator" />-separated list.
+    /// </summary>
+    /// <param name="separator">The separator.</param>
+    /// <param name="usages">The usages.</param>
+    /// <value>The name.</value>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static string GetName(string separator, params uint[] usages)
+        => GetName(usages, separator);
+
+    /// <summary>
+    ///     Gets the name as a <paramref name="separator" />-separated list.
+    /// </summary>
+    /// <param name="usages">The usages.</param>
+    /// <param name="separator">The separator.</param>
+    /// <value>The name.</value>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static string GetName(IEnumerable<uint> usages, string separator = ", ")
+        => string.Join(separator, usages.Select(GetName));
+
+    /// <summary>
+    ///     Gets the full name.
+    /// </summary>
+    /// <param name="usage">The usage.</param>
+    /// <value>The full name.</value>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static string GetFullName(uint usage)
+        => ((Usage)usage).FullName;
+
+    /// <summary>
+    ///     Gets the full name as a comma-separated list.
+    /// </summary>
+    /// <param name="usages">The usages.</param>
+    /// <value>The full name.</value>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static string GetFullName(params uint[] usages)
+        => GetFullName((IEnumerable<uint>)usages);
+
+    /// <summary>
+    ///     Gets the full name as a <paramref name="separator" />-separated list.
+    /// </summary>
+    /// <param name="separator">The separator.</param>
+    /// <param name="usages">The usages.</param>
+    /// <value>The full name.</value>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static string GetFullName(string separator, params uint[] usages)
+        => GetFullName(usages, separator);
+
+    /// <summary>
+    ///     Gets the full name as a <paramref name="separator" />-separated list.
+    /// </summary>
+    /// <param name="separator">The separator.</param>
+    /// <param name="usages">The usages.</param>
+    /// <value>The full name.</value>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static string GetFullName(IEnumerable<uint> usages, string separator = ", ")
+        => string.Join(separator, usages.Select(GetFullName));
+
+    /// <summary>
+    ///     Gets the equivalent button number, if a button; otherwise <see langword="null" />.
+    /// </summary>
+    /// <param name="usage">The usage.</param>
+    /// <value>The button number.</value>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ushort? GetButtonNumber(uint usage) => ((Usage)usage).ButtonNumber;
+
+    /// <summary>
+    ///     Gets the equivalent button number, if a button; otherwise <see langword="null" />.
+    /// </summary>
+    /// <param name="usages">The usages.</param>
+    /// <value>The button number.</value>
+    /// <remarks>Looks for the first valid button usage in the array.</remarks>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ushort? GetButtonNumber(params uint[] usages) => GetButtonNumber((IEnumerable<uint>)usages);
+
+    /// <summary>
+    ///     Gets the equivalent button number, if a button; otherwise <see langword="null" />.
+    /// </summary>
+    /// <param name="usages">The usages.</param>
+    /// <value>The button number.</value>
+    /// <remarks>Looks for the first valid button usage in the enumeration.</remarks>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ushort? GetButtonNumber(IEnumerable<uint> usages) =>
+        usages.Select(GetButtonNumber).FirstOrDefault(b => b != null);
 }

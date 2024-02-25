@@ -30,7 +30,7 @@ public sealed class Device : IObservable<IList<ControlChange>>, IReadOnlyDiction
     private readonly IReadOnlyDictionary<(DataItem dataItem, int index), Control> _controls;
     private readonly HidDevice _device;
 
-    private readonly HashSet<Usage> _usages;
+    private readonly HashSet<uint> _usages;
     private CancellationTokenSource? _cancellationTokenSource;
     private BehaviorSubject<bool>? _connectedSubject;
 
@@ -50,11 +50,10 @@ public sealed class Device : IObservable<IList<ControlChange>>, IReadOnlyDiction
         var reportDescriptor = new ReportDescriptor(RawReportDescriptor);
         var deviceItems = reportDescriptor.DeviceItems;
 
-        _usages = new HashSet<Usage>(deviceItems
+        _usages = new HashSet<uint>(deviceItems
             .SelectMany(deviceItem =>
                 deviceItem.Usages
-                    .GetAllValues()
-                    .Select(Usage.Get)));
+                    .GetAllValues()));
 
         // Create parsers
         var inputParsers = deviceItems
@@ -232,7 +231,7 @@ public sealed class Device : IObservable<IList<ControlChange>>, IReadOnlyDiction
     ///     Gets the usages.
     /// </summary>
     /// <value>The usages.</value>
-    public IReadOnlyCollection<Usage> Usages => _usages;
+    public IReadOnlyCollection<uint> Usages => _usages;
 
     /// <summary>
     ///     Gets the devices.

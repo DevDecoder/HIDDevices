@@ -18,14 +18,14 @@ public class Control
     private readonly int _maximumValue;
 
     private readonly int _minimumValue;
-    private readonly HashSet<Usage> _usages;
+    private readonly HashSet<uint> _usages;
 
     internal Control(Device device, DataValue value, int index)
     {
         Device = device;
         DataItem = value.DataItem;
         Index = index;
-        _usages = new HashSet<Usage>(value.Usages.Select(Usage.Get));
+        _usages = new HashSet<uint>(value.Usages);
 
         // Calculate minimum & maximum
         _minimumValue = DataItem.LogicalMinimum;
@@ -37,22 +37,6 @@ public class Control
             _minimumValue = 0;
             _maximumValue = (1 << DataItem.ElementBits) - 1;
         }
-
-        // Calculate names
-        Name = string.Join(", ", _usages.Select(u => u.Name));
-        FullName = string.Join(", ", _usages.Select(u => u.FullName));
-
-        // Calculate button number (if any)
-        var b = _usages.FirstOrDefault(u => u.Page == UsagePage.Button)?.Id;
-        if (b.HasValue)
-        {
-            if (b.Value > 0)
-            {
-                b = (ushort)(b.Value - 1);
-            }
-        }
-
-        ButtonNumber = b;
     }
 
     /// <summary>
@@ -74,18 +58,6 @@ public class Control
     /// <value>The data item.</value>
     [Obsolete("Please do not rely on references to HIDSharp which may be deprecated in future releases.")]
     public DataItem DataItem { get; }
-
-    /// <summary>
-    ///     Gets the friendly name for the control.
-    /// </summary>
-    /// <value>The name.</value>
-    public string Name { get; }
-
-    /// <summary>
-    ///     Gets the full name for the control.
-    /// </summary>
-    /// <value>The full name.</value>
-    public string FullName { get; }
 
     /// <summary>
     ///     Gets a value indicating whether this control has a boolean value (0 or 1).
@@ -182,16 +154,10 @@ public class Control
     public bool IsUpDown => DataItem.ExpectedUsageType == ExpectedUsageType.UpDown;
 
     /// <summary>
-    ///     Gets the button number, if a button; otherwise <see langword="null" />.
-    /// </summary>
-    /// <value>The button number.</value>
-    public ushort? ButtonNumber { get; }
-
-    /// <summary>
     ///     Gets the usages.
     /// </summary>
     /// <value>The usages.</value>
-    public IReadOnlyCollection<Usage> Usages => _usages;
+    public IReadOnlyCollection<uint> Usages => _usages;
 
     internal double Normalise(int value) =>
         value < _minimumValue || value > _maximumValue
@@ -199,5 +165,5 @@ public class Control
             : (value - _minimumValue) / (double)(_maximumValue - _minimumValue);
 
     /// <inheritdoc />
-    public override string ToString() => FullName;
+    public override string ToString() => string.Join(' ', _usages.Select(u => $"0x{u:X8}"));
 }

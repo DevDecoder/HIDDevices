@@ -25,6 +25,8 @@ are matched automatically against devices for easy use.
   focussed window, so console applications/background services don't appear to work! This is not a bug in this library,
   although I have been unable to find where this 'feature' is documented. It affects the "Microsoft XBox One for Windows
   Controller".
+* When changing from version 3.x to version 4.0, the `Usage`s and `UsagePage`s were split into their own NuGet, see
+  "[Migrating to Version 4](#migrating-to-version-4)" for the justification and an explanation of breaking changes.
 
 # Installation
 
@@ -38,13 +40,23 @@ Install-Package HIDDevices
 If you are targeting .NET Core, use the following command:
 
 ```
-dotnet add package 
-Install-Package HIDDevices
+dotnet add package HIDDevices
 ```
+
+Installing the `HIDDevices.Usages` NuGet is also _highly_ recommended.
 
 # Usage
 
 The [sample program](HIDDevices.Sample) demonstrates using the library in various scenarios.
+
+## The HID Tables
+
+The library accepts usage identifiers as a raw `uint`, however that is prone to error. As such, it was designed to work
+alongside the [HIDDevices.Usages Nuget](HIDDevices.Usages/readme.md) which encodes
+[the USB HID Usage Tables](https://usb.org/hid) into enumerations and types that can be implicitly converted to the raw
+`uint` identifier. These types encode a lot of information and can add ~400kb to your deployed code size, so may not
+be suitable for all projects. Using the raw `uint` identifier is always an option, especially when using with a
+non-standard device.
 
 ## Devices
 
@@ -160,7 +172,10 @@ In such a case the `Timestamp` property will be `0` (and the `Elapsed` will be `
 # Controllers
 
 To make devices simpler to consume, the library contains a `Controller` concept, effectively a device definition. These
-are easy to define using attributes (see [Gamepad](HIDDevices/Controllers/Gamepad.cs) for a complete example).
+are easy to define using attributes. See [Gamepad](HIDDevices/Controllers/Gamepad.cs) for a complete example, however,
+this uses raw identifiers for
+the usages due to the decision to not force inclusion of the usage tables. In your own code you can use the
+corresponding encoded types, as we do below.
 
 To create a new Controller definition, extend the `Controller` class and add zero or more `DeviceAttribute` attributes
 optionally. The specified `DeviceAttribute`s must be satisfied for a `Device` to match the controller. `DeviceAttribute`
@@ -236,31 +251,34 @@ using var subscription = devices.Controllers<Gamepad>().Subscribe(g =>
 
 As demonstrated, a `Controller` doesn't start listening for changes until you call the `Connect()` method on it.
 
-# Usages
+# Migrating to Version 4
 
-For convenience, the full HID Usage tables are exposed and described via the `Usages`, `UsagePages` and `UsageTypes`
-classes. These can be retrieved directly using the `uint` identifier or the convenience enums, all of which have
-the `Page` suffix, for which implicit casts are available.
+Until Version 4, the `HIDDevices.Usages` NuGet was not separate from the `HIDDevices` NuGet. This had the advantage of
+much closer integration, however I decided to split the two for the following reasons:
 
-```csharp
-// The enums can be cast to a Usage to retrieve full information about the Usage and its page.
-Usage usage = ButtonPage.Button0;
-Console.WriteLine($"Usage: {usage.Name}; Page: {usage.Page.Name}");
-```
+1. The encoded tables are of use on their own in projects where the `HIDDevices` paradigm is not of interest.
+2. The encoded tables take up a lot of code space, and may not be suitable for embedded projects, etc.
 
-# The HID Tables
+Although some features were removed due to the loose coupling, there is always a workaround available, largely due to
+the ease of converting between the raw `uint` identifiers and the encoded types.
 
-The Usage Page enums and classes are highly convenient, but using the raw IDs is possible if the enum is not defined in
-the library.
+More specifically, the following changes were needed to separate the code bases:
 
-However, publishing an updated NuGet whenever the specification changes is also relatively quick, as the build process
-can download the raw PDF from [usb.org](https://usb.org) and generate new code automatically. Unfortunately, I do not
-monitor the specifications for updates, so please [create an issue](https://github.com/DevDecoder/HIDDevices/issues) if
-you would like to prompt me to update - I usually respond quickly.
+* The [Gamepad](HIDDevices/Controllers/Gamepad.cs) controller now specifies the raw usage identifiers - this should be
+  seamless to consumers of the class.
+* The `Device` and `Control` classes `Usages` property is now of type `IReadOnlyCollection<uint>`. These raw identifiers
+  can easily be cast to the `Usage` type to get further information.
+* The `Control` class no longer exposes `Name`, `FullName`, or `ButtonNumber` properties; and, as a result, `ToString()`
+  will no longer return a friendly name.
 
-The latest PDF URL can be found in [HIDUsageTablesPDF.url](HIDUsageTablesPDF.url), and the generated files found
-in [this folder](https://github.com/DevDecoder/HIDDevices/tree/master/HIDDevices/Generated/HIDDevices.Generator/HIDDevices.Generator.UsagePageGenerator)
-explicitly state the current specification and generation date in their headers.
+To support with migration, the following static methods have been added to the `Usage` type:
+
+* `Usage.GetName(...)` now accepts one or more raw usage identifiers and returns one or more names (using the `Name` instance
+  property).
+* `Usage.GetFullName(...)` now accepts one or more raw usage identifiers and returns one or more full names (using
+  the `FullName` instance property)..
+* `Usage.GetButtonNumber(...)` now accepts one or more raw usage identifiers and returns the first button number, if any (
+  using the `ButtonNumber` instance property)..
 
 # TODO
 
@@ -268,6 +286,7 @@ explicitly state the current specification and generation date in their headers.
 * Support Output to devices
 * More Tests!
 * Automate NuGet Release notes
+* Automate code regeneration from GitHub Action.
 
 ## Testing status
 

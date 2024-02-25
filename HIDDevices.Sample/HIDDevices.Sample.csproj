@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HIDDevices.Usages\HIDDevices.Usages.csproj" />
     <ProjectReference Include="..\HIDDevices\HIDDevices.csproj"/>
   </ItemGroup>
 

@@ -67,7 +67,4 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\HIDDevices.Usages\HIDDevices.Usages.csproj"/>
-  </ItemGroup>
 </Project>

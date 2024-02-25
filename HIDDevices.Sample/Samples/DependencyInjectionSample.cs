@@ -108,7 +108,7 @@ public class DependencyInjectionSample : Sample
                     {
                         logBuilder
                             .Append("    ")
-                            .Append(change.Control.Name)
+                            .Append(Usage.GetName(change.Control.Usages))
                             .Append(": ")
                             .Append(change.PreviousValue.ToString("F3"))
                             .Append(" -> ")
@@ -126,8 +126,7 @@ public class DependencyInjectionSample : Sample
         var button0PressedTcs = new TaskCompletionSource<bool>();
         using var subscription3 = controllers
             // Watch for button one changes only
-            .ControlChanges(c => c.ButtonNumber == 0)
-            //&& !c.Device.Usages.Contains(65538u))
+            .ControlChanges(c => Usage.GetButtonNumber(c.Usages) == 0)
             .Subscribe(changes =>
             {
                 if (changes.Any(c => c.Value > 0.5))
@@ -148,7 +147,7 @@ public class DependencyInjectionSample : Sample
                 foreach (var (control, infos) in gamepad.Mapping)
                 {
                     logBuilder.Append("  ")
-                        .Append(control.Name)
+                        .Append(Usage.GetName(control.Usages))
                         .Append(" => ")
                         .AppendLine(string.Join(", ", infos.Select(info => info.PropertyName)));
                 }

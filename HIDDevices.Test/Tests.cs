@@ -74,7 +74,7 @@ public class Tests
     public void TestUndefinedUsage()
     {
         var usage = Usage.Get(0xffff);
-        Assert.Equal("Reserved (0x00) - Undefined (0xFFFF)", usage.ToString());
+        Assert.Equal("Reserved (0x0000) - Undefined (0xFFFF)", usage.ToString());
     }
 
     [Fact]
@@ -89,7 +89,7 @@ public class Tests
 
         // Confirm that a user defined ID is accepted.
         var attr3 = new ControlAttribute(0x00090011);
-        var usage = attr3.Usages[0];
+        Usage usage = attr3.Usages[0];
         Assert.Equal(UsagePage.Button, usage.Page);
         Assert.Equal(17, usage.Id);
 

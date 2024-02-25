@@ -18,6 +18,7 @@
     <PackageReference Include="MartinCostello.Logging.XUnit" Version="0.3.0"/>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HIDDevices.Usages\HIDDevices.Usages.csproj" />
     <ProjectReference Include="..\HIDDevices\HIDDevices.csproj"/>
   </ItemGroup>
 </Project>

@@ -32,15 +32,15 @@ public sealed class DeviceAttribute : Attribute
     ///     Initializes a new instance of the <see cref="DeviceAttribute" /> class.
     /// </summary>
     /// <param name="usages">The usages, all of which must match.</param>
-    public DeviceAttribute(params object[] usages) => Usages = Usages = usages
-        .Select(o => Usage.Get(Convert.ToUInt32(o)))
+    public DeviceAttribute(params object[] usages) => Usages = usages
+        .Select(Convert.ToUInt32)
         .ToArray();
 
     /// <summary>
     ///     Gets a list of valid usages, of which the device must match all.
     /// </summary>
     /// <remarks>If alternative usages are to be supported, then multiple attributes can be added.</remarks>
-    public IReadOnlyList<Usage> Usages { get; }
+    public IReadOnlyList<uint> Usages { get; }
 
     /// <summary>
     ///     Gets or sets an optional Product ID; 0 if any ID is valid.
