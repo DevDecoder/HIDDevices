@@ -34,7 +34,7 @@ jobs:
       - name: Install dependencies
         run: dotnet restore
       - name: Build
-        run: dotnet build --configuration GenerateFromSource --no-restore -p:ContinuousIntegrationBuild=true -p:DeterministicSourcePaths=true
+        run: dotnet build --configuration GenerateFromSource -p:ContinuousIntegrationBuild=true -p:DeterministicSourcePaths=true
       - name: Test
         run: dotnet test --configuration GenerateFromSource --no-build --verbosity normal -p:ContinuousIntegrationBuild=true -p:DeterministicSourcePaths=true
       - name: Publish
