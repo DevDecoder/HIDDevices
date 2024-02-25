@@ -1,5 +1,7 @@
-﻿[![Publish](https://github.com/DevDecoder/HIDDevices/workflows/Build%20and%20Publish/badge.svg)](https://github.com/DevDecoder/HIDDevices/actions?query=workflow%3A%22Build+and+Publish%22)
-[![Nuget](https://img.shields.io/nuget/v/HIDDevices.Usages)](https://www.nuget.org/packages/HIDDevices.Usages/)
+[![Publish](https://github.com/DevDecoder/HIDDevices/workflows/Build%20and%20Publish%20HIDDevices.Usages/badge.svg)](https://github.com/DevDecoder/HIDDevices/actions?query=workflow:"Build+and+Publish+HIDDevices.Usages")
+[![GitHub tag](https://img.shields.io/github/tag/DevDecoder/HIDDevices?include_prereleases=&sort=semver&color=blue)](https://github.com/DevDecoder/HIDDevices/releases/)
+[![NuGet](https://img.shields.io/nuget/v/HIDDevices.Usages)](https://www.nuget.org/packages/HIDDevices.Usages/)
+[![License](https://img.shields.io/badge/License-Apache-blue)](#license)
 
 # Description
 
