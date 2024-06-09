@@ -159,10 +159,16 @@ public class Control
     /// <value>The usages.</value>
     public IReadOnlyCollection<uint> Usages => _usages;
 
-    internal double Normalise(int value) =>
-        value < _minimumValue || value > _maximumValue
-            ? DataItem.HasNullState ? double.NaN : 0D
-            : (value - _minimumValue) / (double)(_maximumValue - _minimumValue);
+    internal double Normalise(int value)
+    {
+        if(DataItem.HasNullState)
+            return double.NaN;
+        if(value< _minimumValue)
+            value = _minimumValue;
+        if(value > _maximumValue)
+            value = _maximumValue;
+        return (value - _minimumValue) / (double)(_maximumValue - _minimumValue);
+    }
 
     /// <inheritdoc />
     public override string ToString() => string.Join(' ', _usages.Select(u => $"0x{u:X8}"));
