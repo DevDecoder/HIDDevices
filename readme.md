@@ -1,8 +1,10 @@
-[![Publish](https://github.com/DevDecoder/HIDDevices/workflows/Build%20and%20Publish%20HIDDevices/badge.svg)](https://github.com/DevDecoder/HIDDevices/actions?query=workflow:"Build+and+Publish+HIDDevices")
 [![GitHub tag](https://img.shields.io/github/tag/DevDecoder/HIDDevices?include_prereleases=&sort=semver&color=blue)](https://github.com/DevDecoder/HIDDevices/releases/)
-[![Nuget](https://img.shields.io/nuget/v/HIDDevices)](https://www.nuget.org/packages/HIDDevices/)
 [![License](https://img.shields.io/badge/License-Apache-blue)](#license)
 
+[![Publish](https://github.com/DevDecoder/HIDDevices/workflows/Build%20and%20Publish%20HIDDevices/badge.svg)](https://github.com/DevDecoder/HIDDevices/actions?query=workflow:"Build+and+Publish+HIDDevices")
+[![Nuget](https://img.shields.io/nuget/v/HIDDevices)](https://www.nuget.org/packages/HIDDevices/)<br/>
+[![Publish](https://github.com/DevDecoder/HIDDevices/workflows/Build%20and%20Publish%20HIDDevices.Usages/badge.svg)](https://github.com/DevDecoder/HIDDevices/actions?query=workflow:"Build+and+Publish+HIDDevices.Usages")
+[![Nuget](https://img.shields.io/nuget/v/HIDDevices.Usages)](https://www.nuget.org/packages/HIDDevices.Usages)
 
 # Description
 
@@ -15,7 +17,7 @@ are matched automatically against devices for easy use.
 
 * The project is based on [HIDSharp](https://www.zer7.com/software/hidsharp) but deliberately does not expose any of its
   API explicitly, as I may replace it in a future version.
-* Although the project isn't actively maintained, I occasionally refresh the usage tables and respond to issues if you
+* Although the project isn't active, I refresh the usage tables on occasion and respond to issues if you
   raise them in the issue tracker.
 * As the `Usage`s and `UsagePage`s are auto-generated they can change between versions
   whenever [the USB HID Usage Tables](https://usb.org/hid) are updated. This can cause breaking changes in your code, so
@@ -320,6 +322,6 @@ Please let me know if you've confirmed it as working with other devices/OSs by r
   licensed under Apache License 2.0) _although this may be replaced in future versions_
 * [Reactive Extensions](https://github.com/dotnet/reactive)
 * [Dynamic Data](https://github.com/reactiveui/DynamicData).
-* [iTextSharp PDF libary](https://usb.org/hid) - used to automatically extract the JSON HID table from the PDF
+* [iTextSharp.LGPLv2.Core PDF library](https://github.com/VahidN/iTextSharp.LGPLv2.Core) - used to automatically extract the [JSON HID table](https://usb.org/hid) from the PDF
   specification in the version 3 generator.
 
