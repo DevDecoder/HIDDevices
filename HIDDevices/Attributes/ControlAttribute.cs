@@ -21,17 +21,13 @@ namespace DevDecoder.HIDDevices;
 /// <seealso cref="Controller" />
 /// <seealso cref="Control" />
 /// <seealso cref="Attribute" />
+/// <remarks>
+///     Initializes a new instance of the <see cref="ControlAttribute" /> class.
+/// </remarks>
+/// <param name="usages">The usages.</param>
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
-public sealed class ControlAttribute : Attribute
+public sealed class ControlAttribute(params object[] usages) : Attribute
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="ControlAttribute" /> class.
-    /// </summary>
-    /// <param name="usages">The usages.</param>
-    public ControlAttribute(params object[] usages) => Usages = usages
-        .Select(Convert.ToUInt32)
-        .ToArray();
-
     /// <summary>
     ///     Gets or sets the weight, a higher weight will increase the scoring of controls matching this attribute,
     ///     increasing their preference when selection when attaching to the associated property.
@@ -47,7 +43,9 @@ public sealed class ControlAttribute : Attribute
     ///     with the <see cref="Weight" /> of each attribute, it allows for fine control of <seealso cref="Control" />
     ///     matching.
     /// </remarks>
-    public IReadOnlyList<uint> Usages { get; }
+    public IReadOnlyList<uint> Usages { get; } = usages
+        .Select(Convert.ToUInt32)
+        .ToArray();
 
     internal bool Matches(Control control) => Usages.All(usage => control.Usages.Contains(usage));
 }

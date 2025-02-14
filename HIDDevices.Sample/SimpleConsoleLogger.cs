@@ -7,17 +7,11 @@ using Microsoft.Extensions.Logging;
 
 namespace HIDDevices.Sample;
 
-public class SimpleConsoleLogger<T> : ILogger<T>
+public class SimpleConsoleLogger<T>(LogLevel logLevel, string? name = null) : ILogger<T>
 {
-    public readonly string Name;
+    public readonly string Name = name ?? typeof(T).Name;
 
-    public SimpleConsoleLogger(LogLevel logLevel, string? name = null)
-    {
-        Name = name ?? typeof(T).Name;
-        LogLevel = logLevel;
-    }
-
-    public LogLevel LogLevel { get; set; }
+    public LogLevel LogLevel { get; set; } = logLevel;
 
     /// <inheritdoc />
     public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception,

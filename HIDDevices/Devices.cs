@@ -11,6 +11,7 @@ using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using DynamicData;
 using DynamicData.Kernel;
 using HidSharp;
@@ -132,15 +133,15 @@ public sealed class Devices : IObservableCache<Device, string>
         => _controllers?.Lookup(key) ?? throw new ObjectDisposedException(nameof(Devices));
 
     /// <inheritdoc />
-    IEnumerable<string> IObservableCache<Device, string>.Keys
+    IReadOnlyList<string> IObservableCache<Device, string>.Keys
         => _controllers?.Keys ?? throw new ObjectDisposedException(nameof(Devices));
 
     /// <inheritdoc />
-    IEnumerable<Device> IObservableCache<Device, string>.Items
+    IReadOnlyList<Device> IObservableCache<Device, string>.Items
         => _controllers?.Items ?? throw new ObjectDisposedException(nameof(Devices));
 
     /// <inheritdoc />
-    IEnumerable<KeyValuePair<string, Device>> IObservableCache<Device, string>.KeyValues
+    IReadOnlyDictionary<string, Device> IObservableCache<Device, string>.KeyValues
         => _controllers?.KeyValues ?? throw new ObjectDisposedException(nameof(Devices));
 
     /// <inheritdoc />

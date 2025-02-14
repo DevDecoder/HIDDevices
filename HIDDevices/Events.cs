@@ -14,7 +14,7 @@ namespace DevDecoder.HIDDevices;
 /// </summary>
 public sealed class Event
 {
-    private static readonly Dictionary<int, Event> s_all = new();
+    private static readonly Dictionary<int, Event> s_all = [];
 
     /// <summary>
     ///     The refresh failure event.

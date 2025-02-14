@@ -8,7 +8,7 @@ using System.Text;
 
 namespace HIDDevices.Generator;
 
-public class IndentStringBuilder
+public class IndentStringBuilder(string? defaultIndentStr = null, StringBuilder? builder = null)
 {
     /// <summary>
     ///     The indent stack.
@@ -20,21 +20,15 @@ public class IndentStringBuilder
     /// </summary>
     private bool _pauseIndent;
 
-    public IndentStringBuilder(string? defaultIndentStr = null, StringBuilder? builder = null)
-    {
-        DefaultIndentStr = defaultIndentStr ?? new string(' ', 4);
-        Builder = builder ?? new StringBuilder();
-    }
-
     /// <summary>
     ///     The underlying <see cref="StringBuilder" />.
     /// </summary>
-    public StringBuilder Builder { get; }
+    public StringBuilder Builder { get; } = builder ?? new StringBuilder();
 
     /// <summary>
     ///     The default indent string.
     /// </summary>
-    public string DefaultIndentStr { get; }
+    public string DefaultIndentStr { get; } = defaultIndentStr ?? new string(' ', 4);
 
     public bool IndentEmpty { get; set; } = false;
 

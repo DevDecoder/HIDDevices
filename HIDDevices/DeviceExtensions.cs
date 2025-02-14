@@ -26,14 +26,14 @@ public static class DeviceExtensions
     public static IObservable<T> Controllers<T>(this IObservableCache<Device, string> devices,
         Func<T, bool>? predicate = null)
         where T : Controller
+#pragma warning disable CS8621 // Nullability of reference types in return type doesn't match the target delegate (possibly because of nullability attributes).
         => devices.Connect()
             .Flatten()
             .Where(change => change.Reason == ChangeReason.Add)
             .Select(change => change.Current)
-#pragma warning disable CS8621 // Nullability of reference types in return type doesn't match the target delegate (possibly because of nullability attributes).
             .Select(HIDDevices.Controllers.Controller.Create<T>)
-#pragma warning restore CS8621 // Nullability of reference types in return type doesn't match the target delegate (possibly because of nullability attributes).
             .Where(controller => controller != null && (predicate is null || predicate(controller)));
+#pragma warning restore CS8621 // Nullability of reference types in return type doesn't match the target delegate (possibly because of nullability attributes).
 
     /// <summary>
     ///     Gets a filtered observable of controllers of the <see cref="controllerType">specified type</see>

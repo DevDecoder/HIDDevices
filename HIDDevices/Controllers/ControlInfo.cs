@@ -13,46 +13,39 @@ namespace DevDecoder.HIDDevices.Controllers;
 /// </summary>
 /// <seealso cref="Controller" />
 /// <seealso cref="HIDDevices.Control" />
-public class ControlInfo
+/// <remarks>
+///     Initializes a new instance of the <see cref="ControlInfo" /> class.
+/// </remarks>
+/// <param name="type">The type of the property.</param>
+/// <param name="propertyName">Name of the property.</param>
+/// <param name="control">The control.</param>
+/// <param name="converter">The converter.</param>
+public class ControlInfo(Type type, string propertyName, Control control, TypeConverter? converter)
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="ControlInfo" /> class.
-    /// </summary>
-    /// <param name="type">The type of the property.</param>
-    /// <param name="propertyName">Name of the property.</param>
-    /// <param name="control">The control.</param>
-    /// <param name="converter">The converter.</param>
-    public ControlInfo(Type type, string propertyName, Control control, TypeConverter? converter)
-    {
-        Type = type;
-        PropertyName = propertyName;
-        Control = control;
-        Converter = converter;
-    }
 
     /// <summary>
     ///     Gets the type.
     /// </summary>
     /// <value>The type.</value>
-    public Type Type { get; }
+    public Type Type { get; } = type;
 
     /// <summary>
     ///     Gets the name of the property.
     /// </summary>
     /// <value>The name of the property.</value>
-    public string PropertyName { get; }
+    public string PropertyName { get; } = propertyName;
 
     /// <summary>
     ///     Gets the control.
     /// </summary>
     /// <value>The control.</value>
-    public Control Control { get; }
+    public Control Control { get; } = control;
 
     /// <summary>
     ///     Gets the converter.
     /// </summary>
     /// <value>The converter.</value>
-    public TypeConverter? Converter { get; }
+    public TypeConverter? Converter { get; } = converter;
 }
 
 /// <summary>
@@ -61,16 +54,12 @@ public class ControlInfo
 /// </summary>
 /// <typeparam name="T">The property type.</typeparam>
 /// <seealso cref="ControlInfo" />
-public sealed class ControlInfo<T> : ControlInfo
+/// <remarks>
+///     Initializes a new instance of the <see cref="ControlInfo{T}" /> class.
+/// </remarks>
+/// <param name="propertyName">Name of the property.</param>
+/// <param name="control">The control.</param>
+/// <param name="converter">The converter.</param>
+public sealed class ControlInfo<T>(string propertyName, Control control, TypeConverter? converter) : ControlInfo(typeof(T), propertyName, control, converter)
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="ControlInfo{T}" /> class.
-    /// </summary>
-    /// <param name="propertyName">Name of the property.</param>
-    /// <param name="control">The control.</param>
-    /// <param name="converter">The converter.</param>
-    public ControlInfo(string propertyName, Control control, TypeConverter? converter)
-        : base(typeof(T), propertyName, control, converter)
-    {
-    }
 }

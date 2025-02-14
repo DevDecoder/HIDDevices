@@ -116,7 +116,7 @@ public sealed class UsageType : IEquatable<UsageType>
         UsageTypeGroup = usageTypeGroup;
         Name = name;
         Description = description;
-        s_usageTypes[usageTypes] = new[] { this };
+        s_usageTypes[usageTypes] = [this];
     }
 
     /// <summary>

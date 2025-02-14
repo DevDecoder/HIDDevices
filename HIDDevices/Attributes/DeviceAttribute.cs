@@ -23,24 +23,22 @@ namespace DevDecoder.HIDDevices;
 /// <seealso cref="Controller" />
 /// <seealso cref="Device" />
 /// <seealso cref="Attribute" />
+/// <remarks>
+///     Initializes a new instance of the <see cref="DeviceAttribute" /> class.
+/// </remarks>
+/// <param name="usages">The usages, all of which must match.</param>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-public sealed class DeviceAttribute : Attribute
+public sealed class DeviceAttribute(params object[] usages) : Attribute
 {
     private Regex? _releaseNumberRegex;
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="DeviceAttribute" /> class.
-    /// </summary>
-    /// <param name="usages">The usages, all of which must match.</param>
-    public DeviceAttribute(params object[] usages) => Usages = usages
-        .Select(Convert.ToUInt32)
-        .ToArray();
 
     /// <summary>
     ///     Gets a list of valid usages, of which the device must match all.
     /// </summary>
     /// <remarks>If alternative usages are to be supported, then multiple attributes can be added.</remarks>
-    public IReadOnlyList<uint> Usages { get; }
+    public IReadOnlyList<uint> Usages { get; } = usages
+        .Select(Convert.ToUInt32)
+        .ToArray();
 
     /// <summary>
     ///     Gets or sets an optional Product ID; 0 if any ID is valid.

@@ -573,10 +573,10 @@ using System.ComponentModel;
 
             var reader = new PdfReader(pdfBytes);
             var catalog = reader.Catalog;
-            if (PdfReader.GetPdfObject(catalog.Get(PdfName.NAMES)) is PdfDictionary documentNames &&
-                PdfReader.GetPdfObject(documentNames.Get(PdfName.EMBEDDEDFILES)) is PdfDictionary embeddedFiles)
+            if (PdfReader.GetPdfObject(catalog.Get(PdfName.Names)) is PdfDictionary documentNames &&
+                PdfReader.GetPdfObject(documentNames.Get(PdfName.Embeddedfiles)) is PdfDictionary embeddedFiles)
             {
-                var fileSpecs = embeddedFiles.GetAsArray(PdfName.NAMES);
+                var fileSpecs = embeddedFiles.GetAsArray(PdfName.Names);
 
                 for (var i = 0; i < fileSpecs.Size; i++)
                 {
@@ -607,7 +607,7 @@ using System.ComponentModel;
                         return HidUsageTables.Empty;
                     }
 
-                    if (PdfReader.GetPdfObject(file.GetAsIndirectObject(key)) is not PRStream stream)
+                    if (PdfReader.GetPdfObject(file.GetAsIndirectObject(key)) is not PrStream stream)
                     {
                         context.Report(Diagnostics.JsonAttachmentNotFound, Location.None, pdfUri.AbsolutePath);
                         return HidUsageTables.Empty;

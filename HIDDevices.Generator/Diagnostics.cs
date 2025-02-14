@@ -11,8 +11,7 @@ namespace HIDDevices.Generator;
 public static class Diagnostics
 {
     // ReSharper disable ArrangeObjectCreationWhenTypeEvident - See https://github.com/dotnet/roslyn-analyzers/issues/5957
-#pragma warning disable IDE0090 // Use 'new(...)'
-    public static readonly DiagnosticDescriptor Completed = new DiagnosticDescriptor(
+    public static readonly DiagnosticDescriptor Completed = new(
         "HUT0001",
         "Generation succeeded",
         "Generation succeeded for version {0}. {1} usages in {2} usage pages in {3:g}.",
@@ -20,7 +19,7 @@ public static class Diagnostics
         DiagnosticSeverity.Info,
         true);
 
-    public static readonly DiagnosticDescriptor Cancelled = new DiagnosticDescriptor(
+    public static readonly DiagnosticDescriptor Cancelled = new(
         "HUT00FF",
         "Cancelled",
         "Generation was cancelled",
@@ -28,7 +27,7 @@ public static class Diagnostics
         DiagnosticSeverity.Error,
         true);
 
-    public static readonly DiagnosticDescriptor CacheFolderCreationFailed = new DiagnosticDescriptor(
+    public static readonly DiagnosticDescriptor CacheFolderCreationFailed = new(
         "HUT1001",
         "Could not find/create HID Usage Table Caching folder",
         "Folder {0} could not be created: {1}",
@@ -36,7 +35,7 @@ public static class Diagnostics
         DiagnosticSeverity.Warning,
         true);
 
-    public static readonly DiagnosticDescriptor CachingDisabled = new DiagnosticDescriptor(
+    public static readonly DiagnosticDescriptor CachingDisabled = new(
         "HUT1002",
         "Caching disabled",
         "Caching disabled as cache file locations could not be determined",
@@ -44,7 +43,7 @@ public static class Diagnostics
         DiagnosticSeverity.Warning,
         true);
 
-    public static readonly DiagnosticDescriptor PdfNotFound = new DiagnosticDescriptor(
+    public static readonly DiagnosticDescriptor PdfNotFound = new(
         "HUT1003",
         "PDF Not found",
         "Failed to find the PDF file {0}: {1}",
@@ -52,7 +51,7 @@ public static class Diagnostics
         DiagnosticSeverity.Error,
         true);
 
-    public static readonly DiagnosticDescriptor JsonDeserializationFailed = new DiagnosticDescriptor(
+    public static readonly DiagnosticDescriptor JsonDeserializationFailed = new(
         "HUT2001",
         "JSON Deserialization Failure",
         "Deserialization of the JSON HID USage Tables failed: {0}",
@@ -60,7 +59,7 @@ public static class Diagnostics
         DiagnosticSeverity.Error,
         true);
 
-    public static readonly DiagnosticDescriptor JsonAttachmentNotFound = new DiagnosticDescriptor(
+    public static readonly DiagnosticDescriptor JsonAttachmentNotFound = new(
         "HUT2002",
         "JSON attachment not found in PDF file",
         "Could not find the JSON attachment in '{0}'",
@@ -68,7 +67,7 @@ public static class Diagnostics
         DiagnosticSeverity.Error,
         true);
 
-    public static readonly DiagnosticDescriptor JsonExtractionFailed = new DiagnosticDescriptor(
+    public static readonly DiagnosticDescriptor JsonExtractionFailed = new(
         "HUT2003",
         "Error extracting JSON attachment from PDF file",
         "Extracting the JSON attachment from '{0}' failed: {1}",
@@ -76,7 +75,6 @@ public static class Diagnostics
         DiagnosticSeverity.Error,
         true);
     // ReSharper restore ArrangeObjectCreationWhenTypeEvident
-#pragma warning restore IDE0090 // Use 'new(...)'
 
     /// <summary>
     ///     Adds a <see cref="Diagnostic" /> to the users compilation based on a <see cref="DiagnosticDescriptor" />.

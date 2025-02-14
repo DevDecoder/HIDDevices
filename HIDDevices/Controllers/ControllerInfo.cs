@@ -17,7 +17,7 @@ public partial class Controller
     {
         private static readonly ConcurrentDictionary<Type, ControllerInfo> s_infos = new();
 
-        private static readonly Type[] s_constructorTypes = { typeof(Device), typeof(ControlInfo[]) };
+        private static readonly Type[] s_constructorTypes = [typeof(Device), typeof(ControlInfo[])];
 
         public readonly CreateControllerDelegate<Controller?> CreateController;
 
@@ -33,7 +33,7 @@ public partial class Controller
             {
                 var mapping = GetMapping(device, deviceAttributes, propertyData);
                 return mapping is null ||
-                       constructor.Invoke(new object[] { device, mapping }) is not Controller controller
+                       constructor.Invoke([device, mapping]) is not Controller controller
                     ? null
                     : controller;
             };
@@ -64,13 +64,8 @@ public partial class Controller
                 BindingFlags.CreateInstance | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
                 null,
                 s_constructorTypes,
-                null);
-
-            if (constructor is null)
-            {
-                throw new ArgumentOutOfRangeException(nameof(type),
+                null) ?? throw new ArgumentOutOfRangeException(nameof(type),
                     string.Format(Resources.ControllerInvalidConstructor, type));
-            }
 
             var deviceAttributes = (IReadOnlyList<DeviceAttribute>)type
                 .GetCustomAttributes(typeof(DeviceAttribute), true)

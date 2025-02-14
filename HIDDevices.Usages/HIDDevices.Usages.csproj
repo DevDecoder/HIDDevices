@@ -51,7 +51,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.133">
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.7.115">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -68,24 +68,24 @@
   </ItemGroup>
   <!--Source Generation-->
   <ItemGroup Condition="'$(GenerateUsages)' == 'true'">
-    <ProjectReference Include="$(MSBuildProjectDirectory)\..\HIDDevices.Generator\HIDDevices.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+    <ProjectReference Include="$(MSBuildProjectDirectory)\..\HIDDevices.Generator\HIDDevices.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 
     <!--Expose configuration parameters-->
-    <CompilerVisibleProperty Include="RootNamespace"/>
-    <CompilerVisibleProperty Include="HIDUsageTablesPDF"/>
-    <CompilerVisibleProperty Include="HIDUsageTablesJSON"/>
-    <CompilerVisibleProperty Include="HIDUsageTablesCacheFolder"/>
-    <CompilerVisibleProperty Include="GenerateUsagesFromSource"/>
-    <CompilerVisibleProperty Include="HIDUsagePagesMaxGenerated"/>
+    <CompilerVisibleProperty Include="RootNamespace" />
+    <CompilerVisibleProperty Include="HIDUsageTablesPDF" />
+    <CompilerVisibleProperty Include="HIDUsageTablesJSON" />
+    <CompilerVisibleProperty Include="HIDUsageTablesCacheFolder" />
+    <CompilerVisibleProperty Include="GenerateUsagesFromSource" />
+    <CompilerVisibleProperty Include="HIDUsagePagesMaxGenerated" />
 
     <!--Exclude the output of source generators from the compilation, this will use the 'in-memory' generated files on compilation-->
-    <Compile Remove="$(CompilerGeneratedFilesOutputPath)/**/*.cs"/>
-    <Content Include="$(CompilerGeneratedFilesOutputPath)/**/*.cs"/>
+    <Compile Remove="$(CompilerGeneratedFilesOutputPath)/**/*.cs" />
+    <Content Include="$(CompilerGeneratedFilesOutputPath)/**/*.cs" />
   </ItemGroup>
   <Target Name="CleanSourceGeneratedFolders" Condition="'$(GenerateUsages)' == 'true'" BeforeTargets="BeforeBuild" DependsOnTargets="$(BeforeBuildDependsOn)">
     <!--Remove the auto-generated code prior to re-generation-->
-    <RemoveDir Directories="$(CompilerGeneratedFilesOutputPath)\HIDDevices.Generator" ContinueOnError="true"/>
+    <RemoveDir Directories="$(CompilerGeneratedFilesOutputPath)\HIDDevices.Generator" ContinueOnError="true" />
 
-    <Message Importance="High" Text="Generating Usage Tables!"/>
+    <Message Importance="High" Text="Generating Usage Tables!" />
   </Target>
 </Project>
