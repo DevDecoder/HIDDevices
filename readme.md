@@ -14,9 +14,9 @@ are added and removed, and Reactive frameworks. It also allows the creation of c
 are matched automatically against devices for easy use.
 
 Since [Version 4](#migrating-to-version-4), you can now install the
-[HIDDevices.Usages]((https://www.nuget.org/packages/HIDDevices.Usages) NuGet entirely independently, providing up-to-date
-Usage Pages, generated directly from the [the USB HID Usage Tables](https://usb.org/hid). Similarly, you do not need
-to include the [HIDDevices.Usages]((https://www.nuget.org/packages/HIDDevices.Usages) NuGet to make use of the 
+[HIDDevices.Usages](https://www.nuget.org/packages/HIDDevices.Usages) NuGet entirely independently, providing up-to-date
+Usage Pages, generated directly from the [the USB HID Usage Tables](https://usb.org/hid). In the same way, you do not need
+to include the [HIDDevices.Usages](https://www.nuget.org/packages/HIDDevices.Usages) NuGet to make use of the 
 [HIDDevices](https://www.nuget.org/packages/HIDDevices/) NuGet.
 
 ## Important Notes
